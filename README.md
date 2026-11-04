@@ -36,6 +36,7 @@ Demoen er undervisningsmateriale med en fiktiv case. Fagindholdet bør gennemgå
 
 - `public/app.js`: elevvisning, underviserredigering og lokal lagring.
 - `public/data.js`: demo, quiz og hjælpefunktioner.
+- `public/theme.css`: UCN-farvepalette og fælles farver for hele appen.
 - `public/style.css`: responsivt design.
 - `server.js`: lille statisk Node-server.
 - `npm test`: tests af links, progression og demodata.
@@ -80,3 +81,24 @@ PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=ht
 ```
 
 Testen bruger en isoleret browserprofil og ændrer ikke dine egne gemte læringsstier.
+
+## UCN-farvetema
+
+Farverne følger HEX-koderne i den UCN-farveoversigt, som blev leveret til projektet:
+
+| Rolle | Farve |
+| --- | --- |
+| Brand blå mørk | `#004250` |
+| Brand blå | `#00646E` |
+| Turkis | `#0096A0` |
+| Turkis lys | `#A5DCCD` |
+| Brand blå lys | `#BED6DB` |
+| Grå | `#E7EBED` |
+| Sidebaggrund | `#F1F6F9` |
+| Sekundær accent, gul lys | `#FFE673` |
+| Primære knapper | Sort `#000000` med hvid tekst |
+| Sekundære knapper | Hvid, med brand blå lys ved hover |
+
+Temaet gælder også SVG-illustrationer, quizfeedback, formularer og underviserens kodelås. Gul er valgt som eneste sekundære accent i visningerne, i overensstemmelse med oversigtens vejledning om ikke at kombinere sekundærfarver på samme side. De øvrige sekundærfarver er defineret i paletten til senere brug, men anvendes ikke i visningerne. Status vises også med tekst, så farver ikke er den eneste information.
+
+Alle farver vedligeholdes i `public/theme.css`. Temaet hentes lokalt uden forbindelse til UCN's hjemmeside. Farveoversigten er grundlaget for farvevalget; appen bruger fortsat sit eget navn og logo.

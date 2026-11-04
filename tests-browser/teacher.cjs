@@ -72,6 +72,7 @@ const assert = require('node:assert/strict');
     const download=await downloadPromise;
     const exported=await download.path();
     await page.locator('#import').setInputFiles(exported);
+    await page.waitForFunction(()=>document.querySelectorAll('.teacher-list>div').length===4);
     assert.equal(await page.locator('.teacher-list>div').count(),4);
     // Invalid question data on a case step must be rejected without adding paths.
     const dialogPromise=page.waitForEvent('dialog');

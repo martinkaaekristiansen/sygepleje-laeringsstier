@@ -1,0 +1,42 @@
+/* UCN web palette: exact HEX values from the color sheet supplied by the user.
+   Shared roles apply to the student view, teacher tools, feedback and artwork.
+   Yellow is the only secondary accent used in this app. */
+:root {
+  --ucn-brand-dark: #004250;
+  --ucn-brand-blue: #00646e;
+  --ucn-turquoise: #0096a0;
+  --ucn-turquoise-light: #a5dccd;
+  --ucn-brand-light: #bed6db;
+  --ucn-grey: #e7ebed;
+  --ucn-yellow-light: #ffe673;
+  --ucn-orange-light: #ffc87d;
+  --ucn-red-light: #ffa591;
+  --ucn-pink-light: #ffa0d2;
+  --ucn-black: #000000;
+  --ucn-white: #ffffff;
+  --ucn-background: #f1f6f9;
+
+  --brand: var(--ucn-brand-blue);
+  --brand-hover: var(--ucn-brand-dark);
+  --ink: var(--ucn-brand-dark);
+  --muted: var(--ucn-brand-dark);
+  --border: var(--ucn-brand-light);
+  --control-border: var(--ucn-brand-blue);
+  --paper: var(--ucn-background);
+  --surface: var(--ucn-white);
+  --surface-soft: var(--ucn-grey);
+  --brand-soft: var(--ucn-brand-light);
+  --on-brand: var(--ucn-white);
+  --primary-button: var(--ucn-black);
+  --primary-button-hover: var(--ucn-brand-dark);
+  --accent: var(--ucn-yellow-light);
+  --accent-soft: var(--ucn-yellow-light);
+  --illustration-secondary: var(--ucn-turquoise);
+  --illustration-shadow: var(--ucn-brand-light);
+  --focus: var(--ucn-brand-dark);
+  --danger: var(--ucn-brand-dark);
+  --feedback-review: var(--ucn-yellow-light);
+  --feedback-success: var(--ucn-turquoise-light);
+  --shadow: rgb(0 66 80 / 10%);
+  --surface-overlay: rgb(255 255 255 / 85%);
+}
