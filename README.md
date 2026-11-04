@@ -122,3 +122,11 @@ De 12 trin følger fire kliniske temaer: akut abdomen/peritonitis, akut koronart
 Refleksionsguiderne kan redigeres i underviserfunktionen og følger med import/eksport. Refleksionerne gemmes lokalt og bedømmes ikke automatisk. Cases og spørgsmål er udarbejdet til øvelsen og er ikke officielle eksamensopgaver eller en klinisk instruks. Læringsstien er et øvelsesforløb med fokus på centrale læringsmål, ikke en fuldstændig erstatning for pensum, simulation eller klinisk uddannelse.
 
 Se [koblingen mellem trin, fag og semesterbeskrivelse](docs/semester5-e26.md). Indholdet ligger i `public/semester5.js`. `tests-browser/semester5.cjs` afprøver alle 36 svar og 12 refleksionsguider samt bevarelse af eksisterende data, redigering og mobilvisning med samme miljøvariabler som de øvrige browsertests.
+
+## Overblik over igangværende læringsstier
+
+Øverst på startsiden vises **Fortsæt, hvor du slap**. Overblikket samler påbegyndte, ufærdige stier på tværs af semestre og fag, uanset de valgte filtre længere nede på siden. Hvert kort viser titel, semester/fag, antal gennemførte trin, procent og det senest åbnede trin samt en knap til at fortsætte.
+
+En læringssti registreres som påbegyndt, når den åbnes første gang, også før første trin er gennemført (0 %). Progressionen måles i gennemførte trin, ikke quizresultater. Den senest åbnede sti vises først; ældre gemt progression uden tidsstempel vises også. Fuldførte, slettede og tomme stier vises ikke. Hvis der ikke er ufærdige stier, viser panelet en kort forklaring og en genvej til semesteroversigten. Alle oplysninger gemmes lokalt i den aktuelle browser.
+
+`public/progress.js` samler beregning og filtrering. `tests-browser/progress.cjs` tester første åbning, 0 %, genoptagelse, eksisterende data, fuldførelse, nulstilling ved underviserredigering og mobilvisning med de samme miljøvariabler som øvrige browsertests.
