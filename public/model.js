@@ -1,4 +1,5 @@
-import {demo,questions,subjects,validQuestions,safeURL} from './data.js';
+import {pathSubjects,validPathSubjects} from './subjects.js';
+import {demo,questions,validQuestions,safeURL} from './data.js';
 import {pharmacologyPath} from './pharmacology.js';
 import {semester5Path} from './semester5.js';
 import {types} from './ui.js';
@@ -13,7 +14,7 @@ export function pathErrors(p) {
   if (typeof p.title !== 'string' || !p.title.trim()) errors.push('Udfyld læringsstiens titel.');
   if (typeof p.description !== 'string' || !p.description.trim()) errors.push('Udfyld den korte beskrivelse.');
   if (!Number.isInteger(p.semester) || p.semester < 1 || p.semester > 7) errors.push('Vælg semester 1–7.');
-  if (!subjects.slice(1).includes(p.subject)) errors.push('Vælg et fagområde.');
+  if (!validPathSubjects(p)) errors.push('Vælg mindst ét fagområde. Fagnavne må højst være 80 tegn og må ikke være »Alle fagområder«.');
   if (!Array.isArray(p.steps) || !p.steps.length) return [...errors, 'Tilføj mindst ét trin.'];
   p.steps.forEach((s, i) => {
     const label = `Trin ${i + 1}: `;
@@ -32,6 +33,8 @@ export function pathErrors(p) {
 // IDs survive reordering and edits. Legacy items get deterministic IDs once.
 export function normalizePath(input, fresh = false) {
   const p = structuredClone(input);
+  p.subjects = pathSubjects(p);
+  p.subject = p.subjects[0] || '';
   p.id = fresh ? uid() : id(p.id) ? p.id : uid();
   p.contentVersion = Number.isInteger(p.contentVersion) && p.contentVersion > 0 ? p.contentVersion : 1;
   const used = new Set();
@@ -111,7 +114,7 @@ function validStateShape(state) {
     for (const answers of Object.values(p.answers)) if (!object(answers)||Object.values(answers).some(v=>!id(v))) return false;
   }
   for (const [key,d] of Object.entries(state.drafts)) {
-    if (!id(key)||!object(d)||!object(d.path)||d.path.id!==key||typeof d.path.title!=='string'||typeof d.path.description!=='string'||!Array.isArray(d.path.steps)||!Number.isInteger(d.path.semester)||d.path.semester<1||d.path.semester>7||!subjects.slice(1).includes(d.path.subject)) return false;
+    if (!id(key)||!object(d)||!object(d.path)||d.path.id!==key||typeof d.path.title!=='string'||typeof d.path.description!=='string'||!Array.isArray(d.path.steps)||!Number.isInteger(d.path.semester)||d.path.semester<1||d.path.semester>7||!validPathSubjects(d.path,true)) return false;
     // Incomplete drafts may contain blank fields, but must still have a safe structure.
     if (d.path.steps.some(s=>!object(s)||!id(s.id)||typeof s.title!=='string'||typeof s.text!=='string'||!Object.hasOwn(types,s.type)||!Array.isArray(s.questions)||s.questions.some(q=>!object(q)||!id(q.id)||typeof q.q!=='string'||typeof q.why!=='string'||!Array.isArray(q.a)||q.a.some(a=>typeof a!=='string')||!Array.isArray(q.optionIds)||q.optionIds.length!==q.a.length||q.optionIds.some(v=>!id(v))||!Number.isInteger(q.correct)||q.correct<0||q.correct>=q.a.length))) return false;
     if (d.path.steps.some(s=>['image','imageAlt','media','guide'].some(k=>s[k]!==undefined&&typeof s[k]!=='string'))) return false;

@@ -1,3 +1,4 @@
+import {ALL_SUBJECTS,cleanSubject,subjectKey,validSubject,pathSubjects,subjectLabel,uniqueSubjects,editorSubjects,semesterSubjects} from './subjects.js';
 import {subjects,safeURL,youtubeEmbed} from './data.js';
 import {getPathProgress} from './progress.js';
 import {renderHome} from './home.js';
@@ -62,6 +63,7 @@ function learningView(path,stepIndex,answerOverride) {
 }
 function render(focus) {
   window.speechSynthesis?.cancel();
+  if(view==='home'&&!semesterSubjects(state.paths,semester).includes(subject))subject=ALL_SUBJECTS;
   const content=view==='home'?renderHome({paths:state.paths,progress:state.progress,semester,subject}):view==='learn'?learningView(state.paths.find(p=>p.id===current),index):view==='missing'?'<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>':teacher();
   $('#app').innerHTML=header()+`<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.2.0</span></footer>`;
   if(draft&&preview&&teacherUnlocked&&view==='teacher') {
@@ -80,11 +82,11 @@ function render(focus) {
 }
 function teacher() {
   if(!teacherUnlocked) return `<section class="teacher-access"><div class="eyebrow">UNDERVISERADGANG</div><h1>Dit faglige værksted</h1><p>Indtast underviserkoden for at oprette og redigere læringsstier.</p><form id="teacher-login"><label for="teacher-code">Underviserkode</label><input id="teacher-code" type="password" inputmode="numeric" autocomplete="off" required aria-describedby="code-error"><p id="code-error" role="alert"></p><button class="primary" type="submit">Lås op →</button></form><p>Adgangen låses ved genindlæsning. Koden er en enkel spærring på denne enhed og beskytter ikke fortroligt indhold.</p></section>`;
-  if(draft) return renderEditor(draft,selected,{preview,errors,canUndo:undo.length>0});
+  if(draft) return renderEditor(draft,selected,{preview,errors,canUndo:undo.length>0,availableSubjects:editorSubjects(state.paths,Object.values(state.drafts).map(d=>d.path))});
   const drafts=Object.values(state.drafts);
   return `<div class="section-row"><div><div class="eyebrow">DIT FAGLIGE VÆRKSTED</div><h1>Underviser</h1></div><div class="toolbar"><button class="secondary" data-action="lock-teacher">Lås underviseradgang</button><button class="primary" data-action="new">＋ Ny læringssti</button></div></div>
     ${drafts.length?`<section class="draft-list"><h2>Dine kladder</h2>${drafts.map(d=>`<div><strong>${esc(d.path.title||'Ny læringssti')}</strong><span>Gemt ${new Date(d.updatedAt).toLocaleString('da-DK')}</span><button class="secondary" data-edit="${esc(d.path.id)}">Fortsæt kladde</button><button data-discard="${esc(d.path.id)}">Slet kladde</button></div>`).join('')}</section>`:''}
-    <h2>Læringsstier på denne enhed</h2><div class="teacher-list">${state.paths.map(p=>`<div><span><b>${esc(p.title)}</b><small>${p.semester}. semester · ${esc(p.subject)} · ${p.steps.length} trin · version ${p.contentVersion}</small></span><button class="secondary" data-edit="${esc(p.id)}">Redigér</button><button data-delete="${esc(p.id)}">Slet</button></div>`).join('')}</div>`;
+    <h2>Læringsstier på denne enhed</h2><div class="teacher-list">${state.paths.map(p=>`<div><span><b>${esc(p.title)}</b><small>${p.semester}. semester · ${esc(subjectLabel(p))} · ${p.steps.length} trin · version ${p.contentVersion}</small></span><button class="secondary" data-edit="${esc(p.id)}">Redigér</button><button data-delete="${esc(p.id)}">Slet</button></div>`).join('')}</div>`;
 }
 function go(hash) {if(location.hash===hash)route();else location.hash=hash;}
 function pathRoute(path,step) {return `#/sti/${encodeURIComponent(path.id)}/${encodeURIComponent(step.id)}`;}
@@ -176,6 +178,7 @@ async function handle(d,a) {
     state.paths=state.paths.filter(p=>p.id!==d.delete);delete state.drafts[d.delete];await persist();render();return;
   }
   if(!draft)return;
+  if(a==='add-subject') {await addSubject();return;}
   if(d.editorStep) {await flushDraft();selected=d.editorStep;preview=false;errors=[];previewAnswers={};stashDraft();await persist();render('#editor-heading');return;}
   if(a==='toggle-preview') {await flushDraft();preview=!preview;previewAnswers={};render('#editor-heading');return;}
   if(a==='undo'&&undo.length) {draft=undo.pop();if(!draft.steps.some(s=>s.id===selected))selected='metadata';stashDraft();await persist();render('#editor-heading');return;}
@@ -192,6 +195,26 @@ async function handle(d,a) {
   if(d.removeOption) {await changeStructure(()=>{const [i,k]=d.removeOption.split(':').map(Number),q=step.questions[i];if(q.a.length<=2)return;q.a.splice(k,1);q.optionIds.splice(k,1);q.correct=q.correct===k?0:q.correct>k?q.correct-1:q.correct;});return;}
   if(d.optionMove) {await changeStructure(()=>{const [i,k,delta]=d.optionMove.split(':').map(Number),q=step.questions[i],correct=q.optionIds[q.correct];[q.a[k],q.a[k+delta]]=[q.a[k+delta],q.a[k]];[q.optionIds[k],q.optionIds[k+delta]]=[q.optionIds[k+delta],q.optionIds[k]];q.correct=q.optionIds.indexOf(correct);});}
 }
+async function addSubject() {
+  const input=$('#new-subject');
+  if(!input||!draft||!teacherUnlocked)return false;
+  const name=cleanSubject(input.value);
+  if(!validSubject(name)) {
+    $('#subject-error').textContent='Skriv et fagnavn på 1–80 tegn. »Alle fagområder« er forbeholdt oversigten.';
+    input.setAttribute('aria-invalid','true');input.focus();return false;
+  }
+  clearTimeout(timer);collectEditor(draft);
+  const available=editorSubjects(state.paths,[...Object.values(state.drafts).map(d=>d.path),draft]);
+  const canonical=available.find(s=>subjectKey(s)===subjectKey(name))||name;
+  draft.subjects=uniqueSubjects([...pathSubjects(draft),canonical]);draft.subject=draft.subjects[0];
+  stashDraft();await persist();render('#new-subject');return true;
+}
+$('#app').addEventListener('keydown',e=>{
+  if(e.target.id==='new-subject'&&e.key==='Enter') {
+    e.preventDefault();
+    if(!busy){busy=true;addSubject().finally(()=>{busy=false;});}
+  }
+});
 $('#app').addEventListener('click',click);
 $('#app').addEventListener('input',e=>{
   if(e.target.closest('#editor')&&!preview)autosave();
@@ -204,8 +227,10 @@ $('#app').addEventListener('submit',async e=>{
     teacherUnlocked=true;await route();return;
   }
   if(e.target.id!=='editor'||!teacherUnlocked||busy)return;
-  busy=true;clearTimeout(timer);collectEditor(draft);errors=pathErrors(draft);
+  busy=true;
   try {
+    if($('#new-subject')?.value.trim()&&!(await addSubject()))return;
+    clearTimeout(timer);collectEditor(draft);errors=pathErrors(draft);
     if(errors.length){stashDraft();await persist();render('#validation');return;}
     state=commitPath(state,draft);
     if(await persist()) {draft=null;notice='Læringsstien er gemt på denne enhed.';go('#/underviser');}
