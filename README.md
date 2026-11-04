@@ -1,6 +1,6 @@
 # Læringsstier
 
-Dansk, mobilvenlig prototype til sygeplejestuderende. Kører uden login, database, analyseværktøjer og eksterne afhængigheder.
+Dansk, mobilvenlig prototype til sygeplejestuderende. Kører uden elevlogin, serverdatabase, analyseværktøjer og betalte tjenester. Data gemmes lokalt i browseren.
 
 ## Start
 
@@ -18,15 +18,37 @@ Serveren lytter på port 3000. Brug miljøets portvisning eller åbn `http://loc
 2. Gennemfør patientcasen, fagteksten, podcasttrinnet, quizzen og refleksionen.
 3. Gå tilbage til forsiden eller genindlæs og vælg **Fortsæt læringssti**.
 4. Åbn **Underviser**, indtast din underviserkode, og klik **Lås op** for at oprette eller redigere en læringssti. Pilene flytter trin og hele læringsstier. Brug **Lås underviseradgang**, når du er færdig. Genindlæsning låser også adgangen.
-5. Under **Multiple-choice spørgsmål** på hvert trin kan du klikke **Tilføj spørgsmål**. Udfyld spørgsmålet, tre svarmuligheder, korrekt svar og forklaring. Spørgsmål kan kombineres med alle indholdstyper: tekst, case, podcast, video, refleksion og quiz. Gem læringsstien til sidst. Eleven skal besvare alle spørgsmål på trinnet for at gennemføre det, men behøver ikke svare korrekt første gang.
+5. Under **Multiple-choice spørgsmål** på hvert trin kan du klikke **Tilføj spørgsmål**. Udfyld spørgsmålet, mindst to svarmuligheder, korrekt svar og forklaring. Spørgsmål kan kombineres med alle indholdstyper: tekst, case, podcast, video, refleksion og quiz. Gem læringsstien til sidst. Eleven skal besvare alle spørgsmål på trinnet for at gennemføre det, men behøver ikke svare korrekt første gang.
 6. Tilføj billedlinks eller upload PNG/JPEG/WebP på højst 1 MB. Video- og podcastfelter accepterer links, herunder YouTube. Direkte MP4/WebM- og lydlinks får en afspiller; andre links åbnes eksternt.
 7. Eksportér læringsstier som JSON og importér filen i en anden browser. Import tilføjer kopier; den overskriver ikke eksisterende stier.
 
+## Editor, kladder og sikker lagring (version 0.2)
+
+1. Åbn **Underviser**, og indtast koden **7269**.
+2. Vælg **Redigér** eller **Ny læringssti**. Udfyld titel, semester, fag og beskrivelse under **Om læringsstien**.
+3. Vælg et trin i oversigten. Kun dette trin vises i editoren. Brug skabelonvælgeren til case, fagtekst, podcast, quiz, refleksion eller video.
+4. Redigér spørgsmål, tilføj eller fjern svarmuligheder, og vælg det korrekte svar. Pilene flytter trin, spørgsmål og svar. Du kan duplikere trin og spørgsmål. **Fortryd seneste strukturændring** fortryder tilføjelser, fjernelser og flytninger, indtil editoren lukkes.
+5. Klik **Forhåndsvis trin** for at prøve indhold og quiz uden at ændre elevprogressionen.
+6. Kladder gemmes automatisk. Vent på **Kladde gemt på denne enhed**, før du lukker browseren. Du kan fortsætte en kladde efter genindlæsning ved at låse underviserfunktionen op igen.
+7. Klik **Gem læringssti** for at opdatere elevvisningen på denne enhed. Manglende felter vises i en fejloversigt med trinnummer. Lukning af en kladde sletter den ikke; den kan slettes særskilt i underviseroversigten.
+
 ## Lokal lagring og afgrænsning
 
-Læringsstier, gennemførte trin og refleksioner gemmes med localStorage på den aktuelle browser og webadresse. Ingen data sendes til en backend. Undlad patientoplysninger og andre personoplysninger. Eksporten indeholder undervisningsindhold, ikke elevprogression eller refleksioner. Sletning af browserens webstedsdata fjerner lokal lagring. Eksportér indhold som backup; mange billeder kan overskride browserens lagerplads.
+Læringsstier, kladder, gennemførte trin, quizsvar og refleksioner gemmes i **IndexedDB** i den aktuelle browser på den aktuelle webadresse. Der sendes ingen data til en backend. Undlad patientoplysninger og andre personoplysninger. Sletning af browserens webstedsdata fjerner lokal lagring. Tag derfor jævnligt en sikkerhedskopi.
 
-Underviserfunktionen har en lokal kodelås. Koden kontrolleres i browseren og er derfor synlig i den offentlige kildekode og kan omgås af en teknisk bruger. Den er en enkel spærring mod almindelig adgang, ikke sikker autentifikation. Adgang gemmes ikke mellem genindlæsninger. Egentlig sikker adgang kræver en backend eller en ekstern login-tjeneste. Redigering af en sti nulstiller dens elevprogression. Andre semestre og fagområder viser en tom tilstand, indtil du opretter indhold.
+- **Eksportér læringsstier** deler undervisningsindhold uden elevprogression og refleksioner. Import tilføjer uafhængige kopier og accepterer også det gamle JSON-format.
+- **Hent kladde** gemmer en uafsluttet kladde, som kan importeres i underviserfunktionen på en anden enhed.
+- **Hent fuld sikkerhedskopi** indeholder indhold, progression, svar, refleksioner og kladder. **Gendan sikkerhedskopi** erstatter lokale data efter en tydelig bekræftelse. Del kun kopien, hvis alt indhold må deles.
+- **Hent forrige indholdsudgave** henter den automatiske kopi fra før seneste ændring af det gemte undervisningsindhold. Den er ikke en komplet versionshistorik. Kladdens **Fortryd** gemmes ikke på tværs af genindlæsninger.
+- Import og eksport understøtter filer op til 50 MB. Billedupload er stadig højst 1 MB pr. billede. Browserens lagerplads varierer.
+
+Ved opgradering flyttes eksisterende lokale data automatisk. De gamle localStorage-nøgler efterlades urørte som ekstra sikkerhed. Ukendte eller beskadigede data giver en gendannelsesside med download af originalen frem for en tom app eller automatisk overskrivning. Kan browseren ikke gemme, vises en fejl med mulighed for at prøve igen og hente en kopi; editoren holdes åben. Browseren advarer ved lukning, når der er ugemte ændringer. Flere faner kontrollerer versionsnummer ved skrivning: Ved konflikt skal arbejdet eksporteres, og siden genindlæses.
+
+Trin, spørgsmål og svarmuligheder har stabile ID'er. Titelændringer og omrokering bevarer progression. Ændres fagligt indhold, fjernes kun gennemførelse og quizsvar på de berørte trin. Refleksioner bevares, også i sikkerhedskopien for fjernede trin. Gamle quizsvar arkiveres i sikkerhedskopien. Progression er fortsat gennemførte trin, ikke en vurdering af klinisk kompetence.
+
+Fremtidige versioner af indbyggede stier tilbydes i underviseroversigten, når deres indholdsversion hæves i projektet. En accepteret opdatering bevarer den lokale udgave som en separat kopi med noter og progression. Den nye udgave starter uden progression. Der ændres ikke automatisk i lokalt tilpasset undervisningsindhold.
+
+Underviserfunktionen har fortsat en lokal kodelås. Koden kontrolleres i browseren og kan læses i kildekoden; den er ikke sikker autentifikation. Genindlæsning låser adgangen. Rigtig adgangskontrol og fælles redigering på tværs af enheder kræver en separat løsning. Ændringer i editoren offentliggøres ikke automatisk på GitHub Pages.
 
 Demopodcasten er browseroplæsning af den medfølgende tekst, ikke en indspillet lydfil. Dansk stemme og oplæsning afhænger af browserens installerede stemmer. Teksten er altid tilgængelig. Videoer og podcastlinks indlæses efter brugerens klik og kan involvere eksterne udbydere; billedlinks hentes, når trinnet åbnes. Brug lokale uploadede billeder for at undgå eksterne billedkald.
 
@@ -34,14 +56,19 @@ Demoen er undervisningsmateriale med en fiktiv case. Fagindholdet bør gennemgå
 
 ## Udvikling og test
 
-- `public/app.js`: elevvisning, underviserredigering og lokal lagring.
-- `public/data.js`: demo, quiz og hjælpefunktioner.
-- `public/theme.css`: UCN-farvepalette og fælles farver for hele appen.
-- `public/style.css`: responsivt design.
-- `server.js`: lille statisk Node-server.
-- `npm test`: tests af links, progression og demodata.
+- `public/app.js`: navigation, tilstand og brugerhandlinger.
+- `public/home.js` / `public/learner.js`: forside og elevvisning.
+- `public/editor.js`: trinvis underviser-editor og formularopsamling.
+- `public/model.js`: stabile ID'er, validering, migration og indholdsversioner.
+- `public/storage.js`: atomiske IndexedDB-transaktioner, ændrede datasektioner, konflikttjek og automatisk indholdskopi.
+- `public/progress.js`: beregning og filtrering af progression.
+- `public/data.js`, `public/pharmacology.js`, `public/semester5.js`: eksisterende fagligt indhold.
+- `public/theme.css` / `public/style.css`: UCN-farver og responsivt design.
+- `npm test`: indhold, migration, versioner, progression og Pages-links.
+- `npm run build`: syntakskontrol af alle moduler og statisk output. Filadresser indeholder et indholdshash, så en ny udgave ikke blandes med gamle browsercachede moduler.
+- `npm run test:browser`: samlet Playwright-test mod en lokal server. Se nedenfor.
 
-Prototypen er desuden afprøvet i Chromium med gennemførsel af demo, quiz, refleksion, genoptagelse, oprettelse/omorganisering af trin og mobilbredde på 390 px. Ingen browserfejl blev registreret.
+Appen anvender hash-links til læringsstier og trin, så bogmærker, browserens Tilbage/Frem og genindlæsning fungerer på GitHub Pages uden særlig 404-omdirigering. En undervisers lokale sti kan kun åbnes på en anden enhed, hvis indholdet er importeret eller udgivet dér. Mobilens trinoversigt kan foldes ud; tastaturfokus flyttes til nyt indhold eller quizfeedback. Der er genvej til hovedindhold og synlige fokusmarkeringer.
 
 ## Udgiv gratis med GitHub Pages
 
@@ -72,15 +99,15 @@ Fremover tester, bygger og udgiver workflowen automatisk ved ændringer på `mai
 
 Appens visninger åbnes i samme HTML-side. Relative filadresser gør, at navigation, genindlæsning, CSS og JavaScript virker både på en lokal adresse og i repositoryets undermappe; der kræves ingen særlig 404-omdirigering.
 
-### Browsertest af underviserfunktion
+### Browsertest
 
-`tests-browser/teacher.cjs` afprøver forkert/rigtig kode, genlåsning, den eksisterende demo, spørgsmål på alle trintyper, feedback, progression, refleksion, import/eksport og mobilvisning. Kør mod en lokal server med Playwright og Chromium installeret:
+`tests-browser/acceptance.cjs` samler test af kladder, kodelås, migration, lagringsfejl, sikkerhedskopier, import/eksport, elevprogression, alle 56 spørgsmål på 3. og 5. semester, browserhistorik, dybe links, fokus og mobilvisning. Kør mod en lokal server med Playwright og Chromium installeret:
 
 ```sh
-PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=http://localhost:3000 node tests-browser/teacher.cjs
+PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=http://localhost:3000 npm run test:browser
 ```
 
-Testen bruger en isoleret browserprofil og ændrer ikke dine egne gemte læringsstier.
+Testen bruger isolerede browserprofiler. De tidligere browserindgangsfiler starter nu samme samlede regressionstest. GitHub Actions kører også testen mod en undermappe som på Pages. Browserens testværktøjer bruges kun under udvikling og sendes ikke med appen.
 
 ## UCN-farvetema
 
@@ -109,7 +136,7 @@ Vælg **3. semester → Farmakologi → Medicinhåndtering og farmakologi**. For
 
 Dokumentet indeholder ikke et facit. Øvelsesfacit og forklaringer er udarbejdet til læringsstien; de er ikke et officielt prøvefacit og bør gennemgås af en underviser før brug som bedømmelsesgrundlag. Se [kildeoversigt og udvælgelse](docs/medicinhaandtering.md).
 
-Nye indbyggede læringsstier tilføjes én gang til eksisterende browserdata. Egne stier, ændringer og progression bevares. Hvis underviseren efterfølgende sletter en indbygget sti, tilføjes den ikke automatisk igen. `public/pharmacology.js` indeholder forløbet, og `public/catalog.js` håndterer tilføjelsen til eksisterende data.
+Nye indbyggede læringsstier tilføjes én gang til eksisterende browserdata. Egne stier, ændringer og progression bevares. Hvis underviseren efterfølgende sletter en indbygget sti, tilføjes den ikke automatisk igen. `public/pharmacology.js` indeholder forløbet, og `public/model.js` håndterer migration og indholdsversioner. `public/catalog.js` bevares med tests som dokumentation for det gamle katalogformat.
 
 Browsertesten `tests-browser/pharmacology.cjs` kontrollerer eksisterende browserdata, filtrering, alle 20 spørgsmål, progression, redigering og sletning. Den køres med samme miljøvariabler som undervisertesten.
 
@@ -129,4 +156,4 @@ Se [koblingen mellem trin, fag og semesterbeskrivelse](docs/semester5-e26.md). I
 
 En læringssti registreres som påbegyndt, når den åbnes første gang, også før første trin er gennemført (0 %). Progressionen måles i gennemførte trin, ikke quizresultater. Den senest åbnede sti vises først; ældre gemt progression uden tidsstempel vises også. Fuldførte, slettede og tomme stier vises ikke. Hvis der ikke er ufærdige stier, viser panelet en kort forklaring og en genvej til semesteroversigten. Alle oplysninger gemmes lokalt i den aktuelle browser.
 
-`public/progress.js` samler beregning og filtrering. `tests-browser/progress.cjs` tester første åbning, 0 %, genoptagelse, eksisterende data, fuldførelse, nulstilling ved underviserredigering og mobilvisning med de samme miljøvariabler som øvrige browsertests.
+`public/progress.js` samler beregning og filtrering. `tests-browser/progress.cjs` tester første åbning, 0 %, genoptagelse, eksisterende data, fuldførelse, bevarelse af progression ved omrokering og mobilvisning med de samme miljøvariabler som øvrige browsertests.

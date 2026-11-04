@@ -3,8 +3,10 @@ export function getPathProgress(path, record) {
   const state = record && typeof record === 'object' ? record : {};
   const total = path.steps.length;
   const done = new Set((Array.isArray(state.done) ? state.done : [])
+    .map(i => typeof i === 'string' ? path.steps.findIndex(s => s.id === i) : i)
     .filter(i => Number.isInteger(i) && i >= 0 && i < total));
-  const hasLast = Number.isInteger(state.last) && state.last >= 0;
+  const last = typeof state.last === 'string' ? path.steps.findIndex(s => s.id === state.last) : state.last;
+  const hasLast = Number.isInteger(last) && last >= 0;
   const hasNotes = state.notes && Object.values(state.notes)
     .some(note => typeof note === 'string' && note.trim().length > 0);
   const started = state.started === true || done.size > 0 || hasLast || Boolean(hasNotes);
@@ -15,7 +17,7 @@ export function getPathProgress(path, record) {
     completed: done.size,
     total,
     percent: complete ? 100 : total ? Math.min(99, Math.round(done.size / total * 100)) : 0,
-    lastIndex: total ? Math.min(hasLast ? state.last : 0, total - 1) : 0,
+    lastIndex: total ? Math.min(hasLast ? last : 0, total - 1) : 0,
     updatedAt: Number.isFinite(state.updatedAt) ? state.updatedAt : 0,
   };
 }

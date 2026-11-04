@@ -25,11 +25,27 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-      # Appen bruger kun Node.js-standardbiblioteket; ingen npm-pakker skal installeres.
+      # Appen er uden runtime-afhængigheder. Playwright installeres kun til test.
       - name: Test
         run: npm test
       - name: Byg statisk app
         run: npm run build
+      - name: Klargør browsertest
+        run: |
+          npm install --no-save --package-lock=false playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Test browser og Pages-undermappe
+        run: |
+          mkdir -p /tmp/pages-test
+          ln -s "$GITHUB_WORKSPACE/dist" /tmp/pages-test/sygepleje-laeringsstier
+          python3 -m http.server 3001 --bind 127.0.0.1 --directory /tmp/pages-test > /tmp/pages-test.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID"' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl --silent --fail http://127.0.0.1:3001/sygepleje-laeringsstier/ > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:browser
       - name: Klargør GitHub Pages
         uses: actions/configure-pages@v5
       - name: Gem websted til udgivelse
