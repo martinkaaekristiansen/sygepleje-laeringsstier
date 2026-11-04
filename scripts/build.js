@@ -1,7 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 // Validate JavaScript before producing a static, dependency-free Pages artifact.
-for (const file of ['public/app.js', 'public/data.js', 'public/catalog.js', 'public/pharmacology.js', 'public/semester5.js']) {
+for (const file of ['public/app.js', 'public/data.js', 'public/catalog.js', 'public/pharmacology.js', 'public/semester5.js', 'public/progress.js']) {
   execFileSync(process.execPath, ['--check', file], { stdio: 'inherit' });
 }
 const html = await readFile('public/index.html', 'utf8');
