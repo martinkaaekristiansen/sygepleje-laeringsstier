@@ -48,6 +48,7 @@ export function normalizePath(input, fresh = false) {
       if (qs.has(q.id)) q.id = uid();
       qs.add(q.id);
       const options = new Set();
+      q.explanations ??= q.a.map(()=>'');
       q.optionIds = q.a.map((_, k) => {
         let option = !fresh && id(q.optionIds?.[k]) ? q.optionIds[k] : `${q.id}:a${k + 1}`;
         if (options.has(option)) option = uid();
@@ -117,6 +118,7 @@ function validStateShape(state) {
     if (!id(key)||!object(d)||!object(d.path)||d.path.id!==key||typeof d.path.title!=='string'||typeof d.path.description!=='string'||!Array.isArray(d.path.steps)||!Number.isInteger(d.path.semester)||d.path.semester<1||d.path.semester>7||!validPathSubjects(d.path,true)) return false;
     // Incomplete drafts may contain blank fields, but must still have a safe structure.
     if (d.path.steps.some(s=>!object(s)||!id(s.id)||typeof s.title!=='string'||typeof s.text!=='string'||!Object.hasOwn(types,s.type)||!Array.isArray(s.questions)||s.questions.some(q=>!object(q)||!id(q.id)||typeof q.q!=='string'||typeof q.why!=='string'||!Array.isArray(q.a)||q.a.some(a=>typeof a!=='string')||!Array.isArray(q.optionIds)||q.optionIds.length!==q.a.length||q.optionIds.some(v=>!id(v))||!Number.isInteger(q.correct)||q.correct<0||q.correct>=q.a.length))) return false;
+    if (d.path.steps.some(s=>s.questions.some(q=>q.explanations!==undefined&&(!Array.isArray(q.explanations)||q.explanations.length!==q.a.length||q.explanations.some(e=>typeof e!=='string'))))) return false;
     if (d.path.steps.some(s=>['image','imageAlt','media','guide'].some(k=>s[k]!==undefined&&typeof s[k]!=='string'))) return false;
   }
   return true;
@@ -188,5 +190,5 @@ export function acceptUpdate(state, update) {
 export function newStep(type='text') {
   return {id:uid(),title:types[type],type,text:'',questions:[],...(type==='case'?{text:'Situation: Beskriv en fiktiv patient og relevante observationer.\n\nOpgave: Hvad vil du undersøge og gøre først?'}:type==='reflection'?{text:'Hvilke observationer vil du prioritere, og hvordan begrunder du dine handlinger?',guide:'Overvej observationer, faglig begrundelse, patientsikkerhed og opfølgning.'}:{}),...(type==='quiz'?{questions:[newQuestion()]}:{})};
 }
-export function newQuestion() {return {id:uid(),q:'',a:['','',''],optionIds:[uid(),uid(),uid()],correct:0,why:''};}
+export function newQuestion() {return {id:uid(),q:'',a:['','',''],optionIds:[uid(),uid(),uid()],explanations:['','',''],correct:0,why:''};}
 export function duplicateStep(step) {return normalizePath({id:uid(),steps:[structuredClone(step)]},true).steps[0];}

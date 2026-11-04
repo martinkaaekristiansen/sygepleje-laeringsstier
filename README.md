@@ -36,9 +36,17 @@ Serveren lytter på port 3000. Brug miljøets portvisning eller åbn `http://loc
 
 Under **Om læringsstien → Fagområder** kan underviseren sætte kryds ved ét eller flere fag. Skriv et manglende fag i **Mangler et fag?**, og klik **Tilføj fag** (eller tryk Enter). Det nye fag vælges automatisk. Gem læringsstien for at vise den til de studerende på denne enhed.
 
-Stien vises under hvert valgt fag og kun én gang under **Alle fagområder**. Nye fag vises som filtre på det semester, hvor der er en gemt læringssti med faget. En kladde tilføjer ikke fag til elevoversigten. Flyttes stien til et andet semester, følger fagene med. Fjernes fagtilknytningen eller den sidste sti med et nyt fag på et semester, fjernes det pågældende filter dér. De oprindelige fem fagfiltre bevares på alle semestre.
+Stien vises under hvert valgt fag og kun én gang under **Alle fagområder**. Nye fag vises som filtre på det semester, hvor der er en gemt læringssti med faget. En kladde tilføjer ikke fag til elevoversigten. Flyttes stien til et andet semester, følger fagene med. Fjernes fagtilknytningen eller den sidste sti med et nyt fag på et semester, fjernes det pågældende filter dér. Også de oprindelige fagfiltre skjules, hvis der ikke er en gemt læringssti i faget på semesteret. »Alle fagområder« er altid tilgængelig. Underviserens fagvælger beholder alle standardfag.
 
 Egne fag kan genbruges i editoren på tværs af semestre. Ekstra mellemrum og forskelle i store/små bogstaver opretter ikke dubletter. Navne må være op til 80 tegn. Der skal være mindst ét fag på en gemt sti; kladder må midlertidigt have ingen valgte fag. Eksisterende stier med ét fag virker fortsat. Ændringer af fag og semester bevarer progressionen.
+
+## Quiz: ret svar og undersøg forklaringer
+
+Studerende kan ændre et forkert svar ved at vælge en anden mulighed. Når svaret er korrekt, fastholdes det — også efter genindlæsning og navigation. Klik på de forkerte muligheder viser forklaringer uden at ændre det korrekte svar eller resultatet. Det undersøgte svar markeres særskilt fra det korrekte.
+
+**Genstart trinnet** nulstiller efter bekræftelse kun quizsvar og gennemførelse på det aktuelle trin. Andre trin og refleksioner bevares. Det er herefter muligt at svare helt forfra. Samme quizadfærd kan afprøves i editorens forhåndsvisning uden at ændre elevprogressionen.
+
+Underviseren kan skrive en **Forklaring til svar A/B/C…** under hver svarmulighed. Forklaringen følger svarmuligheden ved omrokering og duplikering. Hvis feltet er tomt, vises den eksisterende fælles faglige forklaring, tydeligt mærket som fælles ved undersøgelse af forkerte svar. Tilføjelse af disse forklaringer bevarer tidligere svar og progression. Ændringer af selve opgaven eller facit følger fortsat reglerne for ændret fagligt indhold.
 
 ## Lokal lagring og afgrænsning
 
@@ -105,7 +113,7 @@ Appens visninger åbnes i samme HTML-side. Relative filadresser gør, at navigat
 
 ### Browsertest
 
-`tests-browser/subjects.cjs` tester flere fag, egne fag, semesterfiltre, kladder og mobilvisning. `tests-browser/acceptance.cjs` samler test af kladder, kodelås, migration, lagringsfejl, oprettelse/redigering/sletning, elevprogression, alle 56 spørgsmål på 3. og 5. semester, browserhistorik, dybe links, fokus og mobilvisning. Kør mod en lokal server med Playwright og Chromium installeret:
+`tests-browser/quiz.cjs` tester ændring af svar, fastholdelse af korrekte svar, forklaringer og genstart. `tests-browser/subjects.cjs` tester flere fag, egne fag, semesterfiltre, kladder og mobilvisning. `tests-browser/acceptance.cjs` samler test af kladder, kodelås, migration, lagringsfejl, oprettelse/redigering/sletning, elevprogression, alle 56 spørgsmål på 3. og 5. semester, browserhistorik, dybe links, fokus og mobilvisning. Kør mod en lokal server med Playwright og Chromium installeret:
 
 ```sh
 PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=http://localhost:3000 npm run test:browser
