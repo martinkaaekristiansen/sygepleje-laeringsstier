@@ -102,3 +102,13 @@ Farverne følger HEX-koderne i den UCN-farveoversigt, som blev leveret til proje
 Temaet gælder også SVG-illustrationer, quizfeedback, formularer og underviserens kodelås. Gul er valgt som eneste sekundære accent i visningerne, i overensstemmelse med oversigtens vejledning om ikke at kombinere sekundærfarver på samme side. De øvrige sekundærfarver er defineret i paletten til senere brug, men anvendes ikke i visningerne. Status vises også med tekst, så farver ikke er den eneste information.
 
 Alle farver vedligeholdes i `public/theme.css`. Temaet hentes lokalt uden forbindelse til UCN's hjemmeside. Farveoversigten er grundlaget for farvevalget; appen bruger fortsat sit eget navn og logo.
+
+## 3. semester: Medicinhåndtering og farmakologi
+
+Vælg **3. semester → Farmakologi → Medicinhåndtering og farmakologi**. Forløbet indeholder fire quiztrin med fem spørgsmål i hvert, udvalgt tilfældigt fra brugerens dokument *Medicinhåndteringsprøver.docx*. Hver opgave angiver prøve og oprindeligt opgavenummer. Udvalget er fast, så progressionen kan genoptages.
+
+Dokumentet indeholder ikke et facit. Øvelsesfacit og forklaringer er udarbejdet til læringsstien; de er ikke et officielt prøvefacit og bør gennemgås af en underviser før brug som bedømmelsesgrundlag. Se [kildeoversigt og udvælgelse](docs/medicinhaandtering.md).
+
+Nye indbyggede læringsstier tilføjes én gang til eksisterende browserdata. Egne stier, ændringer og progression bevares. Hvis underviseren efterfølgende sletter en indbygget sti, tilføjes den ikke automatisk igen. `public/pharmacology.js` indeholder forløbet, og `public/catalog.js` håndterer tilføjelsen til eksisterende data.
+
+Browsertesten `tests-browser/pharmacology.cjs` kontrollerer eksisterende browserdata, filtrering, alle 20 spørgsmål, progression, redigering og sletning. Den køres med samme miljøvariabler som undervisertesten.

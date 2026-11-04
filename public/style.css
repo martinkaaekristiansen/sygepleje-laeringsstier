@@ -15,3 +15,5 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
 .code-error:not(:empty){background:var(--feedback-review);border-left:3px solid var(--ink);padding:10px 12px}
 input[aria-invalid="true"]{border:2px solid var(--ink)}
 ::selection{background:var(--ucn-turquoise-light);color:var(--ink)}
+
+.question-source{font-size:11px;color:var(--muted);margin:0 0 12px}

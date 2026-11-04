@@ -16,6 +16,7 @@ const assert = require('node:assert/strict');
     assert.equal(await page.locator('[data-action=export]').count(),0);
     const unlock=async()=>{await page.locator('#teacher-code').fill('7269');await page.locator('#teacher-login button').click()};
     await unlock();
+    const initialCount=await page.locator('.teacher-list>div').count();
     await page.locator('[data-edit]').first().click();
     assert.equal(await page.locator('.quiz-editor').count(),5);
     assert.equal(await page.locator('[data-edit-step="3"] [data-question]').count(),5);
@@ -72,13 +73,13 @@ const assert = require('node:assert/strict');
     const download=await downloadPromise;
     const exported=await download.path();
     await page.locator('#import').setInputFiles(exported);
-    await page.waitForFunction(()=>document.querySelectorAll('.teacher-list>div').length===4);
-    assert.equal(await page.locator('.teacher-list>div').count(),4);
+    await page.waitForFunction(expected=>document.querySelectorAll('.teacher-list>div').length===expected,2*(initialCount+1));
+    assert.equal(await page.locator('.teacher-list>div').count(),2*(initialCount+1));
     // Invalid question data on a case step must be rejected without adding paths.
     const dialogPromise=page.waitForEvent('dialog');
     await page.locator('#import').setInputFiles({name:'invalid.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify([{title:'Bad',description:'Bad',semester:1,subject:'Sygepleje',steps:[{title:'Case',type:'case',text:'Text',questions:[{q:'Bad',a:['A','B'],correct:5,why:'Invalid'}]}]}]))});
     const dialog=await dialogPromise;assert.match(dialog.message(),/kunne ikke importeres/);await dialog.accept();
-    assert.equal(await page.locator('.teacher-list>div').count(),4);
+    assert.equal(await page.locator('.teacher-list>div').count(),2*(initialCount+1));
     assert.deepEqual(errors,[]);
     console.log('PASS: PIN lock/unlock/relock, legacy demo, questions on all six step types, feedback, completion, persistence, reflection, import/export, invalid import and mobile layout');
   } finally { await browser.close(); }
