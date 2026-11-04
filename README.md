@@ -112,3 +112,13 @@ Dokumentet indeholder ikke et facit. Øvelsesfacit og forklaringer er udarbejdet
 Nye indbyggede læringsstier tilføjes én gang til eksisterende browserdata. Egne stier, ændringer og progression bevares. Hvis underviseren efterfølgende sletter en indbygget sti, tilføjes den ikke automatisk igen. `public/pharmacology.js` indeholder forløbet, og `public/catalog.js` håndterer tilføjelsen til eksisterende data.
 
 Browsertesten `tests-browser/pharmacology.cjs` kontrollerer eksisterende browserdata, filtrering, alle 20 spørgsmål, progression, redigering og sletning. Den køres med samme miljøvariabler som undervisertesten.
+
+## 5. semester: Akut og kritisk sygepleje
+
+Vælg **5. semester → Sygepleje → Akut og kritisk sygepleje – fra vurdering til handling**. Det tværfaglige forløb bygger på det uploadede udkast til semesterbeskrivelse for E26, SPL-CSV-S24.
+
+De 12 trin følger fire kliniske temaer: akut abdomen/peritonitis, akut koronart syndrom, livstruende infektion og det akut syge barn/familien. 36 casebaserede spørgsmål kobles med 12 refleksionsopgaver og udfoldelige refleksionsguider. Forløbet omfatter også omsorg, etik, sundhedsulighed, kultur, pædagogik, forskningsmetoder, IMRaD, klinisk lederskab og kvalitetsudvikling. Vejledende tid er 120 minutter plus eventuel litteraturlæsning og drøftelse.
+
+Refleksionsguiderne kan redigeres i underviserfunktionen og følger med import/eksport. Refleksionerne gemmes lokalt og bedømmes ikke automatisk. Cases og spørgsmål er udarbejdet til øvelsen og er ikke officielle eksamensopgaver eller en klinisk instruks. Læringsstien er et øvelsesforløb med fokus på centrale læringsmål, ikke en fuldstændig erstatning for pensum, simulation eller klinisk uddannelse.
+
+Se [koblingen mellem trin, fag og semesterbeskrivelse](docs/semester5-e26.md). Indholdet ligger i `public/semester5.js`. `tests-browser/semester5.cjs` afprøver alle 36 svar og 12 refleksionsguider samt bevarelse af eksisterende data, redigering og mobilvisning med samme miljøvariabler som de øvrige browsertests.
