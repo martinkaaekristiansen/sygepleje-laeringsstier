@@ -58,8 +58,8 @@ export async function openStorage() {
         } catch {tx.abort();}
       };
       try {await done;} catch(error) {
-        if(conflict) throw Error('En anden fane har gemt ændringer. Hent en kopi af dit arbejde her, og genindlæs siden, før du fortsætter.');
-        throw Error('Browseren kunne ikke gemme. Dit arbejde er stadig åbent. Frigør plads, eller hent en sikkerhedskopi.');
+        if(conflict) throw Error('En anden fane har gemt ændringer. Kopiér eventuel ugemt tekst til et dokument, og genindlæs siden, før du fortsætter.');
+        throw Error('Browseren kunne ikke gemme. Dit arbejde er stadig åbent. Frigør plads uden at slette dette websteds data, og prøv at gemme igen.');
       }
       cache=structuredClone(next); return next;
     },
