@@ -17,8 +17,8 @@ Serveren lytter på port 3000. Brug miljøets portvisning eller åbn `http://loc
 1. Vælg 1. semester og start **Fordøjelsessystemet**.
 2. Gennemfør patientcasen, fagteksten, podcasttrinnet, quizzen og refleksionen.
 3. Gå tilbage til forsiden eller genindlæs og vælg **Fortsæt læringssti**.
-4. Åbn **Underviser** for at oprette eller redigere en læringssti. Pilene flytter trin og hele læringsstier.
-5. Quizredigeringen understøtter spørgsmål, tre svarmuligheder, korrekt svar og forklaring. Tilføj så mange spørgsmål som nødvendigt.
+4. Åbn **Underviser**, indtast din underviserkode, og klik **Lås op** for at oprette eller redigere en læringssti. Pilene flytter trin og hele læringsstier. Brug **Lås underviseradgang**, når du er færdig. Genindlæsning låser også adgangen.
+5. Under **Multiple-choice spørgsmål** på hvert trin kan du klikke **Tilføj spørgsmål**. Udfyld spørgsmålet, tre svarmuligheder, korrekt svar og forklaring. Spørgsmål kan kombineres med alle indholdstyper: tekst, case, podcast, video, refleksion og quiz. Gem læringsstien til sidst. Eleven skal besvare alle spørgsmål på trinnet for at gennemføre det, men behøver ikke svare korrekt første gang.
 6. Tilføj billedlinks eller upload PNG/JPEG/WebP på højst 1 MB. Video- og podcastfelter accepterer links, herunder YouTube. Direkte MP4/WebM- og lydlinks får en afspiller; andre links åbnes eksternt.
 7. Eksportér læringsstier som JSON og importér filen i en anden browser. Import tilføjer kopier; den overskriver ikke eksisterende stier.
 
@@ -26,7 +26,7 @@ Serveren lytter på port 3000. Brug miljøets portvisning eller åbn `http://loc
 
 Læringsstier, gennemførte trin og refleksioner gemmes med localStorage på den aktuelle browser og webadresse. Ingen data sendes til en backend. Undlad patientoplysninger og andre personoplysninger. Eksporten indeholder undervisningsindhold, ikke elevprogression eller refleksioner. Sletning af browserens webstedsdata fjerner lokal lagring. Eksportér indhold som backup; mange billeder kan overskride browserens lagerplads.
 
-Underviserfunktionen er åben for alle i prototypen og har ingen adgangskontrol. Redigering af en sti nulstiller dens elevprogression. Andre semestre og fagområder viser en tom tilstand, indtil du opretter indhold.
+Underviserfunktionen har en lokal kodelås. Koden kontrolleres i browseren og er derfor synlig i den offentlige kildekode og kan omgås af en teknisk bruger. Den er en enkel spærring mod almindelig adgang, ikke sikker autentifikation. Adgang gemmes ikke mellem genindlæsninger. Egentlig sikker adgang kræver en backend eller en ekstern login-tjeneste. Redigering af en sti nulstiller dens elevprogression. Andre semestre og fagområder viser en tom tilstand, indtil du opretter indhold.
 
 Demopodcasten er browseroplæsning af den medfølgende tekst, ikke en indspillet lydfil. Dansk stemme og oplæsning afhænger af browserens installerede stemmer. Teksten er altid tilgængelig. Videoer og podcastlinks indlæses efter brugerens klik og kan involvere eksterne udbydere; billedlinks hentes, når trinnet åbnes. Brug lokale uploadede billeder for at undgå eksterne billedkald.
 
@@ -70,3 +70,13 @@ Fremover tester, bygger og udgiver workflowen automatisk ved ændringer på `mai
 - **Video/podcast virker ikke:** Eksterne udbydere kan begrænse afspilning eller fjerne indhold. Demoens tekst og quiz kræver ingen eksterne medier.
 
 Appens visninger åbnes i samme HTML-side. Relative filadresser gør, at navigation, genindlæsning, CSS og JavaScript virker både på en lokal adresse og i repositoryets undermappe; der kræves ingen særlig 404-omdirigering.
+
+### Browsertest af underviserfunktion
+
+`tests-browser/teacher.cjs` afprøver forkert/rigtig kode, genlåsning, den eksisterende demo, spørgsmål på alle trintyper, feedback, progression, refleksion, import/eksport og mobilvisning. Kør mod en lokal server med Playwright og Chromium installeret:
+
+```sh
+PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=http://localhost:3000 node tests-browser/teacher.cjs
+```
+
+Testen bruger en isoleret browserprofil og ændrer ikke dine egne gemte læringsstier.
