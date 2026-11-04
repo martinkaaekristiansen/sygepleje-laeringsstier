@@ -29,13 +29,13 @@ export function validPathSubjects(path, allowEmpty = false) {
 export function subjectLabel(path) {return pathSubjects(path).join(' · ');}
 export function hasSubject(path, subject) {return pathSubjects(path).some(s => subjectKey(s) === subjectKey(subject));}
 
-// Teacher options can reuse subjects across semesters. Student filters only add
-// custom subjects from saved paths on the selected semester, never from drafts.
+// Teacher options can reuse all subjects. Student filters only include subjects
+// attached to saved paths on the selected semester, never from drafts.
 export function editorSubjects(paths, drafts = []) {
   return uniqueSubjects([...defaults.slice(1), ...paths.flatMap(pathSubjects), ...drafts.flatMap(pathSubjects)]);
 }
 export function semesterSubjects(paths, semester) {
-  return [ALL_SUBJECTS, ...editorSubjects(paths.filter(p => p.semester === semester))];
+  return [ALL_SUBJECTS, ...uniqueSubjects(paths.filter(p => p.semester === semester).flatMap(pathSubjects))];
 }
 export function filterPaths(paths, semester, subject) {
   return paths.filter(p => p.semester === semester && (subject === ALL_SUBJECTS || hasSubject(p, subject)));

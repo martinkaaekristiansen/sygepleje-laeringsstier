@@ -43,7 +43,7 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
   await page.locator('#editor button[type=submit]').click();await page.locator('.teacher-list').waitFor();await home();await page.locator('[data-semester="4"]').click();assert.equal(await page.locator('[data-subject="Klinisk kommunikation"]').count(),0);
   await page.locator('[data-semester="6"]').click();await page.locator('[data-subject="Klinisk kommunikation"]').click();assert.equal(await page.locator('.path-card').count(),1);assert.match(await page.locator('.progress-label').textContent(),/100%/);
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:'/tmp/laeringsstier-fag-elev.png',fullPage:true});
-  await page.locator('[data-subject="Farmakologi"]').click();assert.equal(await page.locator('.path-card').count(),0);
+  assert.equal(await page.locator('[data-subject="Farmakologi"]').count(),0);
   // Custom names can be reused on another path; deleting the last path removes its semester filter.
   await login();await page.locator('[data-action=new]').click();await page.locator('#subject-picker').waitFor();assert.equal(await checkbox('Klinisk kommunikation').count(),1);await page.locator('[data-action=close-editor]').click();await page.locator('.teacher-list').waitFor();await page.locator(`[data-delete="${draftId}"]`).click();await page.waitForFunction(id=>!document.querySelector(`[data-delete="${id}"]`),draftId);
   await home();await page.locator('[data-semester="6"]').click();assert.equal(await page.locator('[data-subject="Klinisk kommunikation"]').count(),0);

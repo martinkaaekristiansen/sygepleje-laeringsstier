@@ -41,3 +41,11 @@ test('custom subject names are escaped in student labels and filter buttons',()=
   assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt;'));
   assert.ok(!html.includes('<img src=x onerror=alert(1)>'));
 });
+
+test('student filters hide all unused subjects, including default subjects',()=>{
+  const paths=[{semester:1,subject:'Anatomi og fysiologi'},{semester:3,subject:'Farmakologi'}];
+  assert.deepEqual(semesterSubjects(paths,1),[ALL_SUBJECTS,'Anatomi og fysiologi']);
+  assert.deepEqual(semesterSubjects(paths,2),[ALL_SUBJECTS]);
+  assert.deepEqual(semesterSubjects(paths,3),[ALL_SUBJECTS,'Farmakologi']);
+  assert.ok(editorSubjects(paths).includes('Mikrobiologi'));
+});

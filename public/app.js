@@ -1,3 +1,4 @@
+import {chooseAnswer} from './quiz.js';
 import {ALL_SUBJECTS,cleanSubject,subjectKey,validSubject,pathSubjects,subjectLabel,uniqueSubjects,editorSubjects,semesterSubjects} from './subjects.js';
 import {subjects,safeURL,youtubeEmbed} from './data.js';
 import {getPathProgress} from './progress.js';
@@ -11,7 +12,7 @@ const $=selector=>document.querySelector(selector);
 const clone=value=>structuredClone(value);
 const MAX_FILE=50*1024*1024;
 let store,state,revision=0,view='home',semester=1,subject=subjects[0],current,index=0;
-let teacherUnlocked=false,draft=null,selected='metadata',preview=false,previewAnswers={},undo=[];
+let teacherUnlocked=false,draft=null,selected='metadata',preview=false,previewAnswers={},inspectedAnswers={},undo=[];
 let storageError='',notice='',queue=Promise.resolve(),dirty=false,writeNumber=0,savedNumber=0,timer,busy=false;
 let errors=[],expanded=matchMedia('(min-width: 801px)').matches;
 
@@ -59,7 +60,7 @@ function learningView(path,stepIndex,answerOverride) {
   const step=path.steps[stepIndex],stored=record.answers?.[step.id]||{};
   const answers=answerOverride||Object.fromEntries(step.questions.flatMap((q,i)=>stored[q.id]&&q.optionIds.includes(stored[q.id])?[[i,q.optionIds.indexOf(stored[q.id])]]:[]));
   const uiRecord={...record,done:record.done.map(id=>path.steps.findIndex(s=>s.id===id)),notes:Object.fromEntries(path.steps.map((s,i)=>[i,record.notes[s.id]||'']))};
-  return renderLearn({paths:[path],current:path.id,index:stepIndex,progress:{[path.id]:uiRecord},answers,expanded});
+  return renderLearn({paths:[path],current:path.id,index:stepIndex,progress:{[path.id]:uiRecord},answers,expanded,inspected:inspectedAnswers});
 }
 function render(focus) {
   window.speechSynthesis?.cancel();
@@ -92,7 +93,7 @@ function go(hash) {if(location.hash===hash)route();else location.hash=hash;}
 function pathRoute(path,step) {return `#/sti/${encodeURIComponent(path.id)}/${encodeURIComponent(step.id)}`;}
 function recordFor(path) {return state.progress[path.id]??={done:[],notes:{},answers:{}};}
 async function route() {
-  await flushDraft();draft=null;preview=false;errors=[];undo=[];
+  await flushDraft();draft=null;preview=false;errors=[];undo=[];inspectedAnswers={};
   let parts;
   try {parts=location.hash.slice(1).split('/').map(decodeURIComponent);} catch {parts=[];}
   const path=state.paths.find(p=>p.id===parts[2]);
@@ -138,9 +139,12 @@ async function handle(d,a) {
   const isPreview=Boolean(draft&&preview&&view==='teacher');
   if(d.answer) {
     const [q,i]=d.answer.split(':').map(Number),path=isPreview?draft:state.paths.find(p=>p.id===current),step=isPreview?selectedStep():path.steps[index];
-    if(isPreview) previewAnswers[q]=i;
-    else {const record=recordFor(path);record.answers[step.id]??={};record.answers[step.id][step.questions[q].id]=step.questions[q].optionIds[i];await persist();}
-    const y=scrollY;render(`#feedback-${q}`);scrollTo(0,y);return;
+    const question=step.questions[q];if(!question||!Number.isInteger(i)||i<0||i>=question.a.length)return;
+    const previous=isPreview?previewAnswers[q]:question.optionIds.indexOf(recordFor(path).answers[step.id]?.[question.id]);
+    const choice=chooseAnswer(question,previous,i);inspectedAnswers[q]=choice.inspected;
+    if(isPreview)previewAnswers[q]=choice.answer;
+    else if(choice.answer!==previous) {const record=recordFor(path);record.answers[step.id]??={};record.answers[step.id][question.id]=question.optionIds[choice.answer];await persist();}
+    const y=scrollY;render(choice.inspected!==undefined?`#option-feedback-${q}`:`#feedback-${q}`);scrollTo(0,y);return;
   }
   if(d.step!==undefined) {const p=state.paths.find(p=>p.id===current);go(pathRoute(p,p.steps[Number(d.step)]));return;}
   if(['previous','complete','retry','speak','stop','media'].includes(a)) {
@@ -151,7 +155,12 @@ async function handle(d,a) {
       if(!record.done.includes(s.id))record.done.push(s.id);record.updatedAt=Date.now();await persist();
       if(index<p.steps.length-1)go(pathRoute(p,p.steps[index+1]));else {notice='Godt gået! Læringsstien er gennemført.';render('#lesson-heading');}
     }
-    if(a==='retry') {if(isPreview)previewAnswers={};else {delete recordFor(p).answers[s.id];await persist();}render(isPreview?'#editor-heading':'#lesson-heading');}
+    if(a==='retry') {
+      if(!confirm('Genstart dette trin? Trinnets svar og gennemførelse nulstilles. Dine refleksioner bevares.'))return;
+      inspectedAnswers={};
+      if(isPreview)previewAnswers={};else {const record=recordFor(p);delete record.answers[s.id];record.done=record.done.filter(id=>id!==s.id);await persist();}
+      render(isPreview?'#editor-heading':'#lesson-heading');
+    }
     if(a==='speak') {
       if(!window.speechSynthesis){alert('Oplæsning understøttes ikke i denne browser. Læs teksten i trinnet.');return;}
       speechSynthesis.cancel();const speech=new SpeechSynthesisUtterance(s.text);speech.lang='da-DK';speechSynthesis.speak(speech);
@@ -179,8 +188,8 @@ async function handle(d,a) {
   }
   if(!draft)return;
   if(a==='add-subject') {await addSubject();return;}
-  if(d.editorStep) {await flushDraft();selected=d.editorStep;preview=false;errors=[];previewAnswers={};stashDraft();await persist();render('#editor-heading');return;}
-  if(a==='toggle-preview') {await flushDraft();preview=!preview;previewAnswers={};render('#editor-heading');return;}
+  if(d.editorStep) {await flushDraft();selected=d.editorStep;preview=false;errors=[];previewAnswers={};inspectedAnswers={};stashDraft();await persist();render('#editor-heading');return;}
+  if(a==='toggle-preview') {await flushDraft();preview=!preview;previewAnswers={};inspectedAnswers={};render('#editor-heading');return;}
   if(a==='undo'&&undo.length) {draft=undo.pop();if(!draft.steps.some(s=>s.id===selected))selected='metadata';stashDraft();await persist();render('#editor-heading');return;}
   if(a==='add-step') {const type=$('#template').value;await changeStructure(()=>{const s=newStep(type);draft.steps.push(s);selected=s.id;});return;}
   const step=selectedStep();if(!step)return;
@@ -191,9 +200,9 @@ async function handle(d,a) {
   if(d.removeQuestion!==undefined) {await changeStructure(()=>step.questions.splice(Number(d.removeQuestion),1));return;}
   if(d.duplicateQuestion!==undefined) {await changeStructure(()=>{const i=Number(d.duplicateQuestion),q=clone(step.questions[i]);q.id=uid();q.optionIds=q.a.map(()=>uid());step.questions.splice(i+1,0,q);});return;}
   if(d.questionMove) {await changeStructure(()=>{const [i,delta]=d.questionMove.split(':').map(Number);[step.questions[i],step.questions[i+delta]]=[step.questions[i+delta],step.questions[i]];});return;}
-  if(d.addOption!==undefined) {await changeStructure(()=>{const q=step.questions[Number(d.addOption)];q.a.push('');q.optionIds.push(uid());});return;}
-  if(d.removeOption) {await changeStructure(()=>{const [i,k]=d.removeOption.split(':').map(Number),q=step.questions[i];if(q.a.length<=2)return;q.a.splice(k,1);q.optionIds.splice(k,1);q.correct=q.correct===k?0:q.correct>k?q.correct-1:q.correct;});return;}
-  if(d.optionMove) {await changeStructure(()=>{const [i,k,delta]=d.optionMove.split(':').map(Number),q=step.questions[i],correct=q.optionIds[q.correct];[q.a[k],q.a[k+delta]]=[q.a[k+delta],q.a[k]];[q.optionIds[k],q.optionIds[k+delta]]=[q.optionIds[k+delta],q.optionIds[k]];q.correct=q.optionIds.indexOf(correct);});}
+  if(d.addOption!==undefined) {await changeStructure(()=>{const q=step.questions[Number(d.addOption)];q.a.push('');q.optionIds.push(uid());q.explanations??=q.a.slice(0,-1).map(()=>'');q.explanations.push('');});return;}
+  if(d.removeOption) {await changeStructure(()=>{const [i,k]=d.removeOption.split(':').map(Number),q=step.questions[i];if(q.a.length<=2)return;q.a.splice(k,1);q.optionIds.splice(k,1);q.explanations?.splice(k,1);q.correct=q.correct===k?0:q.correct>k?q.correct-1:q.correct;});return;}
+  if(d.optionMove) {await changeStructure(()=>{const [i,k,delta]=d.optionMove.split(':').map(Number),q=step.questions[i],correct=q.optionIds[q.correct];[q.a[k],q.a[k+delta]]=[q.a[k+delta],q.a[k]];[q.optionIds[k],q.optionIds[k+delta]]=[q.optionIds[k+delta],q.optionIds[k]];if(q.explanations)[q.explanations[k],q.explanations[k+delta]]=[q.explanations[k+delta],q.explanations[k]];q.correct=q.optionIds.indexOf(correct);});}
 }
 async function addSubject() {
   const input=$('#new-subject');

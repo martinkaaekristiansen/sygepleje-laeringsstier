@@ -25,6 +25,7 @@ export function validQuestions(questions) {
     typeof q.why === 'string' && q.why.trim().length > 0 &&
     Array.isArray(q.a) && q.a.length >= 2 &&
     q.a.every(a => typeof a === 'string' && a.trim().length > 0) &&
+    (q.explanations === undefined || (Array.isArray(q.explanations) && q.explanations.length === q.a.length && q.explanations.every(e => typeof e === 'string'))) &&
     Number.isInteger(q.correct) && q.correct >= 0 && q.correct < q.a.length
   );
 }
