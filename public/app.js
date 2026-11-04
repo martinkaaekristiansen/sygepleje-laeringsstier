@@ -5,7 +5,7 @@ import {renderLearn} from './learner.js';
 import {renderEditor,collectEditor} from './editor.js';
 import {esc,download} from './ui.js';
 import {openStorage} from './storage.js';
-import {SCHEMA,uid,builtins,emptyState,normalizePath,pathErrors,validateState,commitPath,updatesFor,acceptUpdate,newStep,newQuestion,duplicateStep} from './model.js';
+import {uid,emptyState,normalizePath,pathErrors,validateState,commitPath,newStep,newQuestion,duplicateStep} from './model.js';
 const $=selector=>document.querySelector(selector);
 const clone=value=>structuredClone(value);
 const MAX_FILE=50*1024*1024;
@@ -14,19 +14,14 @@ let teacherUnlocked=false,draft=null,selected='metadata',preview=false,previewAn
 let storageError='',notice='',queue=Promise.resolve(),dirty=false,writeNumber=0,savedNumber=0,timer,busy=false;
 let errors=[],expanded=matchMedia('(min-width: 801px)').matches;
 
-function exportFile(value,name) {
-  if(new Blob([JSON.stringify(value)]).size>MAX_FILE) {alert('Filen er større end 50 MB. Eksportér læringsstierne enkeltvis fra editoren.');return;}
-  download(value,name);
-}
-function backup() {exportFile({format:'laeringsstier-backup',schemaVersion:SCHEMA,state},'laeringsstier-sikkerhedskopi.json');}
 function displayStorage() {
   const el=$('#storage-status');
   if(el) {
     el.hidden=!storageError;
-    el.innerHTML=storageError?`<strong>Ændringerne er ikke gemt.</strong> ${esc(storageError)} <button data-action="retry-save">Prøv at gemme igen</button><button data-action="backup">Hent sikkerhedskopi</button>`:'';
+    el.innerHTML=storageError?`<strong>Ændringerne er ikke gemt.</strong> ${esc(storageError)} <button data-action="retry-save">Prøv at gemme igen</button>`:'';
   }
   const status=$('#draft-status');
-  if(status) status.textContent=storageError?'Kladde ikke gemt. Hold siden åben, og hent en kopi af dit arbejde.':dirty?'Gemmer kladde…':'Kladde gemt på denne enhed. Brug »Gem læringssti« for at opdatere elevvisningen.';
+  if(status) status.textContent=storageError?'Kladde ikke gemt. Hold siden åben, og prøv at gemme igen.':dirty?'Gemmer kladde…':'Kladde gemt på denne enhed. Brug »Gem læringssti« for at opdatere elevvisningen.';
 }
 function persist({retry=false}={}) {
   if(retry) storageError='';
@@ -86,12 +81,10 @@ function render(focus) {
 function teacher() {
   if(!teacherUnlocked) return `<section class="teacher-access"><div class="eyebrow">UNDERVISERADGANG</div><h1>Dit faglige værksted</h1><p>Indtast underviserkoden for at oprette og redigere læringsstier.</p><form id="teacher-login"><label for="teacher-code">Underviserkode</label><input id="teacher-code" type="password" inputmode="numeric" autocomplete="off" required aria-describedby="code-error"><p id="code-error" role="alert"></p><button class="primary" type="submit">Lås op →</button></form><p>Adgangen låses ved genindlæsning. Koden er en enkel spærring på denne enhed og beskytter ikke fortroligt indhold.</p></section>`;
   if(draft) return renderEditor(draft,selected,{preview,errors,canUndo:undo.length>0});
-  const updates=updatesFor(state),drafts=Object.values(state.drafts);
-  return `<div class="section-row"><div><div class="eyebrow">DIT FAGLIGE VÆRKSTED</div><h1>Underviser</h1></div><div class="toolbar"><button class="secondary" data-action="lock-teacher">Lås underviseradgang</button><button class="primary" data-action="new">＋ Ny læringssti</button></div></div><p class="notice">Ændringer og kladder gemmes kun på denne enhed. For at dele indhold skal du eksportere det til import på andre enheder eller lade det indgå i projektets næste udgivelse. Brug fiktive cases uden personoplysninger.</p>
-    <div class="toolbar"><button class="secondary" data-action="export">↓ Eksportér læringsstier</button><label class="secondary file-button">↑ Importér læringsstier eller kladde<input id="import" type="file" accept="application/json"></label><button class="secondary" data-action="backup">Hent fuld sikkerhedskopi</button><label class="secondary file-button">Gendan sikkerhedskopi<input id="restore" type="file" accept="application/json"></label><button class="secondary" data-action="previous-backup">Hent forrige indholdsudgave</button></div>
-    ${updates.length?`<section class="notice"><h2>Opdateringer til indbyggede læringsstier</h2><p>Ved opdatering beholder du din nuværende udgave som en separat kopi med progression og noter. Den nye udgave starter uden progression.</p>${updates.map(p=>`<p><strong>${esc(p.title)}</strong> · udgave ${p.builtinVersion}<button data-update="${esc(p.id)}">Tilføj ny udgave</button><button data-dismiss-update="${esc(p.id)}">Behold nuværende udgave</button></p>`).join('')}</section>`:''}
+  const drafts=Object.values(state.drafts);
+  return `<div class="section-row"><div><div class="eyebrow">DIT FAGLIGE VÆRKSTED</div><h1>Underviser</h1></div><div class="toolbar"><button class="secondary" data-action="lock-teacher">Lås underviseradgang</button><button class="primary" data-action="new">＋ Ny læringssti</button></div></div>
     ${drafts.length?`<section class="draft-list"><h2>Dine kladder</h2>${drafts.map(d=>`<div><strong>${esc(d.path.title||'Ny læringssti')}</strong><span>Gemt ${new Date(d.updatedAt).toLocaleString('da-DK')}</span><button class="secondary" data-edit="${esc(d.path.id)}">Fortsæt kladde</button><button data-discard="${esc(d.path.id)}">Slet kladde</button></div>`).join('')}</section>`:''}
-    <h2>Læringsstier på denne enhed</h2><div class="teacher-list">${state.paths.map((p,i)=>`<div><span><b>${esc(p.title)}</b><small>${p.semester}. semester · ${esc(p.subject)} · ${p.steps.length} trin · version ${p.contentVersion}</small></span><button class="secondary" data-edit="${esc(p.id)}">Redigér</button><button data-path-move="${i}:-1" ${i===0?'disabled':''} aria-label="Flyt læringssti op">↑</button><button data-path-move="${i}:1" ${i===state.paths.length-1?'disabled':''} aria-label="Flyt læringssti ned">↓</button><button data-delete="${esc(p.id)}">Slet</button></div>`).join('')}</div>`;
+    <h2>Læringsstier på denne enhed</h2><div class="teacher-list">${state.paths.map(p=>`<div><span><b>${esc(p.title)}</b><small>${p.semester}. semester · ${esc(p.subject)} · ${p.steps.length} trin · version ${p.contentVersion}</small></span><button class="secondary" data-edit="${esc(p.id)}">Redigér</button><button data-delete="${esc(p.id)}">Slet</button></div>`).join('')}</div>`;
 }
 function go(hash) {if(location.hash===hash)route();else location.hash=hash;}
 function pathRoute(path,step) {return `#/sti/${encodeURIComponent(path.id)}/${encodeURIComponent(step.id)}`;}
@@ -135,7 +128,6 @@ async function click(event) {
 }
 async function handle(d,a) {
   notice='';
-  if(a==='backup') {if(draft)stashDraft();backup();return;}
   if(a==='retry-save') {if(draft)stashDraft();await persist({retry:true});return;}
   if(d.semester) {semester=Number(d.semester);render(`[data-semester="${semester}"]`);return;}
   if(d.subject) {subject=d.subject;render(`[data-subject="${CSS.escape(subject)}"]`);return;}
@@ -180,16 +172,10 @@ async function handle(d,a) {
   if(d.edit) {await flushDraft();go(`#/underviser/${encodeURIComponent(d.edit)}`);return;}
   if(a==='close-editor') {await flushDraft();go('#/underviser');return;}
   if(d.discard&&confirm('Slet denne kladde? Den gemte læringssti ændres ikke.')) {delete state.drafts[d.discard];await persist();render();return;}
-  if(d.delete&&confirm('Slet læringsstien fra denne enhed? En kopi af den forrige indholdsudgave gemmes automatisk.')) {
+  if(d.delete&&confirm('Slet læringsstien fra denne enhed?')) {
     state.paths=state.paths.filter(p=>p.id!==d.delete);delete state.drafts[d.delete];await persist();render();return;
   }
-  if(d.pathMove) {const [i,delta]=d.pathMove.split(':').map(Number);[state.paths[i],state.paths[i+delta]]=[state.paths[i+delta],state.paths[i]];await persist();render(`[data-path-move="${i+delta}:${delta}"]`);return;}
-  if(d.update) {state=acceptUpdate(state,builtins.find(p=>p.id===d.update));await persist();render();return;}
-  if(d.dismissUpdate) {state.dismissedUpdates[d.dismissUpdate]=builtins.find(p=>p.id===d.dismissUpdate).builtinVersion;await persist();render();return;}
-  if(a==='export') {exportFile({format:'laeringsstier-paths',schemaVersion:SCHEMA,paths:state.paths},'laeringsstier.json');return;}
-  if(a==='previous-backup') {const old=await store.backup();if(old)exportFile({format:'laeringsstier-backup',schemaVersion:SCHEMA,state:old},'laeringsstier-forrige-udgave.json');else {notice='Der findes endnu ingen tidligere indholdsudgave.';render();}return;}
   if(!draft)return;
-  if(a==='export-draft') {stashDraft();exportFile({format:'laeringsstier-draft',schemaVersion:SCHEMA,draft:state.drafts[draft.id]},'laeringssti-kladde.json');return;}
   if(d.editorStep) {await flushDraft();selected=d.editorStep;preview=false;errors=[];previewAnswers={};stashDraft();await persist();render('#editor-heading');return;}
   if(a==='toggle-preview') {await flushDraft();preview=!preview;previewAnswers={};render('#editor-heading');return;}
   if(a==='undo'&&undo.length) {draft=undo.pop();if(!draft.steps.some(s=>s.id===selected))selected='metadata';stashDraft();await persist();render('#editor-heading');return;}
@@ -236,27 +222,7 @@ $('#app').addEventListener('change',async e=>{
     reader.onload=async()=>{if(!teacherUnlocked||draft?.id!==draftId)return;const step=draft.steps.find(s=>s.id===stepId);if(!step)return;step.image=reader.result;stashDraft();await persist();render('#editor-heading');};
     reader.readAsDataURL(file);
   }
-  if(['import','restore'].includes(e.target.id)) {
-    const restore=e.target.id==='restore';
-    try {
-      const file=e.target.files[0];if(!file)return;if(file.size>MAX_FILE)throw Error('Filen må højst fylde 50 MB.');
-      const incoming=JSON.parse(await file.text());if(!teacherUnlocked)return;
-      if(restore) {
-        if(incoming.format!=='laeringsstier-backup'||!validateState(incoming.state))throw Error('Sikkerhedskopien har et ukendt format eller er fra en nyere version.');
-        if(!confirm('Erstat alle lokale læringsstier, kladder og fremskridt med sikkerhedskopien? Hent først en kopi af dine nuværende data, hvis du vil beholde dem.'))return;
-        state={...incoming.state,revision};
-      } else if(incoming.format==='laeringsstier-draft'&&incoming.schemaVersion===SCHEMA) {
-        const record=clone(incoming.draft),path=normalizePath(record.path,true),test=emptyState();
-        record.path=path;record.selected='metadata';record.updatedAt=Date.now();test.drafts[path.id]=record;
-        if(!validateState(test))throw Error('Kladdefilen er ugyldig.');state.drafts[path.id]=record;
-      } else {
-        const paths=Array.isArray(incoming)?incoming:incoming.format==='laeringsstier-paths'&&incoming.schemaVersion===SCHEMA?incoming.paths:null;
-        if(!Array.isArray(paths)||!paths.length||paths.some(p=>pathErrors(p).length))throw Error('Filen indeholder ikke gyldige læringsstier.');
-        state.paths.push(...paths.map(p=>normalizePath(p,true)));
-      }
-      if(await persist()){notice=restore?'Sikkerhedskopien er gendannet.':'Importen er gemt på denne enhed.';render();}
-    }catch(error){alert('Filen kunne ikke importeres. '+error.message);}
-  }
+
 });
 
 async function recovery(error) {

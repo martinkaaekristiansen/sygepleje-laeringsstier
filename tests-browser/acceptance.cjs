@@ -23,6 +23,7 @@ async function login(page){await page.locator('header a[href="#/underviser"]').c
   await page.goBack();await page.locator('#lesson-heading').waitFor();assert.equal(page.url(),deep);
   assert.equal(await page.evaluate(()=>document.activeElement.id),'lesson-heading');
   await login(page);await page.locator('[data-edit=fordoejelse]').click();await page.locator('#editor').waitFor();
+  assert.equal(await page.locator('[data-action=export-draft]').count(),0);
   const initial=await readState(page),p=initial.paths.find(p=>p.id==='fordoejelse'),stepId=p.steps[0].id;
   await page.locator('[name=title]').fill('Fordøjelsessystemet – min udgave');await settle(page);await page.reload();await page.locator('#teacher-code').waitFor();
   await page.locator('#teacher-code').fill('0000');await page.locator('#teacher-login button').click();assert.match(await page.locator('#code-error').textContent(),/forkert/);
@@ -48,7 +49,7 @@ async function login(page){await page.locator('header a[href="#/underviser"]').c
    await page.getByText('Godt gået! Læringsstien er gennemført.',{exact:true}).waitFor();
    assert.equal(count,semester===3?20:36);await home(page);assert.equal(await page.locator(`[data-resume="${path.id}"]`).count(),0);
   }
-  // New teacher content, one-step editing, validation, choices, undo, preview and JSON roundtrip.
+  // New teacher content, one-step editing, validation, choices, undo, preview and deletion.
   await login(page);await page.locator('[data-action=new]').click();await page.locator('#editor').waitFor();
   await page.locator('#editor button[type=submit]').click();await page.locator('#validation').waitFor();assert.match(await page.locator('#validation').textContent(),/titel/);
   await page.locator('[name=title]').fill('Ny øvelse');await page.locator('[name=description]').fill('En test af cases og spørgsmål');
@@ -62,13 +63,15 @@ async function login(page){await page.locator('header a[href="#/underviser"]').c
   await page.locator('.editor-outline li button').first().click();await page.locator('[data-action=toggle-preview]').click();await page.locator('[data-answer="0:0"]').click();await page.locator('#feedback-0').waitFor();assert.match(await page.locator('#feedback-0').textContent(),/Prøv at tænke/);
   await page.locator('[data-action=retry]').click();await page.locator('[data-answer="0:1"]').click();await page.locator('#feedback-0').waitFor();assert.match(await page.locator('#feedback-0').textContent(),/Korrekt!/);
   await page.locator('#editor button[type=submit]').click();await page.locator('.teacher-list').waitFor();
-  const downloadPromise=page.waitForEvent('download');await page.locator('[data-action=export]').click();const download=await downloadPromise;const exportPath=await download.path();
-  const before=(await readState(page)).paths.length;await page.locator('#import').setInputFiles(exportPath);await page.waitForFunction(n=>document.querySelectorAll('.teacher-list>div').length===n,before*2);
-  const full=page.waitForEvent('download');await page.locator('[data-action=backup]').click();const backupPath=await (await full).path();
-  await page.locator('[data-delete]').last().click();await page.waitForFunction(n=>document.querySelectorAll('.teacher-list>div').length===n,before*2-1);
-  await page.locator('#restore').setInputFiles(backupPath);await page.waitForFunction(n=>document.querySelectorAll('.teacher-list>div').length===n,before*2);
+  assert.equal(await page.locator('[data-action="export"],#import,[data-action="backup"],#restore,[data-action="previous-backup"],[data-update]').count(),0);
+  assert.equal(await page.getByText('For at dele indhold skal du eksportere',{exact:false}).count(),0);
+  const before=(await readState(page)).paths.length;
+  const created=(await readState(page)).paths.find(p=>p.title==='Ny øvelse');assert.ok(created);
+  await page.locator(`[data-delete="${created.id}"]`).click();await page.waitForFunction(n=>document.querySelectorAll('.teacher-list>div').length===n,before-1);
+  await page.reload();await page.locator('#teacher-code').waitFor();await login(page);
+  assert.equal((await readState(page)).paths.some(p=>p.id===created.id),false);
   await context.close();
-  // Storage failure keeps editor open and downloadable; retry succeeds.
+  // Storage failure keeps editor open; retry succeeds.
   const fail=await fresh();await fail.page.goto(base);await fail.page.locator('.continue-section').waitFor();await login(fail.page);await fail.page.locator('[data-edit=fordoejelse]').click();await fail.page.locator('#editor').waitFor();
   await fail.page.evaluate(()=>{window.originalPut=IDBObjectStore.prototype.put;IDBObjectStore.prototype.put=function(){throw new DOMException('Quota','QuotaExceededError');};});
   await fail.page.locator('[name=title]').fill('Bevar mit arbejde');await fail.page.waitForTimeout(600);
@@ -88,6 +91,6 @@ async function login(page){await page.locator('header a[href="#/underviser"]').c
   const mobile=await fresh({viewport:{width:390,height:844}});await mobile.page.goto(base);await mobile.page.locator('[data-semester="5"]').click();await mobile.page.locator('.path-card [data-open]').click();await mobile.page.locator('#lesson-heading').waitFor();
   assert.equal(await mobile.page.locator('.step-navigation').getAttribute('open'),null);assert.ok(await mobile.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await mobile.page.screenshot({path:'/tmp/laeringsstier-mobile.png',fullPage:true});await login(mobile.page);await mobile.page.locator('[data-edit="semester5-akut-kritisk-e26-v1"]').click();await mobile.page.locator('.editor-outline li button').first().click();await mobile.page.locator('[data-edit-step]').waitFor();assert.equal(await mobile.page.locator('[data-edit-step]').count(),1);assert.ok(await mobile.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await mobile.page.screenshot({path:'/tmp/laeringsstier-editor-mobile.png',fullPage:true});await mobile.context.close();
-  assert.deepEqual(errors,[]);console.log('PASS: migration, recovery, drafts, stable progress, browser history, deep links, focus, mobile, 56 clinical quiz questions, editor, preview, import/export, backup/restore and storage failure');
+  assert.deepEqual(errors,[]);console.log('PASS: migration, recovery, drafts, stable progress, browser history, deep links, focus, mobile, 56 clinical quiz questions, editor, preview, simplified teacher controls, deletion and storage failure');
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

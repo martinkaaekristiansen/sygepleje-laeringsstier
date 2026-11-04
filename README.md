@@ -17,10 +17,10 @@ Serveren lytter på port 3000. Brug miljøets portvisning eller åbn `http://loc
 1. Vælg 1. semester og start **Fordøjelsessystemet**.
 2. Gennemfør patientcasen, fagteksten, podcasttrinnet, quizzen og refleksionen.
 3. Gå tilbage til forsiden eller genindlæs og vælg **Fortsæt læringssti**.
-4. Åbn **Underviser**, indtast din underviserkode, og klik **Lås op** for at oprette eller redigere en læringssti. Pilene flytter trin og hele læringsstier. Brug **Lås underviseradgang**, når du er færdig. Genindlæsning låser også adgangen.
+4. Åbn **Underviser**, indtast din underviserkode, og klik **Lås op** for at oprette eller redigere en læringssti. Pilene i editoren flytter trin. Brug **Lås underviseradgang**, når du er færdig. Genindlæsning låser også adgangen.
 5. Under **Multiple-choice spørgsmål** på hvert trin kan du klikke **Tilføj spørgsmål**. Udfyld spørgsmålet, mindst to svarmuligheder, korrekt svar og forklaring. Spørgsmål kan kombineres med alle indholdstyper: tekst, case, podcast, video, refleksion og quiz. Gem læringsstien til sidst. Eleven skal besvare alle spørgsmål på trinnet for at gennemføre det, men behøver ikke svare korrekt første gang.
 6. Tilføj billedlinks eller upload PNG/JPEG/WebP på højst 1 MB. Video- og podcastfelter accepterer links, herunder YouTube. Direkte MP4/WebM- og lydlinks får en afspiller; andre links åbnes eksternt.
-7. Eksportér læringsstier som JSON og importér filen i en anden browser. Import tilføjer kopier; den overskriver ikke eksisterende stier.
+7. Underviseroversigten bruges til at oprette, redigere og slette læringsstier. Kladder gemmes automatisk og kan genåbnes til videre redigering.
 
 ## Editor, kladder og sikker lagring (version 0.2)
 
@@ -34,19 +34,15 @@ Serveren lytter på port 3000. Brug miljøets portvisning eller åbn `http://loc
 
 ## Lokal lagring og afgrænsning
 
-Læringsstier, kladder, gennemførte trin, quizsvar og refleksioner gemmes i **IndexedDB** i den aktuelle browser på den aktuelle webadresse. Der sendes ingen data til en backend. Undlad patientoplysninger og andre personoplysninger. Sletning af browserens webstedsdata fjerner lokal lagring. Tag derfor jævnligt en sikkerhedskopi.
+Læringsstier, kladder, gennemførte trin, quizsvar og refleksioner gemmes i **IndexedDB** i den aktuelle browser på den aktuelle webadresse. Der sendes ingen data til en backend. Undlad patientoplysninger og andre personoplysninger. Sletning af browserens webstedsdata fjerner lokal lagring.
 
-- **Eksportér læringsstier** deler undervisningsindhold uden elevprogression og refleksioner. Import tilføjer uafhængige kopier og accepterer også det gamle JSON-format.
-- **Hent kladde** gemmer en uafsluttet kladde, som kan importeres i underviserfunktionen på en anden enhed.
-- **Hent fuld sikkerhedskopi** indeholder indhold, progression, svar, refleksioner og kladder. **Gendan sikkerhedskopi** erstatter lokale data efter en tydelig bekræftelse. Del kun kopien, hvis alt indhold må deles.
-- **Hent forrige indholdsudgave** henter den automatiske kopi fra før seneste ændring af det gemte undervisningsindhold. Den er ikke en komplet versionshistorik. Kladdens **Fortryd** gemmes ikke på tværs af genindlæsninger.
-- Import og eksport understøtter filer op til 50 MB. Billedupload er stadig højst 1 MB pr. billede. Browserens lagerplads varierer.
+Undervisersiden er begrænset til oprettelse, redigering og sletning af læringsstier og kladder. Der er ingen knapper til import, eksport, kladdedownload, sikkerhedskopier eller indholdsopdateringer. Automatisk lagring og den interne kopi fra før seneste indholdsændring bevares. Kladdens **Fortryd** gemmes ikke på tværs af genindlæsninger. Billedupload er stadig højst 1 MB pr. billede.
 
-Ved opgradering flyttes eksisterende lokale data automatisk. De gamle localStorage-nøgler efterlades urørte som ekstra sikkerhed. Ukendte eller beskadigede data giver en gendannelsesside med download af originalen frem for en tom app eller automatisk overskrivning. Kan browseren ikke gemme, vises en fejl med mulighed for at prøve igen og hente en kopi; editoren holdes åben. Browseren advarer ved lukning, når der er ugemte ændringer. Flere faner kontrollerer versionsnummer ved skrivning: Ved konflikt skal arbejdet eksporteres, og siden genindlæses.
+Ved opgradering flyttes eksisterende lokale data automatisk. De gamle localStorage-nøgler efterlades urørte som ekstra sikkerhed. Ukendte eller beskadigede data giver en gendannelsesside med download af originalen frem for en tom app eller automatisk overskrivning. Kan browseren ikke gemme, vises en fejl med mulighed for at prøve igen; editoren holdes åben. Browseren advarer ved lukning, når der er ugemte ændringer. Flere faner kontrollerer versionsnummer ved skrivning: Ved konflikt skal eventuel ugemt tekst kopieres til et dokument, før siden genindlæses.
 
 Trin, spørgsmål og svarmuligheder har stabile ID'er. Titelændringer og omrokering bevarer progression. Ændres fagligt indhold, fjernes kun gennemførelse og quizsvar på de berørte trin. Refleksioner bevares, også i sikkerhedskopien for fjernede trin. Gamle quizsvar arkiveres i sikkerhedskopien. Progression er fortsat gennemførte trin, ikke en vurdering af klinisk kompetence.
 
-Fremtidige versioner af indbyggede stier tilbydes i underviseroversigten, når deres indholdsversion hæves i projektet. En accepteret opdatering bevarer den lokale udgave som en separat kopi med noter og progression. Den nye udgave starter uden progression. Der ændres ikke automatisk i lokalt tilpasset undervisningsindhold.
+Indbyggede stier og lokale tilpasninger bevares. Ændringer af det fælles undervisningsindhold håndteres i projektets kildefiler og udgives via GitHub Pages.
 
 Underviserfunktionen har fortsat en lokal kodelås. Koden kontrolleres i browseren og kan læses i kildekoden; den er ikke sikker autentifikation. Genindlæsning låser adgangen. Rigtig adgangskontrol og fælles redigering på tværs af enheder kræver en separat løsning. Ændringer i editoren offentliggøres ikke automatisk på GitHub Pages.
 
@@ -68,7 +64,7 @@ Demoen er undervisningsmateriale med en fiktiv case. Fagindholdet bør gennemgå
 - `npm run build`: syntakskontrol af alle moduler og statisk output. Filadresser indeholder et indholdshash, så en ny udgave ikke blandes med gamle browsercachede moduler.
 - `npm run test:browser`: samlet Playwright-test mod en lokal server. Se nedenfor.
 
-Appen anvender hash-links til læringsstier og trin, så bogmærker, browserens Tilbage/Frem og genindlæsning fungerer på GitHub Pages uden særlig 404-omdirigering. En undervisers lokale sti kan kun åbnes på en anden enhed, hvis indholdet er importeret eller udgivet dér. Mobilens trinoversigt kan foldes ud; tastaturfokus flyttes til nyt indhold eller quizfeedback. Der er genvej til hovedindhold og synlige fokusmarkeringer.
+Appen anvender hash-links til læringsstier og trin, så bogmærker, browserens Tilbage/Frem og genindlæsning fungerer på GitHub Pages uden særlig 404-omdirigering. En undervisers lokale sti kan kun åbnes på en anden enhed, hvis indholdet er udgivet dér. Mobilens trinoversigt kan foldes ud; tastaturfokus flyttes til nyt indhold eller quizfeedback. Der er genvej til hovedindhold og synlige fokusmarkeringer.
 
 ## Udgiv gratis med GitHub Pages
 
@@ -94,14 +90,14 @@ Fremover tester, bygger og udgiver workflowen automatisk ved ændringer på `mai
 - **404 / siden findes ikke:** Kontrollér Pages-kilden og at den seneste **deploy** er grøn. Vent et par minutter efter udgivelsen, og genindlæs siden.
 - **Rød workflow:** Klik den røde kørsel under **Actions**, åbn jobbet med fejlen og se det røde trin. Fejl ved **Klargør GitHub Pages** skyldes ofte, at Pages endnu ikke er aktiveret.
 - **Mangler Settings eller Pages:** Log ind som repositoryets ejer/administrator. På en gratis konto skal repositoryet være offentligt for at bruge Pages gratis.
-- **Underviserændringer ses kun hos dig:** Det er forventet i prototypen. De gemmes lokalt og ændrer ikke GitHub-filerne. Brug eksport/import for at dele dem. Lokale fremskridt fra udviklingsadressen flytter heller ikke automatisk til Pages-adressen.
+- **Underviserændringer ses kun hos dig:** Det er forventet i prototypen. De gemmes lokalt og ændrer ikke GitHub-filerne. Fælles ændringer skal indarbejdes i projektfilerne og udgives på ny. Lokale fremskridt fra udviklingsadressen flytter heller ikke automatisk til Pages-adressen.
 - **Video/podcast virker ikke:** Eksterne udbydere kan begrænse afspilning eller fjerne indhold. Demoens tekst og quiz kræver ingen eksterne medier.
 
 Appens visninger åbnes i samme HTML-side. Relative filadresser gør, at navigation, genindlæsning, CSS og JavaScript virker både på en lokal adresse og i repositoryets undermappe; der kræves ingen særlig 404-omdirigering.
 
 ### Browsertest
 
-`tests-browser/acceptance.cjs` samler test af kladder, kodelås, migration, lagringsfejl, sikkerhedskopier, import/eksport, elevprogression, alle 56 spørgsmål på 3. og 5. semester, browserhistorik, dybe links, fokus og mobilvisning. Kør mod en lokal server med Playwright og Chromium installeret:
+`tests-browser/acceptance.cjs` samler test af kladder, kodelås, migration, lagringsfejl, oprettelse/redigering/sletning, elevprogression, alle 56 spørgsmål på 3. og 5. semester, browserhistorik, dybe links, fokus og mobilvisning. Kør mod en lokal server med Playwright og Chromium installeret:
 
 ```sh
 PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=http://localhost:3000 npm run test:browser
@@ -146,7 +142,7 @@ Vælg **5. semester → Sygepleje → Akut og kritisk sygepleje – fra vurderin
 
 De 12 trin følger fire kliniske temaer: akut abdomen/peritonitis, akut koronart syndrom, livstruende infektion og det akut syge barn/familien. 36 casebaserede spørgsmål kobles med 12 refleksionsopgaver og udfoldelige refleksionsguider. Forløbet omfatter også omsorg, etik, sundhedsulighed, kultur, pædagogik, forskningsmetoder, IMRaD, klinisk lederskab og kvalitetsudvikling. Vejledende tid er 120 minutter plus eventuel litteraturlæsning og drøftelse.
 
-Refleksionsguiderne kan redigeres i underviserfunktionen og følger med import/eksport. Refleksionerne gemmes lokalt og bedømmes ikke automatisk. Cases og spørgsmål er udarbejdet til øvelsen og er ikke officielle eksamensopgaver eller en klinisk instruks. Læringsstien er et øvelsesforløb med fokus på centrale læringsmål, ikke en fuldstændig erstatning for pensum, simulation eller klinisk uddannelse.
+Refleksionsguiderne kan redigeres i underviserfunktionen. Refleksionerne gemmes lokalt og bedømmes ikke automatisk. Cases og spørgsmål er udarbejdet til øvelsen og er ikke officielle eksamensopgaver eller en klinisk instruks. Læringsstien er et øvelsesforløb med fokus på centrale læringsmål, ikke en fuldstændig erstatning for pensum, simulation eller klinisk uddannelse.
 
 Se [koblingen mellem trin, fag og semesterbeskrivelse](docs/semester5-e26.md). Indholdet ligger i `public/semester5.js`. `tests-browser/semester5.cjs` afprøver alle 36 svar og 12 refleksionsguider samt bevarelse af eksisterende data, redigering og mobilvisning med samme miljøvariabler som de øvrige browsertests.
 
