@@ -16,7 +16,7 @@ const assert=require('node:assert/strict');
   });
   await page.reload();
   const saved=await page.evaluate(()=>({paths:JSON.parse(localStorage.getItem('paths-v1')),progress:JSON.parse(localStorage.getItem('progress-v1'))}));
-  assert.equal(saved.paths.length,3);assert.equal(saved.paths[0].title,'Min lokale demo');assert.equal(saved.paths[1].steps[0].text,'Min egen tekst');
+  assert.equal(saved.paths.length,4);assert.equal(saved.paths[0].title,'Min lokale demo');assert.equal(saved.paths[1].steps[0].text,'Min egen tekst');
   assert.deepEqual(saved.progress.fordoejelse,{done:[0],last:1,notes:{4:'Min refleksion'}});
   const path=saved.paths.find(p=>p.semester===3&&p.subject==='Farmakologi');assert.ok(path);
   await page.locator('[data-semester="3"]').click();await page.locator('[data-subject="Farmakologi"]').click();

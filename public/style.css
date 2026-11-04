@@ -17,3 +17,6 @@ input[aria-invalid="true"]{border:2px solid var(--ink)}
 ::selection{background:var(--ucn-turquoise-light);color:var(--ink)}
 
 .question-source{font-size:11px;color:var(--muted);margin:0 0 12px}
+
+.reflection-guide{border:1px solid var(--control-border);border-radius:8px;margin-top:20px;background:var(--surface-soft);padding:16px 20px}
+.reflection-guide summary{cursor:pointer;font-weight:600;font-size:13px}.reflection-guide[open] summary{margin-bottom:16px}.reflection-guide summary:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
