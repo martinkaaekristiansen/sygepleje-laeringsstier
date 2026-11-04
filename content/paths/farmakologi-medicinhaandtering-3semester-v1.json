@@ -1,0 +1,555 @@
+{
+  "format": "laeringssti-publication-v1",
+  "revision": "73c14f9dc623c99cee3c19f2a7440d48c4fd686b00ac09bf9e83f59c66b99145",
+  "sequence": 1,
+  "status": "published",
+  "updatedAt": "2026-11-04T18:46:44.621Z",
+  "path": {
+    "id": "farmakologi-medicinhaandtering-3semester-v1",
+    "title": "Medicinhåndtering og farmakologi",
+    "description": "Træn medicinregning og farmakologi med 20 udvalgte prøveopgaver, feedback og forklaringer.",
+    "semester": 3,
+    "subject": "Farmakologi",
+    "subjects": [
+      "Farmakologi"
+    ],
+    "contentVersion": 1,
+    "steps": [
+      {
+        "id": "farmakologi-medicinhaandtering-3semester-v1:s1",
+        "title": "Prøveopgaver 1–5",
+        "type": "quiz",
+        "text": "20 tilfældigt udvalgte multiple-choice-opgaver fra Medicinhåndteringsprøver.docx. Vælg ét svar pr. spørgsmål, og læs forklaringen. Udvalget er fast, så du kan genoptage forløbet.\n\nDokumentet indeholder ikke et facit. Øvelsesfacit og forklaringer er udarbejdet til denne læringssti og bør fagligt gennemgås af en underviser. Beregningerne er undervisningsøvelser, ikke ordinationer. Procentstyrker forstås her som masse/volumen (g pr. 100 ml).",
+        "questions": [
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s1:q1",
+            "q": "En patient ordineres infusion med 50 mg af et lægemiddel. Infusionen skal gives med en hastighed på 2 mg/min. Hvor lang tid vil infusionen tage?",
+            "a": [
+              "1 time og 40 minutter",
+              "50 minutter",
+              "30 minutter",
+              "25 minutter"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q1:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q1:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q1:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q1:a4"
+            ],
+            "correct": 3,
+            "why": "Tiden findes ved at dividere den samlede mængde med hastigheden: 50 mg ÷ 2 mg/min = 25 minutter. Enheden mg forkortes væk, så resultatet bliver minutter. De øvrige tidsangivelser giver ikke den ordinerede mængde ved denne hastighed.",
+            "source": "Medicinhåndteringsprøve februar 2023 · opgave 5",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s1:q2",
+            "q": "Suppositorier er lægemidler som:",
+            "a": [
+              "Skal optages over mundslimhinden",
+              "Skal indføres i rektum",
+              "Er beregnet til parenteral indgift",
+              "Skal indtages med et stort glas vand"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q2:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q2:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q2:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q2:a4"
+            ],
+            "correct": 1,
+            "why": "Suppositorier er stikpiller, der indføres i rektum. De optages ikke over mundslimhinden og skal ikke synkes. Rektal administration regnes som enteral, ikke parenteral.",
+            "source": "Medicinhåndteringsprøve november 2020 · opgave 16",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s1:q3",
+            "q": "Hvilken af nedenstående administrationsmåder gennemgår IKKE en absorptionsfase",
+            "a": [
+              "Peroral administration af tabletter",
+              "Intravenøs administration af morfin",
+              "Subcutan administration af haloperidol",
+              "Intramuskulær administration af covid-19 vaccine"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q3:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q3:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q3:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q3:a4"
+            ],
+            "correct": 1,
+            "why": "Ved intravenøs administration gives lægemidlet direkte i blodbanen, så der ikke er en absorptionsfase. Ved peroral, subkutan og intramuskulær administration skal lægemidlet først optages fra administrationsstedet til blodbanen.",
+            "source": "Medicinhåndteringsprøve november 2022 · opgave 13",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s1:q4",
+            "q": "Hvad betyder biotilgængelighed af et præparat?",
+            "a": [
+              "Det betyder, hvor stor en procentdel af præparatet, der når målorganet",
+              "Det betyder, hvor stor en procentdel af et præparat, som efter administration, findes uomdannet i blodbanen",
+              "Det betyder, hvor stor en procentdel af et præparat, som undergår first-pass metabolisme i leveren",
+              "Det betyder, hvor stor en procentdel af et præparat, som konstant er tilgængelig i blodbanen efter indgift i en given periode"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q4:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q4:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q4:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q4:a4"
+            ],
+            "correct": 1,
+            "why": "Biotilgængelighed er den andel af en administreret dosis, der når det systemiske kredsløb i uomdannet form. Det er ikke det samme som andelen i målorganet, andelen der nedbrydes ved first-pass-metabolisme eller en konstant koncentration over tid.",
+            "source": "Medicinhåndteringsprøve november 2020 · opgave 14",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s1:q5",
+            "q": "10 % svarer til:",
+            "a": [
+              "100 mg/ml",
+              "100 g/ml",
+              "10 mg/ml",
+              "10 g/ml"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q5:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q5:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q5:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s1:q5:a4"
+            ],
+            "correct": 0,
+            "why": "I denne beregningsopgave forstås procent som masse/volumen: 10 % = 10 g pr. 100 ml = 10.000 mg ÷ 100 ml = 100 mg/ml. De øvrige svar skyldes forkerte omregninger mellem gram, milligram og milliliter.",
+            "source": "Medicinhåndteringsprøve november 2021 · opgave 3",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        ]
+      },
+      {
+        "id": "farmakologi-medicinhaandtering-3semester-v1:s2",
+        "title": "Prøveopgaver 6–10",
+        "type": "quiz",
+        "text": "Fortsæt med opgave 6–10. Vælg ét svar til hver opgave. Procentstyrker forstås som masse/volumen. Forklaringerne er udarbejdet til øvelsen; dokumentet indeholder ikke et facit.",
+        "questions": [
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s2:q1",
+            "q": "0,65 liter er:",
+            "a": [
+              "0,065 ml",
+              "6,5 ml",
+              "65 ml",
+              "650 ml"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q1:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q1:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q1:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q1:a4"
+            ],
+            "correct": 3,
+            "why": "1 liter = 1.000 ml. Derfor er 0,65 liter × 1.000 ml/liter = 650 ml. De øvrige svar er for små med henholdsvis en faktor 10.000, 100 og 10.",
+            "source": "Medicinhåndteringsprøve november 2022 · opgave 1",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s2:q2",
+            "q": "Hvilket udsagn om insulin er sandt?",
+            "a": [
+              "Hurtigt virkende insulin må ikke gives intravenøst (i.v.)",
+              "Hurtigtvirkende insulinanaloger skal tages ½ time før et måltid",
+              "Glukokortikoider øger virkningen af insulin",
+              "Non-selektive beta-blokkere øger risikoen for hypoglykæmi"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q2:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q2:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q2:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q2:a4"
+            ],
+            "correct": 3,
+            "why": "Non-selektive betablokkere kan hæmme kroppens modregulation ved lavt blodsukker og maskere advarselssymptomer på hypoglykæmi. Visse hurtigtvirkende insulinpræparater kan gives intravenøst efter ordination. Hurtigtvirkende insulinanaloger gives typisk tæt på måltidet, og glukokortikoider kan øge blodsukkeret og insulinbehovet. Administrationsvej og tidspunkt afhænger altid af det konkrete præparat.",
+            "source": "Medicinhåndteringsprøve november 2020 · opgave 25",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s2:q3",
+            "q": "IE er en enhed for:",
+            "a": [
+              "Dosis",
+              "Volumen",
+              "Styrke",
+              "Hastighed"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q3:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q3:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q3:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q3:a4"
+            ],
+            "correct": 0,
+            "why": "IE står for internationale enheder og angiver biologisk aktivitet. Blandt svarmulighederne bruges IE til at angive en dosis. En styrke kan fx angives i IE/ml, mens volumen angives i ml og en hastighed fx i ml/time.",
+            "source": "Medicinhåndteringsprøve november 2023 · opgave 2",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s2:q4",
+            "q": "Du skal fremstille en injektionsvæske ved at opløse 25 mg tørstof i 10 ml isotonisk natriumklorid. Hvad bliver styrken på opløsningen?",
+            "a": [
+              "0,25 mg/ml",
+              "0,4 mg/ml",
+              "2,5 mg/ml",
+              "25 mg/ml",
+              "40 mg/ml"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q4:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q4:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q4:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q4:a4",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q4:a5"
+            ],
+            "correct": 2,
+            "why": "Styrke = mængde ÷ volumen = 25 mg ÷ 10 ml = 2,5 mg/ml. Beregningen forudsætter, at opløsningens slutvolumen er 10 ml som antaget i opgaven. De øvrige tal følger ikke denne division. Ved faktisk rekonstitution skal præparatets vejledning for slutvolumen og styrke følges.",
+            "source": "Medicinhåndteringsprøve november 2020 · opgave 6",
+            "explanations": [
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s2:q5",
+            "q": "Hvilket udsagn om diuretika er sandt?",
+            "a": [
+              "Loop-diuretika kan anvendes til patienter med svært nedsat nyrefunktion",
+              "Thiazider kan medføre hyperkaliæmi",
+              "Kaliumbesparende diuretika hæmmer reabsorptionen af natrium i Henles slynge",
+              "Loop-diuretika har en meget lav natriuretisk effektivitet"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q5:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q5:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q5:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s2:q5:a4"
+            ],
+            "correct": 0,
+            "why": "Loop-diuretika kan anvendes ved svært nedsat nyrefunktion; den konkrete behandling afhænger af patienten. De har høj natriuretisk effekt. Thiazider kan typisk give hypokaliæmi, og kaliumbesparende diuretika virker distalt i nefronet, ikke i Henles slynge.",
+            "source": "Medicinhåndteringsprøve november 2020 · opgave 26",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        ]
+      },
+      {
+        "id": "farmakologi-medicinhaandtering-3semester-v1:s3",
+        "title": "Prøveopgaver 11–15",
+        "type": "quiz",
+        "text": "Fortsæt med opgave 11–15. Vælg ét svar til hver opgave. Procentstyrker forstås som masse/volumen. Forklaringerne er udarbejdet til øvelsen; dokumentet indeholder ikke et facit.",
+        "questions": [
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s3:q1",
+            "q": "1 % svarer til:",
+            "a": [
+              "100 g/ml",
+              "10 mg/ml",
+              "10 mikrogram/ml",
+              "1 g/ml"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q1:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q1:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q1:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q1:a4"
+            ],
+            "correct": 1,
+            "why": "I denne beregningsopgave forstås procent som masse/volumen: 1 % = 1 g pr. 100 ml = 1.000 mg ÷ 100 ml = 10 mg/ml. Det er derfor hverken 100 g/ml, 10 mikrogram/ml eller 1 g/ml.",
+            "source": "Medicinhåndteringsprøve november 2020 · opgave 3",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s3:q2",
+            "q": "En ældre patient har fået morfin efter en operation. Personalet får ikke informeret patienten om at han ikke selv må stå ud af sengen den første nat efter operationen, da patienten er svimmel og man vil forebygge fald. Patienten står ud af sengen den første nat for at gå på toilettet, men falder og brækker hoften. Hvordan vil du beskrive det skete?",
+            "a": [
+              "Som manglende compliance fra patientens side",
+              "Som en bivirkning",
+              "Som en skadevoldende utilsigtet hændelse",
+              "Som en nærhændelse"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q2:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q2:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q2:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q2:a4"
+            ],
+            "correct": 2,
+            "why": "Patienten kommer til skade i forbindelse med behandlingsforløbet, hvor relevant information og faldforebyggelse svigter. Hændelsen beskrives derfor bedst som en skadevoldende utilsigtet hændelse. Det er ikke en nærhændelse, fordi skaden faktisk sker, og patienten kan ikke forventes at følge en instruktion, som ikke er givet.",
+            "source": "Medicinhåndteringsprøve februar 2023 · opgave 18",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s3:q3",
+            "q": "En patient skal have 1 mg af et lægemiddel, som har styrken 2 mg/ml. Hvor mange ml skal patienten have?",
+            "a": [
+              "0,5 ml",
+              "1 ml",
+              "2 ml",
+              "5 ml"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q3:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q3:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q3:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q3:a4"
+            ],
+            "correct": 0,
+            "why": "Volumen = dosis ÷ styrke = 1 mg ÷ 2 mg/ml = 0,5 ml. Kontrol: 0,5 ml × 2 mg/ml = 1 mg. De øvrige volumener ville give mere end den ordinerede dosis.",
+            "source": "Medicinhåndteringsprøve november 2020 · opgave 4",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s3:q4",
+            "q": "Hvilket udsagn er sandt?",
+            "a": [
+              "Ved teratogen virkning forstås at lægemidlet er kræftfremkaldende",
+              "Allergiske reaktioner kan mindskes ved at reducere dosis",
+              "Fysisk afhængighed behandles med langsom udtrapning",
+              "Ved toleranceudvikling skal dosis reduceres for at opnå samme effekt"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q4:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q4:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q4:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q4:a4"
+            ],
+            "correct": 2,
+            "why": "Ved fysisk afhængighed kan gradvis, individuelt planlagt udtrapning mindske abstinenser. Teratogen betyder fosterskadende, ikke kræftfremkaldende. Allergiske reaktioner forebygges ikke pålideligt ved at sænke dosis. Tolerance betyder typisk, at samme dosis giver mindre effekt; dosisændringer kræver en klinisk vurdering.",
+            "source": "Medicinhåndteringsprøve februar 2021 · opgave 13",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s3:q5",
+            "q": "Hvilket udsagn om antineoplastiske lægemidler er sandt?",
+            "a": [
+              "Neuropatiske smerter er en generel bivirkning til cytostatikabehandling",
+              "De alkylerende cytostatika er karcinogene og øger risikoen for sekundær cancer",
+              "Leukopeni er en bivirkning som oftest ses ved behandling med de antineoplastiske antistoffer",
+              "Det hårtab, som ses ved behandling med en del cytostatika, er irreversibelt"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q5:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q5:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q5:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s3:q5:a4"
+            ],
+            "correct": 1,
+            "why": "Alkylerende cytostatika kan skade DNA og øge risikoen for sekundær cancer. Neuropati og udtalt leukopeni afhænger af det konkrete præparat og er ikke korrekt beskrevet som i de øvrige svar. Hårtab ved cytostatika er oftest reversibelt, selv om vedvarende hårtab kan forekomme ved nogle behandlinger.",
+            "source": "Medicinhåndteringsprøve november 2024 · opgave 22",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        ]
+      },
+      {
+        "id": "farmakologi-medicinhaandtering-3semester-v1:s4",
+        "title": "Prøveopgaver 16–20",
+        "type": "quiz",
+        "text": "Fortsæt med opgave 16–20. Vælg ét svar til hver opgave. Procentstyrker forstås som masse/volumen. Forklaringerne er udarbejdet til øvelsen; dokumentet indeholder ikke et facit.",
+        "questions": [
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s4:q1",
+            "q": "Hvilket udsagn om antidiabetika er sandt?",
+            "a": [
+              "Patienter i metforminbehandling skal have kontrolleret deres nyrefunktion mindst én gang om året",
+              "Hypoglykæmi er en almindelig bivirkning ved monoterapi med GLP-1-analoger",
+              "Insulinbehovet er nedsat i forbindelse med større operationer",
+              "SGLT-2-inhibitorer giver ofte en vægtøgning på op til 2-3 kg"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q1:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q1:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q1:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q1:a4"
+            ],
+            "correct": 0,
+            "why": "Nyrefunktionen skal kontrolleres før og under metforminbehandling, som udgangspunkt mindst årligt og hyppigere ved øget risiko eller nedsat nyrefunktion. GLP-1-analoger alene giver normalt lav risiko for hypoglykæmi. Større operationer kan øge insulinbehovet, og SGLT-2-hæmmere giver typisk et mindre vægttab frem for vægtøgning.",
+            "source": "Medicinhåndteringsprøve november 2021 · opgave 22",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s4:q2",
+            "q": "Hvilket udsagn om kræftbehandling er sandt?",
+            "a": [
+              "Cytostatika bør ikke kombineres, da det øger risikoen for resistens",
+              "Inden behandling med cytostatika vil man ofte tage en blodprøve for at bestemme trombocyt- og leukocyttal",
+              "En kvinde, der er i cytostatikabehandling, må godt amme",
+              "En generel bivirkning til cytostatikabehandling er lungefibrose"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q2:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q2:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q2:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q2:a4"
+            ],
+            "correct": 1,
+            "why": "Mange cytostatika hæmmer knoglemarven. Derfor kontrolleres blandt andet trombocyt- og leukocyttal før behandlingen. Cytostatika kombineres ofte for at øge effekt og modvirke resistens. Amning er som udgangspunkt uforenelig med cytostatikabehandling, og lungefibrose er en præparatspecifik risiko, ikke en generel bivirkning til alle cytostatika.",
+            "source": "Medicinhåndteringsprøve november 2025 · opgave 17",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s4:q3",
+            "q": "Hvad er et prodrug?",
+            "a": [
+              "Det er et lægemiddel, der aktiveres efter indgift, hvorefter det kan udøve sin virkning i organismen",
+              "Det er et lægemiddel, der administreres sammen med et andet lægemiddel for at fremme dets virkning",
+              "Det er et lægemiddel, der særdeles hurtigt absorberes til virkningsstedet",
+              "Det er et lægemiddel, der hurtigt elimineres fra kroppen"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q3:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q3:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q3:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q3:a4"
+            ],
+            "correct": 0,
+            "why": "Et prodrug omdannes i kroppen til en aktiv forbindelse, som giver den tilsigtede virkning. Betegnelsen handler ikke om samtidig administration med et andet lægemiddel eller om særlig hurtig absorption eller elimination.",
+            "source": "Medicinhåndteringsprøve februar 2021 · opgave 15",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s4:q4",
+            "q": "En patient skal have en infusion med 40 mg af et lægemiddel. Infusionen skal gives med en hastighed på 10 mg/time. Hvor lang tid tager infusionen?",
+            "a": [
+              "15 minutter",
+              "25 minutter",
+              "2 timer",
+              "4 timer"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q4:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q4:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q4:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q4:a4"
+            ],
+            "correct": 3,
+            "why": "Tid = samlet mængde ÷ hastighed = 40 mg ÷ 10 mg/time = 4 timer. Ved 2 timer gives kun 20 mg; ved 15 og 25 minutter gives endnu mindre. Enhedskontrollen giver timer.",
+            "source": "Medicinhåndteringsprøve november 2021 · opgave 6",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "farmakologi-medicinhaandtering-3semester-v1:s4:q5",
+            "q": "En patient får ved en fejl 10 ml morfin med styrken 20 mg/ml. Hvor mange mg morfin har patienten fået?",
+            "a": [
+              "0,5 mg",
+              "10 mg",
+              "20 mg",
+              "200 mg"
+            ],
+            "optionIds": [
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q5:a1",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q5:a2",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q5:a3",
+              "farmakologi-medicinhaandtering-3semester-v1:s4:q5:a4"
+            ],
+            "correct": 3,
+            "why": "Mængde = volumen × styrke = 10 ml × 20 mg/ml = 200 mg. De øvrige svar undervurderer mængden. Opgaven beskriver en medicineringsfejl; tallet er en beregning af den givne mængde og ikke en dosisvejledning.",
+            "source": "Medicinhåndteringsprøve november 2020 · opgave 5",
+            "explanations": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

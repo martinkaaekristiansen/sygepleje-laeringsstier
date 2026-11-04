@@ -102,6 +102,15 @@ export function validateState(state) {
 }
 function validStateShape(state) {
   if (!object(state) || state.schemaVersion !== SCHEMA || !Number.isInteger(state.revision) || !Array.isArray(state.paths) || !object(state.progress) || !object(state.drafts) || !Array.isArray(state.installed) || !object(state.dismissedUpdates) || state.installed.some(v=>!id(v))) return false;
+  if(state.publication!==undefined) {
+    const p=state.publication;
+    if(!object(p)||p.version!==1||!object(p.known)||!object(p.pending)||!object(p.history))return false;
+    const hash=v=>typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);
+    const validStored=(path,progress={})=>validStateShape({schemaVersion:SCHEMA,revision:0,paths:[path],progress,drafts:{},installed:[],dismissedUpdates:{}});
+    for(const [key,doc]of Object.entries(p.known))if(!id(key)||!object(doc)||doc.path?.id!==key||!hash(doc.revision)||!['published','withdrawn'].includes(doc.status)||!validStored(doc.path))return false;
+    for(const [key,pending]of Object.entries(p.pending))if(!id(key)||!object(pending)||!hash(pending.revision))return false;
+    for(const [key,entries]of Object.entries(p.history))if(!id(key)||!Array.isArray(entries)||entries.some(entry=>!object(entry)||entry.path?.id!==key||!Number.isFinite(entry.savedAt)||typeof entry.revision!=='string'||!validStored(entry.path,{[key]:entry.progress})))return false;
+  }
   if (state.paths.some(p=>!id(p.id) || pathErrors(p).length || !Number.isInteger(p.contentVersion)) || new Set(state.paths.map(p=>p.id)).size !== state.paths.length) return false;
   for (const p of state.paths) {
     if (new Set(p.steps.map(s=>s.id)).size !== p.steps.length) return false;

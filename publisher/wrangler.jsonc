@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "laeringsstier-publisher",
+  "main": "worker.js",
+  "compatibility_date": "2025-10-01",
+  "workers_dev": true,
+  "vars": {
+    "GITHUB_REPOSITORY": "martinkaaekristiansen/sygepleje-laeringsstier",
+    "GITHUB_BRANCH": "main",
+    "ALLOWED_ORIGIN": "https://martinkaaekristiansen.github.io"
+  },
+  "durable_objects": {"bindings": [{"name":"PUBLISHER","class_name":"Publisher"}]},
+  "migrations": [{"tag":"v1","new_sqlite_classes":["Publisher"]}],
+  "observability": {"enabled":false}
+}

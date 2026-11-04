@@ -1,6 +1,6 @@
 import {migrateLegacy,validateState,addNewBuiltins} from './model.js';
 export const DB_NAME='laeringsstier-v2';
-const keys=['paths','progress','drafts','installed','dismissedUpdates'];
+const keys=['paths','progress','drafts','installed','dismissedUpdates','publication'];
 const request = req => new Promise((resolve,reject)=>{req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
 const completed = tx => new Promise((resolve,reject)=>{tx.oncomplete=resolve;tx.onabort=()=>reject(tx.error||Error('Lagringen blev afbrudt.'));tx.onerror=()=>{};});
 export class StorageFailure extends Error {
@@ -52,7 +52,7 @@ export async function openStorage() {
         if(!replace && (initial?Boolean(meta.result):revision!==state.revision)) {conflict=true;tx.abort();return;}
         next={...state,revision:revision+1};
         if (cache && JSON.stringify(cache.paths)!==JSON.stringify(state.paths)) store.put(cache,'backup');
-        for(const key of keys) if(replace||!cache||JSON.stringify(cache[key])!==JSON.stringify(state[key])) store.put(state[key],key);
+        for(const key of keys) if(replace||!cache||JSON.stringify(cache[key])!==JSON.stringify(state[key])) state[key]===undefined?store.delete(key):store.put(state[key],key);
         store.put({schemaVersion:state.schemaVersion,revision:next.revision},'meta');
         if(legacy) store.put(legacy,'legacy');
         } catch {tx.abort();}

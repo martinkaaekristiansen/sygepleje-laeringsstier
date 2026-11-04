@@ -1,6 +1,8 @@
 # Læringsstier
 
-Dansk, mobilvenlig prototype til sygeplejestuderende. Kører uden elevlogin, serverdatabase, analyseværktøjer og betalte tjenester. Data gemmes lokalt i browseren.
+Dansk, mobilvenlig prototype til sygeplejestuderende. Kører uden elevlogin og analyseværktøjer. Progression og kladder gemmes lokalt i browseren. Godkendt undervisningsindhold kan udgives direkte fra editoren via en kodebeskyttet Cloudflare Worker og GitHub Pages. Løsningen er lavet til gratisabonnementerne.
+
+**Aktivér publicering:** Følg [opsætningsvejledningen uden programmering](docs/publicering.md). Serveren og dens hemmelige nøgler skal aktiveres af ejeren én gang, før appen kan publicere.
 
 ## Start
 
@@ -18,25 +20,28 @@ Serveren lytter på port 3000. Brug miljøets portvisning eller åbn `http://loc
 2. Gennemfør patientcasen, fagteksten, podcasttrinnet, quizzen og refleksionen.
 3. Gå tilbage til forsiden eller genindlæs og vælg **Fortsæt læringssti**.
 4. Åbn **Underviser**, indtast din underviserkode, og klik **Lås op** for at oprette eller redigere en læringssti. Pilene i editoren flytter trin. Brug **Lås underviseradgang**, når du er færdig. Genindlæsning låser også adgangen.
-5. Under **Multiple-choice spørgsmål** på hvert trin kan du klikke **Tilføj spørgsmål**. Udfyld spørgsmålet, mindst to svarmuligheder, korrekt svar og forklaring. Spørgsmål kan kombineres med alle indholdstyper: tekst, case, podcast, video, refleksion og quiz. Gem læringsstien til sidst. Eleven skal besvare alle spørgsmål på trinnet for at gennemføre det, men behøver ikke svare korrekt første gang.
+5. Under **Multiple-choice spørgsmål** på hvert trin kan du klikke **Tilføj spørgsmål**. Udfyld spørgsmålet, mindst to svarmuligheder, korrekt svar og forklaring. Spørgsmål kan kombineres med alle indholdstyper: tekst, case, podcast, video, refleksion og quiz. Gem som kladde, forhåndsvis og udgiv til sidst. Eleven skal besvare alle spørgsmål på trinnet for at gennemføre det, men behøver ikke svare korrekt første gang.
 6. Tilføj billedlinks eller upload PNG/JPEG/WebP på højst 1 MB. Video- og podcastfelter accepterer links, herunder YouTube. Direkte MP4/WebM- og lydlinks får en afspiller; andre links åbnes eksternt.
 7. Underviseroversigten bruges til at oprette, redigere og slette læringsstier. Kladder gemmes automatisk og kan genåbnes til videre redigering.
 
-## Editor, kladder og sikker lagring (version 0.2)
+## Editor, kladder og publicering (version 0.3)
 
 1. Åbn **Underviser**, og indtast koden **7269**.
 2. Vælg **Redigér** eller **Ny læringssti**. Udfyld titel, semester, fag og beskrivelse under **Om læringsstien**.
 3. Vælg et trin i oversigten. Kun dette trin vises i editoren. Brug skabelonvælgeren til case, fagtekst, podcast, quiz, refleksion eller video.
 4. Redigér spørgsmål, tilføj eller fjern svarmuligheder, og vælg det korrekte svar. Pilene flytter trin, spørgsmål og svar. Du kan duplikere trin og spørgsmål. **Fortryd seneste strukturændring** fortryder tilføjelser, fjernelser og flytninger, indtil editoren lukkes.
-5. Klik **Forhåndsvis trin** for at prøve indhold og quiz uden at ændre elevprogressionen.
+5. Klik **Forhåndsvis trin** eller **Forhåndsvis hele læringsstien** for at prøve indhold og quiz uden at ændre elevprogressionen.
 6. Kladder gemmes automatisk. Vent på **Kladde gemt på denne enhed**, før du lukker browseren. Du kan fortsætte en kladde efter genindlæsning ved at låse underviserfunktionen op igen.
-7. Klik **Gem læringssti** for at opdatere elevvisningen på denne enhed. Manglende felter vises i en fejloversigt med trinnummer. Lukning af en kladde sletter den ikke; den kan slettes særskilt i underviseroversigten.
+7. Klik **Gem kladde** for at gemme uden at offentliggøre. Kladden kan slettes særskilt i underviseroversigten.
+8. Klik **Udgiv læringssti**, indtast den ekstra udgivelseskode og godkend aktivt. Manglende felter vises i en fejloversigt. Den korte underviserkode kan ikke publicere.
+9. Appen viser **Afventer udgivelse**, indtil **Opdatér offentlig oversigt** finder den samme udgave på den offentlige hjemmeside. GitHub Actions bygger og udgiver automatisk; der skal ikke merges i GitHub ved almindelige indholdsændringer.
+10. **Træk tilbage** fjerner en offentlig sti efter samme godkendelsesforløb. Tidligere indhold og lokal progression bevares.
 
 ## Flere fagområder på samme læringssti
 
-Under **Om læringsstien → Fagområder** kan underviseren sætte kryds ved ét eller flere fag. Skriv et manglende fag i **Mangler et fag?**, og klik **Tilføj fag** (eller tryk Enter). Det nye fag vælges automatisk. Gem læringsstien for at vise den til de studerende på denne enhed.
+Under **Om læringsstien → Fagområder** kan underviseren sætte kryds ved ét eller flere fag. Skriv et manglende fag i **Mangler et fag?**, og klik **Tilføj fag** (eller tryk Enter). Det nye fag vælges automatisk. Udgiv læringsstien for at vise den til alle studerende.
 
-Stien vises under hvert valgt fag og kun én gang under **Alle fagområder**. Nye fag vises som filtre på det semester, hvor der er en gemt læringssti med faget. En kladde tilføjer ikke fag til elevoversigten. Flyttes stien til et andet semester, følger fagene med. Fjernes fagtilknytningen eller den sidste sti med et nyt fag på et semester, fjernes det pågældende filter dér. Også de oprindelige fagfiltre skjules, hvis der ikke er en gemt læringssti i faget på semesteret. »Alle fagområder« er altid tilgængelig. Underviserens fagvælger beholder alle standardfag.
+Stien vises under hvert valgt fag og kun én gang under **Alle fagområder**. Nye fag vises som filtre på det semester, hvor der er en offentlig læringssti med faget. En kladde tilføjer ikke fag til elevoversigten. Flyttes stien til et andet semester, følger fagene med. Fjernes fagtilknytningen eller den sidste sti med et nyt fag på et semester, fjernes det pågældende filter dér. Også de oprindelige fagfiltre skjules, hvis der ikke er en offentlig læringssti i faget på semesteret. »Alle fagområder« er altid tilgængelig. Underviserens fagvælger beholder alle standardfag.
 
 Egne fag kan genbruges i editoren på tværs af semestre. Ekstra mellemrum og forskelle i store/små bogstaver opretter ikke dubletter. Navne må være op til 80 tegn. Der skal være mindst ét fag på en gemt sti; kladder må midlertidigt have ingen valgte fag. Eksisterende stier med ét fag virker fortsat. Ændringer af fag og semester bevarer progressionen.
 
@@ -50,17 +55,17 @@ Underviseren kan skrive en **Forklaring til svar A/B/C…** under hver svarmulig
 
 ## Lokal lagring og afgrænsning
 
-Læringsstier, kladder, gennemførte trin, quizsvar og refleksioner gemmes i **IndexedDB** i den aktuelle browser på den aktuelle webadresse. Der sendes ingen data til en backend. Undlad patientoplysninger og andre personoplysninger. Sletning af browserens webstedsdata fjerner lokal lagring.
+Læringsstier, kladder, gennemførte trin, quizsvar og refleksioner gemmes i **IndexedDB** i den aktuelle browser på den aktuelle webadresse. Kun den aktivt godkendte læringsstis undervisningsindhold sendes til publiceringsserveren og GitHub. Progression, quizsvar og refleksioner sendes ikke med. Undlad patientoplysninger og andre personoplysninger. Sletning af browserens webstedsdata fjerner lokal lagring.
 
-Undervisersiden er begrænset til oprettelse, redigering og sletning af læringsstier og kladder. Der er ingen knapper til import, eksport, kladdedownload, sikkerhedskopier eller indholdsopdateringer. Automatisk lagring og den interne kopi fra før seneste indholdsændring bevares. Kladdens **Fortryd** gemmes ikke på tværs af genindlæsninger. Billedupload er stadig højst 1 MB pr. billede.
+Undervisersiden er begrænset til oprettelse, redigering og sletning af læringsstier og kladder. Der er ingen knapper til import, eksport, kladdedownload eller sikkerhedskopier. Offentlige udgaver kan opdateres fra oversigten. Automatisk lagring og den interne kopi fra før seneste indholdsændring bevares. Kladdens **Fortryd** gemmes ikke på tværs af genindlæsninger. Billedupload er stadig højst 1 MB pr. billede.
 
 Ved opgradering flyttes eksisterende lokale data automatisk. De gamle localStorage-nøgler efterlades urørte som ekstra sikkerhed. Ukendte eller beskadigede data giver en gendannelsesside med download af originalen frem for en tom app eller automatisk overskrivning. Kan browseren ikke gemme, vises en fejl med mulighed for at prøve igen; editoren holdes åben. Browseren advarer ved lukning, når der er ugemte ændringer. Flere faner kontrollerer versionsnummer ved skrivning: Ved konflikt skal eventuel ugemt tekst kopieres til et dokument, før siden genindlæses.
 
-Trin, spørgsmål og svarmuligheder har stabile ID'er. Titelændringer og omrokering bevarer progression. Ændres fagligt indhold, fjernes kun gennemførelse og quizsvar på de berørte trin. Refleksioner bevares, også i sikkerhedskopien for fjernede trin. Gamle quizsvar arkiveres i sikkerhedskopien. Progression er fortsat gennemførte trin, ikke en vurdering af klinisk kompetence.
+Trin, spørgsmål og svarmuligheder har stabile ID'er. Titelændringer og omrokering bevarer progression. Ændres fagligt indhold, fjernes kun gennemførelse og quizsvar på de berørte trin. Refleksioner bevares, også i sikkerhedskopien for fjernede trin. Gamle quizsvar arkiveres lokalt og vises under **Tidligere udgaver og besvarelser** på læringsstien. Progression er fortsat gennemførte trin, ikke en vurdering af klinisk kompetence.
 
-Indbyggede stier og lokale tilpasninger bevares. Ændringer af det fælles undervisningsindhold håndteres i projektets kildefiler og udgives via GitHub Pages.
+Eksisterende indhold og ID’er er bevaret i `content/paths/`. Tidligere lokale tilpasninger flyttes til kladder ved første katalogopdatering, så de kan gennemgås og udgives. Nye offentlige udgaver indlæses ved genindlæsning eller opdatering af oversigten. Ved netværksfejl bevares det lokale indhold. Ændringer af fælles undervisningsindhold udgives fra editoren via GitHub Pages.
 
-Underviserfunktionen har fortsat en lokal kodelås. Koden kontrolleres i browseren og kan læses i kildekoden; den er ikke sikker autentifikation. Genindlæsning låser adgangen. Rigtig adgangskontrol og fælles redigering på tværs af enheder kræver en separat løsning. Ændringer i editoren offentliggøres ikke automatisk på GitHub Pages.
+Underviserfunktionen har fortsat en lokal kodelås. Koden kontrolleres i browseren og kan læses i kildekoden; den er ikke sikker autentifikation. Genindlæsning låser adgangen. Publicering bruger en separat kode, der kontrolleres af Cloudflare-serveren. Koden og GitHub-nøglen opbevares kun som serverhemmeligheder. Kladder deles ikke mellem enheder. Hvis en anden underviser har udgivet en nyere version, kræves en sammenligning og aktiv godkendelse før overskrivning.
 
 Demopodcasten er browseroplæsning af den medfølgende tekst, ikke en indspillet lydfil. Dansk stemme og oplæsning afhænger af browserens installerede stemmer. Teksten er altid tilgængelig. Videoer og podcastlinks indlæses efter brugerens klik og kan involvere eksterne udbydere; billedlinks hentes, når trinnet åbnes. Brug lokale uploadede billeder for at undgå eksterne billedkald.
 
@@ -74,11 +79,17 @@ Demoen er undervisningsmateriale med en fiktiv case. Fagindholdet bør gennemgå
 - `public/model.js`: stabile ID'er, validering, migration og indholdsversioner.
 - `public/storage.js`: atomiske IndexedDB-transaktioner, ændrede datasektioner, konflikttjek og automatisk indholdskopi.
 - `public/progress.js`: beregning og filtrering af progression.
-- `public/data.js`, `public/pharmacology.js`, `public/semester5.js`: eksisterende fagligt indhold.
+- `content/paths/*.json`: offentlige indholdsudgaver, skrevet af publiceringsserveren.
+- `public/publication.js`: indholdsvalidering, versionsaftryk, katalogsynkronisering og bevaring af gamle besvarelser.
+- `public/publisher-client.js` / `public/publisher-ui.js`: godkendelse og udgivelsesstatus.
+- `publisher/`: Cloudflare Worker, kodekontrol, begrænsning af forsøg og GitHub-skrivning.
+- `public/data.js`, `public/pharmacology.js`, `public/semester5.js`: oprindeligt indhold til migration og isolerede regressionstests.
 - `public/theme.css` / `public/style.css`: UCN-farver og responsivt design.
 - `npm test`: indhold, migration, versioner, progression og Pages-links.
 - `npm run build`: syntakskontrol af alle moduler og statisk output. Filadresser indeholder et indholdshash, så en ny udgave ikke blandes med gamle browsercachede moduler.
 - `npm run test:browser`: samlet Playwright-test mod en lokal server. Se nedenfor.
+- `npm run publisher:check`: pak Cloudflare-serveren uden at udgive.
+- `npm run publisher:deploy`: udgiv serveren med allerede konfigureret Cloudflare-adgang; ejeren kan i stedet bruge dashboardets GitHub-integration som beskrevet i vejledningen.
 
 Appen anvender hash-links til læringsstier og trin, så bogmærker, browserens Tilbage/Frem og genindlæsning fungerer på GitHub Pages uden særlig 404-omdirigering. En undervisers lokale sti kan kun åbnes på en anden enhed, hvis indholdet er udgivet dér. Mobilens trinoversigt kan foldes ud; tastaturfokus flyttes til nyt indhold eller quizfeedback. Der er genvej til hovedindhold og synlige fokusmarkeringer.
 
@@ -99,14 +110,14 @@ Forventet adresse, når udgivelsen lykkes (uden eget domæne):
 
 **https://martinkaaekristiansen.github.io/sygepleje-laeringsstier/**
 
-Fremover tester, bygger og udgiver workflowen automatisk ved ændringer på `main`. En pull request skal først flettes ind i `main`, før denne udgivelse starter. Workflowen bruger GitHubs indbyggede token og behøver ingen personlige adgangstokens eller secrets.
+Fremover tester, bygger og udgiver workflowen automatisk ved ændringer på `main`. En pull request skal først flettes ind i `main`, før denne udgivelse starter. Selve Pages-workflowen bruger GitHubs indbyggede token. Publiceringsserveren skal derimod have en begrænset personlig GitHub-nøgle for at gemme indhold og udløse en ny workflow; se [opsætningen](docs/publicering.md).
 
 ### Hvis noget ikke virker
 
 - **404 / siden findes ikke:** Kontrollér Pages-kilden og at den seneste **deploy** er grøn. Vent et par minutter efter udgivelsen, og genindlæs siden.
 - **Rød workflow:** Klik den røde kørsel under **Actions**, åbn jobbet med fejlen og se det røde trin. Fejl ved **Klargør GitHub Pages** skyldes ofte, at Pages endnu ikke er aktiveret.
 - **Mangler Settings eller Pages:** Log ind som repositoryets ejer/administrator. På en gratis konto skal repositoryet være offentligt for at bruge Pages gratis.
-- **Underviserændringer ses kun hos dig:** Det er forventet i prototypen. De gemmes lokalt og ændrer ikke GitHub-filerne. Fælles ændringer skal indarbejdes i projektfilerne og udgives på ny. Lokale fremskridt fra udviklingsadressen flytter heller ikke automatisk til Pages-adressen.
+- **Underviserændringer ses kun hos dig:** En kladde er lokal. Brug **Udgiv læringssti** og bekræft, at udgivelsen er færdig. Serveren skal først være aktiveret som beskrevet i vejledningen. Lokale fremskridt fra udviklingsadressen flytter heller ikke automatisk til Pages-adressen.
 - **Video/podcast virker ikke:** Eksterne udbydere kan begrænse afspilning eller fjerne indhold. Demoens tekst og quiz kræver ingen eksterne medier.
 
 Appens visninger åbnes i samme HTML-side. Relative filadresser gør, at navigation, genindlæsning, CSS og JavaScript virker både på en lokal adresse og i repositoryets undermappe; der kræves ingen særlig 404-omdirigering.
@@ -119,7 +130,7 @@ Appens visninger åbnes i samme HTML-side. Relative filadresser gør, at navigat
 PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=http://localhost:3000 npm run test:browser
 ```
 
-Testen bruger isolerede browserprofiler. De tidligere browserindgangsfiler starter nu samme samlede regressionstest. GitHub Actions kører også testen mod en undermappe som på Pages. Browserens testværktøjer bruges kun under udvikling og sendes ikke med appen.
+Testen bruger isolerede browserprofiler og et simuleret publicerings-API med en fiktiv testkode. `tests-browser/publishing.cjs` tester også godkendelse, serverfejl, private kladder, forsinket udgivelse, en ny studerendes browser og konflikter. Regressionstests bruger et fast testkatalog, så underviserens lovlige ændringer af offentligt indhold ikke fejler gamle indholdsforventninger. Det aktuelle offentlige katalog valideres separat under test og build. Ingen browsertest skriver til GitHub. De tidligere browserindgangsfiler starter nu samme samlede regressionstest. GitHub Actions kører også testen mod en undermappe som på Pages. Browserens testværktøjer bruges kun under udvikling og sendes ikke med appen.
 
 ## UCN-farvetema
 
@@ -148,7 +159,7 @@ Vælg **3. semester → Farmakologi → Medicinhåndtering og farmakologi**. For
 
 Dokumentet indeholder ikke et facit. Øvelsesfacit og forklaringer er udarbejdet til læringsstien; de er ikke et officielt prøvefacit og bør gennemgås af en underviser før brug som bedømmelsesgrundlag. Se [kildeoversigt og udvælgelse](docs/medicinhaandtering.md).
 
-Nye indbyggede læringsstier tilføjes én gang til eksisterende browserdata. Egne stier, ændringer og progression bevares. Hvis underviseren efterfølgende sletter en indbygget sti, tilføjes den ikke automatisk igen. `public/pharmacology.js` indeholder forløbet, og `public/model.js` håndterer migration og indholdsversioner. `public/catalog.js` bevares med tests som dokumentation for det gamle katalogformat.
+Det fælles katalog i `content/paths/` er nu kilden til offentligt indhold. `public/pharmacology.js` bevarer originalforløbet til migration og tests. Tidligere lokale tilpasninger bevares som kladder, og offentlig tilbagetrækning respekteres på tværs af enheder. `public/catalog.js` bevares med tests som dokumentation for det gamle katalogformat.
 
 Browsertesten `tests-browser/pharmacology.cjs` kontrollerer eksisterende browserdata, filtrering, alle 20 spørgsmål, progression, redigering og sletning. Den køres med samme miljøvariabler som undervisertesten.
 

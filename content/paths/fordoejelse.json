@@ -1,0 +1,162 @@
+{
+  "format": "laeringssti-publication-v1",
+  "revision": "71bb739bd05a5f2537256f964f74f3364d5647f6ba824a8a2fffc818e5da44a9",
+  "sequence": 1,
+  "status": "published",
+  "updatedAt": "2026-11-04T18:46:44.620Z",
+  "path": {
+    "id": "fordoejelse",
+    "title": "Fordøjelsessystemet",
+    "description": "Følg maden på vej gennem kroppen, og forbind din viden med mødet med patienten.",
+    "semester": 1,
+    "subject": "Anatomi og fysiologi",
+    "subjects": [
+      "Anatomi og fysiologi"
+    ],
+    "contentVersion": 1,
+    "steps": [
+      {
+        "id": "fordoejelse:s1",
+        "title": "Mød din patient",
+        "type": "case",
+        "text": "Anna er 72 år og indlagt efter en hofteoperation. Hun fortæller, at hun har kvalme, nedsat appetit og ikke har haft afføring i fire dage. Hun har fået opioidholdig smertestillende medicin og bevæger sig mindre end vanligt.\n\nHvilke observationer er relevante? Overvej afføringsmønster, smerter, væskeindtag, ernæring, medicin og mobilitet. Casen er fiktiv og bruges til undervisning.",
+        "questions": []
+      },
+      {
+        "id": "fordoejelse:s2",
+        "title": "Fra mund til tarm",
+        "type": "text",
+        "text": "Fordøjelsen gør madens næringsstoffer tilgængelige for kroppen. Mekanisk bearbejdning og enzymer arbejder sammen hele vejen.\n\nMund: Tænderne findeler maden. Spyt smører, og amylase starter nedbrydningen af stivelse.\n\nSpiserør: Peristaltiske bevægelser transporterer føden til mavesækken.\n\nMavesæk: Syre og pepsin bidrager til nedbrydning af proteiner. Maden blandes og føres videre.\n\nTyndtarm: Enzymer fra bugspytkirtlen og tarmens børstesøm nedbryder næringsstofferne. Galde hjælper med fordøjelsen af fedt. De fleste næringsstoffer optages her.\n\nTyktarm: Vand og elektrolytter optages, og afføring formes.",
+        "questions": []
+      },
+      {
+        "id": "fordoejelse:s3",
+        "title": "Lyt: Kulhydratets rejse",
+        "type": "podcast",
+        "text": "En kort, oplæst gennemgang af kulhydratfordøjelsen. Du kan også læse hele indholdet her.\n\nFordøjelsen af kulhydrater starter i munden, hvor amylase nedbryder stivelse. I mavesækken hæmmer det sure miljø spytamylasens aktivitet. I tyndtarmen fortsætter bugspytkirtlens amylase nedbrydningen. Enzymer i børstesømmen spalter de mindre kulhydrater til monosakkarider, blandt andet glukose. De optages gennem tarmvæggen og transporteres med portåren til leveren. Laktase spalter mælkesukker. Ved laktasemangel kan ufordøjet laktose give oppustethed og diarré.",
+        "media": "",
+        "questions": []
+      },
+      {
+        "id": "fordoejelse:s4",
+        "title": "Test din forståelse",
+        "type": "quiz",
+        "text": "Fem spørgsmål om fordøjelsessystemet. Du får en forklaring efter hvert svar og kan prøve igen.",
+        "questions": [
+          {
+            "id": "fordoejelse:s4:q1",
+            "q": "Hvor begynder nedbrydningen af stivelse?",
+            "a": [
+              "I munden",
+              "I mavesækken",
+              "I tyktarmen"
+            ],
+            "optionIds": [
+              "fordoejelse:s4:q1:a1",
+              "fordoejelse:s4:q1:a2",
+              "fordoejelse:s4:q1:a3"
+            ],
+            "correct": 0,
+            "why": "Spyttets enzym amylase begynder nedbrydningen af stivelse i munden.",
+            "explanations": [
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "fordoejelse:s4:q2",
+            "q": "Hvilket organ producerer galde?",
+            "a": [
+              "Galdeblæren",
+              "Leveren",
+              "Bugspytkirtlen"
+            ],
+            "optionIds": [
+              "fordoejelse:s4:q2:a1",
+              "fordoejelse:s4:q2:a2",
+              "fordoejelse:s4:q2:a3"
+            ],
+            "correct": 1,
+            "why": "Leveren producerer galde. Galdeblæren lagrer og koncentrerer den.",
+            "explanations": [
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "fordoejelse:s4:q3",
+            "q": "Hvor optages de fleste næringsstoffer?",
+            "a": [
+              "I spiserøret",
+              "I mavesækken",
+              "I tyndtarmen"
+            ],
+            "optionIds": [
+              "fordoejelse:s4:q3:a1",
+              "fordoejelse:s4:q3:a2",
+              "fordoejelse:s4:q3:a3"
+            ],
+            "correct": 2,
+            "why": "Tyndtarmens folder, tarmtotter og mikrovilli giver en stor overflade til optagelse.",
+            "explanations": [
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "fordoejelse:s4:q4",
+            "q": "Hvilket enzym nedbryder laktose?",
+            "a": [
+              "Lipase",
+              "Laktase",
+              "Pepsin"
+            ],
+            "optionIds": [
+              "fordoejelse:s4:q4:a1",
+              "fordoejelse:s4:q4:a2",
+              "fordoejelse:s4:q4:a3"
+            ],
+            "correct": 1,
+            "why": "Laktase i tyndtarmens børstesøm spalter laktose til glukose og galaktose.",
+            "explanations": [
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "id": "fordoejelse:s4:q5",
+            "q": "Hvad er en vigtig funktion i tyktarmen?",
+            "a": [
+              "At producere insulin",
+              "At optage vand og elektrolytter",
+              "At producere galde"
+            ],
+            "optionIds": [
+              "fordoejelse:s4:q5:a1",
+              "fordoejelse:s4:q5:a2",
+              "fordoejelse:s4:q5:a3"
+            ],
+            "correct": 1,
+            "why": "Tyktarmen optager vand og elektrolytter og bidrager til dannelsen af afføring.",
+            "explanations": [
+              "",
+              "",
+              ""
+            ]
+          }
+        ]
+      },
+      {
+        "id": "fordoejelse:s5",
+        "title": "Fra viden til sygepleje",
+        "type": "reflection",
+        "text": "Vend tilbage til Anna. Hvordan kan operation, opioider og nedsat mobilitet påvirke hendes tarmfunktion?\n\n1. Beskriv tre relevante observationer, og begrund dem.\n2. Overvej sygeplejehandlinger vedrørende væske, ernæring, mobilisering og toiletvaner. Tag hensyn til eventuelle restriktioner.\n3. Hvornår vil du inddrage din vejleder eller læge? Overvej blandt andet tiltagende smerter, opkast og udspilet abdomen.\n\nDrøft dine overvejelser med en medstuderende. Brug altid lokale retningslinjer og faglig vejledning i praksis.",
+        "questions": []
+      }
+    ]
+  }
+}

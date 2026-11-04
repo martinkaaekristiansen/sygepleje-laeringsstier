@@ -1,3 +1,4 @@
+const {publishingFixture,publishCurrent,withdraw}=require('./publishing-fixture.cjs');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const assert=require('node:assert/strict');
 const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/';
@@ -11,7 +12,7 @@ async function login(page){await page.locator('header a[href="#/underviser"]').c
 (async()=>{
  const browser=await chromium.launch({...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox']});
  const errors=[];
- const fresh=async(options={})=>{const context=await browser.newContext(options);const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());return {context,page};};
+ const fresh=async(options={})=>{const context=await browser.newContext(options);await publishingFixture(context);const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());return {context,page};};
  try {
   const {context,page}=await fresh({viewport:{width:1440,height:1000}});
   await page.goto(base);await page.locator('.continue-section').waitFor();
@@ -30,8 +31,8 @@ async function login(page){await page.locator('header a[href="#/underviser"]').c
   await page.locator('#teacher-code').fill('7269');await page.locator('#teacher-login button').click();await page.locator('#editor').waitFor();assert.match(await page.locator('[name=title]').inputValue(),/min udgave/);
   await page.locator(`[data-editor-step="${stepId}"]`).click();await page.locator('[data-step-move="1"]').click();await settle(page);
   await page.locator('[data-action=toggle-preview]').click();await page.locator('#preview-lesson .lesson').waitFor();assert.equal(await page.locator('#preview-lesson .step-list').count(),0);
-  await page.locator('#editor button[type=submit]').click();await page.locator('.teacher-list').waitFor();
-  let saved=await readState(page);assert.deepEqual(saved.progress.fordoejelse.done,[stepId]);assert.equal(saved.paths[0].steps[1].id,stepId);
+  await publishCurrent(page);
+  let saved=await readState(page);assert.deepEqual(saved.progress.fordoejelse.done,[stepId]);assert.equal(saved.paths.find(p=>p.id==='fordoejelse').steps[1].id,stepId);
   await home(page);assert.equal(await page.locator('.continue-progress').getAttribute('aria-valuenow'),'20');
   // Every existing pharmacology and semester-five question works, including reload persistence.
   for(const semester of [3,5]) {
@@ -51,7 +52,7 @@ async function login(page){await page.locator('header a[href="#/underviser"]').c
   }
   // New teacher content, one-step editing, validation, choices, undo, preview and deletion.
   await login(page);await page.locator('[data-action=new]').click();await page.locator('#editor').waitFor();
-  await page.locator('#editor button[type=submit]').click();await page.locator('#validation').waitFor();assert.match(await page.locator('#validation').textContent(),/titel/);
+  await page.locator('[data-action=publish]').click();await page.locator('#validation').waitFor();assert.match(await page.locator('#validation').textContent(),/titel/);
   await page.locator('[name=title]').fill('Ny øvelse');await page.locator('[name=description]').fill('En test af cases og spørgsmål');
   await page.locator('[data-editor-step]').nth(1).click();await page.locator('[data-field=title]').fill('Beslutning');await page.locator('[data-field=text]').fill('Fiktiv case');
   await page.locator('[data-action=add-question]').click();await page.locator('[data-q=q]').fill('Hvad vælger du?');
@@ -62,12 +63,12 @@ async function login(page){await page.locator('header a[href="#/underviser"]').c
   await page.locator('[data-action=undo]').click();await page.waitForFunction(()=>document.querySelectorAll('.editor-outline li').length===1);assert.equal(await page.locator('.editor-outline li').count(),1);
   await page.locator('.editor-outline li button').first().click();await page.locator('[data-action=toggle-preview]').click();await page.locator('[data-answer="0:0"]').click();await page.locator('#feedback-0').waitFor();assert.match(await page.locator('#feedback-0').textContent(),/Prøv at tænke/);
   await page.locator('[data-action=retry]').click();await page.locator('[data-answer="0:1"]').click();await page.locator('#feedback-0').waitFor();assert.match(await page.locator('#feedback-0').textContent(),/Korrekt!/);
-  await page.locator('#editor button[type=submit]').click();await page.locator('.teacher-list').waitFor();
+  await publishCurrent(page);
   assert.equal(await page.locator('[data-action="export"],#import,[data-action="backup"],#restore,[data-action="previous-backup"],[data-update]').count(),0);
   assert.equal(await page.getByText('For at dele indhold skal du eksportere',{exact:false}).count(),0);
   const before=(await readState(page)).paths.length;
   const created=(await readState(page)).paths.find(p=>p.title==='Ny øvelse');assert.ok(created);
-  await page.locator(`[data-delete="${created.id}"]`).click();await page.waitForFunction(n=>document.querySelectorAll('.teacher-list>div').length===n,before-1);
+  await withdraw(page,created.id);await page.waitForFunction(n=>document.querySelectorAll('.teacher-list>div').length===n,before-1);
   await page.reload();await page.locator('#teacher-code').waitFor();await login(page);
   assert.equal((await readState(page)).paths.some(p=>p.id===created.id),false);
   await context.close();

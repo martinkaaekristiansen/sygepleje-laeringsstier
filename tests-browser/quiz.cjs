@@ -1,3 +1,4 @@
+const {publishingFixture,publishCurrent}=require('./publishing-fixture.cjs');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const assert=require('node:assert/strict');
 const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/';
@@ -5,6 +6,7 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
  const browser=await chromium.launch({...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox']});
  try {
   const page=await browser.newPage({viewport:{width:1280,height:1000}}),errors=[];let accept=true;
+  await publishingFixture(page.context());
   page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>accept?d.accept():d.dismiss());
   const selected=(q,a)=>page.locator(`[data-answer="${q}:${a}"]`);
   const answer=async(q,a)=>{await selected(q,a).click();await page.waitForFunction(([q,a])=>document.querySelector(`[data-answer="${q}:${a}"]`).getAttribute('aria-pressed')==='true',[q,a]);};
@@ -35,7 +37,7 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
   await page.locator('[data-option-move="0:1:-1"]').click();await page.waitForFunction(()=>document.querySelector('[data-q=correct]').value==='1');assert.match(await page.locator('[data-explanation="0"]').first().inputValue(),/Mavesækken/);
   await page.locator('[data-add-option="0"]').click();await question.locator('[data-choice="3"]').fill('Et midlertidigt svar');await question.locator('[data-explanation="3"]').fill('Midlertidig forklaring');await page.locator('[data-remove-option="0:3"]').click();await page.waitForFunction(()=>document.querySelectorAll('[data-question]')[0].querySelectorAll('[data-choice]').length===3);
   await page.locator('[data-action=toggle-preview]').click();await answer(0,1);await inspect(0,0);assert.match(await page.locator('#option-feedback-0').textContent(),/Mavesækken er ikke startstedet/);assert.equal(await selected(0,1).getAttribute('aria-pressed'),'true');
-  await page.locator('#editor button[type=submit]').click();await page.locator('.teacher-list').waitFor();await page.goto(base+'#/sti/fordoejelse/fordoejelse%3As4');await selected(0,1).waitFor();assert.equal(await selected(0,1).getAttribute('aria-pressed'),'true');await inspect(0,0);assert.match(await page.locator('#option-feedback-0').textContent(),/Mavesækken er ikke startstedet/);
+  await publishCurrent(page);await page.goto(base+'#/sti/fordoejelse/fordoejelse%3As4');await selected(0,1).waitFor();assert.equal(await selected(0,1).getAttribute('aria-pressed'),'true');await inspect(0,0);assert.match(await page.locator('#option-feedback-0').textContent(),/Mavesækken er ikke startstedet/);
   await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.locator('#option-feedback-0').scrollIntoViewIfNeeded();await page.screenshot({path:'/tmp/laeringsstier-quiz-feedback.png'});
   await page.reload();await selected(0,1).waitFor();await inspect(0,2);assert.equal(await selected(0,1).getAttribute('aria-pressed'),'true');
   assert.deepEqual(errors,[]);console.log('PASS: populated semester filters, answer changes, correct-answer retention, choice explanations, reload, keyboard, restart/cancel, isolated progress, editor reordering and mobile');

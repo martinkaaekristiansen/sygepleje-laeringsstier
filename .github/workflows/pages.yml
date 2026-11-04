@@ -30,6 +30,8 @@ jobs:
       - name: Test
         run: npm test
       - name: Byg statisk app
+        env:
+          PUBLIC_PUBLISHER_URL: ${{ vars.PUBLIC_PUBLISHER_URL }}
         run: npm run build
       - name: Klargør browsertest
         run: |
