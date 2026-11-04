@@ -1,0 +1,52 @@
+name: Udgiv Læringsstier på GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Hent projektet
+        uses: actions/checkout@v4
+      - name: Klargør Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Appen bruger kun Node.js-standardbiblioteket; ingen npm-pakker skal installeres.
+      - name: Test
+        run: npm test
+      - name: Byg statisk app
+        run: npm run build
+      - name: Klargør GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Gem websted til udgivelse
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Udgiv
+        id: deployment
+        uses: actions/deploy-pages@v4
