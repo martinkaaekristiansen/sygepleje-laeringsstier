@@ -1,50 +1,275 @@
-import {getInProgressPaths,getPathProgress} from './progress.js';
-import {semester5Path} from './semester5.js';
-import {pharmacologyPath} from './pharmacology.js';
-import {addBuiltinPaths} from './catalog.js';
-import {demo,questions,subjects,percent,safeURL,youtubeEmbed,validQuestions} from './data.js';
-const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function read(k,f){try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}}
-const catalog=addBuiltinPaths(read('paths-v1',[{...demo,steps:demo.steps.map(s=>s.type==='quiz'?{...s,questions}:s)}]),read('builtin-paths-v1',[]),[pharmacologyPath,semester5Path]);
-let paths=catalog.paths, progress=read('progress-v1',{}), semester=1,subject='Alle fagområder',view='home',current=null,index=0,draft=null,answers={};
-function save(){try{localStorage.setItem('paths-v1',JSON.stringify(paths));localStorage.setItem('progress-v1',JSON.stringify(progress));localStorage.setItem('builtin-paths-v1',JSON.stringify(catalog.installedIds));return true}catch{alert('Browseren kunne ikke gemme. Eksportér dine læringsstier, før du lukker siden.');return false}}
-let teacherUnlocked=false;
-const types={case:'Patientcase',text:'Faglig viden',podcast:'Podcast',quiz:'Quiz',reflection:'Refleksion',video:'Video'};
-function header(){return `<header><a href="#" class="brand" data-action="home"><span class="logo">⌁</span>Læringsstier<span class="beta">PROTOTYPE</span></a><nav><button data-action="home" class="${view==='home'?'active':''}">Udforsk</button><button data-action="teacher" class="${view==='teacher'?'active':''}">Underviser <span>→</span></button></nav></header>`}
-function render(){document.querySelector('meta[name="theme-color"]').content=getComputedStyle(document.documentElement).getPropertyValue('--brand').trim();window.speechSynthesis?.cancel();$('#app').innerHTML=header()+`<main>${view==='home'?home():view==='learn'?learn():teacher()}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Viden, der bliver til omsorg.</span><span>Ingen konto · Gemmes på din enhed</span></footer>`;bind()}
-function progressOverview(){
-  const ongoing=getInProgressPaths(paths,progress);
-  return `<section class="continue-section" aria-labelledby="continue-heading">
-    <div class="continue-heading"><div><div class="eyebrow">DIN LÆRING</div><h2 id="continue-heading">Fortsæt, hvor du slap</h2></div><span class="continue-count">${ongoing.length} i gang</span></div>
-    ${ongoing.length?`<p class="continue-intro">Dine påbegyndte læringsstier på tværs af semestre og fag. Senest åbnet vises først.</p>
-    <div class="continue-grid">${ongoing.map((item,i)=>{const p=item.path;return `<article class="continue-card">
-      <div class="eyebrow">${p.semester}. SEMESTER · ${esc(p.subject)}</div>
-      <h3 id="continue-title-${i}">${esc(p.title)}</h3>
-      <div class="continue-progress-label"><span>${item.completed} af ${item.total} trin gennemført</span><strong>${item.percent}%</strong></div>
-      <div class="continue-progress" role="progressbar" aria-labelledby="continue-title-${i}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${item.percent}" aria-valuetext="${item.completed} af ${item.total} trin gennemført"><span style="width:${item.percent}%"></span></div>
-      <p class="continue-step">Du er nået til trin ${item.lastIndex+1}: <span>${esc(p.steps[item.lastIndex].title.replace(/^\d+\.\s*/,''))}</span></p>
-      <button class="primary wide" data-resume="${esc(p.id)}" aria-label="Fortsæt ${esc(p.title)} ved trin ${item.lastIndex+1}">Fortsæt læringssti <span aria-hidden="true">→</span></button>
-    </article>`}).join('')}</div>
-    <p class="continue-note">Progressionen viser gennemførte trin og gemmes kun i denne browser.</p>`:
-    `<div class="continue-empty"><p><strong>Ingen ufærdige læringsstier.</strong> Når du starter en læringssti, kan du finde den og fortsætte her.</p><a class="secondary" href="#explore">Find en læringssti <span aria-hidden="true">↓</span></a></div>`}
-  </section>`;
-}
+import {subjects,safeURL,youtubeEmbed} from './data.js';
+import {getPathProgress} from './progress.js';
+import {renderHome} from './home.js';
+import {renderLearn} from './learner.js';
+import {renderEditor,collectEditor} from './editor.js';
+import {esc,download} from './ui.js';
+import {openStorage} from './storage.js';
+import {SCHEMA,uid,builtins,emptyState,normalizePath,pathErrors,validateState,commitPath,updatesFor,acceptUpdate,newStep,newQuestion,duplicateStep} from './model.js';
+const $=selector=>document.querySelector(selector);
+const clone=value=>structuredClone(value);
+const MAX_FILE=50*1024*1024;
+let store,state,revision=0,view='home',semester=1,subject=subjects[0],current,index=0;
+let teacherUnlocked=false,draft=null,selected='metadata',preview=false,previewAnswers={},undo=[];
+let storageError='',notice='',queue=Promise.resolve(),dirty=false,writeNumber=0,savedNumber=0,timer,busy=false;
+let errors=[],expanded=matchMedia('(min-width: 801px)').matches;
 
-function home(){const filtered=paths.filter(p=>p.semester===semester&&(subject==='Alle fagområder'||p.subject===subject));return `${progressOverview()}<section class="hero"><div><div class="eyebrow">TIL DIG, DER LÆSER SYGEPLEJE</div><h1>Små skridt.<br>Større faglig sikkerhed.</h1><p>Gør teori til forståelse med læringsstier, der forbinder<br class="desktop"> faglig viden med livet som sygeplejerske.</p><a class="primary" href="#explore">Find din læringssti <span>→</span></a><div class="hero-note"><span>✓</span> Lær i dit tempo <span>✓</span> Byg videre på din viden</div></div><div class="illustration" aria-hidden="true"><div class="orbit"></div><div class="note note-one"><span class="symbol">✚</span><b>Fra teori<br>til praksis</b></div><div class="book"><div>DIN FAGLIGE REJSE</div><svg viewBox="0 0 180 100"><path d="M5 60h40l16-35 25 60 22-55 16 30h50" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/></svg><strong>Et skridt<br>ad gangen.</strong><span>SYGEPLEJE · LÆRING · UDVIKLING</span></div><div class="note note-two"><span class="round-check">✓</span><div><b>Du er på vej</b><small>Ny viden. Hver dag.</small></div></div><span class="spark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3v34M3 20h34M8 8l24 24M8 32L32 8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span></div></section><section id="explore"><div class="section-heading"><div class="eyebrow">DIN UDDANNELSE, DIT TEMPO</div><h2>Hvor er du på din rejse?</h2><p>Vælg dit semester, og gå på opdagelse i dine fagområder.</p></div><div class="semesters">${Array.from({length:7},(_,i)=>`<button data-semester="${i+1}" aria-pressed="${semester===i+1}" class="semester ${semester===i+1?'selected':''}"><strong>${i+1}.</strong><span>semester</span>${semester===i+1?'<i>→</i>':''}</button>`).join('')}</div><div class="section-row"><h2>Læringsstier <span class="count">${filtered.length}</span></h2><span class="muted">${semester}. semester</span></div><div class="filters">${subjects.map(s=>`<button data-subject="${esc(s)}" class="chip ${s===subject?'selected':''}">${s}</button>`).join('')}</div><div class="cards">${filtered.map(p=>{const state=getPathProgress(p,progress[p.id]);const n=state.percent;return `<article class="path-card"><div class="card-art"><span class="tag">${esc(p.subject)}</span>${p.subject==='Sygepleje'?`<svg viewBox="0 0 240 150" aria-hidden="true"><rect x="55" y="18" width="130" height="116" rx="14" fill="var(--surface)" stroke="var(--brand)" stroke-width="4"/><path d="M78 85h23l12-25 19 47 15-31 12 9h17" fill="none" stroke="var(--brand)" stroke-width="4"/><path d="M113 35h14m-7-7v14" stroke="var(--illustration-secondary)" stroke-width="4"/><circle cx="33" cy="109" r="6" fill="var(--accent)"/></svg>`:p.subject==='Farmakologi'?`<svg viewBox="0 0 240 150" aria-hidden="true"><g transform="rotate(-35 120 75)"><rect x="62" y="42" width="116" height="66" rx="33" fill="var(--surface)" stroke="var(--brand)" stroke-width="5"/><path d="M120 42h25a33 33 0 0 1 0 66h-25z" fill="var(--brand)"/><path d="M120 44v62" stroke="var(--brand)" stroke-width="4"/></g><path d="M40 32v22m-11-11h22" stroke="var(--illustration-secondary)" stroke-width="4"/><circle cx="195" cy="113" r="7" fill="var(--accent)"/></svg>`:`<svg viewBox="0 0 240 150" aria-hidden="true"><path d="M108 8v45c0 18 14 20 17 5 2-12 24-17 36 0 15 22 3 47-23 47-33 0-55-8-55 10 0 16 65-3 65 13 0 12-57-2-57 12" fill="none" stroke="var(--brand)" stroke-width="13" stroke-linecap="round"/><path d="M80 75c-23 8-26 34-19 53M177 94c13 24 3 41-12 47" fill="none" stroke="var(--illustration-secondary)" stroke-width="10" stroke-linecap="round"/><circle cx="45" cy="45" r="5" fill="var(--accent)"/><path d="M189 39h16m-8-8v16" stroke="var(--illustration-secondary)" stroke-width="2"/></svg>`}<span class="art-label">${p.subject==='Sygepleje'?'FAGLIG VURDERING · OMSORG · SAMARBEJDE':p.subject==='Farmakologi'?'VIDEN OM LÆGEMIDLER OG SIKKER MEDICINHÅNDTERING':'KROPPEN ER FULD AF FORBINDELSER'}</span></div><div class="card-body"><div class="eyebrow">${p.semester}. SEMESTER · ${p.steps.length} TRIN</div><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p><div class="card-meta">◷ Ca. ${Number.isFinite(p.durationMinutes)&&p.durationMinutes>0?p.durationMinutes:p.steps.length*5} min <span>◎ Interaktiv læringssti</span></div><div class="progress-label"><span>${state.started?'Din progression':'Klar til dit første skridt?'}</span><b>${n}%</b></div><div class="progress"><span style="width:${n}%"></span></div><button class="primary wide" data-open="${esc(p.id)}">${state.complete?'Gennemgå igen':state.started?'Fortsæt læringssti':'Start læringssti'} <span>→</span></button></div></article>`}).join('')||`<div class="empty"><span>⌁</span><h3>Her begynder en ny læringssti</h3><p>Der er endnu ingen læringsstier i dette udvalg.</p><button class="secondary" data-action="teacher">Opret i underviserfunktionen →</button></div>`}<aside class="tip"><span class="tip-icon">✧</span><h3>Læring, der hænger sammen</h3><p>Mød en patient. Forstå teorien. Test din viden. Og tag den med ud i praksis.</p><div>01 <span>Udforsk og forstå</span></div><div>02 <span>Lyt og lær</span></div><div>03 <span>Reflektér og anvend</span></div><small>Dine fremskridt gemmes automatisk i denne browser.</small></aside></div></section><section class="bottom-banner"><span>♧</span><div><h3>Plads til nysgerrighed. Tid til forståelse.</h3><p>Du behøver ikke kunne det hele endnu. Bare tage det næste skridt.</p></div></section>`}
-function learn(){const p=paths.find(p=>p.id===current);if(!p)return '';const s=p.steps[index];if(!s)return '<p>Denne læringssti har endnu ingen trin.</p>';const done=progress[p.id]?.done||[],qs=s.questions||[],all=qs.length>0&&qs.every((_,i)=>answers[i]!==undefined);return `<button class="back" data-action="home">← Alle læringsstier</button><div class="learning-head"><div class="eyebrow">${p.semester}. SEMESTER · ${esc(p.subject)}</div><h1>${esc(p.title)}</h1><p>${esc(p.description)}</p></div><div class="learning-layout"><aside class="step-list"><b>Din læringssti</b><div class="progress"><span style="width:${percent(p,done)}%"></span></div>${p.steps.map((t,i)=>`<button data-step="${i}" class="${i===index?'selected':''}"><span>${done.includes(i)?'✓':i+1}</span><div>${esc(t.title)}<small>${types[t.type]||'Indhold'}</small></div></button>`).join('')}<small>${done.length} af ${p.steps.length} trin gennemført</small></aside><article class="lesson"><div class="eyebrow">TRIN ${index+1} AF ${p.steps.length} · ${types[s.type]}</div><h2>${esc(s.title)}</h2>${s.type==='case'?'<div class="case-label">✚ En fiktiv patient. En faglig overvejelse.</div>':''}<div class="prose">${esc(s.text)}</div>${s.image?`<img class="lesson-image" src="${esc(s.image.startsWith('data:image/')?s.image:safeURL(s.image))}" alt="${esc(s.imageAlt||'Illustration til læringstrinnet')}">`:''}${s.type==='podcast'?`<div class="audio-box"><span>♫</span><div><b>${esc(s.title)}</b><small>Oplæsning af teksten · dansk</small></div><button class="secondary" data-action="speak">Afspil</button><button class="text-button" data-action="stop">Stop</button></div>`:''}${s.media?`<div class="external"><p>Mediet hentes fra en ekstern udbyder, når du åbner det.</p><button class="secondary" data-action="media">Åbn ${s.type==='podcast'?'podcast':'video / link'} →</button><div id="media"></div></div>`:''}${qs.length?`<div class="quiz">${qs.map((q,i)=>`<fieldset><legend>${i+1}. ${esc(q.q)}</legend>${q.source?`<p class="question-source">Kilde: ${esc(q.source)}</p>`:''}${q.a.map((a,j)=>`<button class="answer ${answers[i]===j?'chosen':''}" data-answer="${i}:${j}" ${answers[i]!==undefined?'disabled':''}><span>${String.fromCharCode(65+j)}</span>${esc(a)}</button>`).join('')}${answers[i]!==undefined?`<div class="feedback ${answers[i]===q.correct?'correct':''}" role="status"><b>${answers[i]===q.correct?'✓ Korrekt!':'Prøv at tænke på det sådan:'}</b><p>${esc(q.why)}</p><small>Korrekt svar: ${esc(q.a[q.correct])}</small></div>`:''}</fieldset>`).join('')}${all?`<div class="result"><h3>${qs.filter((q,i)=>answers[i]===q.correct).length} af ${qs.length} korrekte</h3><p>Læs forklaringerne, og tag din nye viden med videre.</p><button class="secondary" data-action="retry">Prøv quizzen igen</button></div>`:''}</div>`:''}${s.type==='reflection'?`<label class="reflection">Dine refleksioner<textarea id="reflection" rows="6" placeholder="Skriv dine faglige overvejelser. Undlad navne og personoplysninger.">${esc(progress[p.id]?.notes?.[index]||'')}</textarea></label><small>Gemmes kun på denne enhed. Refleksioner bedømmes ikke automatisk.</small>${s.guide?`<details class="reflection-guide"><summary>Vejledning til din refleksion</summary><div class="prose">${esc(s.guide)}</div></details>`:''}`:''}<div class="lesson-footer"><button class="secondary" data-action="previous" ${index===0?'disabled':''}>← Forrige</button><button class="primary" data-action="complete" ${qs.length>0&&!all?'disabled':''}>${index===p.steps.length-1?'Afslut læringssti ✓':'Gennemfør og fortsæt →'}</button></div>${percent(p,done)===100?'<div class="result"><h3>Godt gået! Du har gennemført læringsstien.</h3><p>Du kan altid vende tilbage og genbesøge din viden.</p></div>':''}</article></div>`}
-function teacher(){if(!teacherUnlocked)return `<section class="teacher-access"><div class="eyebrow">UNDERVISERADGANG</div><h1>Dit faglige værksted</h1><p>Indtast underviserkoden for at oprette og redigere læringsstier.</p><form id="teacher-login"><label for="teacher-code">Underviserkode</label><input id="teacher-code" type="password" inputmode="numeric" autocomplete="off" required aria-describedby="code-error"><p id="code-error" class="code-error" role="alert"></p><button class="primary" type="submit">Lås op →</button></form><p class="muted">Elevvisningen kan bruges uden kode. Adgangen låses igen, når siden genindlæses.</p></section>`;return `<div class="section-row"><div><div class="eyebrow">DIT FAGLIGE VÆRKSTED</div><h1>Underviser</h1><p>Skab læringsstier, der gør din viden levende.</p></div><div class="toolbar"><button class="secondary" data-action="lock-teacher">Lås underviseradgang</button><button class="primary" data-action="new">＋ Ny læringssti</button></div></div><div class="notice">Ændringer gemmes i denne browser. Eksportér læringsstier for at dele dem eller gemme en sikkerhedskopi. Brug kun fiktive cases.</div><div class="toolbar"><button class="secondary" data-action="export">↓ Eksportér læringsstier</button><label class="secondary file-button">↑ Importér læringsstier<input id="import" type="file" accept="application/json"></label></div>${draft?editor():`<div class="teacher-list">${paths.map((p,i)=>`<div><span><b>${esc(p.title)}</b><small>${p.semester}. semester · ${esc(p.subject)} · ${p.steps.length} trin</small></span><button class="secondary" data-edit="${esc(p.id)}">Redigér</button><button aria-label="Flyt læringssti op" data-path-move="${i}:-1" ${i===0?'disabled':''}>↑</button><button aria-label="Flyt læringssti ned" data-path-move="${i}:1" ${i===paths.length-1?'disabled':''}>↓</button><button class="danger" data-delete="${esc(p.id)}">Slet</button></div>`).join('')}</div>`}`}
-function editor(){return `<form id="editor"><div class="editor-header"><h2>${esc(draft.title||'Ny læringssti')}</h2><button type="button" class="text-button" data-action="cancel">Annullér</button></div><div class="form-grid"><label>Titel<input name="title" required value="${esc(draft.title)}"></label><label>Semester<select name="semester">${Array.from({length:7},(_,i)=>`<option ${draft.semester===i+1?'selected':''}>${i+1}</option>`).join('')}</select></label><label>Fagområde<select name="subject">${subjects.slice(1).map(s=>`<option ${s===draft.subject?'selected':''}>${s}</option>`).join('')}</select></label></div><label>Kort beskrivelse<textarea name="description" required>${esc(draft.description)}</textarea></label>${draft.steps.map((s,i)=>`<section class="edit-step" data-edit-step="${i}"><div class="section-row"><h3>Trin ${i+1}</h3><div><button type="button" data-move="${i}:-1" ${i===0?'disabled':''} aria-label="Flyt trin op">↑</button><button type="button" data-move="${i}:1" ${i===draft.steps.length-1?'disabled':''} aria-label="Flyt trin ned">↓</button><button type="button" class="danger" data-remove="${i}">Fjern</button></div></div><div class="form-grid"><label>Trinnets titel<input data-field="title" value="${esc(s.title)}" required></label><label>Indholdstype<select data-field="type">${Object.entries(types).map(([v,t])=>`<option value="${v}" ${s.type===v?'selected':''}>${t}</option>`).join('')}</select></label></div><label>Tekst / case<textarea data-field="text" rows="5">${esc(s.text)}</textarea></label><label>Vejledning til refleksion (valgfri)<textarea data-field="guide" rows="4">${esc(s.guide||'')}</textarea></label><label>Billedlink<input data-field="image" value="${esc(s.image||'')}" placeholder="https://…"></label><label>Beskrivelse af billedet<input data-field="imageAlt" value="${esc(s.imageAlt||'')}"></label><label>Upload billede (maks. 1 MB)<input type="file" data-upload="${i}" accept="image/png,image/jpeg,image/webp"></label><label>Video, YouTube eller podcastlink<input type="url" data-field="media" value="${esc(s.media||'')}" placeholder="https://…"></label>${`<div class="quiz-editor"><h3>Multiple-choice spørgsmål</h3><p class="muted">Tilføj spørgsmål til dette trin med svarmuligheder, korrekt svar og en forklaring.</p>${(s.questions||[]).map((q,j)=>`<div class="edit-question" data-question="${j}"><label>Spørgsmål ${j+1}<input data-q="q" required value="${esc(q.q)}"></label>${q.a.map((a,k)=>`<label>Svar ${String.fromCharCode(65+k)}<input data-choice="${k}" required value="${esc(a)}"></label>`).join('')}<label>Korrekt svar<select data-q="correct">${q.a.map((_,k)=>`<option value="${k}" ${q.correct===k?'selected':''}>${String.fromCharCode(65+k)}</option>`).join('')}</select></label><label>Forklaring<textarea data-q="why" required>${esc(q.why)}</textarea></label><button type="button" data-remove-question="${i}:${j}">Fjern spørgsmål</button></div>`).join('')}<button class="secondary" type="button" data-add-question="${i}">＋ Tilføj spørgsmål</button></div>`}</section>`).join('')}<div class="toolbar"><button type="button" class="secondary" data-action="add-step">＋ Tilføj trin</button><button class="primary" type="submit">Gem læringssti ✓</button></div><small>Ved ændringer nulstilles progression for denne læringssti, så den følger det nye indhold.</small></form>`}
-function collect(){if(!draft||!$('#editor'))return;const f=$('#editor');draft.title=f.elements.title.value;draft.description=f.elements.description.value;draft.semester=Number(f.elements.semester.value);draft.subject=f.elements.subject.value;document.querySelectorAll('[data-edit-step]').forEach(el=>{const s=draft.steps[Number(el.dataset.editStep)];el.querySelectorAll('[data-field]').forEach(x=>s[x.dataset.field]=x.value);el.querySelectorAll('[data-question]').forEach(qel=>{const q=s.questions[Number(qel.dataset.question)];qel.querySelectorAll('[data-q]').forEach(x=>q[x.dataset.q]=x.dataset.q==='correct'?Number(x.value):x.value);qel.querySelectorAll('[data-choice]').forEach(x=>q.a[Number(x.dataset.choice)]=x.value)});if(!s.questions)s.questions=[]})}
-function bind(){
-$('#teacher-login')?.addEventListener('submit',e=>{e.preventDefault();const input=$('#teacher-code');if(input.value==='7269'){teacherUnlocked=true;render();document.querySelector('[data-action="new"]')?.focus()}else{$('#code-error').textContent='Koden er forkert. Prøv igen.';input.setAttribute('aria-invalid','true');input.select()}});
-document.querySelectorAll('button,[data-action]').forEach(b=>b.addEventListener('click',e=>{if(b.dataset.action)e.preventDefault();const d=b.dataset;if(!teacherUnlocked&&['edit','delete','pathMove','move','remove','addQuestion','removeQuestion'].some(key=>Object.hasOwn(d,key)))return;if(d.semester){semester=Number(d.semester);render()}if(d.subject){subject=d.subject;render()}if(d.open||d.resume){current=d.open||d.resume;const p=paths.find(p=>p.id===current);if(!p?.steps.length)return;index=getPathProgress(p,progress[current]).lastIndex;answers={};view='learn';remember();render();scrollTo(0,0)}if(d.step){index=Number(d.step);answers={};remember();render()}if(d.answer){const [q,a]=d.answer.split(':').map(Number);answers[q]=a;const y=scrollY;render();scrollTo(0,y)}if(d.edit){draft=structuredClone(paths.find(p=>p.id===d.edit));render()}if(d.delete&&confirm('Slet denne læringssti fra enheden?')){paths=paths.filter(p=>p.id!==d.delete);delete progress[d.delete];save();render()}if(d.pathMove){const [i,delta]=d.pathMove.split(':').map(Number);[paths[i],paths[i+delta]]=[paths[i+delta],paths[i]];save();render()}if(d.move){collect();const [i,delta]=d.move.split(':').map(Number);[draft.steps[i],draft.steps[i+delta]]=[draft.steps[i+delta],draft.steps[i]];render()}if(d.remove!==undefined){collect();draft.steps.splice(Number(d.remove),1);render()}if(d.addQuestion!==undefined){collect();draft.steps[Number(d.addQuestion)].questions.push({q:'',a:['','',''],correct:0,why:''});render()}if(d.removeQuestion){collect();const [i,j]=d.removeQuestion.split(':').map(Number);draft.steps[i].questions.splice(j,1);render()}if(d.action)action(d.action)}));
-$('#reflection')?.addEventListener('input',e=>{const p=progress[current]??={done:[],last:index,notes:{}};p.notes??={};p.notes[index]=e.target.value;save()});
-$('#editor')?.addEventListener('submit',e=>{e.preventDefault();if(!teacherUnlocked)return;collect();if(!draft.steps.length||draft.steps.some(s=>s.type==='quiz'&&!s.questions?.length)){alert('Tilføj mindst ét trin og mindst ét spørgsmål i hver quiz.');return}if(draft.steps.some(s=>!validQuestions(s.questions))){alert('Udfyld spørgsmål, svarmuligheder og forklaring, og vælg et korrekt svar.');return}if(draft.steps.some(s=>s.image&&!s.image.startsWith('data:image/')&&!safeURL(s.image))){alert('Brug et gyldigt https- eller http-link til billeder.');return}const i=paths.findIndex(p=>p.id===draft.id);if(i<0)paths.push(draft);else paths[i]=draft;delete progress[draft.id];save();draft=null;render()});
-document.querySelectorAll('select[data-field="type"]').forEach(el=>el.addEventListener('change',()=>{collect();render()}));
-document.querySelectorAll('[data-upload]').forEach(el=>el.addEventListener('change',()=>{if(!teacherUnlocked)return;const file=el.files[0];if(!file)return;if(file.size>1024*1024||!['image/png','image/jpeg','image/webp'].includes(file.type)){alert('Vælg PNG, JPEG eller WebP under 1 MB.');return}collect();const reader=new FileReader();reader.onload=()=>{if(!teacherUnlocked||!draft)return;draft.steps[Number(el.dataset.upload)].image=reader.result;render()};reader.readAsDataURL(file)}));
-$('#import')?.addEventListener('change',async e=>{try{if(!teacherUnlocked)return;const file=e.target.files[0];if(!file)return;if(file.size>4000000)throw Error();const incoming=JSON.parse(await file.text());if(!teacherUnlocked)return;if(!Array.isArray(incoming)||!incoming.length||incoming.some(p=>!validPath(p)))throw Error();paths.push(...incoming.map(p=>({...p,id:crypto.randomUUID()})));save();draft=null;render()}catch{alert('Filen kunne ikke importeres. Vælg en gyldig eksport fra Læringsstier (maks. 4 MB).')}})}
-function validPath(p){return p&&typeof p.title==='string'&&typeof p.description==='string'&&Number.isInteger(p.semester)&&p.semester>=1&&p.semester<=7&&subjects.includes(p.subject)&&Array.isArray(p.steps)&&p.steps.length>0&&p.steps.every(s=>s&&typeof s.title==='string'&&typeof s.text==='string'&&Object.hasOwn(types,s.type)&&['image','imageAlt','media','guide'].every(k=>s[k]===undefined||typeof s[k]==='string')&&validQuestions(s.questions)&&(s.type!=='quiz'||s.questions?.length>0))}
-function remember(){progress[current]??={done:[],notes:{}};progress[current].last=index;progress[current].started=true;progress[current].updatedAt=Date.now();save()}
-function action(a){if(a==='lock-teacher'){teacherUnlocked=false;draft=null;view='teacher';render();$('#teacher-code')?.focus();return}if(['new','cancel','add-step','export'].includes(a)&&!teacherUnlocked)return;if(a==='home'||a==='teacher'){view=a;draft=null;render();scrollTo(0,0);if(a==='teacher'&&!teacherUnlocked)$('#teacher-code')?.focus()}if(a==='new'){draft={id:crypto.randomUUID(),title:'',description:'',semester,subject:subjects[1],steps:[{title:'',type:'text',text:''}]};render()}if(a==='cancel'){draft=null;render()}if(a==='add-step'){collect();draft.steps.push({title:'',type:'text',text:''});render()}if(a==='previous'){index--;answers={};remember();render()}if(a==='complete'){remember();const p=paths.find(p=>p.id===current);if(!progress[current].done.includes(index))progress[current].done.push(index);if(index<p.steps.length-1)index++;answers={};remember();render();scrollTo(0,0)}if(a==='retry'){answers={};render()}if(a==='speak'){if(!('speechSynthesis'in window)){alert('Oplæsning understøttes ikke her. Læs teksten ovenfor.');return}const utterance=new SpeechSynthesisUtterance(paths.find(p=>p.id===current).steps[index].text);utterance.lang='da-DK';speechSynthesis.speak(utterance)}if(a==='stop')speechSynthesis.cancel();if(a==='media'){const s=paths.find(p=>p.id===current).steps[index],url=safeURL(s.media),yt=youtubeEmbed(url);if(!url)return;if(yt)$('#media').innerHTML=`<iframe title="Video til læringstrinnet" src="${yt}" allowfullscreen referrerpolicy="no-referrer"></iframe>`;else if(/\.(mp3|m4a|ogg|wav)(\?|$)/i.test(url))$('#media').innerHTML=`<audio controls src="${esc(url)}"></audio>`;else if(/\.(mp4|webm)(\?|$)/i.test(url))$('#media').innerHTML=`<video controls src="${esc(url)}"></video>`;else window.open(url,'_blank','noopener,noreferrer')}if(a==='export'){const url=URL.createObjectURL(new Blob([JSON.stringify(paths,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download='laeringsstier.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}}
-if(catalog.changed)save();
-render();
+function exportFile(value,name) {
+  if(new Blob([JSON.stringify(value)]).size>MAX_FILE) {alert('Filen er større end 50 MB. Eksportér læringsstierne enkeltvis fra editoren.');return;}
+  download(value,name);
+}
+function backup() {exportFile({format:'laeringsstier-backup',schemaVersion:SCHEMA,state},'laeringsstier-sikkerhedskopi.json');}
+function displayStorage() {
+  const el=$('#storage-status');
+  if(el) {
+    el.hidden=!storageError;
+    el.innerHTML=storageError?`<strong>Ændringerne er ikke gemt.</strong> ${esc(storageError)} <button data-action="retry-save">Prøv at gemme igen</button><button data-action="backup">Hent sikkerhedskopi</button>`:'';
+  }
+  const status=$('#draft-status');
+  if(status) status.textContent=storageError?'Kladde ikke gemt. Hold siden åben, og hent en kopi af dit arbejde.':dirty?'Gemmer kladde…':'Kladde gemt på denne enhed. Brug »Gem læringssti« for at opdatere elevvisningen.';
+}
+function persist({retry=false}={}) {
+  if(retry) storageError='';
+  const snapshot=clone(state),number=++writeNumber;
+  dirty=true;displayStorage();
+  const job=queue.then(async()=>{
+    if(storageError) return false;
+    try {
+      snapshot.revision=revision;
+      const saved=await store.save(snapshot);
+      revision=saved.revision;state.revision=revision;savedNumber=number;
+      dirty=savedNumber<writeNumber;displayStorage();return true;
+    } catch(error) {storageError=error.message;dirty=true;displayStorage();return false;}
+  });
+  queue=job.catch(()=>false);return job;
+}
+function stashDraft() {
+  if(!draft) return;
+  state.drafts[draft.id]={path:clone(draft),selected,updatedAt:Date.now()};
+}
+function autosave() {
+  collectEditor(draft);stashDraft();dirty=true;displayStorage();clearTimeout(timer);
+  timer=setTimeout(()=>persist(),350);
+}
+async function flushDraft() {clearTimeout(timer);if(draft){collectEditor(draft);stashDraft();return persist();}return true;}
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&draft){clearTimeout(timer);stashDraft();persist();}});
+
+function header() {
+  return `<a class="skip-link" href="#main-content">Spring til indhold</a><header><a href="#/" class="brand"><span class="logo" aria-hidden="true">⌁</span>Læringsstier<span class="beta">PROTOTYPE</span></a><nav aria-label="Hovednavigation"><a href="#/" class="${view==='home'?'active':''}" ${view==='home'?'aria-current="page"':''}>Udforsk</a><a href="#/underviser" class="${view==='teacher'?'active':''}" ${view==='teacher'?'aria-current="page"':''}>Underviser →</a></nav></header>`;
+}
+function learningView(path,stepIndex,answerOverride) {
+  const record=state.progress[path.id]||{done:[],notes:{},answers:{}};
+  const step=path.steps[stepIndex],stored=record.answers?.[step.id]||{};
+  const answers=answerOverride||Object.fromEntries(step.questions.flatMap((q,i)=>stored[q.id]&&q.optionIds.includes(stored[q.id])?[[i,q.optionIds.indexOf(stored[q.id])]]:[]));
+  const uiRecord={...record,done:record.done.map(id=>path.steps.findIndex(s=>s.id===id)),notes:Object.fromEntries(path.steps.map((s,i)=>[i,record.notes[s.id]||'']))};
+  return renderLearn({paths:[path],current:path.id,index:stepIndex,progress:{[path.id]:uiRecord},answers,expanded});
+}
+function render(focus) {
+  window.speechSynthesis?.cancel();
+  const content=view==='home'?renderHome({paths:state.paths,progress:state.progress,semester,subject}):view==='learn'?learningView(state.paths.find(p=>p.id===current),index):view==='missing'?'<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>':teacher();
+  $('#app').innerHTML=header()+`<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.2.0</span></footer>`;
+  if(draft&&preview&&teacherUnlocked&&view==='teacher') {
+    const i=draft.steps.findIndex(s=>s.id===selected);
+    if(i>=0) {
+      const container=document.createElement('div');container.innerHTML=learningView(draft,i,previewAnswers);
+      const lesson=container.querySelector('.lesson');lesson.querySelector('.lesson-footer')?.remove();
+      lesson.querySelector(':scope > .result')?.remove();
+      $('#preview-lesson').append(lesson);
+    }
+  }
+  displayStorage();
+  $('.step-navigation')?.addEventListener('toggle',e=>{expanded=e.target.open;});
+  const target=focus?$(focus):null;
+  if(target) target.focus({preventScroll:focus.startsWith('[data-')||focus.startsWith('#feedback')});
+}
+function teacher() {
+  if(!teacherUnlocked) return `<section class="teacher-access"><div class="eyebrow">UNDERVISERADGANG</div><h1>Dit faglige værksted</h1><p>Indtast underviserkoden for at oprette og redigere læringsstier.</p><form id="teacher-login"><label for="teacher-code">Underviserkode</label><input id="teacher-code" type="password" inputmode="numeric" autocomplete="off" required aria-describedby="code-error"><p id="code-error" role="alert"></p><button class="primary" type="submit">Lås op →</button></form><p>Adgangen låses ved genindlæsning. Koden er en enkel spærring på denne enhed og beskytter ikke fortroligt indhold.</p></section>`;
+  if(draft) return renderEditor(draft,selected,{preview,errors,canUndo:undo.length>0});
+  const updates=updatesFor(state),drafts=Object.values(state.drafts);
+  return `<div class="section-row"><div><div class="eyebrow">DIT FAGLIGE VÆRKSTED</div><h1>Underviser</h1></div><div class="toolbar"><button class="secondary" data-action="lock-teacher">Lås underviseradgang</button><button class="primary" data-action="new">＋ Ny læringssti</button></div></div><p class="notice">Ændringer og kladder gemmes kun på denne enhed. For at dele indhold skal du eksportere det til import på andre enheder eller lade det indgå i projektets næste udgivelse. Brug fiktive cases uden personoplysninger.</p>
+    <div class="toolbar"><button class="secondary" data-action="export">↓ Eksportér læringsstier</button><label class="secondary file-button">↑ Importér læringsstier eller kladde<input id="import" type="file" accept="application/json"></label><button class="secondary" data-action="backup">Hent fuld sikkerhedskopi</button><label class="secondary file-button">Gendan sikkerhedskopi<input id="restore" type="file" accept="application/json"></label><button class="secondary" data-action="previous-backup">Hent forrige indholdsudgave</button></div>
+    ${updates.length?`<section class="notice"><h2>Opdateringer til indbyggede læringsstier</h2><p>Ved opdatering beholder du din nuværende udgave som en separat kopi med progression og noter. Den nye udgave starter uden progression.</p>${updates.map(p=>`<p><strong>${esc(p.title)}</strong> · udgave ${p.builtinVersion}<button data-update="${esc(p.id)}">Tilføj ny udgave</button><button data-dismiss-update="${esc(p.id)}">Behold nuværende udgave</button></p>`).join('')}</section>`:''}
+    ${drafts.length?`<section class="draft-list"><h2>Dine kladder</h2>${drafts.map(d=>`<div><strong>${esc(d.path.title||'Ny læringssti')}</strong><span>Gemt ${new Date(d.updatedAt).toLocaleString('da-DK')}</span><button class="secondary" data-edit="${esc(d.path.id)}">Fortsæt kladde</button><button data-discard="${esc(d.path.id)}">Slet kladde</button></div>`).join('')}</section>`:''}
+    <h2>Læringsstier på denne enhed</h2><div class="teacher-list">${state.paths.map((p,i)=>`<div><span><b>${esc(p.title)}</b><small>${p.semester}. semester · ${esc(p.subject)} · ${p.steps.length} trin · version ${p.contentVersion}</small></span><button class="secondary" data-edit="${esc(p.id)}">Redigér</button><button data-path-move="${i}:-1" ${i===0?'disabled':''} aria-label="Flyt læringssti op">↑</button><button data-path-move="${i}:1" ${i===state.paths.length-1?'disabled':''} aria-label="Flyt læringssti ned">↓</button><button data-delete="${esc(p.id)}">Slet</button></div>`).join('')}</div>`;
+}
+function go(hash) {if(location.hash===hash)route();else location.hash=hash;}
+function pathRoute(path,step) {return `#/sti/${encodeURIComponent(path.id)}/${encodeURIComponent(step.id)}`;}
+function recordFor(path) {return state.progress[path.id]??={done:[],notes:{},answers:{}};}
+async function route() {
+  await flushDraft();draft=null;preview=false;errors=[];undo=[];
+  let parts;
+  try {parts=location.hash.slice(1).split('/').map(decodeURIComponent);} catch {parts=[];}
+  const path=state.paths.find(p=>p.id===parts[2]);
+  if(parts[1]==='sti'&&path) {
+    current=path.id;index=path.steps.findIndex(s=>s.id===parts[3]);
+    if(index<0)index=getPathProgress(path,state.progress[path.id]).lastIndex;
+    view='learn';const record=recordFor(path);record.started=true;record.last=path.steps[index].id;record.updatedAt=Date.now();persist();
+  } else if(parts[1]==='sti')view='missing';
+  else if(parts[1]==='underviser') {
+    view='teacher';if(teacherUnlocked&&parts[2]) openDraft(parts[2]);
+  } else view='home';
+  render(view==='learn'?'#lesson-heading':view==='teacher'&&!teacherUnlocked?'#teacher-code':'main h1');
+  if(location.hash==='#explore') $('#explore')?.scrollIntoView();else scrollTo(0,0);
+}
+function openDraft(id) {
+  const saved=state.drafts[id],path=saved?.path||state.paths.find(p=>p.id===id);
+  if(!path)return;
+  draft=clone(path);selected=saved?.selected||'metadata';
+  if(selected!=='metadata'&&!draft.steps.some(s=>s.id===selected))selected='metadata';
+}
+window.addEventListener('hashchange',()=>{if(state&&!['#main-content','#explore'].includes(location.hash))route();});
+
+async function changeStructure(operation,focus='#editor-heading') {
+  collectEditor(draft);undo.push(clone(draft));if(undo.length>15)undo.shift();operation();errors=[];preview=false;
+  stashDraft();await persist();render(focus);
+}
+function selectedStep() {return draft?.steps.find(s=>s.id===selected);}
+async function click(event) {
+  const button=event.target.closest('button,[data-action]');if(!button||button.disabled)return;
+  const d=button.dataset,a=d.action;
+  if(a)event.preventDefault();
+  if(busy)return;
+  busy=true;
+  try {await handle(d,a);} catch(error){notice='Handlingen kunne ikke gennemføres: '+error.message;render();} finally {busy=false;}
+}
+async function handle(d,a) {
+  notice='';
+  if(a==='backup') {if(draft)stashDraft();backup();return;}
+  if(a==='retry-save') {if(draft)stashDraft();await persist({retry:true});return;}
+  if(d.semester) {semester=Number(d.semester);render(`[data-semester="${semester}"]`);return;}
+  if(d.subject) {subject=d.subject;render(`[data-subject="${CSS.escape(subject)}"]`);return;}
+  if(d.open||d.resume) {const p=state.paths.find(p=>p.id===(d.open||d.resume));go(pathRoute(p,p.steps[getPathProgress(p,state.progress[p.id]).lastIndex]));return;}
+  if(a==='home'||a==='teacher') {go(a==='home'?'#/':'#/underviser');return;}
+  const isPreview=Boolean(draft&&preview&&view==='teacher');
+  if(d.answer) {
+    const [q,i]=d.answer.split(':').map(Number),path=isPreview?draft:state.paths.find(p=>p.id===current),step=isPreview?selectedStep():path.steps[index];
+    if(isPreview) previewAnswers[q]=i;
+    else {const record=recordFor(path);record.answers[step.id]??={};record.answers[step.id][step.questions[q].id]=step.questions[q].optionIds[i];await persist();}
+    const y=scrollY;render(`#feedback-${q}`);scrollTo(0,y);return;
+  }
+  if(d.step!==undefined) {const p=state.paths.find(p=>p.id===current);go(pathRoute(p,p.steps[Number(d.step)]));return;}
+  if(['previous','complete','retry','speak','stop','media'].includes(a)) {
+    const p=isPreview?draft:state.paths.find(p=>p.id===current),s=isPreview?selectedStep():p?.steps[index];if(!s)return;
+    if(a==='previous'&&index>0)go(pathRoute(p,p.steps[index-1]));
+    if(a==='complete'&&!isPreview) {
+      const record=recordFor(p),all=s.questions.every(q=>record.answers[s.id]?.[q.id]);if(!all)return;
+      if(!record.done.includes(s.id))record.done.push(s.id);record.updatedAt=Date.now();await persist();
+      if(index<p.steps.length-1)go(pathRoute(p,p.steps[index+1]));else {notice='Godt gået! Læringsstien er gennemført.';render('#lesson-heading');}
+    }
+    if(a==='retry') {if(isPreview)previewAnswers={};else {delete recordFor(p).answers[s.id];await persist();}render(isPreview?'#editor-heading':'#lesson-heading');}
+    if(a==='speak') {
+      if(!window.speechSynthesis){alert('Oplæsning understøttes ikke i denne browser. Læs teksten i trinnet.');return;}
+      speechSynthesis.cancel();const speech=new SpeechSynthesisUtterance(s.text);speech.lang='da-DK';speechSynthesis.speak(speech);
+    }
+    if(a==='stop')window.speechSynthesis?.cancel();
+    if(a==='media') {
+      const url=safeURL(s.media),yt=youtubeEmbed(url);if(!url)return;
+      if(yt)$('#media').innerHTML=`<iframe title="Video til læringstrinnet" src="${yt}" allowfullscreen referrerpolicy="no-referrer"></iframe>`;
+      else if(/\.(mp3|m4a|ogg|wav)(\?|$)/i.test(url))$('#media').innerHTML=`<audio controls src="${esc(url)}"></audio>`;
+      else if(/\.(mp4|webm)(\?|$)/i.test(url))$('#media').innerHTML=`<video controls src="${esc(url)}"></video>`;
+      else window.open(url,'_blank','noopener,noreferrer');
+    }return;
+  }
+  if(!teacherUnlocked)return;
+  if(a==='lock-teacher') {await flushDraft();draft=null;teacherUnlocked=false;go('#/underviser');return;}
+  if(a==='new') {
+    await flushDraft();const path=normalizePath({id:uid(),title:'',description:'',semester,subject:subjects[1],steps:[newStep()]});
+    state.drafts[path.id]={path,selected:'metadata',updatedAt:Date.now()};await persist();go(`#/underviser/${path.id}`);return;
+  }
+  if(d.edit) {await flushDraft();go(`#/underviser/${encodeURIComponent(d.edit)}`);return;}
+  if(a==='close-editor') {await flushDraft();go('#/underviser');return;}
+  if(d.discard&&confirm('Slet denne kladde? Den gemte læringssti ændres ikke.')) {delete state.drafts[d.discard];await persist();render();return;}
+  if(d.delete&&confirm('Slet læringsstien fra denne enhed? En kopi af den forrige indholdsudgave gemmes automatisk.')) {
+    state.paths=state.paths.filter(p=>p.id!==d.delete);delete state.drafts[d.delete];await persist();render();return;
+  }
+  if(d.pathMove) {const [i,delta]=d.pathMove.split(':').map(Number);[state.paths[i],state.paths[i+delta]]=[state.paths[i+delta],state.paths[i]];await persist();render(`[data-path-move="${i+delta}:${delta}"]`);return;}
+  if(d.update) {state=acceptUpdate(state,builtins.find(p=>p.id===d.update));await persist();render();return;}
+  if(d.dismissUpdate) {state.dismissedUpdates[d.dismissUpdate]=builtins.find(p=>p.id===d.dismissUpdate).builtinVersion;await persist();render();return;}
+  if(a==='export') {exportFile({format:'laeringsstier-paths',schemaVersion:SCHEMA,paths:state.paths},'laeringsstier.json');return;}
+  if(a==='previous-backup') {const old=await store.backup();if(old)exportFile({format:'laeringsstier-backup',schemaVersion:SCHEMA,state:old},'laeringsstier-forrige-udgave.json');else {notice='Der findes endnu ingen tidligere indholdsudgave.';render();}return;}
+  if(!draft)return;
+  if(a==='export-draft') {stashDraft();exportFile({format:'laeringsstier-draft',schemaVersion:SCHEMA,draft:state.drafts[draft.id]},'laeringssti-kladde.json');return;}
+  if(d.editorStep) {await flushDraft();selected=d.editorStep;preview=false;errors=[];previewAnswers={};stashDraft();await persist();render('#editor-heading');return;}
+  if(a==='toggle-preview') {await flushDraft();preview=!preview;previewAnswers={};render('#editor-heading');return;}
+  if(a==='undo'&&undo.length) {draft=undo.pop();if(!draft.steps.some(s=>s.id===selected))selected='metadata';stashDraft();await persist();render('#editor-heading');return;}
+  if(a==='add-step') {const type=$('#template').value;await changeStructure(()=>{const s=newStep(type);draft.steps.push(s);selected=s.id;});return;}
+  const step=selectedStep();if(!step)return;
+  if(a==='duplicate-step') {await changeStructure(()=>{const copy=duplicateStep(step);copy.title+=' (kopi)';draft.steps.splice(draft.steps.indexOf(step)+1,0,copy);selected=copy.id;});return;}
+  if(a==='remove-step'&&confirm('Fjern dette trin fra kladden? Du kan fortryde, indtil editoren lukkes.')) {await changeStructure(()=>{draft.steps=draft.steps.filter(s=>s.id!==selected);selected='metadata';});return;}
+  if(d.stepMove) {await changeStructure(()=>{const i=draft.steps.indexOf(step),j=i+Number(d.stepMove);if(j>=0&&j<draft.steps.length)[draft.steps[i],draft.steps[j]]=[draft.steps[j],draft.steps[i]];});return;}
+  if(a==='add-question') {await changeStructure(()=>step.questions.push(newQuestion()));return;}
+  if(d.removeQuestion!==undefined) {await changeStructure(()=>step.questions.splice(Number(d.removeQuestion),1));return;}
+  if(d.duplicateQuestion!==undefined) {await changeStructure(()=>{const i=Number(d.duplicateQuestion),q=clone(step.questions[i]);q.id=uid();q.optionIds=q.a.map(()=>uid());step.questions.splice(i+1,0,q);});return;}
+  if(d.questionMove) {await changeStructure(()=>{const [i,delta]=d.questionMove.split(':').map(Number);[step.questions[i],step.questions[i+delta]]=[step.questions[i+delta],step.questions[i]];});return;}
+  if(d.addOption!==undefined) {await changeStructure(()=>{const q=step.questions[Number(d.addOption)];q.a.push('');q.optionIds.push(uid());});return;}
+  if(d.removeOption) {await changeStructure(()=>{const [i,k]=d.removeOption.split(':').map(Number),q=step.questions[i];if(q.a.length<=2)return;q.a.splice(k,1);q.optionIds.splice(k,1);q.correct=q.correct===k?0:q.correct>k?q.correct-1:q.correct;});return;}
+  if(d.optionMove) {await changeStructure(()=>{const [i,k,delta]=d.optionMove.split(':').map(Number),q=step.questions[i],correct=q.optionIds[q.correct];[q.a[k],q.a[k+delta]]=[q.a[k+delta],q.a[k]];[q.optionIds[k],q.optionIds[k+delta]]=[q.optionIds[k+delta],q.optionIds[k]];q.correct=q.optionIds.indexOf(correct);});}
+}
+$('#app').addEventListener('click',click);
+$('#app').addEventListener('input',e=>{
+  if(e.target.closest('#editor')&&!preview)autosave();
+  if(e.target.id==='reflection'&&view==='learn') {const p=state.paths.find(p=>p.id===current);recordFor(p).notes[p.steps[index].id]=e.target.value;dirty=true;clearTimeout(timer);timer=setTimeout(()=>persist(),350);}
+});
+$('#app').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(e.target.id==='teacher-login') {
+    if($('#teacher-code').value!=='7269'){$('#code-error').textContent='Koden er forkert. Prøv igen.';$('#teacher-code').setAttribute('aria-invalid','true');$('#teacher-code').select();return;}
+    teacherUnlocked=true;await route();return;
+  }
+  if(e.target.id!=='editor'||!teacherUnlocked||busy)return;
+  busy=true;clearTimeout(timer);collectEditor(draft);errors=pathErrors(draft);
+  try {
+    if(errors.length){stashDraft();await persist();render('#validation');return;}
+    state=commitPath(state,draft);
+    if(await persist()) {draft=null;notice='Læringsstien er gemt på denne enhed.';go('#/underviser');}
+    else {stashDraft();render();}
+  } finally {busy=false;}
+});
+$('#app').addEventListener('change',async e=>{
+  if(!teacherUnlocked)return;
+  if(e.target.closest('#editor')&&!preview) {autosave();if(e.target.matches('[data-field="type"]')) {await flushDraft();render('[data-field="type"]');}}
+  if(e.target.id==='upload-image') {
+    const file=e.target.files[0];if(!file)return;
+    if(file.size>1024*1024||!['image/png','image/jpeg','image/webp'].includes(file.type)){alert('Vælg PNG, JPEG eller WebP under 1 MB.');return;}
+    const draftId=draft.id,stepId=selected,reader=new FileReader();
+    reader.onload=async()=>{if(!teacherUnlocked||draft?.id!==draftId)return;const step=draft.steps.find(s=>s.id===stepId);if(!step)return;step.image=reader.result;stashDraft();await persist();render('#editor-heading');};
+    reader.readAsDataURL(file);
+  }
+  if(['import','restore'].includes(e.target.id)) {
+    const restore=e.target.id==='restore';
+    try {
+      const file=e.target.files[0];if(!file)return;if(file.size>MAX_FILE)throw Error('Filen må højst fylde 50 MB.');
+      const incoming=JSON.parse(await file.text());if(!teacherUnlocked)return;
+      if(restore) {
+        if(incoming.format!=='laeringsstier-backup'||!validateState(incoming.state))throw Error('Sikkerhedskopien har et ukendt format eller er fra en nyere version.');
+        if(!confirm('Erstat alle lokale læringsstier, kladder og fremskridt med sikkerhedskopien? Hent først en kopi af dine nuværende data, hvis du vil beholde dem.'))return;
+        state={...incoming.state,revision};
+      } else if(incoming.format==='laeringsstier-draft'&&incoming.schemaVersion===SCHEMA) {
+        const record=clone(incoming.draft),path=normalizePath(record.path,true),test=emptyState();
+        record.path=path;record.selected='metadata';record.updatedAt=Date.now();test.drafts[path.id]=record;
+        if(!validateState(test))throw Error('Kladdefilen er ugyldig.');state.drafts[path.id]=record;
+      } else {
+        const paths=Array.isArray(incoming)?incoming:incoming.format==='laeringsstier-paths'&&incoming.schemaVersion===SCHEMA?incoming.paths:null;
+        if(!Array.isArray(paths)||!paths.length||paths.some(p=>pathErrors(p).length))throw Error('Filen indeholder ikke gyldige læringsstier.');
+        state.paths.push(...paths.map(p=>normalizePath(p,true)));
+      }
+      if(await persist()){notice=restore?'Sikkerhedskopien er gendannet.':'Importen er gemt på denne enhed.';render();}
+    }catch(error){alert('Filen kunne ikke importeres. '+error.message);}
+  }
+});
+
+async function recovery(error) {
+  $('#app').innerHTML=`<main class="recovery"><h1>Dine lokale data kræver opmærksomhed</h1><p role="alert">${esc(error.message)}</p><p>De oprindelige data er bevaret. Hent en kopi, før du gendanner eller starter forfra.</p><div class="toolbar"><button id="raw-backup">Hent de oprindelige data</button><button id="reload">Prøv igen</button>${error.backup&&validateState(error.backup)?'<button id="recover-backup">Gendan forrige indholdsudgave</button>':''}<label class="secondary file-button">Indlæs sikkerhedskopi<input type="file" id="recover-file" accept="application/json"></label>${store?'<button id="reset">Start forfra på denne enhed</button>':''}</div></main>`;
+  $('#raw-backup').onclick=()=>download({format:'laeringsstier-recovery',raw:error.raw,backup:error.backup},'laeringsstier-oprindelige-data.json');
+  $('#reload').onclick=()=>location.reload();
+  async function replace(replacement) {
+    if(!store){alert('Browserens lokale lagring skal være tilgængelig først.');return;}
+    try {await store.save(replacement,{replace:true});location.reload();}catch(e){alert(e.message);}
+  }
+  if($('#reset'))$('#reset').onclick=()=>{if(confirm('Start med de indbyggede læringsstier uden progression? Hent først de oprindelige data.'))replace(emptyState());};
+  if($('#recover-backup'))$('#recover-backup').onclick=()=>{if(confirm('Gendan den forrige indholdsudgave? Nyere ændringer vil ikke være med.'))replace(error.backup);};
+  $('#recover-file').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>MAX_FILE)throw Error('Filen er for stor.');const data=JSON.parse(await file.text());if(data.format!=='laeringsstier-backup'||!validateState(data.state))throw Error('Ugyldig sikkerhedskopi.');if(confirm('Gendan alle data fra sikkerhedskopien?'))await replace(data.state);}catch(e){alert(e.message);}};
+}
+try {store=await openStorage();state=await store.load();revision=state.revision;await route();}
+catch(error){await recovery(error);}
