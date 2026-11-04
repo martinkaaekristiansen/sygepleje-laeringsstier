@@ -32,6 +32,14 @@ Serveren lytter på port 3000. Brug miljøets portvisning eller åbn `http://loc
 6. Kladder gemmes automatisk. Vent på **Kladde gemt på denne enhed**, før du lukker browseren. Du kan fortsætte en kladde efter genindlæsning ved at låse underviserfunktionen op igen.
 7. Klik **Gem læringssti** for at opdatere elevvisningen på denne enhed. Manglende felter vises i en fejloversigt med trinnummer. Lukning af en kladde sletter den ikke; den kan slettes særskilt i underviseroversigten.
 
+## Flere fagområder på samme læringssti
+
+Under **Om læringsstien → Fagområder** kan underviseren sætte kryds ved ét eller flere fag. Skriv et manglende fag i **Mangler et fag?**, og klik **Tilføj fag** (eller tryk Enter). Det nye fag vælges automatisk. Gem læringsstien for at vise den til de studerende på denne enhed.
+
+Stien vises under hvert valgt fag og kun én gang under **Alle fagområder**. Nye fag vises som filtre på det semester, hvor der er en gemt læringssti med faget. En kladde tilføjer ikke fag til elevoversigten. Flyttes stien til et andet semester, følger fagene med. Fjernes fagtilknytningen eller den sidste sti med et nyt fag på et semester, fjernes det pågældende filter dér. De oprindelige fem fagfiltre bevares på alle semestre.
+
+Egne fag kan genbruges i editoren på tværs af semestre. Ekstra mellemrum og forskelle i store/små bogstaver opretter ikke dubletter. Navne må være op til 80 tegn. Der skal være mindst ét fag på en gemt sti; kladder må midlertidigt have ingen valgte fag. Eksisterende stier med ét fag virker fortsat. Ændringer af fag og semester bevarer progressionen.
+
 ## Lokal lagring og afgrænsning
 
 Læringsstier, kladder, gennemførte trin, quizsvar og refleksioner gemmes i **IndexedDB** i den aktuelle browser på den aktuelle webadresse. Der sendes ingen data til en backend. Undlad patientoplysninger og andre personoplysninger. Sletning af browserens webstedsdata fjerner lokal lagring.
@@ -97,7 +105,7 @@ Appens visninger åbnes i samme HTML-side. Relative filadresser gør, at navigat
 
 ### Browsertest
 
-`tests-browser/acceptance.cjs` samler test af kladder, kodelås, migration, lagringsfejl, oprettelse/redigering/sletning, elevprogression, alle 56 spørgsmål på 3. og 5. semester, browserhistorik, dybe links, fokus og mobilvisning. Kør mod en lokal server med Playwright og Chromium installeret:
+`tests-browser/subjects.cjs` tester flere fag, egne fag, semesterfiltre, kladder og mobilvisning. `tests-browser/acceptance.cjs` samler test af kladder, kodelås, migration, lagringsfejl, oprettelse/redigering/sletning, elevprogression, alle 56 spørgsmål på 3. og 5. semester, browserhistorik, dybe links, fokus og mobilvisning. Kør mod en lokal server med Playwright og Chromium installeret:
 
 ```sh
 PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=http://localhost:3000 npm run test:browser
