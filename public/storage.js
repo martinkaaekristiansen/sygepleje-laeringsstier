@@ -1,6 +1,6 @@
 import {migrateLegacy,validateState,addNewBuiltins} from './model.js';
 export const DB_NAME='laeringsstier-v2';
-const keys=['paths','progress','drafts','installed','dismissedUpdates','publication'];
+const keys=['paths','progress','drafts','installed','dismissedUpdates'];
 const request = req => new Promise((resolve,reject)=>{req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
 const completed = tx => new Promise((resolve,reject)=>{tx.oncomplete=resolve;tx.onabort=()=>reject(tx.error||Error('Lagringen blev afbrudt.'));tx.onerror=()=>{};});
 export class StorageFailure extends Error {
@@ -27,7 +27,7 @@ export async function openStorage() {
         if(!validateState(state)) throw new StorageFailure('De gemte data har et ukendt eller beskadiget format. Dine data er ikke overskrevet.',state,backup);
         cache=structuredClone(state);
         const updated=addNewBuiltins(state);
-        return updated.installed.length!==state.installed.length ? this.save(updated) : state;
+        return JSON.stringify(updated)!==JSON.stringify(state) ? this.save(updated) : state;
       }
       let raw;
       try {raw={paths:localStorage.getItem('paths-v1'),progress:localStorage.getItem('progress-v1'),installed:localStorage.getItem('builtin-paths-v1')};}
@@ -52,7 +52,7 @@ export async function openStorage() {
         if(!replace && (initial?Boolean(meta.result):revision!==state.revision)) {conflict=true;tx.abort();return;}
         next={...state,revision:revision+1};
         if (cache && JSON.stringify(cache.paths)!==JSON.stringify(state.paths)) store.put(cache,'backup');
-        for(const key of keys) if(replace||!cache||JSON.stringify(cache[key])!==JSON.stringify(state[key])) state[key]===undefined?store.delete(key):store.put(state[key],key);
+        for(const key of keys) if(replace||!cache||JSON.stringify(cache[key])!==JSON.stringify(state[key])) store.put(state[key],key);
         store.put({schemaVersion:state.schemaVersion,revision:next.revision},'meta');
         if(legacy) store.put(legacy,'legacy');
         } catch {tx.abort();}

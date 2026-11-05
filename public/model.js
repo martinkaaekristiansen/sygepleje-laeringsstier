@@ -1,5 +1,5 @@
 import {pathSubjects,validPathSubjects} from './subjects.js';
-import {demo,questions,validQuestions,safeURL} from './data.js';
+import {validQuestions,safeURL} from './data.js';
 import {pharmacologyPath} from './pharmacology.js';
 import {semester5Path} from './semester5.js';
 import {types} from './ui.js';
@@ -62,7 +62,6 @@ export function normalizePath(input, fresh = false) {
   return p;
 }
 export const builtins = [
-  {...demo, steps:demo.steps.map(s => s.type === 'quiz' ? {...s,questions} : s)},
   pharmacologyPath, semester5Path,
 ].map(p => normalizePath({...p,builtinId:p.id,builtinVersion:1}));
 export function emptyState() {
@@ -70,12 +69,12 @@ export function emptyState() {
 }
 export function migrateLegacy(raw) {
   if (raw.paths === null && raw.progress === null && raw.installed === null) return emptyState();
-  const paths = raw.paths === null ? [structuredClone(builtins[0])] : JSON.parse(raw.paths);
+  const paths = raw.paths === null ? structuredClone(builtins) : JSON.parse(raw.paths);
   const oldProgress = raw.progress === null ? {} : JSON.parse(raw.progress);
   const installed = raw.installed === null ? [] : JSON.parse(raw.installed);
   // Never replace malformed existing data with an empty catalogue.
   if (!Array.isArray(paths) || paths.some(p => pathErrors(p).length || !id(p.id)) || new Set(paths.map(p=>p.id)).size !== paths.length || !object(oldProgress) || !Array.isArray(installed) || installed.some(v=>!id(v))) throw Error('De tidligere browserdata har et ukendt format.');
-  const state = {...emptyState(),paths:paths.map(p=>normalizePath(p)),progress:{},installed:[...new Set([builtins[0].id,...installed])]};
+  const state = {...emptyState(),paths:paths.map(p=>normalizePath(p)),progress:{},installed:[...new Set([...installed])]};
   for (const p of state.paths) {
     const baseline = builtins.find(b=>b.id===p.id);
     if (baseline) { p.builtinId=p.id; p.builtinVersion=1; }
@@ -91,26 +90,17 @@ export function migrateLegacy(raw) {
     if (!id(key) || !object(old)) throw Error('Ukendt progressionsformat.');
     state.progress[key] = {done:[],notes:{},answers:{},legacy:structuredClone(old)};
   }
-  for (const p of builtins.slice(1)) if (!state.installed.includes(p.id)) {
+  for (const p of builtins) if (!state.installed.includes(p.id)) {
     if (!state.paths.some(x=>x.id===p.id)) state.paths.push(structuredClone(p));
     state.installed.push(p.id);
   }
-  return state;
+  return removeRetiredPaths(state);
 }
 export function validateState(state) {
   try { return validStateShape(state); } catch { return false; }
 }
 function validStateShape(state) {
   if (!object(state) || state.schemaVersion !== SCHEMA || !Number.isInteger(state.revision) || !Array.isArray(state.paths) || !object(state.progress) || !object(state.drafts) || !Array.isArray(state.installed) || !object(state.dismissedUpdates) || state.installed.some(v=>!id(v))) return false;
-  if(state.publication!==undefined) {
-    const p=state.publication;
-    if(!object(p)||p.version!==1||!object(p.known)||!object(p.pending)||!object(p.history))return false;
-    const hash=v=>typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);
-    const validStored=(path,progress={})=>validStateShape({schemaVersion:SCHEMA,revision:0,paths:[path],progress,drafts:{},installed:[],dismissedUpdates:{}});
-    for(const [key,doc]of Object.entries(p.known))if(!id(key)||!object(doc)||doc.path?.id!==key||!hash(doc.revision)||!['published','withdrawn'].includes(doc.status)||!validStored(doc.path))return false;
-    for(const [key,pending]of Object.entries(p.pending))if(!id(key)||!object(pending)||!hash(pending.revision))return false;
-    for(const [key,entries]of Object.entries(p.history))if(!id(key)||!Array.isArray(entries)||entries.some(entry=>!object(entry)||entry.path?.id!==key||!Number.isFinite(entry.savedAt)||typeof entry.revision!=='string'||!validStored(entry.path,{[key]:entry.progress})))return false;
-  }
   if (state.paths.some(p=>!id(p.id) || pathErrors(p).length || !Number.isInteger(p.contentVersion)) || new Set(state.paths.map(p=>p.id)).size !== state.paths.length) return false;
   for (const p of state.paths) {
     if (new Set(p.steps.map(s=>s.id)).size !== p.steps.length) return false;
@@ -165,7 +155,7 @@ export function addNewBuiltins(state, available=builtins) {
     if (!next.paths.some(p=>p.id===path.id)) next.paths.push(structuredClone(path));
     next.installed.push(path.id);
   }
-  return next;
+  return removeRetiredPaths(next);
 }
 export function updatesFor(state, available=builtins) {
   return available.filter(b=>state.paths.some(p=>p.id===b.id&&(p.builtinVersion||0)<b.builtinVersion)&&(state.dismissedUpdates[b.id]||0)<b.builtinVersion);
@@ -201,3 +191,12 @@ export function newStep(type='text') {
 }
 export function newQuestion() {return {id:uid(),q:'',a:['','',''],optionIds:[uid(),uid(),uid()],explanations:['','',''],correct:0,why:''};}
 export function duplicateStep(step) {return normalizePath({id:uid(),steps:[structuredClone(step)]},true).steps[0];}
+
+// Apply on every load, including restored backups and pre-IndexedDB data.
+// Keep unrelated content and all student progress; retired paths cannot reopen.
+export function removeRetiredPaths(state) {
+  const next=structuredClone(state),retired=p=>p.id==='fordoejelse'||p.builtinId==='fordoejelse';
+  next.paths=next.paths.filter(p=>!retired(p));
+  for(const [id,draft]of Object.entries(next.drafts))if(retired(draft.path))delete next.drafts[id];
+  return next;
+}
