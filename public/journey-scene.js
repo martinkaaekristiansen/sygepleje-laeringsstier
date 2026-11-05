@@ -154,12 +154,13 @@ export function mountJourneyScene(canvas, structure, {reduced=false, ambient=tru
    const o2y=height*(inward?.21+f*.13:.34-f*.13),co2y=height*(inward?.34-f*.13:.21+f*.13);
    ellipse(x,o2y,3,3,'#ffe19c');ellipse(x+11,co2y,2.5,2.5,'#e4d8d0');
   }
-  const top=height*.79;
-  ctx.fillStyle='#1f101de6';ctx.fillRect(width*.035,top,width*.93,height*.13);
-  label(inward?'O₂ ↓ til blodet     CO₂ ↑ til alveolen':'O₂ ↑ til vævet     CO₂ ↓ til blodet',width*.5,top+height*.04,mobile?11:13);
-  const bx=width*.19,by=top+height*.065,bw=width*.62;
+  const top=height*.79, left=mobile?88:125, panelWidth=width-left-10, center=left+panelWidth/2;
+  // Leave the bottom-left corner free for the body map on every screen size.
+  ctx.fillStyle='#1f101de6';ctx.fillRect(left,top,panelWidth,height*.13);
+  label(inward?'O₂ ↓ til blodet   CO₂ ↑ til alveolen':'O₂ ↑ til vævet   CO₂ ↓ til blodet',center,top+height*.04,mobile?9:13);
+  const bx=left+panelWidth*.09,by=top+height*.065,bw=panelWidth*.82;
   ctx.fillStyle='#662a3b';ctx.fillRect(bx,by,bw,5);ctx.fillStyle=mix([140,43,56],[241,90,71],oxygen);ctx.fillRect(bx,by,bw*(.75+.23*oxygen),5);
-  label(inward?'Hæmoglobin binder gradvist mere O₂':'Hæmoglobin afgiver en del af sin O₂',width*.5,top+height*.112,10);
+  label(inward?'Hæmoglobin binder mere O₂':'Hæmoglobin afgiver noget O₂',center,top+height*.112,mobile?9:10);
  }
  function draw(){
   if(disposed||!width||!height)return;

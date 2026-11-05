@@ -4,7 +4,7 @@ Spillet ligger under **1. semester → Anatomi og fysiologi → Blodcellens rejs
 
 ## Afprøvning før offentlig udgivelse
 
-Videreudviklingen med lyd og ny anatomi ligger på branchen `blodcellens-rejse-lyd-og-anatomi`. Den allerede offentliggjorte spilversion ændres ikke, før denne videreudvikling er godkendt. Den må først flettes ind i `main`, når ejeren har godkendt resultatet. GitHub Pages-workflowen udgiver ved ændringer på `main`; der er ikke tilføjet automatisk offentlig udgivelse af denne branche.
+GitHub Pages-workflowen tester og udgiver ændringer på `main`. Lyd, anatomi, automatisk videregang, funfacts og kropskort er godkendt til udgivelse af ejeren. Fremtidige ændringer kan afprøves lokalt før en ny udgivelse.
 
 **Test uden installation:** Den genererede fil `artifacts/blodcellens-rejse.html` kan åbnes direkte i en nyere Chrome, Edge eller Firefox. Den indeholder hele appen til lokal afprøvning og sender ikke data til den offentlige hjemmeside. Den kan gendannes med `npm run build:preview`. Progression i testfilen er adskilt fra hjemmesidens progression.
 
@@ -12,8 +12,8 @@ Start projektets lokale forhåndsvisning med `npm run dev`, og åbn port 3000. P
 
 1. Tryk eventuelt **Slå lyd til**. Justér lydstyrken, og vælg Hjerte, Lunger og Blodstrøm i lydpanelet. Lyden er slået fra første gang; også en gemt til-indstilling kræver et klik, før afspilning kan starte. Vælg **Let**, **Mellem** eller **Svær**, og start rejsen. Alle niveauer er tilgængelige fra starten.
 2. Tryk på en af de to åbninger i tunnelen. På tastatur kan du bruge Tab og Enter; venstre/højre pil fokuserer den tilsvarende passage. Der er intet tidspres.
-3. Et korrekt valg fører kameraet gennem den valgte åbning. Den næste struktur vises. Ved gasudveksling stopper rejsen kort til en forklaring, som afsluttes med **Fortsæt rejsen**.
-4. Et forkert valg koster ét liv. Læs forklaringen, og tryk **Prøv igen ved samme skillevej**. To fejl viser **Game Over**, og næste forsøg starter fra aorta.
+3. Et korrekt valg fører kameraet gennem den valgte åbning. Den næste struktur vises. Også ved gasudveksling er de næste to passager straks tilgængelige efter kameraovergangen. Animation og forklaring vises, mens man vælger; der er ingen ekstra fortsæt-knap eller tvungen læsepause.
+4. Et forkert valg koster ét liv. Forklaringen bliver stående, mens de to passager er tilgængelige igen. Vælg direkte på ny ved samme skillevej; ingen ekstra bekræftelse er nødvendig. To fejl viser **Game Over**, og næste forsøg starter fra aorta.
 5. Brug **Afslut til læringsstien** for at gå tilbage til niveauoversigten. Det aktive forsøg kan genoptages efter lukning eller genindlæsning. Start af et nyt forsøg erstatter det aktive forsøg efter bekræftelse.
 6. Gennemfør et niveau, genindlæs siden og kontrollér fluebenet. Senere mislykkede forsøg skal ikke fjerne gennemførelsen.
 7. Kontrollér samme forløb på mobil, med tastatur og med systemindstillingen for reduceret bevægelse. Blodstrømmens baggrundsanimation kan også sættes på pause i spillet.
@@ -58,7 +58,7 @@ For hvert niveau gemmes:
 - `best`: højeste andel af korrekte overgange i ét forsøg, i procent. Resultatet opdateres undervejs, også hvis forsøget afbrydes.
 - `lastCompleted`: dato og tidspunkt for seneste gennemførelse.
 
-Det aktuelle forsøg gemmes med position, liv, fejl, korrekt side ved hver skillevej og fase. Genindlæsning flytter ikke spilleren forbi en fejl og giver ikke nye liv. I appens samlede overblik tæller hvert gennemført niveau som ét af læringsstiens tre trin. Gennemførelse måler ikke en samlet klinisk kompetence.
+Det aktuelle forsøg gemmes med position, liv, fejl, korrekt side ved hver skillevej og fase. Genindlæsning flytter ikke spilleren forbi en fejl og giver ikke nye liv. Ældre gemte forsøg i `arrival`-fasen åbnes ved samme struktur med valgene tilgængelige; den tidligere fortsæt-bekræftelse er fjernet. I appens samlede overblik tæller hvert gennemført niveau som ét af læringsstiens tre trin. Gennemførelse måler ikke en samlet klinisk kompetence.
 
 ## Kodestruktur
 
@@ -66,6 +66,7 @@ Det aktuelle forsøg gemmes med position, liv, fejl, korrekt side ved hver skill
 | --- | --- |
 | `public/blood-routes.js` | Anatomiske ruter, betegnelser, forklaringer, iltstatus og læringsstiens metadata. |
 | `public/journey-engine.js` | Rene, genanvendelige tilstandsovergange, to liv, valgmuligheder og resultatberegning. Ingen grafik, browserlagring eller tidsstyring. |
+| `public/journey-guide.js` | Funfacts og skematiske kropspositioner for alle strukturer; tilgængelig SVG-visning af kropskortet. |
 | `public/journey-physiology.js` | Anatomiske lydzoner, relative karprofiler, 70/14-rytmer, klapfaser og gradvis iltning. Rene funktioner uden browserafhængigheder. |
 | `public/journey-audio.js` | Original Web Audio-syntese, vedvarende lydlag, fælles ur, bløde volumenkurver, brugeraktivering og lokale lydindstillinger. |
 | `public/journey-scene.js` | Canvas med perspektiv, organisk tunnel, erytrocytter, vægge, klapper, gasudveksling og kamerabevægelse. Kender ikke korrekte svar eller progression. |
@@ -116,7 +117,7 @@ Lydpanelets indstillinger gemmes separat i localStorage under `laeringsstier-blo
 - Forkamre er afrundede. Ventriklerne har en tilspidset kavitet, trabekler og papillærmuskler; venstre ventrikel har kraftigere muskelvæg end højre. AV-klappernes sejl har chordae; semilunarklappernes tre lommer har ikke.
 - Animationen anvender samme ur som hjertelyden. Ventrikulær kontraktion følger systolen. AV-klapper åbner i diastolen; semilunarklapper åbner i uddrivningsfasen. Ved et korrekt valg i en klapscene nærmer kameraet sig, venter på den åbne fase og passerer fligplanet inden for den fase.
 - Et tydeligt mærket undervisningsvindue viser alveoler **uden for** kapillæren og en tynd alveole-kapillærbarriere. O₂ bevæger sig mod blodet, CO₂ mod alveolen. I vævskapillærer går retningerne omvendt. Røde farver ændres gradvist over fire sekunder. Hb-bjælken er skematisk, ikke en målt saturation; iltfattigt blod har stadig en betydelig mængde bundet ilt.
-- Gasudvekslingen nulstilles ikke ved “Fortsæt” i samme kapillær. Reduceret bevægelse eller animationspause viser en statisk illustration med faste pile, sluttilstand for iltningen og åben klap; ingen kamerabevægelse. Dette er et bevidst stillbillede, ikke en påstand om, at klapper altid er åbne.
+- Gasudvekslingen foregår under det næste valg uden et særskilt stop og nulstilles ikke ved en almindelig genvisning af samme kapillær. Reduceret bevægelse eller animationspause viser en statisk illustration med faste pile, sluttilstand for iltningen og åben klap; ingen kamerabevægelse. Dette er et bevidst stillbillede, ikke en påstand om, at klapper altid er åbne.
 
 Rutehypoteserne er fortsat tydeligt mærkede, og alle eksisterende forklaringer og anatomiske rutedata er bevaret. Den visuelle model er pseudo-3D og skematisk; vægtykkelser, størrelsesforhold og afstanden mellem organer er ikke målfast.
 
@@ -126,3 +127,12 @@ Rutehypoteserne er fortsat tydeligt mærkede, og alle eksisterende forklaringer 
 - Browsertest: ingen automatisk lyd før et klik, samme lydmotor gennem trinskift, individuelle lydlag, glidende gain-kurver, volumen med tastatur, gemte indstillinger, mute/genstart og oprydning ved navigation.
 - Hele den svære rute gennemspilles også med lyd og bevægelse aktiveret. Alle kilder kontrolleres for fælles starttid og for, at de ikke genstartes mellem trin. Lunge- og klapvisninger kontrolleres på desktop og i mobilformat; reduceret bevægelse skal give uændret Canvas-billede.
 - Der er ikke brugt en fysisk iPhone/Android-enhed eller foretaget en klinisk bedømmelse af lydens naturtro kvalitet. Mobiltestene er Chromium-emulering. Lyden bør derfor også afprøves med almindelige højttalere/hovedtelefoner og på de ønskede enheder før offentlig udgivelse.
+
+
+## Funfacts og kropskort
+
+Hver af de 28 forskellige strukturer har en kort **Vidste du?**-tekst i `journey-guide.js`. Teksten er tilgængelig uden bekræftelsesknapper og erstatter ikke de oprindelige forklaringer. Et forkert valg beholder sin faglige forklaring, indtil spilleren vælger igen.
+
+Et lille SVG-kort nederst til venstre i spilbilledet viser en erytrocytmarkør ved den aktuelle region. Kortet ses **forfra**: patientens højre side er til venstre på skærmen. Det følger denne bestemte rute gennem højre overarm, hulvenen, højre hjertehalvdel, højre lunge og venstre hjertehalvdel. Karforløb, hjertekamre og positioner er skematiske og ikke målfast anatomi. Markøren flyttes ved trinskift; der tilføjes ingen ekstra bevægelse ved reduceret animation.
+
+Kortet kan ikke opfange klik eller tastaturfokus fra passagerne. Gasudvekslingens forklaring er flyttet til højre, så den ikke skjules af kortet. Enhedstest dækker fakta og positioner for alle ruter. Browsertest dækker automatisk videregang, genoptagelse af ældre `arrival`-data, bevarede gennemførelser og placering af kortet på mobil.

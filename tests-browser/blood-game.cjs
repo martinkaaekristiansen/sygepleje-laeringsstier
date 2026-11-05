@@ -11,11 +11,11 @@ async function ready(page){await page.waitForFunction(()=>document.querySelector
   await page.goto(base);await page.locator('[data-semester="1"]').click();await page.locator(`[data-open="${BLOOD_PATH_ID}"]`).click();await page.locator('.blood-levels').waitFor();assert.equal(await page.getByRole('radio').count(),3);assert.equal(await page.locator('input[type=password]').count(),0);
   for(const [level,route]of Object.entries(BLOOD_LEVELS)) {
    await page.locator(`[name=blood-level][value=${level}]`).check();await page.locator('[data-blood=start]').click();await page.locator('[data-passage]').first().waitFor();
-   // A wrong choice must not advance, and feedback must be acknowledged.
-   const wrong=page.locator('[data-passage]').filter({hasText:route.choices[0].wrong.name});await wrong.click();await page.locator('#blood-feedback').waitFor();assert.match(await page.locator('.blood-lives').getAttribute('aria-label'),/^1 /);assert.equal(await page.locator('[data-passage]').count(),0);assert.match(await page.locator('.blood-location h1').textContent(),new RegExp(route.steps[0].name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+   // A wrong choice must not advance; the next attempt needs no acknowledgment.
+   const wrong=page.locator('[data-passage]').filter({hasText:route.choices[0].wrong.name});await wrong.click();await page.locator('#blood-feedback').waitFor();assert.match(await page.locator('.blood-lives').getAttribute('aria-label'),/^1 /);assert.equal(await page.locator('[data-passage]:not(:disabled)').count(),2);assert.equal(await page.locator('[data-blood=continue]').count(),0);assert.match(await page.locator('.blood-location h1').textContent(),new RegExp(route.steps[0].name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
    await page.reload();await page.locator('[data-blood=resume]').click();await page.locator('#blood-feedback').waitFor();assert.match(await page.locator('.blood-lives').getAttribute('aria-label'),/^1 /);await ready(page);
    for(let i=0;i<route.choices.length;i++) {
-    await page.locator('[data-passage]').first().waitFor();assert.equal(await page.locator('[data-passage]').count(),2);
+    await page.locator('[data-passage]').first().waitFor();assert.equal(await page.locator('[data-passage]').count(),2);assert.equal(await page.locator('[data-blood=continue]').count(),0);assert.equal(await page.locator('[data-map-location]').getAttribute('data-map-location'),route.steps[i].id);assert.ok((await page.locator('.blood-funfact p').textContent()).length>30);
     const target=page.locator('[data-passage]').filter({hasText:route.steps[i+1].name});
     if(i===0){const side=await target.getAttribute('data-passage');await page.keyboard.press(side==='0'?'ArrowLeft':'ArrowRight');assert.equal(await page.evaluate(()=>document.activeElement.dataset.passage),side);await page.keyboard.press('Enter');}
     else await target.click();
