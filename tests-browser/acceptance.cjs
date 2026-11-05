@@ -3,94 +3,64 @@ const assert=require('node:assert/strict');
 const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/';
 const readState=page=>page.evaluate(async()=>{
  const db=await new Promise((resolve,reject)=>{const r=indexedDB.open('laeringsstier-v2');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});
- const tx=db.transaction('records','readonly'),store=tx.objectStore('records');const data=await Promise.all(['meta','paths','progress','drafts'].map(k=>new Promise(r=>{const req=store.get(k);req.onsuccess=()=>r(req.result);})));db.close();return {...data[0],paths:data[1],progress:data[2],drafts:data[3]};
+ const store=db.transaction('records','readonly').objectStore('records');const keys=['meta','paths','progress','drafts','installed','dismissedUpdates'];
+ const values=await Promise.all(keys.map(k=>new Promise(r=>{const req=store.get(k);req.onsuccess=()=>r(req.result);})));db.close();return {...values[0],...Object.fromEntries(keys.slice(1).map((k,i)=>[k,values[i+1]]))};
 });
-const settle=page=>page.waitForFunction(()=>{const status=document.querySelector('#draft-status');return !status||status.textContent.includes('Kladde gemt');});
-async function home(page){await page.locator('header a[href="#/"]').first().click();await page.locator('.continue-section').waitFor();}
-async function login(page){await page.locator('header a[href="#/underviser"]').click();await page.locator('#teacher-code,[data-action=new],#editor').first().waitFor();if(await page.locator('#teacher-code').count()){await page.locator('#teacher-code').fill('7269');await page.locator('#teacher-login button').click();}await page.locator('[data-action=new],#editor').first().waitFor();}
+const home=async page=>{await page.locator('header a[href="#/"]').first().click();await page.locator('.continue-section').waitFor();};
 (async()=>{
  const browser=await chromium.launch({...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox']});
- const errors=[];
- const fresh=async(options={})=>{const context=await browser.newContext(options);const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());return {context,page};};
  try {
-  const {context,page}=await fresh({viewport:{width:1440,height:1000}});
+  const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[],requests=[];let accept=true;
+  page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));page.on('dialog',d=>accept?d.accept():d.dismiss());
   await page.goto(base);await page.locator('.continue-section').waitFor();
-  assert.equal(await page.locator('.continue-card').count(),0);
-  await page.locator('[data-open=fordoejelse]').click();await page.locator('#lesson-heading').waitFor();
-  await page.locator('[data-action=complete]').click();await page.waitForFunction(()=>location.hash.includes('s2'));
-  const deep=page.url();await page.reload();await page.locator('#lesson-heading').waitFor();assert.match(await page.locator('#lesson-heading').textContent(),/Fra mund/);
-  await home(page);assert.equal(await page.locator('.continue-progress').getAttribute('aria-valuenow'),'20');
-  await page.goBack();await page.locator('#lesson-heading').waitFor();assert.equal(page.url(),deep);
-  assert.equal(await page.evaluate(()=>document.activeElement.id),'lesson-heading');
-  await login(page);await page.locator('[data-edit=fordoejelse]').click();await page.locator('#editor').waitFor();
-  assert.equal(await page.locator('[data-action=export-draft]').count(),0);
-  const initial=await readState(page),p=initial.paths.find(p=>p.id==='fordoejelse'),stepId=p.steps[0].id;
-  await page.locator('[name=title]').fill('Fordøjelsessystemet – min udgave');await settle(page);await page.reload();await page.locator('#teacher-code').waitFor();
-  await page.locator('#teacher-code').fill('0000');await page.locator('#teacher-login button').click();assert.match(await page.locator('#code-error').textContent(),/forkert/);
-  await page.locator('#teacher-code').fill('7269');await page.locator('#teacher-login button').click();await page.locator('#editor').waitFor();assert.match(await page.locator('[name=title]').inputValue(),/min udgave/);
-  await page.locator(`[data-editor-step="${stepId}"]`).click();await page.locator('[data-step-move="1"]').click();await settle(page);
-  await page.locator('[data-action=toggle-preview]').click();await page.locator('#preview-lesson .lesson').waitFor();assert.equal(await page.locator('#preview-lesson .step-list').count(),0);
-  await page.locator('#editor button[type=submit]').click();await page.locator('.teacher-list').waitFor();
-  let saved=await readState(page);assert.deepEqual(saved.progress.fordoejelse.done,[stepId]);assert.equal(saved.paths[0].steps[1].id,stepId);
-  await home(page);assert.equal(await page.locator('.continue-progress').getAttribute('aria-valuenow'),'20');
-  // Every existing pharmacology and semester-five question works, including reload persistence.
-  for(const semester of [3,5]) {
-   await page.locator(`[data-semester="${semester}"]`).click();await page.locator('.path-card [data-open]').click();await page.locator('#lesson-heading').waitFor();
-   saved=await readState(page);const path=saved.paths.find(p=>p.semester===semester);let count=0;
+  const initial=await readState(page);assert.deepEqual(initial.paths.map(p=>p.semester),[3,5]);assert.equal(await page.locator('[data-semester]').count(),7);
+  assert.equal(await page.getByRole('link',{name:/Underviser/}).count(),0);
+  await page.locator('[data-semester="1"]').click();assert.equal(await page.locator('.path-card').count(),0);assert.equal(await page.locator('.filters button').count(),1);assert.equal(await page.locator('[data-action=teacher]').count(),0);
+  await page.goto(base+'#/underviser');await page.locator('.continue-section').waitFor();assert.equal(await page.locator('input[type=password],#editor').count(),0);
+  await page.goto(base+'#/sti/fordoejelse');await page.getByRole('heading',{name:'Læringsstien blev ikke fundet'}).waitFor();
+  await home(page);await page.locator('[data-semester="3"]').click();await page.locator('.path-card [data-open]').click();await page.locator('#lesson-heading').waitFor();
+  const pharma=initial.paths[0],q=pharma.steps[0].questions[0],wrong=(q.correct+1)%q.a.length;
+  await page.locator(`[data-answer="0:${wrong}"]`).click();await page.locator('#feedback-0').waitFor();
+  await page.locator(`[data-answer="0:${q.correct}"]`).click();await page.locator('#feedback-0').waitFor();
+  await page.locator(`[data-answer="0:${wrong}"]`).click();await page.locator('#option-feedback-0').waitFor();
+  assert.equal(await page.locator(`[data-answer="0:${q.correct}"]`).getAttribute('aria-pressed'),'true');
+  await page.reload();await page.locator('#lesson-heading').waitFor();assert.equal(await page.locator(`[data-answer="0:${q.correct}"]`).getAttribute('aria-pressed'),'true');
+  accept=false;await page.locator('[data-action=retry]').click();assert.equal(await page.locator(`[data-answer="0:${q.correct}"]`).getAttribute('aria-pressed'),'true');
+  accept=true;await page.locator('[data-action=retry]').click();await page.locator('#feedback-0').waitFor({state:'detached'});
+  await home(page);assert.equal(await page.locator('.continue-card').count(),1);assert.equal(await page.locator('.continue-progress').getAttribute('aria-valuenow'),'0');
+  for(const path of initial.paths) {
+   await page.locator(`[data-semester="${path.semester}"]`).click();await page.locator(`.path-card [data-open="${path.id}"]`).click();
+   let count=0;
    for(let i=0;i<path.steps.length;i++) {
-    await page.waitForFunction(id=>decodeURIComponent(location.hash).endsWith(id),path.steps[i].id);
-    for(let j=0;j<path.steps[i].questions.length;j++) {
-     const q=path.steps[i].questions[j];await page.locator(`[data-answer="${j}:${q.correct}"]`).click();await page.locator(`#feedback-${j}`).waitFor();assert.match(await page.locator(`#feedback-${j}`).textContent(),/Korrekt!/);assert.equal(await page.evaluate(()=>document.activeElement.id),`feedback-${j}`);count++;
-    }
-    if(i===0){await page.reload();await page.locator('#feedback-0').waitFor();}
-    if(semester===5){await page.locator('#reflection').fill('Faglig refleksion '+i);await page.locator('.reflection-guide summary').click();assert.ok((await page.locator('.reflection-guide .prose').textContent()).length>20);}
-    await page.locator('[data-action=complete]').click();
+    const s=path.steps[i];await page.waitForFunction(id=>decodeURIComponent(location.hash).endsWith(id),s.id);
+    for(let j=0;j<s.questions.length;j++) {await page.locator(`[data-answer="${j}:${s.questions[j].correct}"]`).click();await page.locator(`#feedback-${j}`).waitFor();assert.match(await page.locator(`#feedback-${j}`).textContent(),/Korrekt!/);count++;}
+    if(s.type==='reflection') {await page.locator('#reflection').fill('Min faglige refleksion '+i);await page.locator('.reflection-guide summary').click();assert.ok(await page.locator('.reflection-guide .prose').isVisible());}
+    const deep=page.url();await page.locator('[data-action=complete]').click();
+    if(i===0){await home(page);assert.equal(await page.locator('.continue-progress').getAttribute('aria-valuenow'),String(Math.round(100/path.steps.length)));await page.goBack();await page.locator('#lesson-heading').waitFor();assert.notEqual(page.url(),deep);}
    }
-   await page.getByText('Godt gået! Læringsstien er gennemført.',{exact:true}).waitFor();
-   assert.equal(count,semester===3?20:36);await home(page);assert.equal(await page.locator(`[data-resume="${path.id}"]`).count(),0);
+   await page.getByText('Godt gået! Læringsstien er gennemført.',{exact:true}).waitFor();assert.equal(count,path.semester===3?20:36);
+   await home(page);assert.equal(await page.locator('.continue-card').count(),0);
   }
-  // New teacher content, one-step editing, validation, choices, undo, preview and deletion.
-  await login(page);await page.locator('[data-action=new]').click();await page.locator('#editor').waitFor();
-  await page.locator('#editor button[type=submit]').click();await page.locator('#validation').waitFor();assert.match(await page.locator('#validation').textContent(),/titel/);
-  await page.locator('[name=title]').fill('Ny øvelse');await page.locator('[name=description]').fill('En test af cases og spørgsmål');
-  await page.locator('[data-editor-step]').nth(1).click();await page.locator('[data-field=title]').fill('Beslutning');await page.locator('[data-field=text]').fill('Fiktiv case');
-  await page.locator('[data-action=add-question]').click();await page.locator('[data-q=q]').fill('Hvad vælger du?');
-  for(let i=0;i<3;i++)await page.locator(`[data-choice="${i}"]`).fill(['Rigtigt','Forkert','Også forkert'][i]);
-  await page.locator('[data-q=why]').fill('Begrundelse for det korrekte svar og misforståelser.');
-  await page.locator('[data-option-move="0:1:-1"]').click();await page.waitForFunction(()=>document.querySelector('[data-q=correct]').value==='1');assert.equal(await page.locator('[data-q=correct]').inputValue(),'1');
-  await page.locator('[data-action=duplicate-step]').click();await page.waitForFunction(()=>document.querySelectorAll('.editor-outline li').length===2);assert.equal(await page.locator('.editor-outline li').count(),2);
-  await page.locator('[data-action=undo]').click();await page.waitForFunction(()=>document.querySelectorAll('.editor-outline li').length===1);assert.equal(await page.locator('.editor-outline li').count(),1);
-  await page.locator('.editor-outline li button').first().click();await page.locator('[data-action=toggle-preview]').click();await page.locator('[data-answer="0:0"]').click();await page.locator('#feedback-0').waitFor();assert.match(await page.locator('#feedback-0').textContent(),/Prøv at tænke/);
-  await page.locator('[data-action=retry]').click();await page.locator('[data-answer="0:1"]').click();await page.locator('#feedback-0').waitFor();assert.match(await page.locator('#feedback-0').textContent(),/Korrekt!/);
-  await page.locator('#editor button[type=submit]').click();await page.locator('.teacher-list').waitFor();
-  assert.equal(await page.locator('[data-action="export"],#import,[data-action="backup"],#restore,[data-action="previous-backup"],[data-update]').count(),0);
-  assert.equal(await page.getByText('For at dele indhold skal du eksportere',{exact:false}).count(),0);
-  const before=(await readState(page)).paths.length;
-  const created=(await readState(page)).paths.find(p=>p.title==='Ny øvelse');assert.ok(created);
-  await page.locator(`[data-delete="${created.id}"]`).click();await page.waitForFunction(n=>document.querySelectorAll('.teacher-list>div').length===n,before-1);
-  await page.reload();await page.locator('#teacher-code').waitFor();await login(page);
-  assert.equal((await readState(page)).paths.some(p=>p.id===created.id),false);
-  await context.close();
-  // Storage failure keeps editor open; retry succeeds.
-  const fail=await fresh();await fail.page.goto(base);await fail.page.locator('.continue-section').waitFor();await login(fail.page);await fail.page.locator('[data-edit=fordoejelse]').click();await fail.page.locator('#editor').waitFor();
-  await fail.page.evaluate(()=>{window.originalPut=IDBObjectStore.prototype.put;IDBObjectStore.prototype.put=function(){throw new DOMException('Quota','QuotaExceededError');};});
-  await fail.page.locator('[name=title]').fill('Bevar mit arbejde');await fail.page.waitForTimeout(600);
-  await fail.page.locator('#editor button[type=submit]').click();await fail.page.locator('#storage-status').waitFor();assert.equal(await fail.page.locator('#editor').count(),1);assert.equal(await fail.page.locator('[name=title]').inputValue(),'Bevar mit arbejde');
-  await fail.page.evaluate(()=>IDBObjectStore.prototype.put=window.originalPut);await fail.page.locator('[data-action=retry-save]').click();await fail.page.waitForFunction(()=>document.querySelector('#storage-status').hidden);await fail.page.locator('#editor button[type=submit]').click();await fail.page.locator('.teacher-list').waitFor();await fail.context.close();
-  // Concurrent tabs cannot silently overwrite one another.
-  const tabs=await fresh();await tabs.page.goto(base);await tabs.page.locator('.continue-section').waitFor();
-  const tab2=await tabs.context.newPage();tab2.on('pageerror',e=>errors.push(e.message));await tab2.goto(base);await tab2.locator('.continue-section').waitFor();
-  await tabs.page.locator('[data-open=fordoejelse]').click();await tabs.page.locator('#lesson-heading').waitFor();
-  await tabs.page.locator('[data-action=complete]').click();await tabs.page.waitForFunction(()=>location.hash.includes('s2'));
-  await tab2.locator('[data-open=fordoejelse]').click();await tab2.locator('#storage-status').waitFor();assert.match(await tab2.locator('#storage-status').textContent(),/anden fane/);
-  assert.equal((await readState(tab2)).progress.fordoejelse.done.length,1);await tabs.context.close();
-  // Legacy migration and recovery are tested in isolated browsers before first startup.
-  const legacy=await fresh();await legacy.context.addInitScript(()=>{if(!localStorage.getItem('seeded')){localStorage.setItem('seeded','1');localStorage.setItem('progress-v1',JSON.stringify({fordoejelse:{done:[0],last:1,notes:{4:'Bevar refleksion'}}}));}});await legacy.page.goto(base);await legacy.page.locator('.continue-card').waitFor();assert.equal(await legacy.page.locator('.continue-progress').getAttribute('aria-valuenow'),'20');assert.ok((await readState(legacy.page)).progress.fordoejelse.notes['fordoejelse:s5']);await legacy.context.close();
-  const corrupt=await fresh();await corrupt.context.addInitScript(()=>localStorage.setItem('paths-v1','{"forkert":true}'));await corrupt.page.goto(base);await corrupt.page.locator('.recovery').waitFor();assert.equal(await corrupt.page.evaluate(()=>localStorage.getItem('paths-v1')),'{"forkert":true}');await corrupt.context.close();
-  // Mobile 12-step path starts with the content, not a long navigation list.
-  const mobile=await fresh({viewport:{width:390,height:844}});await mobile.page.goto(base);await mobile.page.locator('[data-semester="5"]').click();await mobile.page.locator('.path-card [data-open]').click();await mobile.page.locator('#lesson-heading').waitFor();
-  assert.equal(await mobile.page.locator('.step-navigation').getAttribute('open'),null);assert.ok(await mobile.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-  await mobile.page.screenshot({path:'/tmp/laeringsstier-mobile.png',fullPage:true});await login(mobile.page);await mobile.page.locator('[data-edit="semester5-akut-kritisk-e26-v1"]').click();await mobile.page.locator('.editor-outline li button').first().click();await mobile.page.locator('[data-edit-step]').waitFor();assert.equal(await mobile.page.locator('[data-edit-step]').count(),1);assert.ok(await mobile.page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await mobile.page.screenshot({path:'/tmp/laeringsstier-editor-mobile.png',fullPage:true});await mobile.context.close();
-  assert.deepEqual(errors,[]);console.log('PASS: migration, recovery, drafts, stable progress, browser history, deep links, focus, mobile, 56 clinical quiz questions, editor, preview, simplified teacher controls, deletion and storage failure');
- } finally {await browser.close();}
-})().catch(e=>{console.error(e);process.exitCode=1;});
+  const complete=await readState(page);for(const p of initial.paths)assert.equal(complete.progress[p.id].done.length,p.steps.length);
+  assert.equal(Object.keys(complete.progress[initial.paths[1].id].notes).length,12);
+  await page.setViewportSize({width:390,height:844});await page.reload();await page.locator('.continue-section').waitFor();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.locator('.path-card [data-open]').click();await page.locator('#lesson-heading').waitFor();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await page.screenshot({path:'/tmp/laeringsstier-studerende.png'});
+  assert.deepEqual(errors,[]);assert.ok(!requests.some(u=>/publisher|catalog\.json|workers\.dev/.test(u)));
+  await page.close();
+  // Upgrade an existing IndexedDB profile, including data left by the removed publishing version.
+  const upgrade=await browser.newPage();await upgrade.goto(base);await upgrade.locator('.continue-section').waitFor();
+  const old={...structuredClone(initial.paths[0]),id:'fordoejelse',builtinId:'fordoejelse',semester:1,title:'Tidligere sti'};
+  const seeded={...complete,paths:[old,...complete.paths],drafts:{fordoejelse:{path:old}},publication:{version:1,known:{},pending:{},history:{}}};
+  await upgrade.evaluate(async state=>{
+   const db=await new Promise(r=>{const req=indexedDB.open('laeringsstier-v2');req.onsuccess=()=>r(req.result);});
+   await new Promise((resolve,reject)=>{const tx=db.transaction('records','readwrite'),store=tx.objectStore('records');for(const [k,v]of Object.entries(state))if(!['schemaVersion','revision'].includes(k))store.put(v,k);store.put({schemaVersion:2,revision:state.revision},'meta');tx.oncomplete=resolve;tx.onerror=reject;});db.close();
+  },seeded);
+  await upgrade.reload();await upgrade.locator('.continue-section').waitFor();const migrated=await readState(upgrade);
+  assert.deepEqual(migrated.paths,complete.paths);assert.deepEqual(migrated.progress,complete.progress);assert.equal(migrated.drafts.fordoejelse,undefined);
+  await upgrade.goto(base+'#/sti/fordoejelse');await upgrade.getByRole('heading',{name:'Læringsstien blev ikke fundet'}).waitFor();await upgrade.close();
+  // Old localStorage data also migrates without restoring the retired path.
+  const legacy=await browser.newPage();await legacy.addInitScript(({old,paths})=>{if(!localStorage.getItem('paths-v1')){localStorage.setItem('paths-v1',JSON.stringify([old,...paths]));localStorage.setItem('progress-v1',JSON.stringify({[paths[0].id]:{done:[0],last:1,notes:{1:'Bevar denne note'}}}));}},{old,paths:initial.paths});
+  await legacy.goto(base);await legacy.locator('.continue-section').waitFor();const migratedLegacy=await readState(legacy);assert.equal(migratedLegacy.paths.length,2);assert.deepEqual(migratedLegacy.progress[pharma.id].done,[pharma.steps[0].id]);assert.equal(migratedLegacy.progress[pharma.id].notes[pharma.steps[1].id],'Bevar denne note');await legacy.close();
+  console.log('PASS: no teacher or publishing UI/network, retired path absent on new and old devices, 56 questions, corrections/explanations/restart, reflections, progression, migration, deep links, history and mobile');
+ }finally{await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1});

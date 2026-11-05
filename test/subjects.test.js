@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {ALL_SUBJECTS,pathSubjects,uniqueSubjects,semesterSubjects,filterPaths,editorSubjects} from '../public/subjects.js';
+import {ALL_SUBJECTS,pathSubjects,uniqueSubjects,semesterSubjects,filterPaths} from '../public/subjects.js';
 import {emptyState,normalizePath,pathErrors,commitPath,validateState} from '../public/model.js';
 import {renderHome} from '../public/home.js';
 
@@ -11,7 +11,6 @@ test('one path appears once in all selected subjects on its semester',()=>{
   assert.equal(filterPaths(paths,5,'Kommunikation').length,0);
   assert.ok(semesterSubjects(paths,4).includes('Kommunikation'));
   assert.ok(!semesterSubjects(paths,5).includes('Kommunikation'));
-  assert.ok(editorSubjects(paths).includes('Kommunikation'));
   assert.ok(!semesterSubjects(paths.filter(p=>p.id!=='multi'),4).includes('Kommunikation'));
 });
 test('names normalize spaces and case, keep Danish letters, and treat old subject as one selection',()=>{
@@ -37,7 +36,7 @@ test('blank selection is allowed in autosaved drafts, but required before saving
 });
 test('custom subject names are escaped in student labels and filter buttons',()=>{
   const p={...emptyState().paths[0],subjects:['<img src=x onerror=alert(1)>']};
-  const html=renderHome({paths:[p],progress:{},semester:1,subject:ALL_SUBJECTS});
+  const html=renderHome({paths:[p],progress:{},semester:p.semester,subject:ALL_SUBJECTS});
   assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt;'));
   assert.ok(!html.includes('<img src=x onerror=alert(1)>'));
 });
@@ -47,5 +46,4 @@ test('student filters hide all unused subjects, including default subjects',()=>
   assert.deepEqual(semesterSubjects(paths,1),[ALL_SUBJECTS,'Anatomi og fysiologi']);
   assert.deepEqual(semesterSubjects(paths,2),[ALL_SUBJECTS]);
   assert.deepEqual(semesterSubjects(paths,3),[ALL_SUBJECTS,'Farmakologi']);
-  assert.ok(editorSubjects(paths).includes('Mikrobiologi'));
 });

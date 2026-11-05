@@ -27,7 +27,7 @@ export async function openStorage() {
         if(!validateState(state)) throw new StorageFailure('De gemte data har et ukendt eller beskadiget format. Dine data er ikke overskrevet.',state,backup);
         cache=structuredClone(state);
         const updated=addNewBuiltins(state);
-        return updated.installed.length!==state.installed.length ? this.save(updated) : state;
+        return JSON.stringify(updated)!==JSON.stringify(state) ? this.save(updated) : state;
       }
       let raw;
       try {raw={paths:localStorage.getItem('paths-v1'),progress:localStorage.getItem('progress-v1'),installed:localStorage.getItem('builtin-paths-v1')};}

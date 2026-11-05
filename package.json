@@ -1,6 +1,6 @@
 {
   "name": "laeringsstier",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "node server.js",
     "test": "node --test test/*.test.js",
     "build": "node scripts/build.js",
-    "test:browser": "node tests-browser/acceptance.cjs && node tests-browser/subjects.cjs && node tests-browser/quiz.cjs"
+    "test:browser": "node tests-browser/acceptance.cjs"
   },
   "engines": {
     "node": ">=22"

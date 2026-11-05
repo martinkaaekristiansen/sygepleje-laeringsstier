@@ -7,10 +7,10 @@ test('legacy migration preserves content, indexed completion and reflections wit
   const original=structuredClone(builtins[0]);delete original.contentVersion;
   for(const s of original.steps){delete s.id;for(const q of s.questions){delete q.id;delete q.optionIds;}}
   original.title='Min lokale udgave';
-  const raw={paths:JSON.stringify([original]),progress:JSON.stringify({[original.id]:{done:[0,2],last:2,notes:{4:'Mine refleksioner'}}}),installed:null};
+  const raw={paths:JSON.stringify([original]),progress:JSON.stringify({[original.id]:{done:[0,2],last:2,notes:{2:'Mine refleksioner'}}}),installed:null};
   const state=migrateLegacy(raw),p=state.paths[0],record=state.progress[p.id];
-  assert.equal(p.title,original.title);assert.deepEqual(record.done,[p.steps[0].id,p.steps[2].id]);assert.equal(record.notes[p.steps[4].id],'Mine refleksioner');assert.equal(record.last,p.steps[2].id);
-  assert.equal(state.paths.length,3);assert.equal(validateState(state),true);assert.deepEqual(migrateLegacy(raw),state);
+  assert.equal(p.title,original.title);assert.deepEqual(record.done,[p.steps[0].id,p.steps[2].id]);assert.equal(record.notes[p.steps[2].id],'Mine refleksioner');assert.equal(record.last,p.steps[2].id);
+  assert.equal(state.paths.length,2);assert.equal(validateState(state),true);assert.deepEqual(migrateLegacy(raw),state);
 });
 test('malformed legacy storage is not silently replaced',()=>{
   for(const raw of ['{}','null','[{}]','bad'])assert.throws(()=>migrateLegacy({paths:raw,progress:null,installed:null}));
@@ -23,7 +23,7 @@ test('reorder and title edits preserve progression; content edits invalidate onl
   const state=emptyState(),p=state.paths[0],ids=p.steps.map(s=>s.id);
   state.progress[p.id]={done:ids.slice(0,3),last:ids[1],notes:{[ids[1]]:'Bevar mig'},answers:{}};
   const edit=structuredClone(p);edit.steps.reverse();edit.title='Ny titel';
-  const moved=commitPath(state,edit);assert.deepEqual(moved.progress[p.id],state.progress[p.id]);assert.equal(getPathProgress(moved.paths[0],moved.progress[p.id]).percent,60);
+  const moved=commitPath(state,edit);assert.deepEqual(moved.progress[p.id],state.progress[p.id]);assert.equal(getPathProgress(moved.paths[0],moved.progress[p.id]).percent,75);
   edit.steps.find(s=>s.id===ids[1]).text+=' Ny faglig viden';
   const changed=commitPath(moved,edit);assert.deepEqual(changed.progress[p.id].done,[ids[0],ids[2]]);assert.equal(changed.progress[p.id].notes[ids[1]],'Bevar mig');assert.equal(changed.paths[0].contentVersion,3);
   const noop=commitPath(changed,changed.paths[0]);assert.equal(noop.paths[0].contentVersion,3);
@@ -53,4 +53,17 @@ test('malformed backups and unsafe draft structure are rejected without crashing
   for(const value of [null,{},[],{schemaVersion:2}, {...emptyState(),paths:[null]}])assert.equal(validateState(value),false);
   const state=emptyState(),path={id:'draft',title:'',description:'',semester:1,subject:'Sygepleje',steps:[newStep('text')]};
   path.steps[0].image={bad:true};state.drafts.draft={path};assert.equal(validateState(state),false);
+});
+
+test('retired first-semester path disappears from old devices and backups without changing other progress',async()=>{
+  const {removeRetiredPaths,addNewBuiltins}=await import('../public/model.js');
+  const state=emptyState(),path=state.paths[0],old={...structuredClone(path),id:'fordoejelse',semester:1,builtinId:'fordoejelse'};
+  state.paths.push(old);state.drafts[old.id]={path:old};state.installed.push(old.id);
+  state.progress[path.id]={done:[path.steps[0].id],last:path.steps[1].id,notes:{[path.steps[1].id]:'Bevar refleksion'},answers:{}};
+  const next=addNewBuiltins(state);
+  assert.ok(validateState(next));assert.ok(!next.paths.some(p=>p.id===old.id));assert.equal(next.drafts[old.id],undefined);
+  assert.deepEqual(next.progress,state.progress);assert.deepEqual(next.paths,state.paths.slice(0,2));assert.deepEqual(removeRetiredPaths(next),next);
+  assert.ok(!emptyState().paths.some(p=>p.semester===1));
+  const legacy=migrateLegacy({paths:JSON.stringify([old,...state.paths.slice(0,2)]),progress:'{}',installed:JSON.stringify(state.installed)});
+  assert.ok(!legacy.paths.some(p=>p.id===old.id));assert.equal(legacy.paths.length,2);
 });
