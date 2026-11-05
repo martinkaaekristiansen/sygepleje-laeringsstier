@@ -1,6 +1,6 @@
 # Blodcellens rejse: første WebGL-demonstration
 
-Denne gren er **ikke udgivet**. Den indeholder den ønskede første demonstrationssekvens: **aorta → arterier → arterioler → kapillærer**. Den fulde eksisterende læringsaktivitet med tre sværhedsgrader, hjertet, lungerne, spørgsmål og progression er bevaret. Den bruger endnu sin hidtidige renderer. Denne demonstration er et visuelt vurderingspunkt før en videre udbredelse af det nye udtryk.
+Den første demonstration er **godkendt til offentlig udgivelse af brugeren den 5. november 2026**. Den indeholder den ønskede første demonstrationssekvens: **aorta → arterier → arterioler → kapillærer**. Den fulde eksisterende læringsaktivitet med tre sværhedsgrader, hjertet, lungerne, spørgsmål og progression er bevaret. Den bruger endnu sin hidtidige renderer. Denne demonstration er et visuelt vurderingspunkt før en videre udbredelse af det nye udtryk.
 
 ## Afprøvning
 
@@ -62,7 +62,7 @@ Lys inde i blodkarret, transparens, synlige gasmarkører og lyde er bevidste und
 
 Enhedstest kontrollerer demonstrationsruten, to entydige valg, reelle alternative mål, lukket bikonkav cellegeometri og åbne Y-passager. Browsertest dækker WebGL, sceneskift, liv, genstart, tastatur/touch, reduceret bevægelse, resultatlagring og adskillelse fra eksisterende progression. Fejlbeskeden kontrolleres også inde i mobilens spillefelt. Appens tidligere regressionstest er bestået, herunder alle 56 spørgsmål og de tre eksisterende spilruter.
 
-Verificeret lokalt: `npm test` (12 testfiler), `npm run build`, `npm run test:browser` og `npm run build:preview:3d`. Efter de sidste materialeændringer er den særskilte `npm run test:3d` og den selvstændige HTML-fil afprøvet igen. HTML-prøven gennemfører alle fire scener og viser resultatet uden eksterne netværkskald eller JavaScript-fejl. Pages-adfærd er testet under `/sygepleje-laeringsstier/` på en lokal server; der er ikke foretaget offentlig udgivelse.
+Verificeret lokalt: `npm test` (12 testfiler), `npm run build`, `npm run test:browser` og `npm run build:preview:3d`. Efter de sidste materialeændringer er den særskilte `npm run test:3d` og den selvstændige HTML-fil afprøvet igen. HTML-prøven gennemfører alle fire scener og viser resultatet uden eksterne netværkskald eller JavaScript-fejl. Pages-adfærd er testet under `/sygepleje-laeringsstier/` på en lokal server; selve udgivelsen kontrolleres efter GitHub Pages-workflowen.
 
 Grafikken er faktisk åbnet og visuelt gennemgået i Chromium. Miljøet bruger **ANGLE/SwiftShader**, dvs. WebGL i software. De løbende afprøvninger har ligget omkring **5–7 FPS ved den viste desktop-scene i dette miljø**. Det er ikke en måling af almindelige enheders GPU-ydelse, og der gives derfor ingen garanti om 60 FPS eller godkendelse på fysiske smartphones. Den automatiske lette profil er aktiv under disse softwaretests. Der skal foretages afprøvning på de ønskede telefoner/computere før offentlig udgivelse.
 
