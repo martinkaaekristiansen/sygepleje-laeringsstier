@@ -2,6 +2,7 @@ import {pathSubjects,validPathSubjects} from './subjects.js';
 import {validQuestions,safeURL} from './data.js';
 import {pharmacologyPath} from './pharmacology.js';
 import {semester5Path} from './semester5.js';
+import {bloodPath} from './blood-routes.js';
 import {types} from './ui.js';
 export const SCHEMA = 2;
 export const uid = () => crypto.randomUUID();
@@ -62,7 +63,7 @@ export function normalizePath(input, fresh = false) {
   return p;
 }
 export const builtins = [
-  pharmacologyPath, semester5Path,
+  pharmacologyPath, semester5Path, bloodPath,
 ].map(p => normalizePath({...p,builtinId:p.id,builtinVersion:1}));
 export function emptyState() {
   return {schemaVersion:SCHEMA,revision:0,paths:structuredClone(builtins),progress:{},drafts:{},installed:builtins.map(p=>p.id),dismissedUpdates:{}};

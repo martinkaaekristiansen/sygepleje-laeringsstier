@@ -6,13 +6,14 @@ Dansk, mobilvenlig læringsapp til sygeplejestuderende. Appen fungerer uden logi
 
 - Valg af semester 1–7. Forsiden åbner på det første semester med indhold.
 - Fagfiltre viser kun fag med læringsstier på det valgte semester. En sti kan tilhøre flere fag.
+- **1. semester: Blodcellens rejse** — et visuelt kredsløbsspil med tre sværhedsgrader, to liv og lokalt gemte resultater. [Afprøvning og anatomisk model](docs/blodcellens-rejse.md).
 - **3. semester: Medicinhåndtering og farmakologi** — fire trin med i alt 20 spørgsmål fra det uploadede dokument. [Kilder og udvælgelse](docs/medicinhaandtering.md).
 - **5. semester: Akut og kritisk sygepleje** — 12 trin med 36 casebaserede spørgsmål, refleksionsopgaver og vejledninger. [Kobling til semesterbeskrivelsen](docs/semester5-e26.md).
 - Overblikket **Fortsæt, hvor du slap** viser påbegyndte, ufærdige stier på tværs af semestre og fag med antal gennemførte trin og procent.
 - Quizzer giver feedback og forklaringer. Forkerte svar kan ændres. Når et svar er korrekt, fastholdes det; klik på forkerte muligheder viser deres forklaring. **Genstart trinnet** nulstiller kun svar og gennemførelse på det valgte trin efter bekræftelse.
 - Trin kan vise tekst, billeder, video, lyd og refleksionsguider. Eksterne medier åbnes efter et klik. Eksterne billedlinks hentes, når trinnet vises.
 
-Underviserfunktionen, kodelåsene og publicering fra appen er fjernet. Læringsstien **Fordøjelsessystemet** på 1. semester er fjernet. Semesteret kan stadig vælges og viser en tom oversigt, indtil andet indhold tilføjes i projektet. Gamle links giver ikke adgang til den fjernede sti eller en editor.
+Underviserfunktionen, kodelåsene og publicering fra appen er fjernet. Læringsstien **Fordøjelsessystemet** på 1. semester er fjernet. På 1. semester findes nu læringsspillet **Blodcellens rejse** under Anatomi og fysiologi. Gamle links giver ikke adgang til den fjernede sti eller en editor.
 
 Indhold vedligeholdes nu i projektfilerne og udgives med den almindelige GitHub Pages-workflow. Der bruges ingen Cloudflare-server, publiceringskode eller GitHub-token i appen. Eventuel tidligere oprettet Cloudflare Worker og dens adgangsnøgle kan fjernes hos de respektive tjenester; sletning af projektfiler afinstallerer ikke en allerede oprettet ekstern tjeneste.
 
@@ -52,6 +53,8 @@ Med Playwright og Chromium installeret kan testen køres mod den lokale server:
 ```sh
 PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=http://localhost:3000 npm run test:browser
 ```
+
+`tests-browser/blood-game.cjs` tester de tre spilruter, to passager, liv, genstart, vedvarende gennemførelser, mus/tastatur/touch og mobilvisning. Spilmotorens anatomiske ruter testes separat i `test/journey.test.js`.
 
 GitHub Actions kører også browsertesten mod en undermappe svarende til GitHub Pages. Browserens testværktøjer sendes ikke med appen.
 
