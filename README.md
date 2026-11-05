@@ -6,7 +6,7 @@ Dansk, mobilvenlig læringsapp til sygeplejestuderende. Appen fungerer uden logi
 
 - Valg af semester 1–7. Forsiden åbner på det første semester med indhold.
 - Fagfiltre viser kun fag med læringsstier på det valgte semester. En sti kan tilhøre flere fag.
-- **1. semester: Blodcellens rejse** — et visuelt kredsløbsspil med tre sværhedsgrader, to liv og lokalt gemte resultater. [Afprøvning og anatomisk model](docs/blodcellens-rejse.md).
+- **1. semester: Blodcellens rejse** — et visuelt kredsløbsspil med tre sværhedsgrader, to liv, anatomiske kar og klapper, dynamisk lyd og lokalt gemte resultater. Lyden er valgfri og bruger original syntese uden eksterne lydfiler. [Afprøvning og anatomisk model](docs/blodcellens-rejse.md).
 - **3. semester: Medicinhåndtering og farmakologi** — fire trin med i alt 20 spørgsmål fra det uploadede dokument. [Kilder og udvælgelse](docs/medicinhaandtering.md).
 - **5. semester: Akut og kritisk sygepleje** — 12 trin med 36 casebaserede spørgsmål, refleksionsopgaver og vejledninger. [Kobling til semesterbeskrivelsen](docs/semester5-e26.md).
 - Overblikket **Fortsæt, hvor du slap** viser påbegyndte, ufærdige stier på tværs af semestre og fag med antal gennemførte trin og procent.

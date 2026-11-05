@@ -1,102 +1,217 @@
-// Canvas tunnel renderer. It knows only visual structure/oxygen and camera motion.
-// All hit targets, names and keyboard controls live in the accessible DOM layer.
-export function mountJourneyScene(canvas,structure,{reduced=false,ambient=true}={}) {
- const ctx=canvas.getContext('2d');if(!ctx)return {dispose(){},travel(_side,_ok,done){done();}};
- let frame=0,disposed=false,last=0,clock=0,flight=null,width=0,height=0;
- const motion=matchMedia('(prefers-reduced-motion: reduce)');
- const isReduced=()=>reduced||motion.matches;
- const resize=()=>{const r=canvas.getBoundingClientRect();width=r.width;height=r.height;const d=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.round(width*d);canvas.height=Math.round(height*d);ctx.setTransform(d,0,0,d,0,0);draw();};
- const observer=new ResizeObserver(resize);observer.observe(canvas);
- const ellipse=(x,y,rx,ry,fill,stroke,line=1)=>{ctx.beginPath();ctx.ellipse(x,y,Math.max(1,rx),Math.max(1,ry),0,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=line;ctx.stroke();}};
- function cell(x,y,size,rotation,bright) {
-  ctx.save();ctx.translate(x,y);ctx.rotate(rotation);
-  const g=ctx.createRadialGradient(-size*.3,-size*.35,size*.1,0,0,size);g.addColorStop(0,bright?'#ff8c79':'#c96a70');g.addColorStop(.45,bright?'#b82632':'#812237');g.addColorStop(.72,bright?'#ee5351':'#aa3e50');g.addColorStop(1,'#450d20');
-  ellipse(0,0,size,size*.6,g,'#fbb5a536',1);ellipse(0,-size*.02,size*.48,size*.25,'#3d0c2138');ctx.restore();
+import {anatomyProfile, cardiacCycle, valveOpening, valveTransit, oxygenation} from './journey-physiology.js';
+
+// Canvas is presentation only. Choices/lives/routes and accessible controls remain
+// in the engine/DOM. Coordinates are illustrative, not a scale anatomical model.
+export function mountJourneyScene(canvas, structure, {reduced=false, ambient=true, now=()=>performance.now()/1000, enteredAt=performance.now()}={}) {
+ const ctx=canvas.getContext('2d');
+ if(!ctx)return {dispose(){},travel(_side,_ok,done){done();}};
+ const profile=anatomyProfile(structure), motion=matchMedia('(prefers-reduced-motion: reduce)');
+ let frame=0, disposed=false, last=0, elapsed=0, flight=null, width=0, height=0;
+ const born=enteredAt;
+ const still=()=>reduced||motion.matches||!ambient;
+ const ellipse=(x,y,rx,ry,fill,stroke,line=1)=>{
+  ctx.beginPath();ctx.ellipse(x,y,Math.max(.1,rx),Math.max(.1,ry),0,0,Math.PI*2);
+  if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=line;ctx.stroke();}
+ };
+ const mix=(a,b,f)=>`rgb(${a.map((v,i)=>Math.round(v+(b[i]-v)*f)).join(',')})`;
+ const label=(text,x,y,size=12,color='#fff0dc')=>{ctx.font=`${size<12?'500':'600'} ${size}px system-ui`;ctx.textAlign='center';ctx.fillStyle=color;ctx.fillText(text,x,y);};
+ const line=(points,color,thickness=1)=>{ctx.beginPath();ctx.moveTo(...points[0]);for(const p of points.slice(1))ctx.lineTo(...p);ctx.strokeStyle=color;ctx.lineWidth=thickness;ctx.stroke();};
+ function cell(x,y,r,rotation,oxygen,deform=0) {
+  ctx.save();ctx.translate(x,y);ctx.rotate(rotation);ctx.scale(1-deform*.35,1+deform*.3);
+  const g=ctx.createRadialGradient(-r*.28,-r*.3,r*.04,0,0,r);
+  g.addColorStop(0,mix([159,59,71],[255,135,112],oxygen));g.addColorStop(.38,mix([93,20,39],[183,36,45],oxygen));g.addColorStop(.68,mix([133,41,57],[231,69,64],oxygen));g.addColorStop(1,'#390c1b');
+  ellipse(0,0,r,r*.61,g,'#ffb69b55',1);ellipse(-r*.03,-r*.01,r*.48,r*.25,'#31071d32');
+  ctx.beginPath();ctx.ellipse(-r*.13,-r*.16,r*.65,r*.3,-.05,3.5,5.6);ctx.strokeStyle='#ffc4a74a';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();
  }
- function draw() {
-  if(disposed||!width||!height)return;
-  const t=clock/1000,oxygen=structure.oxygen;
-  const high=oxygen==='high'||(oxygen==='exchange-in'&&t>1.2)||(oxygen==='exchange-out'&&t<1.2);
-  const flightProgress=flight?Math.min(1,(performance.now()-flight.start)/flight.duration):0;
-  const ease=flightProgress*flightProgress*(3-2*flightProgress);
-  const push=flight?(flight.ok?ease:.07*Math.sin(flightProgress*Math.PI)):0;
-  const direction=flight?.side===0?-1:1;
-  const cx=width/2-direction*width*.23*push*(1+push*3.8),cy=height*.47;
-  ctx.fillStyle='#190d17';ctx.fillRect(0,0,width,height);
-  ctx.save();ctx.translate(cx,cy);ctx.scale(1+push*3.8,1+push*3.8);ctx.translate(-width/2,-cy);
-  const glow=ctx.createRadialGradient(width*.5,cy,8,width*.5,cy,width*.8);glow.addColorStop(0,'#160b13');glow.addColorStop(.4,high?'#792a39':'#4b1c31');glow.addColorStop(.72,high?'#c95555':'#8b3f50');glow.addColorStop(1,'#300c1d');ctx.fillStyle=glow;ctx.fillRect(-width,-height,width*3,height*3);
-  const capillary=structure.kind.includes('capillary');
-  const chamber=['atrium','right-ventricle','left-ventricle'].includes(structure.kind);
-  const phase=isReduced()||!ambient?0:(t*.12)%1;
-  // Perspective cross sections: narrow deep rings expand into the camera.
-  for(let i=25;i>=0;i--) {
-   const z=(i+phase)/26,scale=1/Math.max(.14,z*3+.16);
-   const bend=structure.kind==='arch'?Math.sin(z*1.7)*width*.15:Math.sin(z*4+t*.14)*width*.025;
-   const rx=width*.145*scale*(chamber?1.24:1),ry=height*.16*scale*(structure.kind.includes('ventricle')?1.35:1);
-   ellipse(width/2+bend,cy+Math.sin(z*5)*height*.016,rx,ry,null,`rgba(${high?'245,130,122':'193,106,117'},${.035+.09*(1-z)})`,Math.max(2,7*scale));
+ function vessel(oxygen,time,cycle) {
+  const cap=profile.capillary, vein=structure.kind==='vein', arteriole=structure.kind==='arteriole';
+  const pulsation=still()?0:cycle.contraction*(vein?.003:cap?0:arteriole?.006:.023);
+  const center=width*.5, y=height*.49;
+  const radius=width*(cap?.31:arteriole?.41:.55)*profile.lumen;
+  const glow=ctx.createRadialGradient(center,y,8,center,y,width*.8);
+  glow.addColorStop(0,'#1b0a14');glow.addColorStop(.35,mix([74,24,42],[119,39,48],oxygen));glow.addColorStop(.7,mix([117,51,65],[174,73,65],oxygen));glow.addColorStop(1,'#29101b');
+  ctx.fillStyle=glow;ctx.fillRect(0,0,width,height);
+  const drift=still()?0:time*profile.speed;
+  // Perspective wall sections. Arteries have layered media; capillaries have
+  // only a delicate endothelium and basement membrane. No arterial valves.
+  for(let i=25;i>=0;i--){
+   const z=(i+(drift%1))/26, scale=1/Math.max(.22,z*3+.22);
+   const bend=structure.kind==='arch'?Math.sin(z*1.7)*width*.16:Math.sin(z*3)*width*.015;
+   const rx=radius*.26*scale*(1+pulsation), ry=height*.14*scale*(vein?.86:1);
+   const x=center+bend, yy=y+Math.sin(z*4)*height*.02;
+   ellipse(x,yy,rx,ry,null,`rgba(246,163,140,${cap?.1:.035+(1-z)*.09})`,cap?1.2:Math.max(1,profile.wall*width*.34*scale));
+   if(!cap&&!vein&&i%3===0)ellipse(x,yy,rx+profile.wall*width*.15*scale,ry+profile.wall*height*.2*scale,null,'#ffcba41e',2);
+   if(cap&&i%5===0){ellipse(x,yy,rx+3,ry+3,null,'#ffe7bc60',.8);ellipse(x+rx*.8,yy-ry*.6,4,2,'#d390985c');}
   }
-  // Longitudinal folds on the vessel wall; trabeculae in ventricular chambers.
-  for(let i=0;i<18;i++) {
-   const a=i*Math.PI/9;ctx.beginPath();ctx.moveTo(width/2+Math.cos(a)*width*.11,cy+Math.sin(a)*height*.12);
-   ctx.bezierCurveTo(width/2+Math.cos(a+.08)*width*.28,cy+Math.sin(a+.08)*height*.32,width/2+Math.cos(a-.12)*width*.54,cy+Math.sin(a-.12)*height*.7,width/2+Math.cos(a)*width,cy+Math.sin(a)*height);
-   ctx.strokeStyle=i%2?'#ffb3a314':'#180a2042';ctx.lineWidth=chamber?11:3;ctx.stroke();
+  // Smooth endothelial highlight lines rather than ridged arterial interiors.
+  for(let i=0;i<12;i++){
+   const a=i*Math.PI/6, side=Math.cos(a), vertical=Math.sin(a);
+   ctx.beginPath();ctx.moveTo(center+side*radius*.12,y+vertical*height*.045);
+   ctx.bezierCurveTo(center+side*radius*.38,y+vertical*height*.2,center+side*radius*.9,y+vertical*height*.48,center+side*radius*2.5,y+vertical*height*1.2);
+   ctx.strokeStyle=i%3?'#ffcaaf12':'#ffdfbf2b';ctx.lineWidth=cap?.8:1.8;ctx.stroke();
   }
-  if(chamber){
-   const thick=structure.kind==='left-ventricle';ellipse(width/2,cy,width*.47,height*.45,null,thick?'#e9967e80':'#c47b7045',thick?35:12);
-   if(structure.kind==='atrium'){ellipse(width*.5,cy,width*.37,height*.32,null,'#e4b2a545',3);}
-  }
-  // Organic central ridge hides the vanishing point: only two openings remain.
-  const ridge=ctx.createLinearGradient(width*.43,0,width*.57,0);ridge.addColorStop(0,'#562333');ridge.addColorStop(.5,high?'#b6615b':'#854350');ridge.addColorStop(1,'#562333');
-  ctx.beginPath();ctx.moveTo(width*.5,height*.27);ctx.bezierCurveTo(width*.52,height*.43,width*.65,height*.68,width*.67,height*1.2);ctx.lineTo(width*.33,height*1.2);ctx.bezierCurveTo(width*.35,height*.68,width*.48,height*.43,width*.5,height*.27);ctx.fillStyle=ridge;ctx.fill();
-  // Two game-world route portals: pedagogical choices, not extra anatomical ostia.
-  for(const side of [0,1]) {
-   const x=width*(side===0?.27:.73),y=height*.51;
-   const r=width<550?width*.205:width*.17;
-   const g=ctx.createRadialGradient(x,y,4,x,y,r*1.35);g.addColorStop(0,'#160d17');g.addColorStop(.66,'#240c1c');g.addColorStop(.81,high?'#a74650':'#763545');g.addColorStop(1,'#ed9c8240');
-   ellipse(x,y,r*1.12,height*.255,g,'#f1ab8b69',2);
-   for(let j=5;j>0;j--)ellipse(x,y,r*(.17+j*.13),height*(.05+j*.034),null,`#e6a187${j%2?'23':'12'}`,2);
-  }
-  // Valve leaflets occupy the foreground; the camera passes their opening.
-  const valve=structure.kind.startsWith('av-')||structure.kind==='semilunar';
-  if(valve) {
-   const semilunar=structure.kind==='semilunar',n=structure.kind==='av-two'?2:3;
-   ellipse(width/2,cy,width*.44,height*.44,null,'#dfb8a571',5);
-   for(let i=0;i<n;i++) {
-    const a=i*2*Math.PI/n-Math.PI/2,r=width*.44,x=width/2+Math.cos(a)*r,y=cy+Math.sin(a)*height*.44;
-    ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(width/2+Math.cos(a-.6)*r*.6,cy+Math.sin(a-.6)*height*.28,width/2+Math.cos(a)*width*.18,cy+Math.sin(a)*height*.2);ctx.quadraticCurveTo(width/2+Math.cos(a+.6)*r*.6,cy+Math.sin(a+.6)*height*.28,x,y);ctx.fillStyle=semilunar?'#dfb8a5b3':'#d79787b3';ctx.fill();ctx.strokeStyle='#f4d9bdc9';ctx.lineWidth=2;ctx.stroke();
-    if(!semilunar){ellipse(x,y+height*.16,9,19,'#a65b59','#e29b874d');}
-    if(!semilunar)for(let j=-1;j<=1;j++){ctx.beginPath();ctx.moveTo(width/2+Math.cos(a)*width*.2,cy+Math.sin(a)*height*.2);ctx.lineTo(x+j*14,y+height*.16);ctx.strokeStyle='#f4d8bd8c';ctx.lineWidth=1.5;ctx.stroke();}
+  // Peripheral arm vein: two thin pockets. Not present in cava or pulmonary veins.
+  if(profile.venousValve){
+   for(const side of [-1,1]){
+    const x=center+side*width*.43;
+    ctx.beginPath();ctx.moveTo(x,height*.2);ctx.quadraticCurveTo(center+side*width*.23,height*.37,center+side*width*.34,height*.76);ctx.quadraticCurveTo(x,height*.56,x,height*.2);ctx.fillStyle='#efd1b13b';ctx.fill();ctx.strokeStyle='#f6d5bd88';ctx.lineWidth=2;ctx.stroke();
    }
   }
-  for(let i=0;i<(capillary?4:11);i++) {
-   const z=((i*.093+(isReduced()||!ambient?0:t*.11))%1),sz=7+z*z*30;
-   const x=width/2+Math.sin(i*7.3)*width*(capillary?.025:.07+z*.5),y=cy+Math.cos(i*3.2)*height*(.05+z*.48);
-   cell(x,y,sz,i*.8+t*.07,high);
+  if(cap){
+   // Narrow lumen fills the cell's scale; the diffuse pale border is a teaching
+   // window, not a thick muscular capillary wall.
+   for(const side of [-1,1]){
+    ctx.beginPath();ctx.moveTo(center+side*width*.045,height*.26);ctx.bezierCurveTo(center+side*width*.07,height*.5,center+side*width*.18,height*.82,center+side*width*.2,height);
+    ctx.strokeStyle='#ffe0b7a0';ctx.lineWidth=1.4;ctx.stroke();
+   }
+  }
+ }
+ function chamber(oxygen,cycle,kind=structure.kind){
+  const atrium=kind==='atrium', left=kind==='left-ventricle';
+  const contraction=still()?0:(atrium?cycle.atrialContraction:cycle.contraction);
+  const inset=contraction*(atrium?.008:.025), cx=width*.5;
+  const g=ctx.createRadialGradient(cx,height*.45,5,cx,height*.5,width*.8);
+  g.addColorStop(0,'#1a0a13');g.addColorStop(.42,mix([71,22,39],[110,31,40],oxygen));g.addColorStop(.7,mix([129,61,65],[183,84,73],oxygen));g.addColorStop(1,'#3b1725');ctx.fillStyle=g;ctx.fillRect(0,0,width,height);
+  // Rounded atrium; tapering ventricular apex, with asymmetric right chamber.
+  ctx.beginPath();ctx.moveTo(width*(.23+inset),height*.12);
+  ctx.bezierCurveTo(width*.04,height*.18,width*(.04+inset),height*.67,width*(atrium?.22:.4),height*(atrium?.88:1.05));
+  ctx.bezierCurveTo(width*(atrium?.5:.52),height*(atrium?1:1.18),width*(.93-inset),height*.78,width*(.91-inset),height*.37);
+  ctx.bezierCurveTo(width*.94,height*.07,width*.58,height*.04,width*(.23+inset),height*.12);
+  ctx.fillStyle='#270e1b85';ctx.fill();const muscle=ctx.createLinearGradient(width*.08,0,width*.93,height);muscle.addColorStop(0,'#5c2838');muscle.addColorStop(.25,'#b87969');muscle.addColorStop(.55,'#955748');muscle.addColorStop(.8,'#c8886b');muscle.addColorStop(1,'#4b2030');ctx.strokeStyle=muscle;ctx.lineWidth=width*(left?.17:atrium?.035:.075);ctx.stroke();
+  ctx.strokeStyle='#ffd0b148';ctx.lineWidth=3;ctx.stroke();
+  // Trabeculae carneae on the ventricular walls; right atrial pectinate ridges.
+  const count=atrium?(structure.id==='ra'?7:3):13;
+  for(let i=0;i<count;i++){
+   const y=height*(.18+i*.052), side=i%2?-1:1, x=cx+side*width*(.37+Math.sin(i*1.7)*.025);
+   ctx.beginPath();ctx.moveTo(x,y);ctx.bezierCurveTo(x-side*width*.09,y+height*.1,x-side*width*.04,y+height*.14,x+side*width*.04,y+height*.24);
+   ctx.strokeStyle=atrium?'#e9a58b30':'#d28f7970';ctx.lineWidth=atrium?3:left?11:7;ctx.stroke();
+   if(!atrium){ctx.strokeStyle='#ffc2a335';ctx.lineWidth=2;ctx.stroke();}
+  }
+  if(!atrium){
+   // Papillary muscles are ventricular structures; not decorations in arteries.
+   for(const side of [-1,1]){ctx.save();ctx.translate(cx+side*width*.33,height*.78);ctx.rotate(side*.25);ellipse(0,0,width*.035,height*.13,'#9f5656','#f2b69455',2);ctx.restore();}
+  }
+ }
+ function portals(oxygen,opacity=1){
+  ctx.save();ctx.globalAlpha=opacity;
+  for(const side of [0,1]){
+   const x=width*(side===0?.27:.73),y=height*.51,r=width*(width<550?.205:.17);
+   const g=ctx.createRadialGradient(x,y,3,x,y,r*1.2);
+   g.addColorStop(0,'#120b149e');g.addColorStop(.62,'#250d1baf');g.addColorStop(.85,mix([100,44,57],[148,58,64],oxygen));g.addColorStop(1,'#eab39818');
+   ellipse(x,y,r*1.1,height*.255,g,'#f3c39d88',1.4);
+   for(let j=4;j>0;j--)ellipse(x,y,r*(.2+j*.16),height*(.05+j*.044),null,j%2?'#f5be9c24':'#f5be9c12',1.4);
   }
   ctx.restore();
-  // A subtle erythrocyte edge keeps the player embodied inside the vessel.
-  cell(width*.5,height*1.025,width*.16,-.08,high);
-  if(['exchange-in','exchange-out'].includes(oxygen)) {
-   const inward=oxygen==='exchange-in';
-   if(inward){
-    // A transparent teaching window through the capillary wall shows alveolar air.
-    for(let i=0;i<5;i++){const x=width*(.18+i*.16);ellipse(x,height*.12,width*.06,height*.065,'#ffebc01c','#f5d4b875',2);}
+ }
+ function valve(seconds,forceOpen=false){
+  const semi=structure.kind==='semilunar', n=structure.kind==='av-two'?2:3;
+  const opening=forceOpen||still()?1:valveOpening(structure,seconds), cx=width*.5,cy=height*.48;
+  const rx=width*.45, ry=height*.43;
+  ellipse(cx,cy,rx,ry,null,'#ffd8ae6b',8);ellipse(cx,cy,rx+5,ry+5,null,'#522d3477',5);
+  for(let i=0;i<n;i++){
+   const a=-Math.PI/2+i*2*Math.PI/n, half=Math.PI/n;
+   const point=(angle,r)=>[cx+Math.cos(angle)*rx*r,cy+Math.sin(angle)*ry*r];
+   const p1=point(a-half,.99),p2=point(a+half,.99),tip=point(a,.005+opening*.74);
+   ctx.beginPath();ctx.moveTo(...p1);
+   ctx.bezierCurveTo(...point(a-half*.45,1.1),...point(a+half*.45,1.1),...p2);
+   if(semi){ctx.quadraticCurveTo(...point(a+half*.5,.22+opening*.65),...tip);ctx.quadraticCurveTo(...point(a-half*.5,.22+opening*.65),...p1);}
+   else {ctx.quadraticCurveTo(...point(a+half*.3,.12+opening*.7),...tip);ctx.quadraticCurveTo(...point(a-half*.3,.12+opening*.7),...p1);}
+   const g=ctx.createLinearGradient(cx,cy,...point(a,1));g.addColorStop(0,'#f4cfafb8');g.addColorStop(.6,'#bf8b7cb8');g.addColorStop(1,'#f2c6a8bf');ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='#ffe0bcbf';ctx.lineWidth=1.7;ctx.stroke();
+   if(semi){
+    // Three pocket-like cusps, central nodules at coaptation; never chordae.
+    const base=point(a,.88);ellipse(...base,6,3,'#ffddb658');
+   }else{
+    // Sejl tether to the ventricular papillary muscles beyond the opening.
+    const muscle=point(a,.8);muscle[1]+=height*.1;
+    ellipse(...muscle,width*.014,height*.05,'#a35b57','#dba58b6b',1);
+    for(const j of [-1,0,1]){
+     const anchor=point(a+j*.15,.18+opening*.63);
+     ctx.beginPath();ctx.moveTo(...anchor);ctx.quadraticCurveTo((anchor[0]+muscle[0])/2+4,(anchor[1]+muscle[1])/2,...muscle);ctx.strokeStyle='#ffe0bbb0';ctx.lineWidth=1.2;ctx.stroke();
+    }
    }
-   ctx.fillStyle='#fff2dc';ctx.font='600 15px system-ui';ctx.textAlign='center';
-   ctx.fillText(inward?'ALVEOLE  →  O₂  →  HÆMOGLOBIN':'HÆMOGLOBIN  →  O₂  →  MUSKELVÆV',width/2,height*.84);
-   ctx.font='12px system-ui';ctx.fillText(inward?'CO₂ bevæger sig fra blod til alveole':'CO₂ bevæger sig fra væv til blod',width/2,height*.89);
-   for(let i=0;i<5;i++){const x=width*(.18+i*.16),f=isReduced()?.5:(t*.4+i*.2)%1;ellipse(x,height*(inward?.1+f*.13:.23-f*.13),4,4,'#ffe6ac');}
   }
-  const vignette=ctx.createRadialGradient(width/2,cy,height*.15,width/2,cy,Math.max(width,height)*.75);vignette.addColorStop(0,'#00000000');vignette.addColorStop(1,'#120716c9');ctx.fillStyle=vignette;ctx.fillRect(0,0,width,height);
+  label(still()?'Åben klap · stillestående visning':opening>.5?'Åben klap · blodet kan passere':'Lukket klap · hindrer tilbageløb',width*.5,height*.935,10);
  }
- function tick(now) {
+ function exchange(time,oxygen){
+  const inward=structure.oxygen==='exchange-in', mobile=width<550;
+  // An explicitly labelled transparent cutaway ABOVE the endothelial lumen.
+  // The alveoli are outside the capillary, with two thin barrier contours.
+  ctx.fillStyle='#261722d9';ctx.fillRect(0,height*.105,width,height*.145);
+  if(inward){
+   for(let i=0;i<(mobile?4:7);i++){
+    const total=mobile?4:7,x=width*(.1+i*.8/(total-1)),y=height*.15,r=width*(mobile?.075:.05);
+    const g=ctx.createRadialGradient(x,y,2,x,y,r);g.addColorStop(0,'#ecdab341');g.addColorStop(.8,'#ba978a36');g.addColorStop(1,'#efd8b881');
+    ellipse(x,y,r,height*.045,g,'#f9dab6a6',1.3);
+   }
+  }
+  line([[width*.03,height*.235],[width*.97,height*.235]],'#f9dab98f',1.2);
+  line([[width*.03,height*.246],[width*.97,height*.246]],'#e4b59ebf',1.2);
+  label(inward?'Alveoleluft · uden for blodkarret':'Muskelvæv · uden for blodkarret',width*.5,height*.19,mobile?10:12);
+  label(inward?'Tynd alveole–kapillærbarriere':'Endotel + basalmembran',width*.5,height*.275,mobile?9:10);
+  // Yellow O2 and pale CO2 travel in opposite directions through the barrier.
+  for(let i=0;i<6;i++){
+   const f=still()?.55:(time*.25+i/6)%1,x=width*(.13+i*.145);
+   const o2y=height*(inward?.21+f*.13:.34-f*.13),co2y=height*(inward?.34-f*.13:.21+f*.13);
+   ellipse(x,o2y,3,3,'#ffe19c');ellipse(x+11,co2y,2.5,2.5,'#e4d8d0');
+  }
+  const top=height*.79;
+  ctx.fillStyle='#1f101de6';ctx.fillRect(width*.035,top,width*.93,height*.13);
+  label(inward?'O₂ ↓ til blodet     CO₂ ↑ til alveolen':'O₂ ↑ til vævet     CO₂ ↓ til blodet',width*.5,top+height*.04,mobile?11:13);
+  const bx=width*.19,by=top+height*.065,bw=width*.62;
+  ctx.fillStyle='#662a3b';ctx.fillRect(bx,by,bw,5);ctx.fillStyle=mix([140,43,56],[241,90,71],oxygen);ctx.fillRect(bx,by,bw*(.75+.23*oxygen),5);
+  label(inward?'Hæmoglobin binder gradvist mere O₂':'Hæmoglobin afgiver en del af sin O₂',width*.5,top+height*.112,10);
+ }
+ function draw(){
+  if(disposed||!width||!height)return;
+  const time=elapsed/1000, seconds=now(), cycle=cardiacCycle(seconds);
+  const oxygen=oxygenation(structure,still()?4:(performance.now()-born)/1000);
+  let push=0, progress=0;
+  if(flight){
+   const age=(performance.now()-flight.start)/1000;
+   progress=Math.max(0,Math.min(1,(age-flight.wait)/flight.duration));
+   const ease=progress*progress*(3-2*progress);
+   push=flight.ok?(profile.valve?(age<flight.wait?.08*Math.min(1,age/.5):.08+.92*ease):ease):.06*Math.sin(Math.min(1,age/flight.duration)*Math.PI);
+  }
+  ctx.clearRect(0,0,width,height);ctx.fillStyle='#29111d';ctx.fillRect(0,0,width,height);
+  ctx.save();
+  const side=flight?.side===0?-1:1, shift=profile.valve?0:side*width*.23*push*(1+push*3.8);
+  ctx.translate(width*.5-shift,height*.49);ctx.scale(1+push*3.8,1+push*3.8);ctx.translate(-width*.5,-height*.49);
+  if(profile.chamber)chamber(oxygen,cycle);else if(structure.kind.startsWith('av-'))chamber(oxygen,cycle,structure.kind==='av-two'?'left-ventricle':'right-ventricle');else vessel(oxygen,time,cycle);
+  const count=profile.capillary?4:10;
+  for(let i=0;i<count;i++){
+   const z=(i/count+(still()?0:time*profile.speed))%1, size=profile.capillary?width*(.016+z*z*.11):6+z*z*32;
+   const x=width*.5+(profile.capillary?0:Math.sin(i*7.3)*width*(.08+z*.44));
+   const y=profile.capillary?height*(.31+z*.72):height*.49+Math.cos(i*3.2)*height*(.08+z*.48);
+   cell(x,y,size,profile.capillary?Math.PI/2:i*.8+time*.035,oxygen,profile.capillary?.8:0);
+  }
+  if(profile.valve)valve(seconds,flight&&flight.ok&&progress>0&&progress<1&&still());
+  // Hypothesis portals are a distinct overlay, not new septal/vessel openings.
+  if(!flight)portals(oxygen,profile.valve?.85:1);
+  ctx.restore();
+  if(profile.capillary)exchange(time,oxygen);
+  cell(width*.5,height*1.035,Math.min(width*.17,height*.13),-.08,oxygen);
+  const vignette=ctx.createRadialGradient(width*.5,height*.49,height*.28,width*.5,height*.49,Math.max(width,height)*.8);
+  vignette.addColorStop(0,'#17091600');vignette.addColorStop(1,'#170916a1');ctx.fillStyle=vignette;ctx.fillRect(0,0,width,height);
+ }
+ function tick(time){
   if(disposed)return;frame=0;
-  if(!document.hidden){if(now-last>=32||flight){clock+=last?Math.min(50,now-last):0;last=now;draw();}
-   if(flight&&now-flight.start>=flight.duration){const done=flight.done;flight=null;done();return;}}
-  if(flight||(!isReduced()&&ambient))frame=requestAnimationFrame(tick);
+  if(!document.hidden){
+   if(time-last>=32||flight){elapsed+=last?Math.min(50,time-last):0;last=time;draw();}
+   if(flight&&(time-flight.start)/1000>=flight.wait+flight.duration){const done=flight.done;flight=null;done();return;}
+  }
+  if(!document.hidden&&(flight||!still()))frame=requestAnimationFrame(tick);
  }
- const wake=()=>{if(!disposed){last=0;if(!frame)frame=requestAnimationFrame(tick);draw();}};
- document.addEventListener('visibilitychange',wake);motion.addEventListener('change',wake);
- resize();wake();
- return {dispose(){disposed=true;cancelAnimationFrame(frame);observer.disconnect();document.removeEventListener('visibilitychange',wake);motion.removeEventListener('change',wake);},travel(side,ok,done){if(isReduced()){done();return;}flight={side,ok,start:performance.now(),duration:ok?950:420,done};wake();}};
+ const wake=()=>{if(disposed)return;last=0;draw();if(!frame&&!document.hidden)frame=requestAnimationFrame(tick);};
+ function resize(){const rect=canvas.getBoundingClientRect();width=rect.width;height=rect.height;const d=Math.min(devicePixelRatio||1,1.5);canvas.width=Math.round(width*d);canvas.height=Math.round(height*d);ctx.setTransform(d,0,0,d,0,0);draw();}
+ const observer=new ResizeObserver(resize);observer.observe(canvas);
+ document.addEventListener('visibilitychange',wake);motion.addEventListener('change',wake);resize();wake();
+ return {
+  dispose(){disposed=true;cancelAnimationFrame(frame);observer.disconnect();document.removeEventListener('visibilitychange',wake);motion.removeEventListener('change',wake);},
+  travel(side,ok,done){
+   if(still()){done();return;}
+   let wait=0,duration=ok?.95:.42;
+   if(ok&&profile.valve){const transit=valveTransit(structure,now()+.5);wait=.5+transit.wait;duration=transit.duration;}
+   flight={side,ok,start:performance.now(),wait,duration,done};wake();
+  },
+ };
 }
