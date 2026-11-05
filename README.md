@@ -17,6 +17,12 @@ Underviserfunktionen, kodelåsene og publicering fra appen er fjernet. Læringss
 
 Indhold vedligeholdes nu i projektfilerne og udgives med den almindelige GitHub Pages-workflow. Der bruges ingen Cloudflare-server, publiceringskode eller GitHub-token i appen. Eventuel tidligere oprettet Cloudflare Worker og dens adgangsnøgle kan fjernes hos de respektive tjenester; sletning af projektfiler afinstallerer ikke en allerede oprettet ekstern tjeneste.
 
+## Ny 3D-demonstration (ikke udgivet)
+
+Denne udviklingsgren indeholder en separat Three.js/WebGL-prøve: **aorta → arterier → arterioler → kapillærer**. Åbn `#/blodcelle-3d`, eller vælg **Prøv den nye 3D-demonstration** i spillets menu. Den fulde læringsaktivitet og dens gemte progression er bevaret. [Arkitektur, anatomiske valg, afprøvning og næste etaper](docs/blodcellens-rejse-3d.md).
+
+`npm run build:preview:3d` laver en selvstændig HTML-prøve i `artifacts/`. Prøven er ikke en offentlig udgivelse.
+
 ## Eksisterende data
 
 Appen bevarer IndexedDB-databasens navn, format og de stabile trin-, spørgsmåls- og svar-ID'er for de øvrige læringsstier. Besvarelser, refleksioner og progression for 3. og 5. semester bevares. Andre tidligere gemte læringsstier ændres ikke.
