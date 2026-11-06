@@ -73,6 +73,9 @@ jobs:
                   lines = log.read_text().splitlines()[-100:]
                   with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
                       summary.write('### Browserkontrol: ' + name + '\n\n```text\n' + '\n'.join(lines) + '\n```\n')
+                  if name == 'test':
+                      message = '\n'.join(lines[-45:]).replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+                      print('::error title=Browserkontrol::' + message)
           PY
       - name: Klargør GitHub Pages
         uses: actions/configure-pages@v5
