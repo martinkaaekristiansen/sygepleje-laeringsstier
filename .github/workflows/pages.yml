@@ -46,7 +46,19 @@ jobs:
             if curl --silent --fail http://127.0.0.1:3001/sygepleje-laeringsstier/ > /dev/null; then break; fi
             sleep 1
           done
-          npm run test:browser
+          npm run test:browser 2>&1 | tee /tmp/pages-browser-test.log
+      - name: Vis browserfejl i joboversigten
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          log = Path('/tmp/pages-browser-test.log')
+          if log.exists():
+              lines = log.read_text().splitlines()[-100:]
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+                  summary.write('### Browserkontrol\n\n```text\n' + '\n'.join(lines) + '\n```\n')
+          PY
       - name: Klargør GitHub Pages
         uses: actions/configure-pages@v5
       - name: Gem websted til udgivelse
