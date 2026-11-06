@@ -131,11 +131,11 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
    const pulse=motion.matches||paused?0:stage.chamber||stage.valve?.kind.startsWith('av-')?-(stage.kind==='atrium'?cycle.atrialContraction*.025:cycle.contraction*.045):stage.profile.sound.pulse*cycle.contraction*.02;
    wall.scale.set(1+(stage.chamber?0:pulse),1+(stage.chamber?0:pulse),1);extras.group.scale.copy(wall.scale);
    if(animateChamber)animateChamber(time);
-   const baseFov=camera.aspect<.75?100:68,targetFov=baseFov+(stage.chamber?(camera.aspect<.75?6:28)*ease(T.MathUtils.clamp((distance-.18)/.20,0,1)):0);if(Math.abs(camera.fov-targetFov)>.01){camera.fov=T.MathUtils.lerp(camera.fov,targetFov,.08);camera.updateProjectionMatrix();}
+   const baseFov=camera.aspect<.75?100:68,targetFov=baseFov+(stage.chamber?(camera.aspect<.75?6:28)*ease(T.MathUtils.clamp((distance-.18)/.20,0,1)):0);if(Math.abs(camera.fov-targetFov)>.01){camera.fov=motion.matches||paused?targetFov:T.MathUtils.lerp(camera.fov,targetFov,.08);camera.updateProjectionMatrix();}
    const dir=forward.clone().applyQuaternion(camera.quaternion);key.position.copy(camera.position).addScaledVector(up,stage.radius*.2);key.target.position.copy(camera.position).addScaledVector(dir,stage.radius*8);fill.position.copy(camera.position).addScaledVector(dir,-stage.radius*.5);depth.position.copy(local(curves.parent.getPointAt(.86)));
    markers.forEach((m,i)=>{m.material.opacity=i===hover?1:.65;});
    if(!paused&&!motion.matches||dirty){drawCells();extras.update(time,motion.matches||paused);render();dirty=false;}
-   canvas.dataset.distance=distance.toFixed(3);canvas.dataset.valveOpening=String(stage.valve?(motion.matches||paused?1:valveOpening(stage.valve,time)):0);
+   canvas.dataset.fov=camera.fov.toFixed(2);canvas.dataset.distance=distance.toFixed(3);canvas.dataset.valveOpening=String(stage.valve?(motion.matches||paused?1:valveOpening(stage.valve,time)):0);
    if(timestamp-reportAt>250){if(realDt>0)fps=fps*.8+Math.min(60,1/realDt)*.2;reportAt=timestamp;if(adaptive&&!low&&fps<28&&++slow>16){low=true;applyQuality();}}
    onFrame({ready,age,anchors:stage.chamber?[{x:28,y:65},{x:72,y:65}]:anchors.map(projected),fps:motion.matches||paused?0:fps,quality:low?'Let':'Høj',triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls});
   }

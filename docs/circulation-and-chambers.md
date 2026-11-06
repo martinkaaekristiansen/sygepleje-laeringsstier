@@ -47,7 +47,7 @@ Browsermålinger i cloudmiljøet anvender software-WebGL. De dokumenterer funkti
 - App, navigation, indhold og progression: `public/app.js`, `public/home.js`, `public/model.js`, `public/progress.js`, `public/style.css`. Det eksisterende `storage.js` gemmer de nye data uden schemaændring; `blood-routes.js` og de eksisterende ruter er uændrede.
 - Nye tests: `test/circulation.test.js`, `test/journey-chambers.test.js`, `tests-browser/circulation.cjs`.
 - Tilpassede regressionstests: `test/journey-myocardium.test.js`, `test/journey.test.js`, `test/model.test.js`, `tests-browser/acceptance.cjs`.
-- Version og browser-testkommando: `package.json`. GitHub-workflowen `.github/workflows/pages.yml` viser eventuelle browserfejl i joboversigten.
+- Version og browser-testkommando: `package.json`. GitHub-workflowen `.github/workflows/pages.yml` viser eventuelle installations- og browserfejl i joboversigten. Nyere commits afløser forældede workflow-kørsler, og installationen af testbrowseren har en grænse på 15 minutter.
 - Vejledning og afgrænsninger: `docs/circulation-and-chambers.md`.
 
 De automatiserede tests dækker de fire aktiviteter på alle tre niveauer, synonymer, fejl og beståelse, gentagelser, bevaret bedste resultat, genindlæsning, opgradering af gamle data, kameraruter og senetråde gennem hjertets cyklus. De eksisterende tests dækker desuden de tidligere 56 quizspørgsmål, refleksioner, navigation, alle spilniveauer, liv, lydlag, klappassager, mobilbetjening og reduceret bevægelse. Alle fire kamre er også inspiceret visuelt i Chromium, inklusive sammenligning af ventriklernes systole og diastole med et almindeligt kar.

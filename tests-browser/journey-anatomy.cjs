@@ -14,7 +14,7 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
    const start=AudioBufferSourceNode.prototype.start;
    AudioBufferSourceNode.prototype.start=function(...args){audioStarts.push(args);audioSources.push(this);return start.apply(this,args);};
   });
-  await page.goto(base+'#/sti/blodcellens-rejse/blood-hard');await page.locator('[data-audio-toggle]').click();await page.locator('[data-blood=start]').click();await page.locator('[data-passage]').first().waitFor();
+  await page.goto(base+'#/sti/blodcellens-rejse/blood-hard');await page.locator('[data-audio-toggle]').click();await page.locator('[data-blood=start]').click();await page.locator('[data-passage]:enabled').first().waitFor();
   const frames=await page.evaluate(()=>new Promise(resolve=>{let last=performance.now(),times=[];function tick(t){times.push(t-last);last=t;if(times.length===45)resolve(times);else requestAnimationFrame(tick);}requestAnimationFrame(tick);}));
   console.log('Software-browser frame interval median (ms):',frames.toSorted((a,b)=>a-b)[22]);
   await page.emulateMedia({reducedMotion:'reduce'});
@@ -48,7 +48,7 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
      // restart oxygenation. The renderer retains its entry timestamp.
      await page.waitForTimeout(4100);await page.locator('[data-blood=continue]').click();
     }
-    await page.locator('[data-passage]').first().waitFor();
+    await page.locator('[data-passage]:enabled').first().waitFor();
    }
    if(s.kind==='semilunar'||s.kind.startsWith('av-'))assert.ok(Date.now()-started>=600,'valve passage waits for the open phase');
   }
@@ -59,18 +59,19 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
   assert.match(await page.locator('.blood-result').textContent(),/Tillykke/);
   // Reduced motion stops ambient repainting, and touch controls remain visible.
   const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
-  await mobile.goto(base+'#/sti/blodcellens-rejse/blood-hard');await mobile.locator('[data-blood=start]').tap();await mobile.locator('[data-passage]').first().waitFor();
+  await mobile.goto(base+'#/sti/blodcellens-rejse/blood-hard');await mobile.locator('[data-blood=start]').tap();await mobile.locator('[data-passage]:enabled').first().waitFor();
   const hard=BLOOD_LEVELS.hard;
   for(let i=0;i<hard.choices.length;i++){
    const s=hard.steps[i];
-   if(s.kind==='semilunar'||s.kind.startsWith('av-')||s.id==='pcapillaries'||['rv','lv'].includes(s.id)){
+   if(s.kind==='semilunar'||s.kind.startsWith('av-')||s.id==='pcapillaries'||['ra','rv','la','lv'].includes(s.id)){
     const bounds=await mobile.locator('.blood-world').boundingBox();
     for(const b of await mobile.locator('[data-passage]').all()){const box=await b.boundingBox();assert.ok(box.x>=bounds.x&&box.x+box.width<=bounds.x+bounds.width&&box.y>=bounds.y&&box.y+box.height<=bounds.y+bounds.height,'valve/lung labels fit mobile');}
+    if(['ra','rv','la','lv'].includes(s.id)){const size=await mobile.locator('canvas').boundingBox();assert.equal(Number(await mobile.locator('canvas').getAttribute('data-fov')),size.width/size.height<.75?106:96,'reduced-motion chamber FOV settles immediately');}
     const before=await mobile.locator('.blood-world canvas').screenshot();await mobile.waitForTimeout(200);const after=await mobile.locator('.blood-world canvas').screenshot();assert.ok(after.equals(before),'reduced motion is static');
     await mobile.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-'+s.id+'-mobile.png'});
    }
    await mobile.locator('[data-passage]').filter({hasText:hard.steps[i+1].name}).tap();
-   if(i<hard.choices.length-1){await mobile.waitForFunction(n=>document.querySelector('[role=progressbar]')?.getAttribute('aria-valuenow')===String(n),i+1);await mobile.locator('[data-passage]').first().waitFor();}
+   if(i<hard.choices.length-1){await mobile.waitForFunction(n=>document.querySelector('[role=progressbar]')?.getAttribute('aria-valuenow')===String(n),i+1);await mobile.locator('[data-passage]:enabled').first().waitFor();}
   }
   await mobile.locator('.blood-result').waitFor();assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   assert.deepEqual(errors,[]);

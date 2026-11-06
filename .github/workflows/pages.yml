@@ -10,7 +10,7 @@ permissions:
 
 concurrency:
   group: github-pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -32,9 +32,10 @@ jobs:
       - name: Byg statisk app
         run: npm run build
       - name: Klargør browsertest
+        timeout-minutes: 15
         run: |
-          npm install --no-save --package-lock=false playwright@1.56.1
-          npx playwright install --with-deps chromium
+          npm install --no-save --package-lock=false playwright@1.56.1 2>&1 | tee /tmp/pages-browser-setup.log
+          npx playwright install --with-deps chromium 2>&1 | tee -a /tmp/pages-browser-setup.log
       - name: Test browser og Pages-undermappe
         run: |
           mkdir -p /tmp/pages-test
@@ -53,11 +54,12 @@ jobs:
           python3 - <<'PY'
           import os
           from pathlib import Path
-          log = Path('/tmp/pages-browser-test.log')
-          if log.exists():
-              lines = log.read_text().splitlines()[-100:]
-              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
-                  summary.write('### Browserkontrol\n\n```text\n' + '\n'.join(lines) + '\n```\n')
+          for name in ['setup', 'test']:
+              log = Path('/tmp/pages-browser-' + name + '.log')
+              if log.exists():
+                  lines = log.read_text().splitlines()[-100:]
+                  with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+                      summary.write('### Browserkontrol: ' + name + '\n\n```text\n' + '\n'.join(lines) + '\n```\n')
           PY
       - name: Klargør GitHub Pages
         uses: actions/configure-pages@v5
