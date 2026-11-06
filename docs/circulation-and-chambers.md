@@ -1,3 +1,15 @@
+# Version 0.9.1 – to aktiviteter
+
+Trin 2 (Sæt navn på anatomien) og trin 4 (Find vej uden hjælp) er fjernet fra læringsstien, også på tidligere anvendte enheder og ved gendannelse af sikkerhedskopier.
+
+Tilbage er **1. Byg kredsløbet** og **2. Hvor er blodcellen?**, begge på let, mellem og svær. Beståelsesgrænsen er 80 %. Forsiden tæller nu seks niveauaktiviteter. Tidligere gemte resultater og kladder bevares, men de fjernede aktiviteter kan ikke åbnes og tæller ikke med i progressionen. Gamle links og genoptagelse leder til et tilbageværende trin.
+
+Visningsmodulerne `circulation-labels.js` og `circulation-exam.js` er fjernet. Læse- og valideringslogikken for historiske data bevares. Spillet Blodcellens rejse er uændret.
+
+---
+
+Nedenstående beskriver version 0.9.0 og bevares som teknisk historik.
+
 # Kredsløb og hjertekamre – version 0.9.0
 
 ## Brug læringsstien

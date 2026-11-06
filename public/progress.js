@@ -1,3 +1,4 @@
+import {ACTIVITIES,BLOOD_LEVELS} from './circulation-data.js';
 // Progress is based on completed steps, not quiz scores or time spent.
 export function getPathProgress(path, record) {
   const state = record && typeof record === 'object' ? record : {};
@@ -30,6 +31,7 @@ export function getInProgressPaths(paths, progress) {
 
 // Academic mastery is independent of the ordinary "done" step checklist.
 export function getAssessmentProgress(record){
- const results=Object.values(record?.circulation?.results||{});
- return {submitted:results.length,passed:results.filter(r=>r.passed).length,total:12,attempts:results.reduce((n,r)=>n+r.attempts,0)};
+ const activeKeys=Object.keys(BLOOD_LEVELS).flatMap(level=>ACTIVITIES.map(([id])=>`${level}:${id}`));
+ const results=activeKeys.flatMap(key=>record?.circulation?.results?.[key]?[record.circulation.results[key]]:[]);
+ return {submitted:results.length,passed:results.filter(r=>r.passed).length,total:activeKeys.length,attempts:results.reduce((n,r)=>n+r.attempts,0)};
 }

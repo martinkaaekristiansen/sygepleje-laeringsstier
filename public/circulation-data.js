@@ -1,8 +1,8 @@
 import {BLOOD_LEVELS} from './blood-routes.js';
 export {BLOOD_LEVELS};
 export const CIRCULATION_ID='find-vej-kredsloeb';
-export const ACTIVITIES=[['order','Byg kredsløbet','Flyt anatomiske kort til den rigtige rækkefølge.'],['labels','Sæt navn på anatomien','Forbind betegnelser med hjertet og kredsløbets strukturer.'],['context','Hvor er blodcellen?','Forbind placering, blodets retning og gasudveksling.'],['exam','Find vej uden hjælp','Genskab hele ruten fra hukommelsen.']];
-export const circulationPath={id:CIRCULATION_ID,title:'Kan du finde vej gennem kredsløbet?',semester:1,subject:'Anatomi og fysiologi',subjects:['Anatomi og fysiologi'],durationMinutes:30,description:'Fra oplevelse til forståelse. Byg kredsløbet, navngiv anatomien og find vej fra hukommelsen efter Blodcellens rejse.',steps:ACTIVITIES.map(([id,title,text])=>({id:`circulation-${id}`,title,type:'game',text,questions:[]}))};
+export const ACTIVITIES=[['order','Byg kredsløbet','Flyt anatomiske kort til den rigtige rækkefølge.'],['context','Hvor er blodcellen?','Forbind placering, blodets retning og gasudveksling.']];
+export const circulationPath={id:CIRCULATION_ID,title:'Kan du finde vej gennem kredsløbet?',semester:1,subject:'Anatomi og fysiologi',subjects:['Anatomi og fysiologi'],durationMinutes:15,description:'Fra oplevelse til forståelse. Byg kredsløbet, og undersøg blodets retning og iltning efter Blodcellens rejse.',steps:ACTIVITIES.map(([id,title,text])=>({id:`circulation-${id}`,title,type:'game',text,questions:[]}))};
 export const routeFor=level=>BLOOD_LEVELS[level].steps;
 export const uniqueRoute=level=>routeFor(level).slice(0,-1);
 // Metadata supplements the game's authoritative routes; it never defines a second sequence.

@@ -1,4 +1,4 @@
-import {circulationPath} from './circulation-data.js';
+import {circulationPath,CIRCULATION_ID} from './circulation-data.js';
 import {validCirculation} from './circulation-engine.js';
 import {pathSubjects,validPathSubjects} from './subjects.js';
 import {validQuestions,safeURL} from './data.js';
@@ -202,5 +202,18 @@ export function removeRetiredPaths(state) {
   const next=structuredClone(state),retired=p=>p.id==='fordoejelse'||p.builtinId==='fordoejelse';
   next.paths=next.paths.filter(p=>!retired(p));
   for(const [id,draft]of Object.entries(next.drafts))if(retired(draft.path))delete next.drafts[id];
+  // Remove retired activities on existing devices and restored backups, while
+  // retaining historical answers, drafts and assessments under their stable IDs.
+  const path=next.paths.find(p=>p.id===CIRCULATION_ID);
+  if(path){
+    const retiredSteps=new Set(['circulation-labels','circulation-exam']);
+    if(path.steps.some(s=>retiredSteps.has(s.id))){
+      path.steps=path.steps.filter(s=>!retiredSteps.has(s.id));
+      path.description=circulationPath.description;path.durationMinutes=circulationPath.durationMinutes;
+      path.contentVersion++;
+    }
+    const record=next.progress[path.id];
+    if(record&&retiredSteps.has(record.last))record.last=path.steps.find(s=>s.id==='circulation-context')?.id||path.steps[0]?.id;
+  }
   return next;
 }

@@ -1,3 +1,0 @@
-import {routeFor} from './circulation-data.js';
-import {esc} from './ui.js';
-export function examView(level,draft){return `<p>Genskab hele ruten fra hukommelsen, inklusive start og slut. Skriv én struktur i hvert felt. Danske og latinske betegnelser accepteres. Der gives først feedback, når du afleverer hele testen.</p><ol class="recall-fields">${routeFor(level).map((_,i)=>`<li><label for="recall-${i}">Struktur ${i+1}</label><input id="recall-${i}" data-recall="${i}" value="${esc(draft.answers[i]||'')}" autocomplete="off" spellcheck="false" maxlength="150" ${draft.submitted?'disabled':''}></li>`).join('')}</ol>`;}

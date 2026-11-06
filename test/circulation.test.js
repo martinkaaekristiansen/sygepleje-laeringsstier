@@ -1,23 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {BLOOD_LEVELS,routeFor,uniqueRoute,CIRCULATION_ID,circulationPath,circuitFor} from '../public/circulation-data.js';
+import {ACTIVITIES,BLOOD_LEVELS,routeFor,uniqueRoute,CIRCULATION_ID,circulationPath,circuitFor} from '../public/circulation-data.js';
 import {newDraft,assess,saveResult,accepts,validCirculation,shuffle} from '../public/circulation-engine.js';
 import {emptyState,validateState,addNewBuiltins} from '../public/model.js';
-import {getPathProgress} from '../public/progress.js';
-import {POSITIONS} from '../public/circulation-labels.js';
-import {examView} from '../public/circulation-exam.js';
+import {getPathProgress,getAssessmentProgress} from '../public/progress.js';
 import {moveCard} from '../public/circulation-order.js';
-for(const level of Object.keys(BLOOD_LEVELS))test(`${level}: four activities reuse original routes and score independently`,()=>{
+for(const level of Object.keys(BLOOD_LEVELS))test(`${level}: active and archived activities retain compatible result data`,()=>{
  assert.equal(routeFor(level),BLOOD_LEVELS[level].steps);
  const record={done:[],notes:{},answers:{}},route=routeFor(level);
  for(const activity of ['order','labels','context','exam']){
-  const d=newDraft(level,activity);assert.equal(getPathProgress(circulationPath,record).complete,false);
+  const d=newDraft(level,activity);
   if(activity==='order'){assert.notDeepEqual(d.answers,route.map((_,i)=>i));d.answers=route.map((_,i)=>i);}
-  if(activity==='exam'){assert.ok(!examView(level,d).includes(route[2].name));d.answers=route.map(n=>n.name);}
+  if(activity==='exam'){d.answers=route.map(n=>n.name);}
   if(activity==='labels')d.answers=Object.fromEntries(uniqueRoute(level).map(n=>[n.id,n.id]));
   if(activity==='context')for(const i of d.locations)d.answers[i]={before:route[(i+route.length-2)%(route.length-1)].id,after:route[i+1].id,oxygen:route[i].oxygen,circuit:circuitFor(route[i])};
   const r=assess(level,activity,d);assert.equal(r.percent,100);assert.equal(r.passed,true);assert.equal(saveResult(record,r),true);assert.equal(saveResult(record,r),false);assert.equal(record.circulation.results[`${level}:${activity}`].attempts,1);
-  for(const n of uniqueRoute(level))assert.equal(POSITIONS[n.id].length,2);
  }
  assert.equal(getPathProgress(circulationPath,record).complete,true);assert.ok(validCirculation(record.circulation));
  const state=emptyState();state.progress[CIRCULATION_ID]=record;assert.ok(validateState(state));assert.deepEqual(JSON.parse(JSON.stringify(state)).progress,state.progress);
@@ -39,3 +36,19 @@ test('installing new builtin preserves every previous path and saved learner rec
 });
 
 test('invalid persisted activity data is rejected without resetting existing learner data',()=>{const state=emptyState(),d=newDraft('easy','order');state.progress[CIRCULATION_ID]={done:[],notes:{},answers:{},circulation:{level:'easy',drafts:{'easy:order':d},results:{},errors:{}}};assert.ok(validateState(state));d.answers[0]=999;assert.equal(validateState(state),false);});
+
+test('only order and context remain, and archived scores do not count towards mastery',()=>{
+ assert.deepEqual(ACTIVITIES.map(([id])=>id),['order','context']);
+ assert.deepEqual(circulationPath.steps.map(s=>s.id),['circulation-order','circulation-context']);
+ const record={done:[],notes:{},answers:{}};
+ for(const level of Object.keys(BLOOD_LEVELS))for(const activity of ['order','labels','context','exam'])saveResult(record,assess(level,activity,newDraft(level,activity)));
+ assert.equal(getAssessmentProgress(record).submitted,6);assert.equal(getAssessmentProgress(record).total,6);
+ const state=emptyState(),path=state.paths.find(p=>p.id===CIRCULATION_ID);
+ path.steps.splice(1,0,{id:'circulation-labels',title:'Retired labels',type:'game',text:'',questions:[]});path.steps.push({id:'circulation-exam',title:'Retired exam',type:'game',text:'',questions:[]});
+ record.last='circulation-exam';state.progress[CIRCULATION_ID]=record;
+ const history=structuredClone(record.circulation),done=[...record.done],next=addNewBuiltins(state);
+ assert.deepEqual(next.paths.find(p=>p.id===CIRCULATION_ID).steps.map(s=>s.id),['circulation-order','circulation-context']);
+ assert.deepEqual(next.progress[CIRCULATION_ID].circulation,history);assert.deepEqual(next.progress[CIRCULATION_ID].done,done);
+ assert.equal(next.progress[CIRCULATION_ID].last,'circulation-context');assert.equal(getPathProgress(next.paths.find(p=>p.id===CIRCULATION_ID),next.progress[CIRCULATION_ID]).percent,100);
+ assert.deepEqual(addNewBuiltins(next),next);assert.ok(validateState(next));
+});
