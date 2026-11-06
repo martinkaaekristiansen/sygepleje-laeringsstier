@@ -1,3 +1,4 @@
+import {chamberPlan,chamberGeometry,chamberFeatures} from './journey-chambers.js';
 import * as T from './three.module.min.js';
 import {anatomyProfile,isValve,valveOpening,cardiacCycle,BREATH_PERIOD} from './journey-physiology.js';
 import {makeCurves,wallMaterial} from './journey-3d-geometry.js';
@@ -22,6 +23,7 @@ export function visualAnatomy(s,next){
   cacheKey:[s.kind,s.id,radius,!!valve].join(':')};
 }
 export function anatomyCurves(s){
+ if(s.chamber)return {parent:chamberPlan(s).parent,branches:[]};
  const r=s.radius;
  if(s.branch)return makeCurves(r);
  const parent=new T.CatmullRomCurve3(s.kind==='arch'?
@@ -36,6 +38,7 @@ function nativeRadius(s,u){
  return s.radius*(1-.14*u);
 }
 export function lumenRadius(s,u){
+ if(s.chamber)return s.radius*(u>.25&&u<.62?.7:.35);
  if(s.entry!==s.radius&&u<.42){const t=T.MathUtils.clamp((u-.1)/.32,0,1);return T.MathUtils.lerp(s.entry,lumenRadius({...s,entry:s.radius},u),t*t*(3-2*t));}
  const base=nativeRadius(s,u);
  // Leave room around the sinus root / ventricular support cuff, including
@@ -44,6 +47,7 @@ export function lumenRadius(s,u){
  return base;
 }
 export function lumenGeometry(s,curve,quality){
+ if(s.chamber)return chamberGeometry(s,quality);
  const ventricular=['right-ventricle','left-ventricle'].includes(s.kind);
  const length=ventricular?(quality==='low'?160:240):(quality==='low'?64:100),radial=ventricular?(quality==='low'?128:192):(quality==='low'?28:44);
  const trabeculae=ventricular?trabecularField(s.kind==='left-ventricle'?'left':'right',4.8):null;
@@ -68,6 +72,7 @@ export function oxygenAt(s,u){const f=T.MathUtils.clamp((u-.12)/.72,0,1);return 
 export function gasRadius(s,isOxygen,f){const outward=s.oxygen==='exchange-out'?isOxygen:!isOxygen;return s.radius*(outward?.2+f*1.7:1.9-f*1.7);}
 
 export function addAnatomy(root,s,curves,low,lumen){
+ if(s.chamber)return chamberFeatures(root,s,curves,lumen);
  const extras=new T.Group();root.add(extras);let valve=null,alveoli=null;
  if(s.valve){
   valve=createValve(s.valve,nativeRadius(s,.73)*.98);

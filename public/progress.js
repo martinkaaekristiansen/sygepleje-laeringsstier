@@ -27,3 +27,9 @@ export function getInProgressPaths(paths, progress) {
     .filter(item => item.total > 0 && item.started && !item.complete)
     .sort((a, b) => b.updatedAt - a.updatedAt);
 }
+
+// Academic mastery is independent of the ordinary "done" step checklist.
+export function getAssessmentProgress(record){
+ const results=Object.values(record?.circulation?.results||{});
+ return {submitted:results.length,passed:results.filter(r=>r.passed).length,total:12,attempts:results.reduce((n,r)=>n+r.attempts,0)};
+}

@@ -43,5 +43,5 @@ test('adding the game preserves existing learning content and progression',()=>{
  const state=emptyState();assert.ok(validateState(state));assert.equal(bloodPath.semester,1);assert.equal(bloodPath.subject,'Anatomi og fysiologi');assert.equal(bloodPath.steps.length,3);
  const old={...state,paths:state.paths.filter(p=>p.id!==bloodPath.id),installed:state.installed.filter(id=>id!==bloodPath.id)};
  const p=old.paths[0];old.progress[p.id]={done:[p.steps[0].id],notes:{[p.steps[0].id]:'Bevar'},answers:{}};
- const migrated=addNewBuiltins(old);assert.deepEqual(migrated.progress,old.progress);assert.deepEqual(migrated.paths.slice(0,2),old.paths);assert.equal(migrated.paths.length,3);
+ const migrated=addNewBuiltins(old);assert.deepEqual(migrated.progress,old.progress);assert.deepEqual(migrated.paths.slice(0,old.paths.length),old.paths);assert.equal(migrated.paths.length,state.paths.length);
 });

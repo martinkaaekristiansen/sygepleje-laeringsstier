@@ -1,3 +1,5 @@
+import {CIRCULATION_ID} from './circulation-data.js';
+import {mountCirculation} from './circulation-learning.js';
 import {BLOOD_PATH_ID,levelStepId} from './blood-routes.js';
 import {mountBloodGame} from './blood-game.js';
 import {chooseAnswer} from './quiz.js';
@@ -48,6 +50,7 @@ function header() {
   return `<a class="skip-link" href="#main-content">Spring til indhold</a><header><a href="#/" class="brand"><span class="logo" aria-hidden="true">⌁</span>Læringsstier<span class="beta">PROTOTYPE</span></a><nav aria-label="Hovednavigation"><a href="#/" class="${view==='home'?'active':''}" ${view==='home'?'aria-current="page"':''}>Udforsk</a></nav></header>`;
 }
 function learningView(path,stepIndex) {
+  if(path.id===CIRCULATION_ID)return '<div id="circulation-root"></div>';
   if(path.id===BLOOD_PATH_ID)return '<div id="blood-root"></div>';
   const record=state.progress[path.id]||{done:[],notes:{},answers:{}};
   const step=path.steps[stepIndex],stored=record.answers?.[step.id]||{};
@@ -60,8 +63,9 @@ function render(focus) {
   window.speechSynthesis?.cancel();
   if(view==='home'&&!semesterSubjects(state.paths,semester).includes(subject))subject=ALL_SUBJECTS;
   const content=view==='home'?renderHome({paths:state.paths,progress:state.progress,semester,subject}):view==='learn'?learningView(state.paths.find(p=>p.id===current),index):'<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>';
-  $('#app').innerHTML=header()+`<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.8.0</span></footer>`;
+  $('#app').innerHTML=header()+`<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.9.0</span></footer>`;
   if(view==='learn'&&current===BLOOD_PATH_ID){const path=state.paths.find(p=>p.id===current);disposeGame=mountBloodGame($('#blood-root'),{record:recordFor(path),initialLevel:path.steps[index].id.replace('blood-',''),save:options=>persist(options),exit:()=>go('#/'),onLevel:level=>{index=path.steps.findIndex(s=>s.id===levelStepId(level));history.replaceState(null,'',pathRoute(path,path.steps[index]));}});}
+  if(view==='learn'&&current===CIRCULATION_ID){const path=state.paths.find(p=>p.id===current);disposeGame=mountCirculation($('#circulation-root'),{record:recordFor(path),initialActivity:path.steps[index].id.replace('circulation-',''),save:()=>persist(),onActivity:activity=>{index=path.steps.findIndex(s=>s.id===`circulation-${activity}`);recordFor(path).last=path.steps[index].id;history.replaceState(null,'',pathRoute(path,path.steps[index]));}});}
   displayStorage();
   $('.step-navigation')?.addEventListener('toggle',e=>{expanded=e.target.open;});
   const target=focus?$(focus):null;
@@ -88,7 +92,7 @@ async function route() {
 window.addEventListener('hashchange',()=>{if(state&&!['#main-content','#explore'].includes(location.hash))route();});
 
 async function click(event) {
-  if(event.target.closest('.blood-game'))return;
+  if(event.target.closest('.blood-game,.circulation-learning'))return;
   const button=event.target.closest('button,[data-action]');if(!button||button.disabled)return;
   const d=button.dataset,a=d.action;
   if(a)event.preventDefault();

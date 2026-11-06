@@ -1,6 +1,6 @@
 {
   "name": "laeringsstier",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "node server.js",
     "test": "node --test test/*.test.js",
     "build": "node scripts/build.js",
-    "test:browser": "node tests-browser/acceptance.cjs && node tests-browser/blood-game.cjs && node tests-browser/journey-audio.cjs && node tests-browser/journey-anatomy.cjs && node tests-browser/journey-guide.cjs && node tests-browser/journey-3d.cjs",
+    "test:browser": "node tests-browser/acceptance.cjs && node tests-browser/blood-game.cjs && node tests-browser/journey-audio.cjs && node tests-browser/journey-anatomy.cjs && node tests-browser/journey-guide.cjs && node tests-browser/journey-3d.cjs && node tests-browser/circulation.cjs",
     "build:preview": "node scripts/build-preview.js",
     "build:preview:3d": "node scripts/build-3d-preview.js",
     "test:3d": "node tests-browser/journey-3d.cjs"

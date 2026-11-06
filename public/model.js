@@ -1,3 +1,5 @@
+import {circulationPath} from './circulation-data.js';
+import {validCirculation} from './circulation-engine.js';
 import {pathSubjects,validPathSubjects} from './subjects.js';
 import {validQuestions,safeURL} from './data.js';
 import {pharmacologyPath} from './pharmacology.js';
@@ -63,7 +65,7 @@ export function normalizePath(input, fresh = false) {
   return p;
 }
 export const builtins = [
-  pharmacologyPath, semester5Path, bloodPath,
+  pharmacologyPath, semester5Path, bloodPath, circulationPath,
 ].map(p => normalizePath({...p,builtinId:p.id,builtinVersion:1}));
 export function emptyState() {
   return {schemaVersion:SCHEMA,revision:0,paths:structuredClone(builtins),progress:{},drafts:{},installed:builtins.map(p=>p.id),dismissedUpdates:{}};
@@ -111,6 +113,7 @@ function validStateShape(state) {
     }
   }
   for (const [key,p] of Object.entries(state.progress)) {
+    if(p.circulation!==undefined&&!validCirculation(p.circulation))return false;
     if (!id(key)||!object(p)||!Array.isArray(p.done)||p.done.some(v=>!id(v))||!object(p.notes)||Object.values(p.notes).some(v=>typeof v!=='string')||!object(p.answers)) return false;
     for (const answers of Object.values(p.answers)) if (!object(answers)||Object.values(answers).some(v=>!id(v))) return false;
   }

@@ -13,9 +13,9 @@ const home=async page=>{await page.locator('header a[href="#/"]').first().click(
   const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[],requests=[];let accept=true;
   page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));page.on('dialog',d=>accept?d.accept():d.dismiss());
   await page.goto(base);await page.locator('.continue-section').waitFor();
-  const initial=await readState(page);assert.deepEqual(initial.paths.map(p=>p.semester),[3,5,1]);assert.equal(await page.locator('[data-semester]').count(),7);
+  const initial=await readState(page);assert.deepEqual(initial.paths.map(p=>p.semester),[3,5,1,1]);assert.equal(await page.locator('[data-semester]').count(),7);
   assert.equal(await page.getByRole('link',{name:/Underviser/}).count(),0);
-  await page.locator('[data-semester="1"]').click();assert.equal(await page.locator('.path-card').count(),1);assert.equal(await page.locator('.filters button').count(),2);assert.equal(await page.locator('[data-action=teacher]').count(),0);
+  await page.locator('[data-semester="1"]').click();assert.equal(await page.locator('.path-card').count(),2);assert.equal(await page.locator('.filters button').count(),2);assert.equal(await page.locator('[data-action=teacher]').count(),0);
   await page.goto(base+'#/underviser');await page.locator('.continue-section').waitFor();assert.equal(await page.locator('input[type=password],#editor').count(),0);
   await page.goto(base+'#/sti/fordoejelse');await page.getByRole('heading',{name:'Læringsstien blev ikke fundet'}).waitFor();
   await home(page);await page.locator('[data-semester="3"]').click();await page.locator('.path-card [data-open]').click();await page.locator('#lesson-heading').waitFor();
@@ -60,7 +60,7 @@ const home=async page=>{await page.locator('header a[href="#/"]').first().click(
   await upgrade.goto(base+'#/sti/fordoejelse');await upgrade.getByRole('heading',{name:'Læringsstien blev ikke fundet'}).waitFor();await upgrade.close();
   // Old localStorage data also migrates without restoring the retired path.
   const legacy=await browser.newPage();await legacy.addInitScript(({old,paths})=>{if(!localStorage.getItem('paths-v1')){localStorage.setItem('paths-v1',JSON.stringify([old,...paths]));localStorage.setItem('progress-v1',JSON.stringify({[paths[0].id]:{done:[0],last:1,notes:{1:'Bevar denne note'}}}));}},{old,paths:initial.paths});
-  await legacy.goto(base);await legacy.locator('.continue-section').waitFor();const migratedLegacy=await readState(legacy);assert.equal(migratedLegacy.paths.length,3);assert.deepEqual(migratedLegacy.progress[pharma.id].done,[pharma.steps[0].id]);assert.equal(migratedLegacy.progress[pharma.id].notes[pharma.steps[1].id],'Bevar denne note');await legacy.close();
+  await legacy.goto(base);await legacy.locator('.continue-section').waitFor();const migratedLegacy=await readState(legacy);assert.equal(migratedLegacy.paths.length,4);assert.deepEqual(migratedLegacy.progress[pharma.id].done,[pharma.steps[0].id]);assert.equal(migratedLegacy.progress[pharma.id].notes[pharma.steps[1].id],'Bevar denne note');await legacy.close();
   console.log('PASS: no teacher or publishing UI/network, retired path absent on new and old devices, 56 questions, corrections/explanations/restart, reflections, progression, migration, deep links, history and mobile');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});

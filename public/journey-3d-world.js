@@ -1,3 +1,4 @@
+import {chamberAnimator,chamberField,chamberPlan} from './journey-chambers.js';
 import * as T from './three.module.min.js';
 import {vesselGeometry,cellGeometry,wallMaterial} from './journey-3d-geometry.js';
 import {visualAnatomy,anatomyCurves,lumenGeometry,lumenRadius,oxygenAt,gasRadius,addAnatomy} from './journey-3d-anatomy.js';
@@ -13,6 +14,7 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
  const mobile=matchMedia('(max-width:700px)').matches,motion=matchMedia('(prefers-reduced-motion: reduce)');
  let adaptive=quality==='auto',low=quality==='low'||adaptive&&(mobile||software||navigator.hardwareConcurrency<=4);
  let disposed=false,paused=true,dirty=true,raf=0,last=0,elapsed=0,age=0,stage=null,curves,root,wall,cells,gas,extras;
+ let animateChamber=null;
  let distance=.16,ready=false,flight=null,mode='loading',hover=-1,fps=60,slow=0,reportAt=0,entry=0;
  const cache=new Map(),persistent=new Set(),pickPlanes=[],markers=[],anchors=[];
  const scene=new T.Scene();scene.background=new T.Color(0x2d0d14);
@@ -45,27 +47,30 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   return cache.get(id);
  }
  function move(point,direction,snap=false){camera.position.copy(local(point));q.setFromUnitVectors(forward,direction.clone().applyQuaternion(root.quaternion).normalize());if(snap||motion.matches)camera.quaternion.copy(q);else camera.quaternion.slerp(q,.16);}
- function onCurve(u,snap=false){canvas.dataset.cameraU=u.toFixed(4);move(curves.parent.getPointAt(u),curves.parent.getTangentAt(u),snap);}
+ function onCurve(u,snap=false){canvas.dataset.cameraU=u.toFixed(4);const point=curves.parent.getPointAt(u),direction=stage.chamber?curves.parent.getPointAt(Math.min(.995,u+.24)).sub(point).normalize():curves.parent.getTangentAt(u);move(point,direction,snap);}
  function drawCells(){
   const eye=root.worldToLocal(camera.position.clone()),cap=stage.cap;
   for(let i=0;i<cells.count;i++){
    const seed=seeds[i],branch=stage.branch&&i%3===0,curve=branch?curves.branches[i%2]:curves.parent;
    let u=(seed.u+elapsed*(cap?.022:stage.kind==='vein'?.035:.055))%1;
    // Erythrocytes remain upstream of a closed valve instead of crossing its cusps.
-   if(stage.valve&&!motion.matches&&valveOpening(stage.valve,clock())<.8&&u>.68&&u<.8)u=.66-(i%3)*.015;
+   const exitValve=stage.valve||(stage.chamber?chamberPlan(stage).exitValve:null),inletValve=stage.chamber?chamberPlan(stage).inletValve:null;
+   if(exitValve&&!motion.matches&&valveOpening(exitValve,clock())<.8&&u>.68&&u<.8)u=.66-(i%3)*.015;
+   if(inletValve&&!motion.matches&&valveOpening(inletValve,clock())<.8&&u>.07&&u<.16)u=.06-(i%3)*.005;
    pos.copy(curve.getPointAt(u));tangent.copy(curve.getTangentAt(u));
    const size=cap?.63:.65+(i%4)*.08,r=branch?stage.radius*.6:lumenRadius(stage,u);
    const radial=cap?0:Math.max(0,r-size-.15)*seed.radial;
    pos.x+=Math.cos(seed.angle)*radial;pos.y+=Math.sin(seed.angle)*radial*(stage.kind==='right-ventricle'?.8:1);
    dummy.position.copy(pos);dummy.quaternion.setFromUnitVectors(forward,tangent);
    q.setFromAxisAngle(v.set(cap?0:1,cap?1:.4,0).normalize(),cap?Math.sin(elapsed*.3+i)*.2:seed.spin+elapsed*.12);dummy.quaternion.multiply(q);
-   const sizeVisible=pos.distanceTo(eye)<(cap?1.8:2.8)||stage.valve&&u>.55&&u<.84?0:size;
+   const outside=stage.chamber&&chamberField(stage,pos.clone().multiplyScalar(1/stage.radius),chamberPlan(stage))>-.22;
+   const sizeVisible=outside||pos.distanceTo(eye)<(cap?1.8:2.8)||stage.valve&&u>.55&&u<.84?0:size;
    dummy.scale.set(sizeVisible*(cap?.81:1),sizeVisible*(cap?.94:1),sizeVisible*(cap?1.35:1));dummy.updateMatrix();cells.setMatrixAt(i,dummy.matrix);cells.setColorAt(i,colour.lerpColors(lowRed,highRed,oxygenAt(stage,u)));
   }
   cells.instanceMatrix.needsUpdate=true;cells.instanceColor.needsUpdate=true;
   if(gas){for(let i=0;i<gas.count;i++){const f=motion.matches?.55:(elapsed*.2+i*.123)%1,u=.25+(i%5)*.12,c=curves.parent.getPointAt(u),a=i*2.3999,r=gasRadius(stage,i%2===0,f);dummy.position.copy(c).add(v.set(Math.cos(a)*r,Math.sin(a)*r,0));dummy.quaternion.identity();dummy.scale.setScalar(stage.radius*.04);dummy.updateMatrix();gas.setMatrixAt(i,dummy.matrix);}gas.instanceMatrix.needsUpdate=true;}
  }
- function applyQuality(){renderer.setPixelRatio(Math.min(devicePixelRatio||1,low?(software?.5:1):1.5));renderer.shadowMap.enabled=!low;key.castShadow=!low;if(cells){cells.castShadow=!low;cells.count=stage.cap?8:low?24:44;}if(wall)wall.receiveShadow=!low;resize();}
+ function applyQuality(){renderer.setPixelRatio(Math.min(devicePixelRatio||1,low?(software?.5:1):1.5));renderer.shadowMap.enabled=!low;key.castShadow=!low;if(cells){cells.castShadow=!low;cells.count=stage.chamber?10:stage.cap?8:low?24:44;}if(wall)wall.receiveShadow=!low;resize();}
  async function enter(s,next,{reset=false}={}){
   const token=++entry,visual=visualAnatomy(s,next),oldPoint=root&&!reset?camera.position.clone():null,oldDir=root&&!reset?forward.clone().applyQuaternion(camera.quaternion):null;
   if(stage&&!reset)visual.entry=lumenRadius(stage,.94);
@@ -73,17 +78,18 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   if(root){scene.remove(root);disposeTree(root);}pickPlanes.length=0;markers.length=0;anchors.length=0;
   stage=visual;curves=built.curves;age=0;distance=.16;hover=-1;dirty=true;root=new T.Group();scene.add(root);
   const ventricular=['right-ventricle','left-ventricle'].includes(stage.kind);
-  const material=ventricular?myocardiumMaterial():wallMaterial(stage.cap,stage.radius);
+  const material=stage.chamber?myocardiumMaterial():wallMaterial(stage.cap,stage.radius);
   if(!ventricular)material.color.set(stage.cap?0xb06870:stage.chamber?0x793542:stage.kind==='vein'?0x874652:0x9c4447);
   if(stage.cap&&stage.profile.pulmonary)material.opacity=.4;
-  wall=new T.Mesh(built.geometry,material);root.add(wall);
+  wall=new T.Mesh(stage.chamber?built.geometry.clone():built.geometry,material);root.add(wall);animateChamber=stage.chamber?chamberAnimator(wall,stage):null;
   if(oldPoint){root.quaternion.setFromUnitVectors(curves.parent.getTangentAt(distance),oldDir);root.position.copy(oldPoint).sub(curves.parent.getPointAt(distance).applyQuaternion(root.quaternion));}root.updateMatrixWorld(true);
-  cells=new T.InstancedMesh(cellGeo,cellMat,44);cells.count=stage.cap?8:low?24:44;cells.instanceMatrix.setUsage(T.DynamicDrawUsage);cells.frustumCulled=false;root.add(cells);
+  cells=new T.InstancedMesh(cellGeo,cellMat,44);cells.count=stage.chamber?10:stage.cap?8:low?24:44;cells.instanceMatrix.setUsage(T.DynamicDrawUsage);cells.frustumCulled=false;root.add(cells);
   extras=addAnatomy(root,stage,curves,low,built.geometry);gas=null;
   if(stage.cap){const mat=new T.MeshStandardMaterial({color:0xffffff,roughness:.65,emissive:0x271a10,emissiveIntensity:.1});gas=new T.InstancedMesh(new T.SphereGeometry(1,8,6),mat,low?16:24);for(let i=0;i<gas.count;i++)gas.setColorAt(i,new T.Color(i%2?0xd0d1c6:0xf4d3a0));root.add(gas);}
   for(let i=0;i<2;i++){
-   const center=stage.branch?curves.branches[i].getPointAt(.23):curves.parent.getPointAt(ventricular?.56:stage.valve?.73:.68).add(v.set((i?1:-1)*stage.radius*(ventricular?.65:stage.valve?.72:.48),ventricular?-stage.radius*.30:stage.valve?-stage.radius*.64:0,0));anchors.push(center);
-   const plane=new T.Mesh(new T.PlaneGeometry(stage.radius*.7,stage.radius*.85),new T.MeshBasicMaterial({visible:false,side:T.DoubleSide}));plane.position.copy(center);plane.userData.side=i;root.add(plane);pickPlanes.push(plane);
+   const center=stage.branch?curves.branches[i].getPointAt(.23):curves.parent.getPointAt(ventricular?.56:stage.valve?.73:.68).add(v.set((i?1:-1)*stage.radius*(ventricular?.65:stage.valve?.72:.48),ventricular?-stage.radius*.30:stage.valve?-stage.radius*.64:0,0));if(stage.chamber){const d=curves.parent.getTangentAt(.43),right=new T.Vector3().crossVectors(d,up).normalize();center.copy(curves.parent.getPointAt(.43)).addScaledVector(d,stage.radius*.72).addScaledVector(right,(i?1:-1)*stage.radius*.55).addScaledVector(up,-stage.radius*.26);}
+   anchors.push(center);
+   const plane=new T.Mesh(new T.PlaneGeometry(stage.radius*.7,stage.radius*.85),new T.MeshBasicMaterial({visible:false,side:T.DoubleSide}));plane.position.copy(center);if(stage.chamber)plane.quaternion.setFromUnitVectors(forward,curves.parent.getTangentAt(.43));plane.userData.side=i;root.add(plane);pickPlanes.push(plane);
    if(!stage.branch){const marker=new T.Mesh(new T.ConeGeometry(stage.radius*.08,stage.radius*.24,6),new T.MeshStandardMaterial({color:0xd9bba2,roughness:.6,transparent:true,opacity:.65}));marker.rotation.x=-Math.PI/2;marker.position.copy(center);root.add(marker);markers.push(marker);}
   }
   scene.fog=new T.FogExp2(stage.cap?0x42262a:0x300c14,.035/stage.radius);
@@ -108,7 +114,7 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   }
   const e=ease(Math.min(1,f.age/1.8));
   if(stage.branch){if(e<.28)onCurve(T.MathUtils.lerp(f.from,1,e/.28));else{const u=(e-.28)/.72*.83;move(curves.branches[f.side].getPointAt(u),curves.branches[f.side].getTangentAt(u));}}
-  else{const u=T.MathUtils.lerp(f.from,.94,e),p=curves.parent.getPointAt(u);p.x+=Math.sin(Math.PI*e)*(f.side?1:-1)*stage.radius*.22;move(p,curves.parent.getTangentAt(u));}
+  else{const u=T.MathUtils.lerp(f.from,stage.chamber?.66:.94,e),p=curves.parent.getPointAt(u);if(!stage.chamber)p.x+=Math.sin(Math.PI*e)*(f.side?1:-1)*stage.radius*.22;if(stage.chamber)onCurve(u);else move(p,curves.parent.getTangentAt(u));}
   if(f.age>=1.8)completeFlight();
  }
  function completeFlight(){const done=flight.done;flight=null;mode='waiting';done();}
@@ -117,19 +123,21 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   if(root&&!document.hidden){
    if(!paused&&!motion.matches){elapsed+=dt;age+=dt;}
    if(!paused&&mode==='approach'){
-    const stop=stage.branch?.92:stage.chamber&&stage.kind!=='atrium'?.43:stage.valve?(camera.aspect<.75?.55:.60):.57;
-    if(motion.matches)distance=stop;else distance=Math.min(stop+.012,distance+dt*(distance<stop?(stage.cap?.08:.14):.001));
+    const stop=stage.branch?.92:stage.chamber?.43:stage.valve?(camera.aspect<.75?.55:.60):.57;
+    if(motion.matches)distance=stop;else distance=Math.min(stop+.012,distance+dt*(distance<stop?(stage.chamber?.09:stage.cap?.08:.14):.001));
     onCurve(distance);if(distance>=stop&&!ready){ready=true;onReady();}
    }else if(!paused&&flight)advanceFlight(dt);
    const time=motion.matches||paused?0:clock(),cycle=cardiacCycle(time);
    const pulse=motion.matches||paused?0:stage.chamber||stage.valve?.kind.startsWith('av-')?-(stage.kind==='atrium'?cycle.atrialContraction*.025:cycle.contraction*.045):stage.profile.sound.pulse*cycle.contraction*.02;
-   wall.scale.set(1+pulse,1+pulse,1);extras.group.scale.set(1+pulse,1+pulse,1);
+   wall.scale.set(1+(stage.chamber?0:pulse),1+(stage.chamber?0:pulse),1);extras.group.scale.copy(wall.scale);
+   if(animateChamber)animateChamber(time);
+   const baseFov=camera.aspect<.75?100:68,targetFov=baseFov+(stage.chamber?(camera.aspect<.75?6:28)*ease(T.MathUtils.clamp((distance-.18)/.20,0,1)):0);if(Math.abs(camera.fov-targetFov)>.01){camera.fov=T.MathUtils.lerp(camera.fov,targetFov,.08);camera.updateProjectionMatrix();}
    const dir=forward.clone().applyQuaternion(camera.quaternion);key.position.copy(camera.position).addScaledVector(up,stage.radius*.2);key.target.position.copy(camera.position).addScaledVector(dir,stage.radius*8);fill.position.copy(camera.position).addScaledVector(dir,-stage.radius*.5);depth.position.copy(local(curves.parent.getPointAt(.86)));
    markers.forEach((m,i)=>{m.material.opacity=i===hover?1:.65;});
    if(!paused&&!motion.matches||dirty){drawCells();extras.update(time,motion.matches||paused);render();dirty=false;}
    canvas.dataset.distance=distance.toFixed(3);canvas.dataset.valveOpening=String(stage.valve?(motion.matches||paused?1:valveOpening(stage.valve,time)):0);
    if(timestamp-reportAt>250){if(realDt>0)fps=fps*.8+Math.min(60,1/realDt)*.2;reportAt=timestamp;if(adaptive&&!low&&fps<28&&++slow>16){low=true;applyQuality();}}
-   onFrame({ready,age,anchors:anchors.map(projected),fps:motion.matches||paused?0:fps,quality:low?'Let':'Høj',triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls});
+   onFrame({ready,age,anchors:stage.chamber?[{x:28,y:65},{x:72,y:65}]:anchors.map(projected),fps:motion.matches||paused?0:fps,quality:low?'Let':'Høj',triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls});
   }
   if(!document.hidden)raf=requestAnimationFrame(tick);
  }
@@ -140,9 +148,9 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   pause(value){paused=value;dirty=true;},
   highlight(side){if(side!==hover){hover=side;dirty=true;}},
   pick(x,y){if(!ready||mode!=='approach')return -1;const box=canvas.getBoundingClientRect();ndc.set((x-box.left)/box.width*2-1,-(y-box.top)/box.height*2+1);raycaster.setFromCamera(ndc,camera);root.updateMatrixWorld(true);return raycaster.intersectObjects(pickPlanes)[0]?.object.userData.side??-1;},
-  travel(side,ok,done){if(mode!=='approach'||!ready||paused)return false;ready=false;if(motion.matches){onCurve(ok?.94:distance,true);mode='waiting';done();return true;}flight={side,ok,done,age:0,from:distance,crossStart:null,crossDuration:0};mode='travel';return true;},
+  travel(side,ok,done){if(mode!=='approach'||!ready||paused)return false;ready=false;if(motion.matches){onCurve(ok?(stage.chamber&&!stage.valve?.66:.94):distance,true);mode='waiting';done();return true;}flight={side,ok,done,age:0,from:distance,crossStart:null,crossDuration:0};mode='travel';return true;},
   resumeChoice(){mode='approach';ready=true;},
-  setQuality(value){adaptive=value==='auto';slow=0;low=value==='low'||adaptive&&(mobile||software||navigator.hardwareConcurrency<=4);applyQuality();if(stage){const requested=stage;void prepare(stage,stage.valve).then(built=>{if(built&&!disposed&&stage===requested&&built.quality===(low?'low':'high')){wall.geometry=built.geometry;canvas.dataset.meshQuality=built.quality;dirty=true;}}).catch(()=>onError('Grafikken kunne ikke opdateres. Genindlæs spillet.'));}},
+  setQuality(value){adaptive=value==='auto';slow=0;low=value==='low'||adaptive&&(mobile||software||navigator.hardwareConcurrency<=4);applyQuality();if(stage){const requested=stage;void prepare(stage,stage.valve).then(built=>{if(built&&!disposed&&stage===requested&&built.quality===(low?'low':'high')){if(stage.chamber){wall.geometry.dispose();wall.geometry=built.geometry.clone();animateChamber=chamberAnimator(wall,stage);}else wall.geometry=built.geometry;canvas.dataset.meshQuality=built.quality;dirty=true;}}).catch(()=>onError('Grafikken kunne ikke opdateres. Genindlæs spillet.'));}},
   dispose(){disposed=true;entry++;cancelAnimationFrame(raf);observer.disconnect();document.removeEventListener('visibilitychange',wake);motion.removeEventListener('change',wake);canvas.removeEventListener('webglcontextlost',lost);if(root)disposeTree(root);persistent.forEach(g=>g.dispose());cellMat.dispose();renderer.dispose();renderer.forceContextLoss();},
  };
 }
