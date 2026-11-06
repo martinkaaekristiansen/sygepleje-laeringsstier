@@ -21,11 +21,13 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
    await page.locator('[data-blood=start]').click();await page.locator('[data-passage]').first().waitFor();
    await page.waitForFunction(()=>audioContexts[0]?.state==='running');assert.equal(await page.evaluate(()=>audioContexts.length),1);
    assert.match(await page.locator('[data-audio-status]').textContent(),/70 slag/);
+   await page.locator('[data-panel-toggle]').click();
    await page.locator('[data-audio=lungs]').uncheck();await page.locator('[data-audio=flow]').uncheck();
    await page.locator('[data-audio=volume]').fill('73');
    await page.locator('[data-audio=volume]').focus();await page.keyboard.press('ArrowLeft');
    assert.equal(await page.locator('[data-audio=volume]').inputValue(),'72','range keyboard must not move portal focus');
    assert.equal(await page.evaluate(()=>document.activeElement.id),'blood-volume');
+   await page.locator('[data-panel-close]').click();
    await page.locator('[data-passage]').filter({hasText:'Arterier'}).click();
    await page.waitForFunction(()=>document.querySelector('[role=progressbar]')?.getAttribute('aria-valuenow')==='1');
    assert.equal(await page.evaluate(()=>audioContexts.length),1,'same continuous audio graph after navigation');

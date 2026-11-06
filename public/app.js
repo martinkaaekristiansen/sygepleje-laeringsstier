@@ -134,7 +134,7 @@ function render(focus) {
         : '<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>';
   $('#app').innerHTML =
     header() +
-    `<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice ? `<p class="notice" role="status">${esc(notice)}</p>` : ''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.10.0</span><button class="text-button" data-action="backup">Hent mine data</button><label class="file-button">Gendan mine data<input id="restore-file" type="file" accept="application/json"></label></footer>`;
+    `<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice ? `<p class="notice" role="status">${esc(notice)}</p>` : ''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.10.1</span><button class="text-button" data-action="backup">Hent mine data</button><label class="file-button">Gendan mine data<input id="restore-file" type="file" accept="application/json"></label></footer>`;
   if (view === 'learn' && current === BLOOD_PATH_ID) {
     const path = state.paths.find((p) => p.id === current);
     disposeGame = mountBloodGame($('#blood-root'), {

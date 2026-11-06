@@ -1,3 +1,4 @@
+import { lockGameViewport } from './blood-viewport.js';
 import { BLOOD_LEVELS, levelStepId } from './blood-routes.js';
 import {
   newJourney,
@@ -47,7 +48,10 @@ export function mountBloodGame(
     ambient = true,
     error = '',
     audioSaved = true,
-    noticeTimer = 0;
+    noticeTimer = 0,
+    pendingLevel = null,
+    panelOpen = false;
+  const unlockViewport = lockGameViewport(root);
   const audio = createJourneyAudio({ onStatus: updateAudioPanel });
   const $ = (s) => root.querySelector(s),
     stats = (l) => ({ ...emptyStats(), ...data.stats[l] });
@@ -67,7 +71,7 @@ export function mountBloodGame(
   }
   function audioPanel() {
     const s = audio.settings;
-    return `<section class="blood-audio" aria-label="Lydindstillinger"><div class="blood-audio-controls"><button class="secondary" data-audio-toggle aria-pressed="${s.enabled}">${s.enabled ? 'Slå lyd fra' : 'Slå lyd til'}</button><label class="blood-volume" for="blood-volume">Lydstyrke <output data-audio-value>${Math.round(s.volume * 100)}%</output><input id="blood-volume" type="range" min="0" max="100" value="${Math.round(s.volume * 100)}" data-audio="volume"></label><fieldset><legend>Lydlag</legend>${[
+    return `<section class="blood-audio" aria-label="Lydindstillinger"><div class="blood-audio-controls"><label class="blood-volume" for="blood-volume">Lydstyrke <output data-audio-value>${Math.round(s.volume * 100)}%</output><input id="blood-volume" type="range" min="0" max="100" value="${Math.round(s.volume * 100)}" data-audio="volume"></label><fieldset><legend>Lydlag</legend>${[
       ['heart', 'Hjerte'],
       ['lungs', 'Lunger'],
       ['flow', 'Blodstrøm'],
@@ -80,7 +84,7 @@ export function mountBloodGame(
         '',
       )}</fieldset></div><div class="blood-audio-caption"><span data-audio-status role="status">${esc(audio.status())}</span><button class="text-button" data-audio-retry>Prøv lyd igen</button><details><summary>Om lydmodellen</summary><p>Original syntese med S1–S2-hjertelyde ved 70 slag/min og blød respiration ved 14 åndedrag/min. Lydstyrken illustrerer nærhed til hjertet og lungerne. Blodstrømmen er stiliseret. Det er en pædagogisk simulation, ikke sådan en erytrocyt fysisk ville høre inde i kroppen; normalt laminart blodflow er ikke nødvendigvis hørbart.</p></details></div><p data-audio-save role="status" ${audioSaved ? 'hidden' : ''}>Lydindstillingen virker nu, men kunne ikke gemmes på enheden.</p></section>`;
   }
-  root.innerHTML = `<section class="blood-game"><button class="back" data-blood="exit">← Alle læringsstier</button><div class="blood-save-error" role="alert" hidden></div>${audioPanel()}<div class="blood3d blood-play">
+  root.innerHTML = `<section class="blood-game"><div class="blood-game-bar" aria-label="Spilbetjening"><button class="back" data-blood="exit">← Tilbage til læringsstier</button><button data-audio-toggle aria-pressed="${audio.settings.enabled}">${audio.settings.enabled ? 'Slå lyd fra' : 'Slå lyd til'}</button><button data-panel-toggle aria-controls="blood-settings" aria-expanded="false" aria-label="Lyd, viden og grafik">⚙</button><div class="blood-foot"><button data-footer-menu data-blood="menu" aria-label="Vælg sværhedsgrad">☰</button></div></div><div class="blood-save-error" role="alert" hidden></div><aside id="blood-settings" class="blood-drawer" aria-label="Lyd, viden og grafik" hidden><button data-panel-close class="secondary">Luk indstillinger</button>${audioPanel()}</aside><div class="blood3d blood-play">
  <div class="blood-world blood3d-viewport"><canvas class="blood3d-canvas" tabindex="0" aria-label="Blodbanen i 3D. Brug piletaster og Enter, eller vælg en rute med mus eller touch."></canvas><div class="blood3d-shade" aria-hidden="true"></div>
  <div class="blood3d-hud"><div class="blood-location"><span class="blood3d-eyebrow" data-level-name></span><h1 data-location></h1><p class="blood-world-caption"></p></div><div class="blood3d-top-controls"><span class="blood-lives" role="img"></span><button data-blood="motion" aria-pressed="false">Pause bevægelse</button></div></div>
  <div class="blood3d-milestone" role="status" aria-live="polite"></div>
@@ -88,9 +92,23 @@ export function mountBloodGame(
  <div data-body-map></div><div class="blood3d-bottom"><span data-hint></span><div class="blood3d-gas" hidden></div><p class="blood-oxygen"></p><div class="blood-progress" role="progressbar" aria-label="Fremdrift gennem kredsløbet" aria-valuemin="0" aria-valuenow="0" aria-valuemax="10"><span></span></div><span data-progress-copy></span></div>
  <div class="blood3d-overlay" data-overlay></div></div>
  <div class="blood3d-information"><div><span class="blood3d-eyebrow">INDE I KREDSLØBET</span><p data-note></p></div><div data-funfact></div><div class="blood3d-quality"><label><input type="checkbox" data-anatomy-focus><span>Se kammerets indløb og muskulatur</span></label><label>Grafik <select data-quality3d><option value="auto">Automatisk</option><option value="high">Høj</option><option value="low">Let</option></select></label><small data-quality-label></small></div></div>
- <div class="blood-foot"><small>Rute: højre overarms muskel → øvre hulvene → højre lunge → aorta</small><button class="secondary" data-footer-menu data-blood="menu">Afslut til læringsstien</button></div>
+
  <details class="blood3d-model"><summary>Om modellen og betjeningen</summary><p>De to anatomiske navne er rutehypoteser fra det valgte niveau. Markørerne er navigationshjælp, ikke ekstra åbninger i kar eller hjertevægge. Ved lungearteriestammen følger vi højre lungearterie. Venstre lungearterie er også normal, men bruges ikke som et forkert svar.</p><p>Hjertekamre, klapper og kapillærer er forenklede 3D-modeller. Lyset, de synlige gaspartikler og transparensen er undervisningshjælpemidler. Modellen er ikke målfast. »Se kammerets indløb og muskulatur« drejer blikket mod klapapparatet eller atriets venøse indløb. Når du vælger næste struktur, følger kameraet igen blodstrømmen. Iltfattigt blod forbliver rødt og indeholder stadig ilt.</p><p>Vælg med mus, touch eller Tab og Enter. Venstre og højre pil flytter fokus mellem navnene. Reduceret bevægelse viser samme 3D-anatomi med stillestående kamera og direkte overgange.</p></details></div></section>`;
   const canvas = $('canvas');
+  $('#blood-settings').append($('.blood3d-information'), $('.blood3d-model'));
+  function setPanel(open) {
+    panelOpen = open;
+    $('#blood-settings').hidden = !open;
+    $('[data-panel-toggle]').setAttribute('aria-expanded', String(open));
+    $('.blood3d-viewport').inert = open;
+    // Let an already chosen passage settle before pausing. Pausing between
+    // saving the answer and starting travel would otherwise strand the attempt.
+    world?.pause((open && !busy) || mode !== 'play' || !ambient);
+    root.querySelectorAll('[data-passage]').forEach((b) => (b.disabled = open || !ambient));
+    if (open) $('[data-panel-close]').focus();
+    else $('[data-panel-toggle]').focus();
+  }
+
   function milestone(text) {
     const el = $('.blood3d-milestone');
     el.textContent = text;
@@ -123,6 +141,7 @@ export function mountBloodGame(
     if (active) queueMicrotask(() => $('#blood-title')?.focus({ preventScroll: true }));
   }
   function menu() {
+    pendingLevel = null;
     overlayFocus(true);
     mode = 'menu';
     ready = false;
@@ -133,7 +152,7 @@ export function mountBloodGame(
     const overlay = $('[data-overlay]');
     overlay.hidden = false;
     overlay.className = 'blood3d-overlay blood-menu';
-    overlay.innerHTML = `<span class="blood3d-eyebrow">1. SEMESTER · ANATOMI OG FYSIOLOGI · 3D</span><h2 id="blood-title" tabindex="-1">Blodcellens rejse</h2><p>Følg blodet gennem karrene, hjertet og lungerne. Vælg den næste anatomiske struktur. Du har to liv.</p><fieldset class="blood-levels"><legend>Vælg din sværhedsgrad</legend>${Object.values(
+    overlay.innerHTML = `<div class="blood-menu-scroll"><span class="blood3d-eyebrow">1. SEMESTER · ANATOMI OG FYSIOLOGI · 3D</span><h2 id="blood-title" tabindex="-1">Blodcellens rejse</h2><p>Følg blodet gennem karrene, hjertet og lungerne. Vælg den næste anatomiske struktur. Du har to liv.</p><fieldset class="blood-levels"><legend>Vælg din sværhedsgrad</legend>${Object.values(
       BLOOD_LEVELS,
     )
       .map(
@@ -142,7 +161,7 @@ export function mountBloodGame(
       )
       .join(
         '',
-      )}</fieldset><div class="toolbar"><button class="blood3d-primary" data-blood="start" ${world ? '' : 'disabled'}>${world ? 'Start rejsen →' : 'Klargør 3D…'}</button>${run && !['won', 'lost'].includes(run.phase) ? `<button class="secondary" data-blood="resume" ${world ? '' : 'disabled'}>Fortsæt ${BLOOD_LEVELS[run.level].name.toLowerCase()} · ${run.correct}/${BLOOD_LEVELS[run.level].choices.length}</button>` : ''}</div><small>Mus, touch eller tastatur · Progression gemmes på din enhed</small>`;
+      )}</fieldset></div><div class="toolbar"><button class="blood3d-primary" data-blood="start" ${world ? '' : 'disabled'}>${world ? 'Start rejsen →' : 'Klargør 3D…'}</button>${run && !['won', 'lost'].includes(run.phase) ? `<button class="secondary" data-blood="resume" ${world ? '' : 'disabled'}>Fortsæt ${BLOOD_LEVELS[run.level].name.toLowerCase()} · ${run.correct}/${BLOOD_LEVELS[run.level].choices.length}</button>` : ''}</div><small>Mus, touch eller tastatur · Progression gemmes på din enhed</small>`;
     $('.blood-foot').hidden = true;
     updateAudioPanel();
   }
@@ -195,7 +214,7 @@ export function mountBloodGame(
             `<button data-passage="${i}" aria-label="${i ? 'Højre' : 'Venstre'} rutehypotese: ${esc(p.name)}"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="${i ? 'M6 18 18 6M8 6h10v10' : 'M18 18 6 6M6 16V6h10'}"/></svg></span><strong>${esc(p.name)}</strong></button>`,
         )
         .join('');
-    parent.querySelectorAll('button').forEach((b) => (b.disabled = !ambient));
+    parent.querySelectorAll('button').forEach((b) => (b.disabled = !ambient || panelOpen));
     $('[data-hint]').textContent = 'Vælg næste struktur · to rutehypoteser';
     showFeedback();
   }
@@ -211,7 +230,7 @@ export function mountBloodGame(
       s = route.steps[run.index];
     await world.enter(s, route.steps[run.index + 1], { reset: run.index === 0 });
     if (disposed) return;
-    world.pause(!ambient);
+    world.pause(!ambient || panelOpen);
     audio.locate(s, true);
     updateAudioPanel();
     canvas.focus({ preventScroll: true });
@@ -297,15 +316,17 @@ export function mountBloodGame(
       failure(e.message);
     }
   }
-  async function start(level) {
-    if (
-      run &&
-      !['won', 'lost'].includes(run.phase) &&
-      !confirm(
-        'Start et nyt forsøg? Det igangværende forsøg afsluttes. Gennemførte niveauer bevares.',
-      )
-    )
+  async function start(level, confirmed = false) {
+    if (run && !['won', 'lost'].includes(run.phase) && !confirmed) {
+      pendingLevel = level;
+      const overlay = $('[data-overlay]');
+      overlay.hidden = false;
+      overlay.className = 'blood3d-overlay blood-confirm';
+      overlay.innerHTML = `<h2 id="blood-title" tabindex="-1">Start et nyt forsøg?</h2><p>Du er i gang med ${esc(BLOOD_LEVELS[run.level].name.toLowerCase())}, ${run.correct} af ${BLOOD_LEVELS[run.level].choices.length} overgange. Et nyt forsøg på ${esc(BLOOD_LEVELS[level].name.toLowerCase())} starter fra begyndelsen med to liv.</p><p>Gennemførte niveauer og bedste resultater bevares.</p><div class="toolbar"><button class="blood3d-primary" data-blood="confirm-start">Start nyt forsøg</button><button class="secondary" data-blood="cancel-start">Behold mit forsøg</button></div>`;
+      overlayFocus(true);
       return;
+    }
+    pendingLevel = null;
     selected = level;
     run = newJourney(BLOOD_LEVELS[level]);
     data.stats[level] = startAttempt(data.stats[level]);
@@ -325,11 +346,10 @@ export function mountBloodGame(
     await store();
     if (!disposed) {
       await enterStage();
-      $('.blood-world').scrollIntoView({ block: 'start', behavior: 'instant' });
     }
   }
   async function choose(side) {
-    if (!ready || busy || !ambient || mode !== 'play') return;
+    if (!ready || busy || panelOpen || !ambient || mode !== 'play') return;
     const route = BLOOD_LEVELS[run.level],
       current = run.phase === 'feedback' ? continueJourney(run) : run,
       next = choosePassage(route, current, side);
@@ -367,6 +387,7 @@ export function mountBloodGame(
           busy = false;
           updateStage();
           world.resumeChoice();
+          world.pause(panelOpen || !ambient);
           showChoices();
           canvas.focus({ preventScroll: true });
         }
@@ -394,6 +415,19 @@ export function mountBloodGame(
       }
       return;
     }
+    if (b?.hasAttribute('data-panel-toggle')) {
+      setPanel(!panelOpen);
+      return;
+    }
+    if (b?.hasAttribute('data-panel-close')) {
+      setPanel(false);
+      return;
+    }
+    if (b?.dataset.blood === 'exit') {
+      await store();
+      if (!disposed) exit();
+      return;
+    }
     if (!b || busy) return;
     if (b.dataset.passage !== undefined) {
       void audio.activate();
@@ -402,10 +436,13 @@ export function mountBloodGame(
     }
     const action = b.dataset.blood;
     if (!action) return;
-    if (['start', 'restart', 'next', 'resume'].includes(action)) void audio.activate();
+    if (['start', 'confirm-start', 'restart', 'next', 'resume'].includes(action))
+      void audio.activate();
     busy = true;
     try {
       if (action === 'start') await start(selected);
+      if (action === 'confirm-start' && pendingLevel) await start(pendingLevel, true);
+      if (action === 'cancel-start') menu();
       if (action === 'restart') await start(run.level);
       if (action === 'next') await start(b.dataset.level);
       if (action === 'resume') {
@@ -423,15 +460,11 @@ export function mountBloodGame(
         await store();
         menu();
       }
-      if (action === 'exit') {
-        await store();
-        exit();
-      }
       if (action === 'save') await store(true);
       if (action === 'reload') location.reload();
       if (action === 'motion') {
         ambient = !ambient;
-        world?.pause(!ambient);
+        world?.pause(!ambient || panelOpen);
         b.textContent = ambient ? 'Pause bevægelse' : 'Start bevægelse';
         b.setAttribute('aria-pressed', String(!ambient));
         root.querySelectorAll('[data-passage]').forEach((p) => (p.disabled = !ambient));
@@ -456,6 +489,17 @@ export function mountBloodGame(
     if (e.target.name === 'blood-level') selected = e.target.value;
   }
   function keyboard(e) {
+    if (e.key === 'Escape' && panelOpen) {
+      e.preventDefault();
+      setPanel(false);
+      return;
+    }
+    if (e.key === 'Escape' && pendingLevel) {
+      e.preventDefault();
+      menu();
+      return;
+    }
+    if (panelOpen) return;
     if (e.target.closest('.blood-audio') || e.target.matches('select')) return;
     if (['ArrowLeft', 'ArrowRight'].includes(e.key) && ready) {
       e.preventDefault();
@@ -487,6 +531,7 @@ export function mountBloodGame(
   void boot();
   return () => {
     disposed = true;
+    unlockViewport();
     clearTimeout(noticeTimer);
     world?.dispose();
     audio.dispose();

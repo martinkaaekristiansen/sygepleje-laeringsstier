@@ -1,0 +1,284 @@
+html.blood-viewport-active,
+.blood-viewport-active body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+.blood-viewport-active body {
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+#blood-root {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  right: 0;
+  top: var(--game-top, 0px);
+  height: var(--game-height, 100dvh);
+  background: #260d13;
+  color: #f8e7d4;
+  overflow: hidden;
+  isolation: isolate;
+}
+#blood-root .blood-game {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  max-width: none;
+  position: relative;
+}
+#blood-root [hidden] {
+  display: none !important;
+}
+.blood-game-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  min-height: 56px;
+  padding: 5px max(10px, env(safe-area-inset-right)) 5px max(10px, env(safe-area-inset-left));
+  padding-top: max(5px, env(safe-area-inset-top));
+  background: #1f1018;
+  z-index: 12;
+  border-bottom: 1px solid #e3c6b533;
+}
+#blood-root .blood-game-bar button {
+  margin: 0;
+  padding: 8px 10px;
+  min-height: 44px;
+  min-width: 44px;
+  color: #f8e7d4;
+  background: #2c1924;
+  border: 1px solid #e3c6b566;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.3;
+  white-space: normal;
+}
+#blood-root .blood-game-bar .back {
+  margin-right: auto;
+  max-width: 170px;
+}
+#blood-root .blood-foot {
+  padding: 0;
+  margin: 0;
+  display: block;
+}
+#blood-root .blood-play {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  display: flex;
+}
+#blood-root .blood3d-viewport {
+  flex: 1;
+  height: auto;
+  min-height: 0;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+}
+#blood-root .blood3d-canvas {
+  touch-action: none;
+}
+#blood-root .blood3d-overlay {
+  padding: 20px max(16px, 5%);
+  overscroll-behavior: contain;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+#blood-root .blood-menu,
+#blood-root .blood-confirm {
+  background: #24121a;
+}
+#blood-root .blood-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.blood-menu-scroll {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+#blood-root .blood-menu .toolbar {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 8px 0;
+  background: #25131c;
+  display: flex;
+  flex-wrap: wrap;
+}
+#blood-root .blood-menu .toolbar button {
+  flex: 1;
+  min-height: 48px;
+}
+#blood-root .blood-menu > small {
+  margin: 0;
+  flex-shrink: 0;
+}
+#blood-root .blood-menu h2 {
+  margin: 10px 0;
+  font-size: clamp(27px, 4vw, 44px);
+}
+#blood-root .blood-menu-scroll > p {
+  max-width: 650px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+#blood-root .blood-levels {
+  margin: 14px 0;
+}
+#blood-root .blood-level {
+  padding: 10px 12px;
+}
+#blood-root .blood3d-hud {
+  inset: 12px 14px auto;
+}
+#blood-root .blood3d-bottom {
+  bottom: max(12px, env(safe-area-inset-bottom));
+}
+#blood-root .blood3d-labels button {
+  max-width: min(38vw, 260px);
+}
+#blood-root .blood3d-feedback {
+  top: 24%;
+  bottom: auto;
+  max-height: 27%;
+  overflow-y: auto;
+  pointer-events: auto;
+  overscroll-behavior: contain;
+  font-size: 12px;
+}
+#blood-root .blood3d-milestone {
+  top: 24%;
+  font-size: clamp(16px, 2.3vw, 25px);
+}
+.blood-drawer {
+  position: absolute;
+  z-index: 10;
+  top: calc(64px + env(safe-area-inset-top));
+  right: max(8px, env(safe-area-inset-right));
+  bottom: max(8px, env(safe-area-inset-bottom));
+  width: min(540px, calc(100% - 16px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+  border: 1px solid var(--brand);
+  border-radius: 14px;
+  background: var(--surface, #f1f6f9);
+  color: var(--ink);
+  box-shadow: 0 10px 40px #0008;
+}
+#blood-root .blood-drawer .blood3d-information {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 12px 0;
+}
+#blood-root .blood-drawer .blood-audio {
+  padding: 10px;
+  margin: 12px 0;
+}
+#blood-root .blood-drawer .blood-audio-controls {
+  gap: 12px;
+}
+#blood-root .blood-save-error {
+  position: absolute;
+  z-index: 20;
+  top: 60px;
+  left: 8px;
+  right: 8px;
+  max-height: 35%;
+  overflow: auto;
+  background: var(--surface);
+  color: var(--ink);
+  margin: 0;
+  padding: 12px;
+}
+@media (max-width: 480px) {
+  #blood-root .blood-game-bar button {
+    font-size: 12px;
+    padding: 7px 8px;
+  }
+  #blood-root .blood3d-hud h1 {
+    font-size: 19px;
+  }
+  #blood-root .blood-level > span > span,
+  #blood-root .blood-level small {
+    font-size: 12px;
+  }
+  #blood-root .blood3d-overlay {
+    padding: 12px;
+  }
+  #blood-root .blood3d-labels button {
+    font-size: 12px;
+    padding: 8px;
+    max-width: 43vw;
+  }
+  #blood-root .blood3d-bottom {
+    left: 92px;
+    right: 12px;
+  }
+  #blood-root .blood3d-hud .blood-world-caption {
+    font-size: 10px;
+  }
+}
+@media (max-height: 500px) {
+  #blood-root .blood3d-hud h1 {
+    font-size: 19px;
+    margin: 2px 0;
+  }
+  #blood-root .blood-world-caption {
+    display: none;
+  }
+  #blood-root .blood3d-hud {
+    inset: 6px 12px auto;
+  }
+  #blood-root .blood3d-top-controls {
+    gap: 6px;
+  }
+  #blood-root .blood3d [data-body-map] .blood-minimap {
+    width: 58px;
+    padding: 4px;
+  }
+  #blood-root .blood-minimap svg {
+    height: 65px;
+  }
+  #blood-root .blood-minimap figcaption {
+    font-size: 5px;
+  }
+  #blood-root .blood3d-bottom {
+    left: 80px;
+    bottom: 6px;
+  }
+  #blood-root .blood-oxygen {
+    margin: 3px 0;
+  }
+  #blood-root .blood3d-gas {
+    margin: 3px 0;
+  }
+  #blood-root .blood-progress {
+    margin: 4px 0;
+  }
+  #blood-root .blood3d-milestone {
+    top: 23%;
+    font-size: 16px;
+  }
+  #blood-root .blood3d-feedback {
+    top: 23%;
+    max-height: 29%;
+    width: 76%;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  #blood-root .blood3d-labels button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
