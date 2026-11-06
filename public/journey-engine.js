@@ -24,7 +24,7 @@ export const emptyStats=()=>({completed:false,attempts:0,best:0,lastCompleted:nu
 export function startAttempt(stats) {return {...emptyStats(),...stats,attempts:(stats?.attempts||0)+1};}
 export function scoreJourney(route,run) {return Math.round(100*run.correct/route.choices.length);}
 export function recordResult(stats,route,run,date=new Date().toISOString()) {
- return {...emptyStats(),...stats,best:Math.max(stats?.best||0,scoreJourney(route,run)),completed:Boolean(stats?.completed||run.phase==='won'),lastCompleted:run.phase==='won'?date:stats?.lastCompleted||null};
+ return {...emptyStats(),...stats,best:Math.max(stats?.best||0,scoreJourney(route,run)),completed:Boolean(stats?.completed||run.phase==='won'),perfect:Boolean(stats?.perfect||(run.phase==='won'&&run.errors===0)),lastCompleted:run.phase==='won'?date:stats?.lastCompleted||null};
 }
 export function validJourney(route,run) {
  return Boolean(run&&run.level===route.id&&Number.isInteger(run.index)&&run.index>=0&&run.index<route.steps.length&&run.correct===run.index&&Number.isInteger(run.lives)&&run.lives>=0&&run.lives<=2&&run.errors===2-run.lives&&Array.isArray(run.sides)&&run.sides.length===route.choices.length&&run.sides.every(s=>s===0||s===1)&&['choice','arrival','feedback','won','lost'].includes(run.phase)&&

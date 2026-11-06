@@ -59,10 +59,9 @@ function render(focus) {
   disposeGame?.();disposeGame=null;
   window.speechSynthesis?.cancel();
   if(view==='home'&&!semesterSubjects(state.paths,semester).includes(subject))subject=ALL_SUBJECTS;
-  const content=view==='blood3d'?'<div id="blood-3d-root"></div>':view==='home'?renderHome({paths:state.paths,progress:state.progress,semester,subject}):view==='learn'?learningView(state.paths.find(p=>p.id===current),index):'<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>';
-  $('#app').innerHTML=header()+`<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.5.0</span></footer>`;
+  const content=view==='home'?renderHome({paths:state.paths,progress:state.progress,semester,subject}):view==='learn'?learningView(state.paths.find(p=>p.id===current),index):'<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>';
+  $('#app').innerHTML=header()+`<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.6.0</span></footer>`;
   if(view==='learn'&&current===BLOOD_PATH_ID){const path=state.paths.find(p=>p.id===current);disposeGame=mountBloodGame($('#blood-root'),{record:recordFor(path),initialLevel:path.steps[index].id.replace('blood-',''),save:options=>persist(options),exit:()=>go('#/'),onLevel:level=>{index=path.steps.findIndex(s=>s.id===levelStepId(level));history.replaceState(null,'',pathRoute(path,path.steps[index]));}});}
-  if(view==='blood3d'){const el=$('#blood-3d-root');import('./journey-3d-demo.js').then(({mountBlood3d})=>{if(el.isConnected&&view==='blood3d')disposeGame=mountBlood3d(el);}).catch(()=>{if(el.isConnected)el.innerHTML='<p>3D-demonstrationen kunne ikke indlæses. Genindlæs siden.</p>';});}
   displayStorage();
   $('.step-navigation')?.addEventListener('toggle',e=>{expanded=e.target.open;});
   const target=focus?$(focus):null;
@@ -75,7 +74,7 @@ async function route() {
   await flushPending();inspectedAnswers={};
   let parts;
   try {parts=location.hash.slice(1).split('/').map(decodeURIComponent);} catch {parts=[];}
-  if(parts[1]==='blodcelle-3d'){view='blood3d';render();return;}
+  if(parts[1]==='blodcelle-3d'){history.replaceState(null,'','#/sti/blodcellens-rejse/blood-easy');return route();}
   const path=state.paths.find(p=>p.id===parts[2]);
   if(parts[1]==='sti'&&path) {
     current=path.id;index=path.steps.findIndex(s=>s.id===parts[3]);

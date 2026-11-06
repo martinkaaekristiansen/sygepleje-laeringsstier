@@ -1,77 +1,61 @@
-# Blodcellens rejse: første WebGL-demonstration
+# Blodcellens rejse — alle tre niveauer i WebGL
 
-Den første demonstration er **godkendt til offentlig udgivelse af brugeren den 5. november 2026**. Den indeholder den ønskede første demonstrationssekvens: **aorta → arterier → arterioler → kapillærer**. Den fulde eksisterende læringsaktivitet med tre sværhedsgrader, hjertet, lungerne, spørgsmål og progression er bevaret. Den bruger endnu sin hidtidige renderer. Denne demonstration er et visuelt vurderingspunkt før en videre udbredelse af det nye udtryk.
+Let, Mellem og Svær bruger samme Three.js-motor fra aorta gennem kroppens kar, hjertet og lungerne og tilbage til aorta. Ejeren har den 6. november 2026 bedt om at færdiggøre og udgive denne version.
 
-## Afprøvning
+Den gamle Canvas 2D-renderer `journey-scene.js` og den separate demonstrationscontroller og -rute er fjernet. Det gamle link `#/blodcelle-3d` viderestiller til `#/sti/blodcellens-rejse/blood-easy`. Der findes ingen valgknap til en gammel 2D-version og ingen skjult 2D-fallback. En enhed uden WebGL 2 får en forklaring og mulighed for at gå tilbage til resten af appen. Dens gemte data slettes ikke.
 
-- Start appen lokalt med `npm run dev`. Åbn `http://localhost:3000/#/blodcelle-3d`.
-- Alternativt: gå til Blodcellens rejse og vælg **Prøv den nye 3D-demonstration**.
-- `npm run build:preview:3d` laver `artifacts/blodcellens-rejse-3d.html`, en selvstændig HTML-fil med motor, kode og CSS indlejret. Ingen CDN, konto, server-API eller abonnement er nødvendigt. Testmiljøets politik blokerer `file://`; den selvstændige fil afprøves derfor via lokal HTTP her. En browser, der også blokerer lokale moduler, skal bruge den lokale webserver.
-- Vælg **Begynd rejsen**. Kameraet transporterer dig frem mod en forgrening. Tryk på en gren eller dens lille skilt. Tab/Enter og venstre/højre pil virker også.
-- To fejl afslutter forsøget. Et fejlfrit forsøg giver en særlig medalje. Prøvens resultater gemmes separat fra læringsstiens gennemførelser.
-- Lydpanelet genbruger appens tre eksisterende lydlag og gemte lydindstillinger. Lyd er valgfri og starter først efter en brugerhandling. Lungelyden er naturligt stille i denne systemiske sekvens.
-- **Grafik: Automatisk / Høj / Let** justerer opløsning, geometriens detaljer, skygger og antal erytrocytter. Reduceret bevægelse viser den samme 3D-geometri uden kontinuerlig kamera- eller cellebevægelse.
+## Ruter, svar og lagring
 
-## Teknologivalg og arkitektur
+`blood-routes.js` er uændret. Det er den eneste kilde til de anatomiske navne, svarmuligheder, rækkefølger og fejlforklaringer. Demonstrationens svar som »Mod biceps« og »Aktivt muskelområde« findes ikke længere. Hvert valg viser nøjagtig de to navne fra den oprindelige rute.
 
-Projektet er en JavaScript-app med ES-moduler, ikke React. Three.js bruges direkte gennem WebGL 2. React Three Fiber og Drei ville kræve en ny React-arkitektur uden at forbedre selve geometrien. Der er derfor ikke indført en anden UI-platform.
+- Let: 11 strukturer og 10 overgange.
+- Mellem: 17 strukturer og 16 overgange.
+- Svær: 23 strukturer og 22 overgange.
 
-Three.js **0.180.0** er inkluderet lokalt med MIT-licens i `public/three-LICENSE.txt`. De to minificerede motorfiler fylder tilsammen ca. 720 kB før HTTP-komprimering. Motoren indlæses først, når man åbner 3D-demonstrationen. Overfladeteksturer genereres i browseren; der hentes ingen modeller, billeder eller lydfiler fra eksterne tjenester.
+Spilreglerne er uændrede: to liv, ét liv mistes ved fejl, nyt forsøg ved to fejl, varieret placering af korrekt svar og ingen mulighed for at springe trin over. Der er ingen ekstra »Fortsæt rejsen«-bekræftelse. Kameraet sænker farten før det næste valg. Reduceret bevægelse giver stillestående 3D og direkte overgange.
+
+Det eksisterende `progress['blodcellens-rejse'].bloodJourney` og de stabile trin-id'er `blood-easy`, `blood-medium` og `blood-hard` bruges fortsat. Forsøg, bedste procentresultat, seneste gennemførelsesdato, aktive forsøg og tidligere gennemførelser bevares. En ny valgfri `perfect`-markering gemmer en fejlfri gennemførelse; gamle gemte resultater behøver ikke feltet. En gammel medalje fra firetrinsdemonstrationen giver ikke automatisk gennemførelse af et helt niveau.
+
+## Anatomiske miljøer
+
+- Arterier, arterioler og kapillærer har forskellige lumenstørrelser. Indgangen til et nyt kar tilpasses det foregående kars diameter, så indsnævring eller udvidelse sker langs en 3D-overflade.
+- Vener har en mere eftergivelig, fladtrykt form, roligere flow og svagere pulsation. Den perifere armvene har en åben, tofliget veneklap. Hulvener og lungevener har ingen klapper i modellen.
+- Forkamre og ventrikler har forskellige rumformer. Ventrikler har trabekler som tredimensionelle muskelstrukturer. Den venstre ventrikel har kraftigere muskelrelief end den højre. Vægtykkelsen er en kvalitativ illustration, ikke en måling.
+- Trikuspidalklappen har tre sejl og mitralklappen to, med chordae tendineae og stiliserede papillærmuskler på ventrikelsiden. Semilunarklapperne har tre lommer uden chordae. Mellem-niveauets kammerpassager viser de mellemliggende klapper, selvom de ikke er separate spørgsmål. På Svær er klapperne egne trin.
+- Klapper, hjertevægge og lyd bruger samme hjerteur. AV-klapper åbner i diastolen og semilunarklapper i uddrivningsfasen. Kamerapassagen venter på den åbne fase. Hvis en langsom renderer springer tidsvinduet over, venter den på næste slag.
+- Kapillærer har en tynd, delvist transparent undervisningsvæg og blodceller i én række. Pulmonale kapillærer viser alveoler udenfor væggen, diskret respiration og O₂ ind i blodet / CO₂ ud. I muskelkapillærerne går retningerne omvendt.
+- Erytrocytter er lukkede bikonkave 3D-meshes. Deres røde nuance følger positionen gennem udvekslingsområdet. Iltfattigt blod er stadig rødt og indeholder stadig bundet ilt.
+
+**Valgene er rutehypoteser.** De oprindelige distraktorer kan ikke alle tegnes som eksisterende karforbindelser: der er eksempelvis ingen normal åbning gennem hjertets skillevæg. Derfor ligger to tilgængelige markører i 3D-miljøet, mens kar og hjertekamre bevarer et sammenhængende lumen uden fiktive åbninger. Kun lungearteriestammens reelle todeling tegnes som en fysisk Y-forgrening. Et korrekt valg fører kameraet videre i den faktiske strømretning; en fejl giver en kort tilbagebevægelse og den oprindelige forklaring.
+
+Modellen er en pædagogisk visualisering, ikke en målfast eller klinisk valideret anatomisk simulator. Belysning inde i blodbanen, synlige gasmarkører, nedsat celletæthed og gennemsigtighed er bevidste undervisningshjælpemidler.
+
+## Arkitektur og drift
+
+Projektet er en JavaScript-app med ES-moduler. Three.js bruges direkte; React Three Fiber/Drei ville kræve et frameworks-skifte. Three.js 0.180.0 ligger lokalt under MIT-licens, inklusive `three-LICENSE.txt`. Der er ingen CDN-kald, backend, brugerlogin eller betalte API'er.
 
 | Fil | Ansvar |
 | --- | --- |
-| `journey-3d-data.js` | Demonstrationsrute, konkrete anatomiske mål, mulige grene og feedback. |
-| `journey-3d-geometry.js` | Sammenhængende implicit Y-geometri, glatte normaler, bikonkav erytrocyt og lokale vægteksturer. |
-| `journey-3d-world.js` | WebGL-renderer, kamera, lys, instanser, partikelflow, pointer-raycasting, grafikniveau og oprydning. |
-| `journey-3d-demo.js` | Tilgængelig brugerflade, to liv, forsøgsforløb, medalje og den eksisterende lydmotor. |
-| `journey-3d.css` | Diskret HUD, responsive etiketter, kort og feedback. |
+| `blood-routes.js` | Uændrede ruter, navne og feedback. |
+| `journey-engine.js` | Tilstand, liv, score og vedvarende medaljer. |
+| `blood-game.js` | Alle tre niveauers brugerflade, input og eksisterende IndexedDB-lagring. |
+| `journey-3d-world.js` | Én vedvarende WebGL-renderer, kamera, instancing, lys, raycasting og oprydning. |
+| `journey-3d-anatomy.js` | Lumenprofiler, hjertekamre, klapper, chordae, trabekler, alveoler og gasretning. |
+| `journey-3d-geometry.js` | Bikonkav erytrocyt, sammenhængende Y-mesh og lokale teksturer. |
+| `journey-physiology.js`, `journey-audio.js` | De eksisterende lydzoner, rytmer og tre kontinuerlige lydlag. |
+| `journey-guide.js` | Eksisterende funfacts og kropskort. |
 
-Karret er ét polygonnet fremstillet fra en glat union af kurvede kar. Det består ikke af flade billeder, sprites eller ovale CSS-flader. To overlappende, lukkede rør ville blokere grenene; derfor bruges implicit overfladegenerering og åbne forbindelser. Mesh- og raycast-test kontrollerer, at begge kamerapassager er åbne, og at der ikke er en tredje, ligeudgående åbning.
+Grafikken indlæses først, når spillet åbnes. Den bruger instancer af blodceller, begrænsede partikler, små genererede teksturer og automatisk lavere opløsning på mobile/svage enheder. Kvaliteten kan også vælges manuelt. Én renderer og én lydmotor genbruges gennem trinskift. Scenens midlertidige GPU-ressourcer frigøres, og alle ressourcer frigøres ved navigation væk fra spillet.
 
-Erytrocytten er et lukket bikonkavt polygonnet. Flere celler renderes med instancing. Materialer reagerer på lys, og væggene får små overfladevariationer via lokale farve- og bumpteksturer. Belysning, normaler, perspektiv og kameratransport er tredimensionelle; CSS bruges kun til brugerfladen.
+## Verifikation
 
-Kameraet følger kurver inde i lumen. Når en gren vælges, transporteres det gennem den samme geometri, som spilleren ser. Næste kar placeres i forlængelse af kameraets position og retning; WebGL-rendereren genstartes ikke mellem trinene. Ved ubeslutsomhed sænkes kameraet gradvist før skillevejen. Det kan ikke fortsætte forbi et nødvendigt valg eller springe trin over.
+- `npm test`: oprindelige ruter og regler, alle geometrityper, åbne kameraveje, lukket bikonkav celle, klapsejl/chordae, gasretninger og bevaret progression.
+- `npm run build`: syntakskontrol og relativt adresserede, versionsmærkede statiske filer til GitHub Pages.
+- `npm run test:browser`: alle 56 øvrige spørgsmål, alle tre spilruter, to oprindelige svar ved hvert valg, fejl/genstart, gemte resultater, gamle `arrival`-data, lyd, kropskort, mus/touch/tastatur, reduceret bevægelse og Pages-undermappe.
+- `npm run test:3d`: én WebGL-renderer og lydmotor, ingen gammel 2D-import, direkte raycasting, gammel demo-URL, fejlfri medalje, mobilfeedback og WebGL-fejlbesked.
 
-## Anatomiske valg
+Visuelle kontroller udføres i Chromium med software-WebGL (SwiftShader), også i mobilformat. Billedhastigheden i dette miljø er ikke en måling af fysiske telefoners eller computeres GPU-ydelse. Der er ikke grundlag for at love 60 FPS på alle enheder. Browseremulering er heller ikke en fysisk iPhone-/Android-test.
 
-Demonstrationen følger blodet til et **aktivt muskelområde i højre biceps**. Første Y-forgrening er en forenklet fremstilling af truncus brachiocephalicus efter aorta: mod højre arm eller mod hoved/hals. Dernæst vælges mellem kar mod biceps og triceps og mellem to kapillærnet med forskellige lokale mål.
+## Lokal afprøvning
 
-Begge grene er anatomisk mulige. Et andet mål koster et liv i denne fastlagte rute, men feedbacken siger udtrykkeligt, at grenen er normal. Demonstrationen ændrer ikke de definerede strukturrækkefølger i det eksisterende spil.
-
-De gamle distraktorer omfatter f.eks. aorta → vener og forbindelser på tværs af hjertets skillevæg. De kan ikke uden videre tegnes som faktiske 3D-forbindelser. Når motoren udbredes til resten af spillet, skal rutehypoteser og anatomisk eksisterende forbindelser fortsat holdes adskilt. Der må ikke modelleres fiktive åbninger i hjertet for at få to svarmuligheder.
-
-## Kapillærer og gasudveksling
-
-Lumen bliver væsentligt mindre, og blodcellerne passerer i én række. Deres form tilpasses den snævre passage. Den tynde væg er delvist transparent som et undervisningsvindue, så muskelvævet kan anes udenfor. Små O₂-markører bevæger sig mod vævet, mens CO₂-markører bevæger sig ind i blodet.
-
-Erytrocytternes røde nuance afhænger af deres position gennem kapillæren: nytilført blod har mere bundet ilt end blod, som har passeret udvekslingsområdet. Iltfattigt blod forbliver rødt og har stadig bundet ilt. Der gives ikke et tal for saturation; farven er en kvalitativ illustration.
-
-Lys inde i blodkarret, transparens, synlige gasmarkører og lyde er bevidste undervisningshjælpemidler. Det er ikke en bogstavelig optagelse fra blodbanen. Modellen er ikke målfast, og celletætheden er reduceret for at gøre ruten læsbar.
-
-## Performance og tilgængelighed
-
-- Genbrug af én WebGL-renderer, instancing og lokale, små teksturer.
-- Forberedte geometrier gemmes i hukommelsen til genbrug; arbejdet opdeles, så UI kan reagere under klargøring.
-- Automatisk lavere opløsning og færre celler på mobile/svage enheder. Software-renderere genkendes og bruger et lavere renderbudget.
-- Lys er begrænset, skygger deaktiveres i let kvalitet, og der bruges ingen tung efterbehandling.
-- Reduceret bevægelse og pause standser animationen. Statiske scener behøver ikke genrendering ved hvert animationstik.
-- Tastaturbetjente HTML-etiketter ligger ved de projicerede 3D-grene. Raycasting gør selve passagerne klikbare. Liv, mål og fejl er tilgængelige som tekst.
-- WebGL-fejl giver en tydelig besked og en vej tilbage til den eksisterende læringssti. Der skiftes ikke skjult til en ny, flad 2D-version.
-
-## Verifikation og begrænsninger
-
-Enhedstest kontrollerer demonstrationsruten, to entydige valg, reelle alternative mål, lukket bikonkav cellegeometri og åbne Y-passager. Browsertest dækker WebGL, sceneskift, liv, genstart, tastatur/touch, reduceret bevægelse, resultatlagring og adskillelse fra eksisterende progression. Fejlbeskeden kontrolleres også inde i mobilens spillefelt. Appens tidligere regressionstest er bestået, herunder alle 56 spørgsmål og de tre eksisterende spilruter.
-
-Verificeret lokalt: `npm test` (12 testfiler), `npm run build`, `npm run test:browser` og `npm run build:preview:3d`. Efter de sidste materialeændringer er den særskilte `npm run test:3d` og den selvstændige HTML-fil afprøvet igen. HTML-prøven gennemfører alle fire scener og viser resultatet uden eksterne netværkskald eller JavaScript-fejl. Pages-adfærd er testet under `/sygepleje-laeringsstier/` på en lokal server; selve udgivelsen kontrolleres efter GitHub Pages-workflowen.
-
-Grafikken er faktisk åbnet og visuelt gennemgået i Chromium. Miljøet bruger **ANGLE/SwiftShader**, dvs. WebGL i software. De løbende afprøvninger har ligget omkring **5–7 FPS ved den viste desktop-scene i dette miljø**. Det er ikke en måling af almindelige enheders GPU-ydelse, og der gives derfor ingen garanti om 60 FPS eller godkendelse på fysiske smartphones. Den automatiske lette profil er aktiv under disse softwaretests. Der skal foretages afprøvning på de ønskede telefoner/computere før offentlig udgivelse.
-
-## Næste udvidelse efter vurdering af demonstrationen
-
-1. Tilpas den visuelle retning ud fra brugerens vurdering af den kørende prøve, især materialer, lys og kamerafølelse.
-2. Byg særskilte venemiljøer, atrier og ventrikler med genkendelig muskulatur og trabekler.
-3. Byg AV- og semilunarklapper som deformerbare 3D-flader og koordinér kameraets passage med det eksisterende fælles hjerteur.
-4. Byg det pulmonale kapillærnet med alveoler, respiration og den modsatrettede gasudveksling.
-5. Kobl den nye renderer til alle tre eksisterende ruter uden at ændre gemte trin-id'er, liv eller gennemførelser. Gennemtest og udgiv først efter brugerens godkendelse.
-
-Den første demonstration er altså ikke en påstand om, at den fulde 3D-konvertering af hjertet, lungerne og alle tre sværhedsgrader er færdig.
+Kør `npm run dev` og åbn `http://localhost:3000/#/sti/blodcellens-rejse/blood-easy`. Alle tre niveauer vælges i samme menu. `npm run build:preview:3d` genererer en selvstændig HTML-kopi med alle tre niveauer; lokal HTTP anbefales, hvis browseren begrænser åbning af lokale HTML-filer.

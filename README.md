@@ -17,11 +17,11 @@ Underviserfunktionen, kodelåsene og publicering fra appen er fjernet. Læringss
 
 Indhold vedligeholdes nu i projektfilerne og udgives med den almindelige GitHub Pages-workflow. Der bruges ingen Cloudflare-server, publiceringskode eller GitHub-token i appen. Eventuel tidligere oprettet Cloudflare Worker og dens adgangsnøgle kan fjernes hos de respektive tjenester; sletning af projektfiler afinstallerer ikke en allerede oprettet ekstern tjeneste.
 
-## Ny 3D-demonstration
+## Blodcellens rejse i 3D
 
-Appen indeholder en separat Three.js/WebGL-prøve: **aorta → arterier → arterioler → kapillærer**. Åbn `#/blodcelle-3d`, eller vælg **Prøv den nye 3D-demonstration** i spillets menu. Den fulde læringsaktivitet og dens gemte progression er bevaret. [Arkitektur, anatomiske valg, afprøvning og næste etaper](docs/blodcellens-rejse-3d.md).
+**Let, Mellem og Svær** bruger nu samme Three.js/WebGL-motor gennem hele kredsløbet. De tidligere 2D-versioner og den særskilte firetrinsdemonstration er fjernet. Det gamle link `#/blodcelle-3d` åbner den almindelige læringsaktivitet. Alle ruter, svarmuligheder, trin-id'er og eksisterende gennemførelser er bevaret.
 
-`npm run build:preview:3d` laver en selvstændig HTML-prøve i `artifacts/`. Prøven er ikke en offentlig udgivelse.
+[3D-arkitektur, anatomiske valg og test](docs/blodcellens-rejse-3d.md). `npm run build:preview:3d` laver en selvstændig HTML-prøve med alle tre niveauer i `artifacts/`.
 
 ## Eksisterende data
 

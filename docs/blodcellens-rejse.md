@@ -11,8 +11,8 @@ GitHub Pages-workflowen tester og udgiver ændringer på `main`. Lyd, anatomi, a
 Start projektets lokale forhåndsvisning med `npm run dev`, og åbn port 3000. På en lokal computer er adressen `http://localhost:3000/#/sti/blodcellens-rejse/blood-easy`. Åbn spillet fra semesteroversigten, eller brug dette link i den lokale forhåndsvisning.
 
 1. Tryk eventuelt **Slå lyd til**. Justér lydstyrken, og vælg Hjerte, Lunger og Blodstrøm i lydpanelet. Lyden er slået fra første gang; også en gemt til-indstilling kræver et klik, før afspilning kan starte. Vælg **Let**, **Mellem** eller **Svær**, og start rejsen. Alle niveauer er tilgængelige fra starten.
-2. Tryk på en af de to åbninger i tunnelen. På tastatur kan du bruge Tab og Enter; venstre/højre pil fokuserer den tilsvarende passage. Der er intet tidspres.
-3. Et korrekt valg fører kameraet gennem den valgte åbning. Den næste struktur vises. Også ved gasudveksling er de næste to passager straks tilgængelige efter kameraovergangen. Animation og forklaring vises, mens man vælger; der er ingen ekstra fortsæt-knap eller tvungen læsepause.
+2. Tryk på en af de to anatomiske markører i 3D-miljøet. På tastatur kan du bruge Tab og Enter; venstre/højre pil fokuserer den tilsvarende passage. Der er intet tidspres.
+3. Et korrekt valg fører kameraet videre i blodbanen. Den næste struktur vises. Også ved gasudveksling er de næste to passager straks tilgængelige efter kameraovergangen. Animation og forklaring vises, mens man vælger; der er ingen ekstra fortsæt-knap eller tvungen læsepause.
 4. Et forkert valg koster ét liv. Forklaringen bliver stående, mens de to passager er tilgængelige igen. Vælg direkte på ny ved samme skillevej; ingen ekstra bekræftelse er nødvendig. To fejl viser **Game Over**, og næste forsøg starter fra aorta.
 5. Brug **Afslut til læringsstien** for at gå tilbage til niveauoversigten. Det aktive forsøg kan genoptages efter lukning eller genindlæsning. Start af et nyt forsøg erstatter det aktive forsøg efter bekræftelse.
 6. Gennemfør et niveau, genindlæs siden og kontrollér fluebenet. Senere mislykkede forsøg skal ikke fjerne gennemførelsen.
@@ -28,7 +28,7 @@ Alle niveauer starter i iltrigt blod i aorta og slutter tilbage i aorta. Vi føl
 
 På den lette rute er hjertets sider og hele lungekredsløbet samlede afsnit. Teksten forklarer de strukturer, der er samlet. På mellem er klapperne med i forklaringerne, mens de er egne strukturer på svær. Forgreningerne fra aortabuen mod højre arm nævnes i forklaringen, men testes som den samlede kategori »Arterier« i overensstemmelse med den ønskede rute.
 
-**De to åbninger er pædagogiske rutehypoteser, ikke to virkelige åbninger ved alle anatomiske strukturer.** Der er eksempelvis ingen normal passage gennem skillevæggen fra højre til venstre hjertekammer. Dette står i både introduktionen, spillevisningen og relevante fejlforklaringer. Grafik og erytrocytter er stiliserede og ikke målfast anatomi.
+**De to anatomiske markører er pædagogiske rutehypoteser, ikke ekstra fysiske åbninger.** Der er eksempelvis ingen normal passage gennem skillevæggen fra højre til venstre hjertekammer. Dette står i både introduktionen, spillevisningen og relevante fejlforklaringer. Grafik og erytrocytter er stiliserede og ikke målfast anatomi.
 
 To typer alternativer er adskilt i data:
 
@@ -57,6 +57,7 @@ For hvert niveau gemmes:
 - `attempts`: antal startede forsøg; genoptagelse tæller ikke som et nyt forsøg.
 - `best`: højeste andel af korrekte overgange i ét forsøg, i procent. Resultatet opdateres undervejs, også hvis forsøget afbrydes.
 - `lastCompleted`: dato og tidspunkt for seneste gennemførelse.
+- `perfect`: markering af en fejlfri gennemførelse; valgfrit for ældre gemte data.
 
 Det aktuelle forsøg gemmes med position, liv, fejl, korrekt side ved hver skillevej og fase. Genindlæsning flytter ikke spilleren forbi en fejl og giver ikke nye liv. Ældre gemte forsøg i `arrival`-fasen åbnes ved samme struktur med valgene tilgængelige; den tidligere fortsæt-bekræftelse er fjernet. I appens samlede overblik tæller hvert gennemført niveau som ét af læringsstiens tre trin. Gennemførelse måler ikke en samlet klinisk kompetence.
 
@@ -69,12 +70,12 @@ Det aktuelle forsøg gemmes med position, liv, fejl, korrekt side ved hver skill
 | `public/journey-guide.js` | Funfacts og skematiske kropspositioner for alle strukturer; tilgængelig SVG-visning af kropskortet. |
 | `public/journey-physiology.js` | Anatomiske lydzoner, relative karprofiler, 70/14-rytmer, klapfaser og gradvis iltning. Rene funktioner uden browserafhængigheder. |
 | `public/journey-audio.js` | Original Web Audio-syntese, vedvarende lydlag, fælles ur, bløde volumenkurver, brugeraktivering og lokale lydindstillinger. |
-| `public/journey-scene.js` | Canvas med perspektiv, organisk tunnel, erytrocytter, vægge, klapper, gasudveksling og kamerabevægelse. Kender ikke korrekte svar eller progression. |
+| `public/journey-3d-world.js`, `public/journey-3d-anatomy.js` | Fælles Three.js-renderer og 3D-anatomi for alle niveauer. Kender ikke korrekte svar eller progression. |
 | `public/blood-game.js` | Startmenu, tilgængelige passager, spilforløb og resultatskærm; binder motor, grafik og appens lagring sammen. |
 | `public/blood-game.css` | Responsive spilstile. |
 | `public/app.js`, `public/model.js` | Integration i eksisterende navigation, indhold og progression. |
 
-Grafikken bruger ingen billedfiler, eksterne fonte, 3D-biblioteker eller betalte API'er. Canvas begrænser pixelopløsningen til en device-pixel-ratio på 1,5 og tegner den løbende animation omkring 30 billeder/s. DOM knapper ligger over de visuelle åbninger og bevarer tastaturfokus og skærmlæsernavne. Animationer og ResizeObserver ryddes op ved navigation. Reduceret bevægelse giver statisk grafik og øjeblikkelige overgange uden kameraanimation.
+Grafikken bruger den lokalt inkluderede Three.js-motor med WebGL. Alle niveauer bruger ægte 3D-geometri, og den gamle 2D-renderer er fjernet. [Aktuel arkitektur, anatomiske afgrænsninger og test](blodcellens-rejse-3d.md).
 
 ## Verifikation
 
@@ -116,16 +117,16 @@ Lydpanelets indstillinger gemmes separat i localStorage under `laeringsstier-blo
 - Veneklapper vises alene i modellen af den perifere armvene. De indsættes ikke i hulvener, lungevener eller arterier.
 - Forkamre er afrundede. Ventriklerne har en tilspidset kavitet, trabekler og papillærmuskler; venstre ventrikel har kraftigere muskelvæg end højre. AV-klappernes sejl har chordae; semilunarklappernes tre lommer har ikke.
 - Animationen anvender samme ur som hjertelyden. Ventrikulær kontraktion følger systolen. AV-klapper åbner i diastolen; semilunarklapper åbner i uddrivningsfasen. Ved et korrekt valg i en klapscene nærmer kameraet sig, venter på den åbne fase og passerer fligplanet inden for den fase.
-- Et tydeligt mærket undervisningsvindue viser alveoler **uden for** kapillæren og en tynd alveole-kapillærbarriere. O₂ bevæger sig mod blodet, CO₂ mod alveolen. I vævskapillærer går retningerne omvendt. Røde farver ændres gradvist over fire sekunder. Hb-bjælken er skematisk, ikke en målt saturation; iltfattigt blod har stadig en betydelig mængde bundet ilt.
+- Et tydeligt mærket undervisningsvindue viser alveoler **uden for** kapillæren og en tynd alveole-kapillærbarriere. O₂ bevæger sig mod blodet, CO₂ mod alveolen. I vævskapillærer går retningerne omvendt. Røde nuancer ændres gradvist langs blodcellernes vej gennem kapillæren. Det er en kvalitativ illustration, ikke en målt saturation; iltfattigt blod har stadig en betydelig mængde bundet ilt.
 - Gasudvekslingen foregår under det næste valg uden et særskilt stop og nulstilles ikke ved en almindelig genvisning af samme kapillær. Reduceret bevægelse eller animationspause viser en statisk illustration med faste pile, sluttilstand for iltningen og åben klap; ingen kamerabevægelse. Dette er et bevidst stillbillede, ikke en påstand om, at klapper altid er åbne.
 
-Rutehypoteserne er fortsat tydeligt mærkede, og alle eksisterende forklaringer og anatomiske rutedata er bevaret. Den visuelle model er pseudo-3D og skematisk; vægtykkelser, størrelsesforhold og afstanden mellem organer er ikke målfast.
+Rutehypoteserne er fortsat tydeligt mærkede, og alle eksisterende forklaringer og anatomiske rutedata er bevaret. Den visuelle model er tredimensionel og pædagogisk forenklet; vægtykkelser, størrelsesforhold og afstanden mellem organer er ikke målfast.
 
 ## Supplerende lyd- og grafiktest
 
 - Enhedstest: samtlige lydzoner, 70/14-rytmer, to hjertelydskomponenter, buffersamlinger, signalheadroom, klappernes åbne faser og tidsvinduer for passage, vægtykkelser og iltning.
 - Browsertest: ingen automatisk lyd før et klik, samme lydmotor gennem trinskift, individuelle lydlag, glidende gain-kurver, volumen med tastatur, gemte indstillinger, mute/genstart og oprydning ved navigation.
-- Hele den svære rute gennemspilles også med lyd og bevægelse aktiveret. Alle kilder kontrolleres for fælles starttid og for, at de ikke genstartes mellem trin. Lunge- og klapvisninger kontrolleres på desktop og i mobilformat; reduceret bevægelse skal give uændret Canvas-billede.
+- Hele den svære rute gennemspilles også med lyd og med bevægelse aktiveret ved klappassagerne. Alle kilder kontrolleres for fælles starttid og for, at de ikke genstartes mellem trin. Lunge- og klapvisninger kontrolleres på desktop og i mobilformat; reduceret bevægelse skal give uændret WebGL-billede.
 - Der er ikke brugt en fysisk iPhone/Android-enhed eller foretaget en klinisk bedømmelse af lydens naturtro kvalitet. Mobiltestene er Chromium-emulering. Lyden bør derfor også afprøves med almindelige højttalere/hovedtelefoner og på de ønskede enheder før offentlig udgivelse.
 
 
