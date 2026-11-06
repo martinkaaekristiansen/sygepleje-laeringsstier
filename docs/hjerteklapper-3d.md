@@ -1,4 +1,4 @@
-# Fire hjerteklapper i Blodcellens rejse — version 0.7.0
+# Fire hjerteklapper i Blodcellens rejse — version 0.7.1
 
 ## Ændringen
 
@@ -13,7 +13,7 @@ To svar er fortsat rutehypoteser. Der tegnes ingen faktisk forbindelse mellem lu
 | Klap | Flige og tilhæftning | Støtteapparat | Bevægelse |
 | --- | --- | --- | --- |
 | Trikuspidal | Tre uens flige: anterior, posterior og septal. Den septale tilhæftning er fladere. | Tre illustrerede papillærmuskelgrupper; hver støtter to tilstødende flige gennem marginale og sekundære chordae. Trabekler og muskelbaser er forbundet med ventrikelvæggen. | Åbner ned i højre ventrikel under diastole. Lukker under systole. |
-| Mitral | To flige med forskellig form og areal; anterior og posterior. Sadelformet annulus og diskret tredeling af den posteriore fligs overflade. | To papillærmuskelgrupper, anterolateral og posteromedial. **Begge** har chordae til begge flige. Kraftigere muskelrelief end på højre side. | Åbner ned i venstre ventrikel under diastole. Lukker under systole. |
+| Mitral | To flige med forskellig form og areal; anterior og posterior. Sadelformet annulus med atriale højdepunkter anteriort/posteriort og lavere kommissurer samt diskret tredeling af den posteriore fligs overflade. | To papillærmuskelgrupper, anterolateral og posteromedial. **Begge** har chordae til begge flige. Kraftigere muskelrelief end på højre side. | Åbner ned i venstre ventrikel under diastole. Lukker under systole. |
 | Pulmonal | Tre halvmåneformede lommer, U-formede tilhæftninger og tre sinusudvidelser ved udløbet. | Ingen chordae eller papillærmuskler. | Åbner mod arterievæggen i systolen. De frie rande mødes centralt ved lukning. |
 | Aorta | Højre koronarflig, venstre koronarflig og non-koronarflig. Tre Valsalva-sinus og ostier i de to koronarsinus. | Ingen chordae eller papillærmuskler. Intet ostium i non-koronarsinus. | Åbner mod aortavæggen i systolen og lukker ved diastolens begyndelse. |
 
@@ -33,7 +33,7 @@ Undersøgt den 6. november 2026:
 
 ## Kontroller
 
-- `test/journey-valves.test.js`: umulig lunge-distraktor og korrekt livstab, central tæt lukning/åben passage ved raycasting, fast tilhæftning, kontinuerlig deformation, bevægelsesretning, papillærgruppernes forbindelse til begge naboflige, ingen støtteapparater på semilunarklapper, to koronarostier og sinus-tilhæftninger uden mellemrum.
+- `test/journey-valves.test.js`: umulig lunge-distraktor og korrekt livstab, central tæt lukning/åben passage ved raycasting, fast tilhæftning inklusive kommissurer gennem hele cyklussen, korrekt orienteret mitralsadel, kontinuerlig deformation, bevægelsesretning, papillærgruppernes forbindelse til begge naboflige, ingen støtteapparater på semilunarklapper, to koronarostier og sinus-tilhæftninger uden mellemrum.
 - Eksisterende tests af alle tre ruter, to svar, liv, gemt progression og øvrige læringsstier bevares.
 - `tests-browser/journey-anatomy.cjs`: gennemspiller Svær med bevægelige klapper og kontinuerlig lyd, kontrollerer kamerakrydsning i åben fase, tester den nye forkerte rute og gennemspiller hele Svær i mobilformat med reduceret bevægelse. Svarfelternes placering kontrolleres ved alle fire klapper.
 - Åbne og lukkede modeller inspiceres desuden visuelt i Chromium/WebGL. Mobiltesten er browseremulering, ikke en test på fysisk telefon. SwiftShader i udviklingsmiljøet giver ikke et retvisende mål for en fysisk telefons GPU-ydelse.

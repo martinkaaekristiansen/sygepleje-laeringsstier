@@ -67,3 +67,12 @@ test('semilunar scalloped attachments join their own sinus wall without floating
   assert.ok(Math.abs(Math.hypot(p.x,p.y)-sinusRadius(id,a,p.z))<1e-8);
  }
 });
+
+test('commissures remain attached through the entire cycle; mitral saddle peaks are anterior/posterior',()=>{
+ for(const id of Object.keys(VALVE_ANATOMY))for(let k=0;k<VALVE_ANATOMY[id].names.length;k++)for(const u of [0,1])for(const opening of [0,.25,.5,.75,1]){
+  const hinge=leafletPoint(id,k,u,0,opening);
+  for(const v of [.25,.5,.75,1])assert.ok(hinge.distanceTo(leafletPoint(id,k,u,v,opening))<1e-8,`${id}: commissure cannot separate from hinge`);
+ }
+ const anterior=leafletPoint('mitral',0,.5,0,0),posterior=leafletPoint('mitral',1,.5,0,0),commissure=leafletPoint('mitral',0,0,0,0);
+ assert.ok(anterior.z>commissure.z&&posterior.z>commissure.z,'atrial high points are anterior/posterior, not the commissures');
+});

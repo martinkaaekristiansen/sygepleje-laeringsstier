@@ -4,7 +4,7 @@ const TAU=Math.PI*2,V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z),lerp=T.MathUtils.lerp;
 // original teaching meshes, not patient scans or a fluid/solid mechanics model.
 export const VALVE_ANATOMY={
  tricuspid:{type:'av',names:['Anterior','Posterior','Septal'],angles:[-.35,2.10,3.93,TAU-.35],saddle:.09,ellipse:.91,papillary:['Anterior','Posterior','Septal'],muscle:.065},
- mitral:{type:'av',names:['Anterior','Posterior'],angles:[0,Math.PI,TAU],saddle:.16,ellipse:.79,papillary:['Anterolateral','Posteromedial'],muscle:.12},
+ mitral:{type:'av',names:['Anterior','Posterior'],angles:[0,Math.PI,TAU],saddle:-.16,ellipse:.79,papillary:['Anterolateral','Posteromedial'],muscle:.12},
  pulmonaryValve:{type:'semilunar',names:['Anterior','Højre','Venstre'],angles:[-Math.PI/2,Math.PI/6,5*Math.PI/6,3*Math.PI/2],sinus:.13},
  aorticValve:{type:'semilunar',names:['Højre koronarflig','Venstre koronarflig','Non-koronarflig'],angles:[-Math.PI/6,Math.PI/2,7*Math.PI/6,11*Math.PI/6],sinus:.23,ostia:[0,1]},
  venousValve:{type:'venous',names:['Flig 1','Flig 2'],angles:[0,Math.PI,TAU],ellipse:1,saddle:0},
@@ -32,7 +32,7 @@ export function leafletPoint(id,k,u,v,opening){
   hinge.z=.20-.61*(1-belly);
   const rootRadius=sinusRadius(id,a,hinge.z);hinge.x*=rootRadius;hinge.y*=rootRadius;
   const c=u<.5?start.clone().multiplyScalar(1-2*u):end.clone().multiplyScalar(2*u-1);
-  edge.copy(c).lerp(V(Math.cos(a)*.94,Math.sin(a)*.94,0),open);edge.z=-.41-.045*belly*(1-open);
+  edge.copy(c).lerp(V(Math.cos(a)*(1-.06*belly),Math.sin(a)*(1-.06*belly),0),open);edge.z=-.41-.045*belly*(1-open);
   const p=hinge.clone().lerp(edge,v),bulge=(.22*(1-open)+.025)*Math.sin(Math.PI*v)*belly;
   p.x+=Math.cos(a)*bulge;p.y+=Math.sin(a)*bulge;
   return p;
@@ -40,9 +40,9 @@ export function leafletPoint(id,k,u,v,opening){
  if(id==='mitral'){
   // Both leaflets meet at the SAME curved coaptation line. The broad anterior
   // leaflet covers more area; the posterior margin has three subtle scallops.
-  edge.copy(start).lerp(end,u);edge.y=-.17*belly;edge.z=-.13*belly;
+  edge.copy(start).lerp(end,u);edge.y=-.17*belly;edge.z-=.13*belly;
  }else{
-  edge.copy(u<.5?start:end).multiplyScalar(Math.abs(2*u-1));edge.z=-.13*belly;
+  edge.copy(u<.5?start:end).multiplyScalar(Math.abs(2*u-1));edge.z-=.13*belly;
  }
  const unfolded=hinge.clone().multiplyScalar(.77);unfolded.z=hinge.z-1.02*belly;
  // Commissures stay fixed. All leaflet motion remains on the downstream side.
