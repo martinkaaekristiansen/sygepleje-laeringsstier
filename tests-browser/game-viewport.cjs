@@ -116,7 +116,35 @@ async function visibleControl(page, selector) {
         await page.evaluate(() => scrollTo(0, 500));
         await page.mouse.wheel(0, 400);
         assert.equal(await page.evaluate(() => scrollY), 0);
+        assert.equal(await page.locator('canvas').getAttribute('data-mesh-quality'), 'high');
+        assert.equal(
+          await page.locator('[data-quality3d], [data-funfact], [data-note], [data-hint]').count(),
+          0,
+        );
+        assert.equal(await page.locator('.blood-minimap figcaption').textContent(), 'KROPSKORT');
+        for (const selector of ['[data-passage]', '[data-audio-toggle]', '.blood3d-feedback p']) {
+          assert.ok(
+            await page
+              .locator(selector)
+              .first()
+              .evaluate((el) => parseFloat(getComputedStyle(el).fontSize) >= 16),
+            selector + ' readable type',
+          );
+        }
+        const labels = await page.locator('[data-passage]').all();
+        const boxes = await Promise.all(labels.map((b) => b.boundingBox()));
+        assert.ok(boxes[0].x + boxes[0].width <= boxes[1].x, 'large labels do not overlap');
         await press('[data-panel-toggle]');
+        assert.equal(await page.locator('#blood-settings [data-blood=motion]').count(), 1);
+        await press('[data-blood=motion]');
+        await press('[data-panel-close]');
+        assert.equal(
+          await page.locator('[data-passage]:enabled').count(),
+          0,
+          'pause remains active after closing settings',
+        );
+        await press('[data-panel-toggle]');
+        await press('[data-blood=motion]');
         await page.locator('[data-audio=volume]').fill('61');
         if (size.width === 390) await page.screenshot({ path: '/tmp/game-viewport-settings.png' });
         await press('[data-panel-close]');
@@ -136,6 +164,54 @@ async function visibleControl(page, selector) {
       );
       await press('[data-panel-close]');
       await page.locator('[data-passage]:enabled').first().waitFor();
+      if (mobile) {
+        // Resume a valid saved valve stage to exercise the longest labels at 320px.
+        await page.evaluate(async () => {
+          const db = await new Promise((resolve) => {
+            const q = indexedDB.open('laeringsstier-v2');
+            q.onsuccess = () => resolve(q.result);
+          });
+          await new Promise((resolve, reject) => {
+            const tx = db.transaction('records', 'readwrite'),
+              store = tx.objectStore('records'),
+              q = store.get('progress');
+            q.onsuccess = () => {
+              const data = q.result;
+              Object.assign(data['blodcellens-rejse'].bloodJourney.active, {
+                index: 9,
+                correct: 9,
+                lives: 2,
+                errors: 0,
+                phase: 'choice',
+                lastSide: null,
+              });
+              store.put(data, 'progress');
+            };
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+          });
+          db.close();
+        });
+        await page.setViewportSize({ width: 320, height: 568 });
+        await page.reload();
+        await press('[data-blood=resume]');
+        await page.locator('[data-passage]:enabled').first().waitFor();
+        await page
+          .locator('[data-passage]')
+          .filter({ hasText: BLOOD_LEVELS.hard.choices[9].wrong.name })
+          .tap();
+        await page.locator('#blood-feedback').waitFor();
+        await page.screenshot({ path: '/tmp/game-readable-valve-320.png' });
+        const map = await page.locator('.blood-minimap').boundingBox();
+        for (const side of ['0', '1']) {
+          await visibleControl(page, `[data-passage="${side}"]`);
+          const box = await page.locator(`[data-passage="${side}"]`).boundingBox();
+          assert.ok(
+            box.x >= map.x + map.width || box.y + box.height <= map.y,
+            'long anatomical labels clear the map',
+          );
+        }
+      }
       await press('[data-audio-toggle]');
       assert.equal(await page.locator('[data-audio-toggle]').getAttribute('aria-pressed'), 'true');
       await press('[data-panel-toggle]');

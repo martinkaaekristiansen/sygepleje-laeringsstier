@@ -15,7 +15,7 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
    };tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});db.close();
   });
   await page.reload();await page.locator('[data-blood=resume]').tap();await page.locator('[data-passage]').first().waitFor();
-  assert.equal(await page.locator('[data-blood=continue]').count(),0);assert.equal(await page.locator('[role=progressbar]').getAttribute('aria-valuenow'),'11');assert.equal(await page.locator('[data-map-location]').getAttribute('data-map-location'),'pcapillaries');assert.match(await page.locator('.blood-funfact p').textContent(),/blandes ikke/);
+  assert.equal(await page.locator('[data-blood=continue]').count(),0);assert.equal(await page.locator('[role=progressbar]').getAttribute('aria-valuenow'),'11');assert.equal(await page.locator('[data-map-location]').getAttribute('data-map-location'),'pcapillaries');assert.equal(await page.locator('.blood-funfact').count(),0);assert.equal(await page.locator('.blood-minimap figcaption').textContent(),'KROPSKORT');
   const world=await page.locator('.blood-world').boundingBox(),map=await page.locator('.blood-minimap').boundingBox();
   assert.ok(map.x-world.x<15);assert.ok(world.y+world.height-(map.y+map.height)<15);
   assert.equal(await page.locator('.blood-minimap').evaluate(e=>getComputedStyle(e).pointerEvents),'none');
@@ -25,6 +25,6 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
   assert.equal(await page.locator('[data-passage]').count(),2);assert.equal(await page.locator('[data-blood=continue]').count(),0);
   await page.locator('[data-blood=menu]').tap();await page.locator('.blood-levels').waitFor();assert.match(await page.locator('.blood-level:has([value=easy])').textContent(),/✓ Gennemført/);
   await page.setViewportSize({width:1360,height:1000});await page.locator('[data-blood=resume]').click();await page.locator('[data-passage]').first().waitFor();await page.locator('.blood-play').screenshot({path:'/tmp/blood-bodymap-desktop.png'});
-  assert.deepEqual(errors,[]);console.log('PASS: old arrival saves resume without a stop, completion preserved, current map location and fact, bottom-left mobile map, unobstructed controls and automatic capillary departure');
+  assert.deepEqual(errors,[]);console.log('PASS: old arrival saves resume without a stop, completion preserved, current map location and simplified caption, bottom-left mobile map, unobstructed controls and automatic capillary departure');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

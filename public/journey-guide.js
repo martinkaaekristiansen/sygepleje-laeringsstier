@@ -37,12 +37,12 @@ export const JOURNEY_GUIDE={
 export function renderBodyMap(s){
  const p=JOURNEY_GUIDE[s.id];if(!p)return '';
  const colour=s.oxygen==='high'?'#ed7964':'#a8354e';
- return `<figure class="blood-minimap" aria-label="Kropskort set forfra: ${esc(s.name)} – ${esc(p.region)}"><figcaption>KROPSKORT · FORFRA</figcaption><svg viewBox="0 0 120 174" role="img" aria-label="Du er ved ${esc(p.region)}" data-map-location="${esc(s.id)}">
+ return `<figure class="blood-minimap" aria-label="Kropskort: ${esc(s.name)} – ${esc(p.region)}"><figcaption>KROPSKORT</figcaption><svg viewBox="0 0 120 174" role="img" aria-label="Du er ved ${esc(p.region)}" data-map-location="${esc(s.id)}">
  <g fill="#244650" stroke="#a7c9c9" stroke-width="1.4"><circle cx="60" cy="18" r="12"/><path d="M53 30V36Q42 36 35 43L18 87Q16 94 22 95Q27 96 29 89L41 60L42 101L38 155Q37 164 44 164Q50 164 51 157L60 116L69 157Q70 164 77 164Q83 164 82 155L78 101L79 60L91 89Q93 96 99 95Q104 94 102 87L85 43Q78 36 67 36V30"/></g>
  <g fill="#7b9ea4" fill-opacity=".5" stroke="#bed6db" stroke-width=".7"><path d="M56 46Q42 46 41 63V80Q53 81 56 69Z"/><path d="M65 46Q79 46 79 64V80Q68 78 65 66Z"/></g>
  <path d="M61 67Q55 61 56 71Q57 81 70 87Q79 75 74 68Q69 61 65 67Z" fill="#9c3c4d" stroke="#f2aa99" stroke-width=".8"/>
  <g fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M70 79L69 60Q68 46 62 48L33 54L27 65L24 78" stroke="#ed7964"/><path d="M24 78L27 84L33 69Q39 51 53 53L59 66L60 71L61 79" stroke="#a44e66"/><path d="M61 79L57 70L55 62L47 53L44 57L46 66" stroke="#a44e66"/><path d="M46 66L48 73L53 75L68 65L68 71L70 79" stroke="#ed7964"/></g>
- <text x="18" y="39" fill="#e1eceb" font-size="8" font-family="system-ui">H</text><text x="97" y="39" fill="#e1eceb" font-size="8" font-family="system-ui">V</text>
+ <text x="18" y="39" fill="#e1eceb" font-size="14" font-family="system-ui">H</text><text x="97" y="39" fill="#e1eceb" font-size="14" font-family="system-ui">V</text>
  <g class="blood-map-marker" data-map-x="${p.x}" data-map-y="${p.y}" transform="translate(${p.x} ${p.y})"><circle r="7" fill="#fff1d8" fill-opacity=".25"/><circle r="3.8" fill="${colour}" stroke="#fff1d8" stroke-width="1.6"/></g>
  </svg><span>${esc(p.region)}</span></figure>`;
 }

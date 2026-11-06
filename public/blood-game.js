@@ -13,7 +13,7 @@ import {
 } from './journey-engine.js';
 import { esc } from './ui.js';
 import { createJourneyAudio } from './journey-audio.js';
-import { renderBodyMap, renderFunFact } from './journey-guide.js';
+import { renderBodyMap } from './journey-guide.js';
 const oxygenLabel = (s) =>
   ({
     high: 'Iltrigt blod',
@@ -84,17 +84,28 @@ export function mountBloodGame(
         '',
       )}</fieldset></div><div class="blood-audio-caption"><span data-audio-status role="status">${esc(audio.status())}</span><button class="text-button" data-audio-retry>Prøv lyd igen</button><details><summary>Om lydmodellen</summary><p>Original syntese med S1–S2-hjertelyde ved 70 slag/min og blød respiration ved 14 åndedrag/min. Lydstyrken illustrerer nærhed til hjertet og lungerne. Blodstrømmen er stiliseret. Det er en pædagogisk simulation, ikke sådan en erytrocyt fysisk ville høre inde i kroppen; normalt laminart blodflow er ikke nødvendigvis hørbart.</p></details></div><p data-audio-save role="status" ${audioSaved ? 'hidden' : ''}>Lydindstillingen virker nu, men kunne ikke gemmes på enheden.</p></section>`;
   }
-  root.innerHTML = `<section class="blood-game"><div class="blood-game-bar" aria-label="Spilbetjening"><button class="back" data-blood="exit">← Tilbage til læringsstier</button><button data-audio-toggle aria-pressed="${audio.settings.enabled}">${audio.settings.enabled ? 'Slå lyd fra' : 'Slå lyd til'}</button><button data-panel-toggle aria-controls="blood-settings" aria-expanded="false" aria-label="Lyd, viden og grafik">⚙</button><div class="blood-foot"><button data-footer-menu data-blood="menu" aria-label="Vælg sværhedsgrad">☰</button></div></div><div class="blood-save-error" role="alert" hidden></div><aside id="blood-settings" class="blood-drawer" aria-label="Lyd, viden og grafik" hidden><button data-panel-close class="secondary">Luk indstillinger</button>${audioPanel()}</aside><div class="blood3d blood-play">
+  root.innerHTML = `<section class="blood-game"><div class="blood-game-bar" aria-label="Spilbetjening"><button class="back" data-blood="exit">← Tilbage til læringsstier</button><button data-audio-toggle aria-pressed="${audio.settings.enabled}">${audio.settings.enabled ? 'Slå lyd fra' : 'Slå lyd til'}</button><button data-panel-toggle aria-controls="blood-settings" aria-expanded="false" aria-label="Spilindstillinger">⚙</button><div class="blood-foot"><button data-footer-menu data-blood="menu" aria-label="Vælg sværhedsgrad">☰</button></div></div><div class="blood-save-error" role="alert" hidden></div><aside id="blood-settings" class="blood-drawer" aria-label="Spilindstillinger" hidden><button data-panel-close class="secondary">Luk indstillinger</button><button class="secondary" data-blood="motion" aria-pressed="false">Pause bevægelse</button>${audioPanel()}</aside><div class="blood3d blood-play">
  <div class="blood-world blood3d-viewport"><canvas class="blood3d-canvas" tabindex="0" aria-label="Blodbanen i 3D. Brug piletaster og Enter, eller vælg en rute med mus eller touch."></canvas><div class="blood3d-shade" aria-hidden="true"></div>
- <div class="blood3d-hud"><div class="blood-location"><span class="blood3d-eyebrow" data-level-name></span><h1 data-location></h1><p class="blood-world-caption"></p></div><div class="blood3d-top-controls"><span class="blood-lives" role="img"></span><button data-blood="motion" aria-pressed="false">Pause bevægelse</button></div></div>
+ <div class="blood3d-hud"><div class="blood-location"><span class="blood3d-eyebrow" data-level-name></span><h1 data-location></h1><p class="blood-world-caption"></p></div><div class="blood3d-top-controls"><span class="blood-lives" role="img"></span></div></div>
  <div class="blood3d-milestone" role="status" aria-live="polite"></div>
- <div class="blood3d-labels" aria-label="To rutehypoteser"></div><div class="blood3d-feedback blood-message" role="status" aria-live="polite" hidden></div>
- <div data-body-map></div><div class="blood3d-bottom"><span data-hint></span><div class="blood3d-gas" hidden></div><p class="blood-oxygen"></p><div class="blood-progress" role="progressbar" aria-label="Fremdrift gennem kredsløbet" aria-valuemin="0" aria-valuenow="0" aria-valuemax="10"><span></span></div><span data-progress-copy></span></div>
+ <div class="blood3d-labels" aria-label="To rutehypoteser"></div><div class="blood3d-feedback blood-message" tabindex="0" aria-label="Faglig forklaring. Rul i feltet for at læse hele teksten." role="status" aria-live="polite" hidden></div>
+ <div data-body-map></div><div class="blood3d-bottom"><div class="blood3d-gas" hidden></div><p class="blood-oxygen"></p><div class="blood-progress" role="progressbar" aria-label="Fremdrift gennem kredsløbet" aria-valuemin="0" aria-valuenow="0" aria-valuemax="10"><span></span></div><span data-progress-copy></span></div>
  <div class="blood3d-overlay" data-overlay></div></div>
- <div class="blood3d-information"><div><span class="blood3d-eyebrow">INDE I KREDSLØBET</span><p data-note></p></div><div data-funfact></div><div class="blood3d-quality"><label><input type="checkbox" data-anatomy-focus><span>Se kammerets indløb og muskulatur</span></label><label>Grafik <select data-quality3d><option value="auto">Automatisk</option><option value="high">Høj</option><option value="low">Let</option></select></label><small data-quality-label></small></div></div>
+ <div class="blood3d-information"><div class="blood3d-quality"><label><input type="checkbox" data-anatomy-focus><span>Se kammerets indløb og muskulatur</span></label></div></div>
 
  <details class="blood3d-model"><summary>Om modellen og betjeningen</summary><p>De to anatomiske navne er rutehypoteser fra det valgte niveau. Markørerne er navigationshjælp, ikke ekstra åbninger i kar eller hjertevægge. Ved lungearteriestammen følger vi højre lungearterie. Venstre lungearterie er også normal, men bruges ikke som et forkert svar.</p><p>Hjertekamre, klapper og kapillærer er forenklede 3D-modeller. Lyset, de synlige gaspartikler og transparensen er undervisningshjælpemidler. Modellen er ikke målfast. »Se kammerets indløb og muskulatur« drejer blikket mod klapapparatet eller atriets venøse indløb. Når du vælger næste struktur, følger kameraet igen blodstrømmen. Iltfattigt blod forbliver rødt og indeholder stadig ilt.</p><p>Vælg med mus, touch eller Tab og Enter. Venstre og højre pil flytter fokus mellem navnene. Reduceret bevægelse viser samme 3D-anatomi med stillestående kamera og direkte overgange.</p></details></div></section>`;
   const canvas = $('canvas');
+  // Text may wrap on a narrow screen or at enlarged browser text sizes.
+  // Keep settings below the toolbar and feedback below the complete heading.
+  const measureLayout = () => {
+    const hud = $('.blood3d-hud');
+    root.style.setProperty('--hud-end', `${hud.offsetTop + hud.offsetHeight + 10}px`);
+    root.style.setProperty('--toolbar-end', `${$('.blood-game-bar').offsetHeight + 8}px`);
+  };
+  const layoutObserver = new ResizeObserver(measureLayout);
+  layoutObserver.observe($('.blood-game-bar'));
+  layoutObserver.observe($('.blood3d-hud'));
+  measureLayout();
   $('#blood-settings').append($('.blood3d-information'), $('.blood3d-model'));
   function setPanel(open) {
     panelOpen = open;
@@ -169,14 +180,12 @@ export function mountBloodGame(
     const route = BLOOD_LEVELS[run?.level || selected],
       s = route.steps[run?.index || 0];
     $('[data-location]').textContent = s.name;
-    $('[data-level-name]').textContent = route.name.toUpperCase() + ' · BLODCELLENS REJSE';
+    $('[data-level-name]').textContent = route.name.toUpperCase();
     $('.blood-world-caption').textContent = sceneDescription(s);
     $('.blood-lives').textContent =
       !run || run.lives === 2 ? '♥ ♥' : run.lives === 1 ? '♥ ♡' : '♡ ♡';
     $('.blood-lives').setAttribute('aria-label', `${run?.lives ?? 2} af 2 liv tilbage`);
     $('[data-body-map]').innerHTML = renderBodyMap(s);
-    $('[data-note]').textContent = s.note;
-    $('[data-funfact]').innerHTML = renderFunFact(s);
     $('.blood-oxygen').textContent = oxygenLabel(s);
     $('.blood-progress').setAttribute('aria-valuenow', String(run?.correct || 0));
     $('.blood-progress').setAttribute('aria-valuemax', String(route.choices.length));
@@ -215,7 +224,6 @@ export function mountBloodGame(
         )
         .join('');
     parent.querySelectorAll('button').forEach((b) => (b.disabled = !ambient || panelOpen));
-    $('[data-hint]').textContent = 'Vælg næste struktur · to rutehypoteser';
     showFeedback();
   }
   async function enterStage() {
@@ -225,7 +233,6 @@ export function mountBloodGame(
     $('.blood3d-labels').innerHTML = '';
     $('.blood-message').hidden = true;
     updateStage();
-    $('[data-hint]').textContent = 'Følg blodstrømmen…';
     const route = BLOOD_LEVELS[run.level],
       s = route.steps[run.index];
     await world.enter(s, route.steps[run.index + 1], { reset: run.index === 0 });
@@ -281,16 +288,34 @@ export function mountBloodGame(
     canvas.dataset.fps = String(Math.round(f.fps));
     canvas.dataset.triangles = String(f.triangles);
     canvas.dataset.drawCalls = String(f.drawCalls);
-    $('[data-quality-label]').textContent = f.quality + ' kvalitet';
     if (f.ready && !busy && !ready && mode === 'play') showChoices();
+    const labels = [...root.querySelectorAll('[data-passage]')];
+    if (!labels.length) return;
+    const labelHeight = Math.max(...labels.map((b) => b.offsetHeight)),
+      width = canvas.clientWidth,
+      hud = $('.blood3d-hud'),
+      feedback = $('.blood3d-feedback'),
+      bottom =
+        Math.min(
+          $('.blood3d-bottom').offsetTop,
+          width < 600 ? $('.blood-minimap').offsetTop : Infinity,
+        ) - 12,
+      headingEnd = hud.offsetTop + hud.offsetHeight + 12;
+    // Reserve space for both large answer labels and scrollable feedback.
+    feedback.style.maxHeight = `${Math.max(64, bottom - feedback.offsetTop - labelHeight - 20)}px`;
+    const top = feedback.hidden ? headingEnd : feedback.offsetTop + feedback.offsetHeight + 10;
     f.anchors.forEach((p, i) => {
-      const b = $(`[data-passage="${i}"]`);
-      if (b) {
-        const half = b.offsetWidth / 2 + 8,
-          width = canvas.clientWidth;
-        b.style.left = `${Math.max(half, Math.min(width - half, (p.x * width) / 100))}px`;
-        b.style.top = `${p.y}%`;
-      }
+      const b = labels[i];
+      if (!b) return;
+      const half = b.offsetWidth / 2 + 8,
+        height = b.offsetHeight,
+        wantedX = (p.x * width) / 100;
+      b.style.left = `${
+        i === 0
+          ? Math.max(half, Math.min(width / 2 - half, wantedX))
+          : Math.min(width - half, Math.max(width / 2 + half, wantedX))
+      }px`;
+      b.style.top = `${Math.max(top + height / 2, Math.min(bottom - height / 2, (p.y * canvas.clientHeight) / 100))}px`;
     });
   }
   async function boot() {
@@ -298,6 +323,7 @@ export function mountBloodGame(
       const { createBloodWorld } = await import('./journey-3d-world.js');
       if (disposed) return;
       world = await createBloodWorld(canvas, {
+        quality: 'high',
         clock: audio.now,
         onReady: showChoices,
         onFrame,
@@ -467,7 +493,9 @@ export function mountBloodGame(
         world?.pause(!ambient || panelOpen);
         b.textContent = ambient ? 'Pause bevægelse' : 'Start bevægelse';
         b.setAttribute('aria-pressed', String(!ambient));
-        root.querySelectorAll('[data-passage]').forEach((p) => (p.disabled = !ambient));
+        root
+          .querySelectorAll('[data-passage]')
+          .forEach((p) => (p.disabled = !ambient || panelOpen));
       }
     } catch (e) {
       failure(e.message);
@@ -485,7 +513,6 @@ export function mountBloodGame(
       void audio.activate();
       updateAudioPanel();
     }
-    if (e.target.matches('[data-quality3d]')) world?.setQuality(e.target.value);
     if (e.target.name === 'blood-level') selected = e.target.value;
   }
   function keyboard(e) {
@@ -531,6 +558,7 @@ export function mountBloodGame(
   void boot();
   return () => {
     disposed = true;
+    layoutObserver.disconnect();
     unlockViewport();
     clearTimeout(noticeTimer);
     world?.dispose();
