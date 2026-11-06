@@ -9,3 +9,12 @@
 @media(prefers-reduced-motion:reduce){.blood-progress>span{transition:none}}
 
 .blood3d-labels button{width:max-content}
+.blood3d-quality{max-width:300px;flex-wrap:wrap;gap:12px}
+.blood3d-quality label{font-size:13px;min-height:44px}
+.blood3d-quality label:has([data-anatomy-focus]){flex-basis:100%;line-height:1.5;margin-bottom:8px}
+.blood3d-quality input[type=checkbox]{width:20px;height:20px;min-height:20px;flex:0 0 20px}
+.blood3d-information{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(180px,280px)}
+.blood3d-quality{min-width:0;width:100%}
+.blood3d-quality label:has([data-anatomy-focus]){display:grid;grid-template-columns:20px minmax(0,1fr);white-space:normal}
+.blood3d-quality label span{min-width:0;overflow-wrap:anywhere}
+@media(max-width:800px){.blood3d-information{grid-template-columns:minmax(0,1fr)}}

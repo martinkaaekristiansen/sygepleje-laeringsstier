@@ -302,3 +302,10 @@ header nav a{padding:10px;font-size:14px}
 .move-position{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;margin-left:6px}.circulation-learning .move-position select{width:65px;padding:8px}.route-card>div{display:flex;align-items:center}.move-position span{display:none}@media(max-width:700px){.move-position{margin:4px 0 0}.circulation-learning .move-position select{width:55px}.route-card>div{flex-direction:column}}
 
 .label-picker{display:block;position:sticky;top:0;background:white;padding:12px 0;z-index:2;font-weight:700}.term-details{margin:12px 0}.term-details summary{cursor:pointer}
+/* Narrow viewports and zoom must not be widened by route names or controls. */
+.circulation-learning,.activity-form,.route-card,.card-body,.continue-card{min-width:0;overflow-wrap:anywhere}
+.route-card>strong,.route-card>div{min-width:0}
+.route-card select,.circulation-learning select{max-width:100%;min-width:0}
+footer{flex-wrap:wrap;gap:1rem}footer .file-button{font-size:.9rem;cursor:pointer}footer input[type=file]{max-width:180px}
+.tag{max-width:90%;white-space:normal;overflow-wrap:anywhere;font-size:.78rem}
+@media(max-width:380px){.route-card{padding:.6rem;grid-template-columns:1.5rem minmax(0,1fr)}.route-card>div{grid-column:2;flex-wrap:wrap}.circulation-learning{padding:.75rem}.activity-tabs{grid-template-columns:1fr}}

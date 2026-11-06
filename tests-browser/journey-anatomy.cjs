@@ -34,6 +34,12 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
     assert.match(await page.locator('.blood-lives').getAttribute('aria-label'),/^1 /);assert.match(await page.locator('.blood-message').textContent(),/ingen direkte forbindelse/);
    }
    if(['rv','lv'].includes(s.id)){await page.locator('.blood-play').screenshot({path:'/tmp/blood-trabeculae-'+s.id+'-desktop.png'});assert.match(await page.locator('.blood-world-caption').textContent(),/trabekler/);assert.ok(Number(await page.locator('canvas').getAttribute('data-triangles'))<150000,'ventricular triangle budget');}
+   if(['ra','rv','la','lv'].includes(s.id)){
+    await page.locator('[data-anatomy-focus]').check();await page.waitForTimeout(1800);
+    await page.locator('.blood-play').screenshot({path:'/tmp/blood-focus-'+s.id+'-desktop.png'});
+    assert.equal(await page.locator('[data-passage]:enabled').count(),2);
+    await page.locator('[data-anatomy-focus]').uncheck();await page.waitForTimeout(500);
+   }
    if(s.id==='pcapillaries'){
     await page.waitForTimeout(4100);
     await page.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-lung-desktop.png'});

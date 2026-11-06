@@ -1,0 +1,5 @@
+public/three*.js
+test/fixtures/
+node_modules/
+dist/
+artifacts/

@@ -4,16 +4,17 @@ Dansk, mobilvenlig læringsapp til sygeplejestuderende. Appen fungerer uden logi
 
 ## Indhold og funktioner
 
-- Valg af semester 1–7. Forsiden åbner på det første semester med indhold.
+- Valg af semester 1–7. Forsiden åbner på 1. semester og husker derefter dit semester- og fagvalg på enheden.
 - Fagfiltre viser kun fag med læringsstier på det valgte semester. En sti kan tilhøre flere fag.
 - **1. semester: Blodcellens rejse** — et visuelt kredsløbsspil med tre sværhedsgrader, to liv, anatomiske kar og klapper, dynamisk lyd, kropskort, funfacts og lokalt gemte resultater. Rejsen fortsætter direkte til næste valg uden ekstra fortsæt-knapper. Lyden er valgfri og bruger original syntese uden eksterne lydfiler. [Afprøvning og anatomisk model](docs/blodcellens-rejse.md).
+- **1. semester: Kan du finde vej gennem kredsløbet?** — rækkefølgekort og kontekstøvelser på tre niveauer, særskilte testresultater og målrettet repetition. [Aktiviteter og beståelsesgrænser](docs/circulation-and-chambers.md).
 - **3. semester: Medicinhåndtering og farmakologi** — fire trin med i alt 20 spørgsmål fra det uploadede dokument. [Kilder og udvælgelse](docs/medicinhaandtering.md).
 - **5. semester: Akut og kritisk sygepleje** — 12 trin med 36 casebaserede spørgsmål, refleksionsopgaver og vejledninger. [Kobling til semesterbeskrivelsen](docs/semester5-e26.md).
 - Overblikket **Fortsæt, hvor du slap** viser påbegyndte, ufærdige stier på tværs af semestre og fag med antal gennemførte trin og procent.
 - Quizzer giver feedback og forklaringer. Forkerte svar kan ændres. Når et svar er korrekt, fastholdes det; klik på forkerte muligheder viser deres forklaring. **Genstart trinnet** nulstiller kun svar og gennemførelse på det valgte trin efter bekræftelse.
 - Trin kan vise tekst, billeder, video, lyd og refleksionsguider. Eksterne medier åbnes efter et klik. Eksterne billedlinks hentes, når trinnet vises.
 
-Underviserfunktionen, kodelåsene og publicering fra appen er fjernet. Læringsstien **Fordøjelsessystemet** på 1. semester er fjernet. På 1. semester findes nu læringsspillet **Blodcellens rejse** under Anatomi og fysiologi. Gamle links giver ikke adgang til den fjernede sti eller en editor.
+Underviserfunktionen, kodelåsene og publicering fra appen er fjernet. Læringsstien **Fordøjelsessystemet** på 1. semester er fjernet. På 1. semester findes både **Blodcellens rejse** og **Kan du finde vej gennem kredsløbet?** under Anatomi og fysiologi. Gamle links giver ikke adgang til den fjernede sti eller en editor.
 
 Indhold vedligeholdes nu i projektfilerne og udgives med den almindelige GitHub Pages-workflow. Der bruges ingen Cloudflare-server, publiceringskode eller GitHub-token i appen. Eventuel tidligere oprettet Cloudflare Worker og dens adgangsnøgle kan fjernes hos de respektive tjenester; sletning af projektfiler afinstallerer ikke en allerede oprettet ekstern tjeneste.
 
@@ -25,7 +26,7 @@ Indhold vedligeholdes nu i projektfilerne og udgives med den almindelige GitHub 
 
 ## Eksisterende data
 
-Appen bevarer IndexedDB-databasens navn, format og de stabile trin-, spørgsmåls- og svar-ID'er for de øvrige læringsstier. Besvarelser, refleksioner og progression for 3. og 5. semester bevares. Andre tidligere gemte læringsstier ændres ikke.
+Appen bevarer IndexedDB-databasens navn, format og de stabile trin-, spørgsmåls- og svar-ID'er for de øvrige læringsstier. Besvarelser, refleksioner og progression for 3. og 5. semester bevares. Ved indholdsopdatering arkiveres den tidligere udgave med dens progression. Lokalt ændret indhold bevares som en særskilt sti. Opdaterede spørgsmål får nye besvarelser; gamle svar, noter og gennemførelser bevares i sikkerhedskopien, og ændrede trin markeres til genbesøg.
 
 Den fjernede sti filtreres fra ved hver indlæsning, også på eksisterende enheder og efter gendannelse af gamle data. Gamle browserdata fra localStorage flyttes fortsat automatisk til IndexedDB. Tidligere kladder til øvrige stier kan fortsat ligge i browserdata, men der er ingen editor, som kan åbne eller udgive dem.
 
@@ -46,6 +47,7 @@ npm run dev
 ## Test og build
 
 ```sh
+npm ci
 npm test
 npm run build
 ```
@@ -89,3 +91,15 @@ Ved 404: kontrollér Pages-kilden og seneste deploy. Ved en rød workflow: åbn 
 - `public/theme.css`, `public/style.css`: UCN-farver, mobilvisning og tastaturfokus.
 
 UCN-farverne følger den leverede oversigt: brand blå mørk `#004250`, brand blå `#00646E`, turkis `#0096A0`, turkis lys `#A5DCCD`, brand blå lys `#BED6DB`, grå `#E7EBED` og sidebaggrund `#F1F6F9`. Primære knapper er sorte med hvid tekst. Gul lys `#FFE673` bruges som sekundær accent. Status formidles også med tekst, og reduceret bevægelse respekteres.
+
+## Kvalitetsrettelser i 0.10.0
+
+- **Hent mine data** og **Gendan mine data** findes nederst på siden. Gem filen et sikkert sted; den indeholder også dine refleksioner. Gendannelse erstatter den aktuelle profil efter bekræftelse.
+- Forsiden viser fortsat gennemgåede stier, hvis svar eller opdateret indhold bør genbesøges. Første quizsvar holdes adskilt fra svar rettet efter feedback. Beståelse i kredsløbsøvelser beregnes separat.
+- Repetition tager hensyn til nye korrekte svar; historiske fejl slettes ikke.
+- Kammergeometri beregnes i en module worker i webappen. Den selvstændige offline HTML-prøve bruger synkron beregning, da dens data-URL-moduler ikke kan deles med en worker.
+- Animation og lyd bruger fælles hjerte- og respirationsfaser. Pause/reduceret bevægelse stopper unødvendige renderframes. Automatisk grafikkvalitet sænker også kammermeshens detaljegrad.
+- Playwright og Prettier er låst i `package-lock.json`. Three.js r180 er lokalt inkluderet; `vendor-manifest.json` dokumenterer licens, oprindelse og SHA-256. Build afviser utilsigtede ændringer i vendor-filerne.
+- GitHub Actions stopper ved enhver fejl i browser-testpipelines og gemmer diagnostik ved fejl.
+
+[Faglig gennemgang og åbne godkendelsespunkter](docs/content-review.md) · [Ændringer og afprøvning](docs/quality-0100.md).

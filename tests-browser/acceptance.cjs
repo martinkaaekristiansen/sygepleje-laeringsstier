@@ -38,7 +38,7 @@ const home=async page=>{await page.locator('header a[href="#/"]').first().click(
     const deep=page.url();await page.locator('[data-action=complete]').click();
     if(i===0){await home(page);assert.equal(await page.locator('.continue-progress').getAttribute('aria-valuenow'),String(Math.round(100/path.steps.length)));await page.goBack();await page.locator('#lesson-heading').waitFor();assert.notEqual(page.url(),deep);}
    }
-   await page.getByText('Godt gået! Læringsstien er gennemført.',{exact:true}).waitFor();assert.equal(count,path.semester===3?20:36);
+   await page.getByRole('heading',{name:'Alle trin er gennemgået.',exact:true}).waitFor();assert.equal(count,path.semester===3?20:36);
    await home(page);assert.equal(await page.locator('.continue-card').count(),0);
   }
   const complete=await readState(page);for(const p of initial.paths.filter(p=>p.semester!==1))assert.equal(complete.progress[p.id].done.length,p.steps.length);

@@ -34,10 +34,12 @@ jobs:
       - name: Klargør browsertest
         timeout-minutes: 15
         run: |
-          npm install --no-save --package-lock=false playwright@1.56.1 2>&1 | tee /tmp/pages-browser-setup.log
+          set -euo pipefail
+          npm ci --ignore-scripts 2>&1 | tee /tmp/pages-browser-setup.log
           npx playwright install --with-deps chromium 2>&1 | tee -a /tmp/pages-browser-setup.log
       - name: Test browser og Pages-undermappe
         run: |
+          set -euo pipefail
           mkdir -p /tmp/pages-test
           ln -s "$GITHUB_WORKSPACE/dist" /tmp/pages-test/sygepleje-laeringsstier
           python3 -m http.server 3001 --bind 127.0.0.1 --directory /tmp/pages-test > /tmp/pages-test.log 2>&1 &
@@ -47,7 +49,18 @@ jobs:
             if curl --silent --fail http://127.0.0.1:3001/sygepleje-laeringsstier/ > /dev/null; then break; fi
             sleep 1
           done
+          curl --silent --fail http://127.0.0.1:3001/sygepleje-laeringsstier/ > /dev/null
           npm run test:browser 2>&1 | tee /tmp/pages-browser-test.log
+      - name: Gem browserdiagnostik
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browserdiagnostik
+          path: |
+            /tmp/pages-browser-*.log
+            /tmp/pages-test.log
+            /tmp/blood-*.png
+          retention-days: 7
       - name: Vis browserfejl i joboversigten
         if: failure()
         run: |

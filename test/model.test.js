@@ -25,8 +25,8 @@ test('reorder and title edits preserve progression; content edits invalidate onl
   const edit=structuredClone(p);edit.steps.reverse();edit.title='Ny titel';
   const moved=commitPath(state,edit);assert.deepEqual(moved.progress[p.id],state.progress[p.id]);assert.equal(getPathProgress(moved.paths[0],moved.progress[p.id]).percent,75);
   edit.steps.find(s=>s.id===ids[1]).text+=' Ny faglig viden';
-  const changed=commitPath(moved,edit);assert.deepEqual(changed.progress[p.id].done,[ids[0],ids[2]]);assert.equal(changed.progress[p.id].notes[ids[1]],'Bevar mig');assert.equal(changed.paths[0].contentVersion,3);
-  const noop=commitPath(changed,changed.paths[0]);assert.equal(noop.paths[0].contentVersion,3);
+  const changed=commitPath(moved,edit);assert.deepEqual(changed.progress[p.id].done,[ids[0],ids[2]]);assert.equal(changed.progress[p.id].notes[ids[1]],'Bevar mig');assert.equal(changed.paths[0].contentVersion,p.contentVersion+2);
+  const noop=commitPath(changed,changed.paths[0]);assert.equal(noop.paths[0].contentVersion,p.contentVersion+2);
 });
 test('reordering questions and options preserves the correct option and completion',()=>{
   const state=emptyState(),p=state.paths[1],s=p.steps[0];state.progress[p.id]={done:[s.id],last:s.id,notes:{},answers:{[s.id]:{[s.questions[0].id]:s.questions[0].optionIds[0]}}};
@@ -37,7 +37,7 @@ test('reordering questions and options preserves the correct option and completi
 test('updates keep the local edition with notes and quiz responses as a separate copy',()=>{
   const state=emptyState(),p=state.paths[1],s=p.steps[0],q=s.questions[0];
   p.title='Mit indhold';state.progress[p.id]={done:[s.id],last:s.id,notes:{[s.id]:'Note'},answers:{[s.id]:{[q.id]:q.optionIds[q.correct]}}};
-  const update={...structuredClone(builtins[1]),builtinVersion:2};assert.equal(updatesFor(state,[update]).length,1);
+  const update={...structuredClone(builtins[1]),builtinVersion:builtins[1].builtinVersion+1};assert.equal(updatesFor(state,[update]).length,1);
   const next=acceptUpdate(state,update),copy=next.paths.find(p=>p.title==='Mit indhold (min tidligere udgave)');assert.ok(copy);assert.ok(validateState(next));
   const record=next.progress[copy.id];assert.equal(record.notes[copy.steps[0].id],'Note');assert.equal(record.answers[copy.steps[0].id][copy.steps[0].questions[0].id],copy.steps[0].questions[0].optionIds[q.correct]);assert.equal(next.progress[update.id],undefined);
 });

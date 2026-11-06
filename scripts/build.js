@@ -3,6 +3,8 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 // All modules are checked. Content-addressed asset URLs avoid mixing releases
 // from a browser cache while keeping imports relative for GitHub Pages.
+const vendor=JSON.parse(await readFile('vendor-manifest.json','utf8'));
+for(const [file,expected]of Object.entries(vendor.sha256))if(createHash('sha256').update(await readFile(`public/${file}`)).digest('hex')!==expected)throw Error(`Unexpected vendor file: ${file}. Review version, license and manifest before release.`);
 const files=(await readdir('public')).sort();
 const hash=createHash('sha256');
 for(const file of files) {

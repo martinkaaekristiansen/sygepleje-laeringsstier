@@ -1,4 +1,4 @@
-// Fixed random selection from the user-provided Medicinhåndteringsprøver.docx.
+// Teaching content; see docs/content-review.md for review status.
 export const pharmacologyPath = {
   "id": "farmakologi-medicinhaandtering-3semester-v1",
   "title": "Medicinhåndtering og farmakologi",
@@ -21,7 +21,13 @@ export const pharmacologyPath = {
           ],
           "correct": 3,
           "why": "Tiden findes ved at dividere den samlede mængde med hastigheden: 50 mg ÷ 2 mg/min = 25 minutter. Enheden mg forkortes væk, så resultatet bliver minutter. De øvrige tidsangivelser giver ikke den ordinerede mængde ved denne hastighed.",
-          "source": "Medicinhåndteringsprøve februar 2023 · opgave 5"
+          "source": "Medicinhåndteringsprøve februar 2023 · opgave 5",
+          "explanations": [
+            "100 min ved 2 mg/min giver 200 mg, ikke 50 mg.",
+            "50 min ved 2 mg/min giver 100 mg.",
+            "30 min ved 2 mg/min giver 60 mg.",
+            "Tiden findes ved at dividere den samlede mængde med hastigheden: 50 mg ÷ 2 mg/min = 25 minutter. Enheden mg forkortes væk, så resultatet bliver minutter. De øvrige tidsangivelser giver ikke den ordinerede mængde ved denne hastighed."
+          ]
         },
         {
           "q": "Suppositorier er lægemidler som:",
@@ -33,7 +39,13 @@ export const pharmacologyPath = {
           ],
           "correct": 1,
           "why": "Suppositorier er stikpiller, der indføres i rektum. De optages ikke over mundslimhinden og skal ikke synkes. Rektal administration regnes som enteral, ikke parenteral.",
-          "source": "Medicinhåndteringsprøve november 2020 · opgave 16"
+          "source": "Medicinhåndteringsprøve november 2020 · opgave 16",
+          "explanations": [
+            "Optagelse over mundslimhinden kaldes fx bukkal eller sublingual administration.",
+            "Suppositorier er stikpiller, der indføres i rektum. De optages ikke over mundslimhinden og skal ikke synkes. Rektal administration regnes som enteral, ikke parenteral.",
+            "Rektal administration er enteral, ikke parenteral.",
+            "Suppositorier skal indføres i rektum, ikke synkes."
+          ]
         },
         {
           "q": "Hvilken af nedenstående administrationsmåder gennemgår IKKE en absorptionsfase",
@@ -44,8 +56,14 @@ export const pharmacologyPath = {
             "Intramuskulær administration af covid-19 vaccine"
           ],
           "correct": 1,
-          "why": "Ved intravenøs administration gives lægemidlet direkte i blodbanen, så der ikke er en absorptionsfase. Ved peroral, subkutan og intramuskulær administration skal lægemidlet først optages fra administrationsstedet til blodbanen.",
-          "source": "Medicinhåndteringsprøve november 2022 · opgave 13"
+          "why": "Ved intravenøs administration gives lægemidlet direkte i blodbanen uden en absorptionsfase. Peroral og subkutan administration indebærer optagelse fra administrationsstedet. En intramuskulær vaccine gives heller ikke direkte i blodbanen: antigen og immunrespons involverer især det lokale væv og lymfesystemet. Vaccinens virkning må ikke forklares som afhængig af systemisk absorption alene.",
+          "source": "Medicinhåndteringsprøve november 2022 · opgave 13",
+          "explanations": [
+            "Ved peroral administration skal lægemidlet optages fra mave-tarm-kanalen.",
+            "Ved intravenøs administration gives lægemidlet direkte i blodbanen uden en absorptionsfase. Peroral og subkutan administration indebærer optagelse fra administrationsstedet. En intramuskulær vaccine gives heller ikke direkte i blodbanen: antigen og immunrespons involverer især det lokale væv og lymfesystemet. Vaccinens virkning må ikke forklares som afhængig af systemisk absorption alene.",
+            "Ved subkutan administration skal lægemidlet optages fra det subkutane væv.",
+            "Vaccinen gives i muskelvæv, ikke direkte i blodbanen. Lokal immunaktivering og lymfatisk transport er centrale."
+          ]
         },
         {
           "q": "Hvad betyder biotilgængelighed af et præparat?",
@@ -57,10 +75,16 @@ export const pharmacologyPath = {
           ],
           "correct": 1,
           "why": "Biotilgængelighed er den andel af en administreret dosis, der når det systemiske kredsløb i uomdannet form. Det er ikke det samme som andelen i målorganet, andelen der nedbrydes ved first-pass-metabolisme eller en konstant koncentration over tid.",
-          "source": "Medicinhåndteringsprøve november 2020 · opgave 14"
+          "source": "Medicinhåndteringsprøve november 2020 · opgave 14",
+          "explanations": [
+            "Målorganets eksponering er ikke definitionen af biotilgængelighed.",
+            "Biotilgængelighed er den andel af en administreret dosis, der når det systemiske kredsløb i uomdannet form. Det er ikke det samme som andelen i målorganet, andelen der nedbrydes ved first-pass-metabolisme eller en konstant koncentration over tid.",
+            "First-pass-metabolisme kan reducere biotilgængeligheden, men er ikke dens definition.",
+            "Biotilgængelighed angiver en dosisandel, ikke en konstant blodkoncentration."
+          ]
         },
         {
-          "q": "10 % svarer til:",
+          "q": "10 % (masse/volumen, dvs. 10 g pr. 100 ml) svarer til:",
           "a": [
             "100 mg/ml",
             "100 g/ml",
@@ -69,7 +93,13 @@ export const pharmacologyPath = {
           ],
           "correct": 0,
           "why": "I denne beregningsopgave forstås procent som masse/volumen: 10 % = 10 g pr. 100 ml = 10.000 mg ÷ 100 ml = 100 mg/ml. De øvrige svar skyldes forkerte omregninger mellem gram, milligram og milliliter.",
-          "source": "Medicinhåndteringsprøve november 2021 · opgave 3"
+          "source": "Medicinhåndteringsprøve november 2021 · opgave 3",
+          "explanations": [
+            "I denne beregningsopgave forstås procent som masse/volumen: 10 % = 10 g pr. 100 ml = 10.000 mg ÷ 100 ml = 100 mg/ml. De øvrige svar skyldes forkerte omregninger mellem gram, milligram og milliliter.",
+            "100 g/ml forveksler masse og volumen; 10 g skal fordeles på 100 ml.",
+            "10 mg/ml svarer til 1 % m/v.",
+            "10 g/ml svarer ikke til 10 g pr. 100 ml."
+          ]
         }
       ]
     },
@@ -88,7 +118,13 @@ export const pharmacologyPath = {
           ],
           "correct": 3,
           "why": "1 liter = 1.000 ml. Derfor er 0,65 liter × 1.000 ml/liter = 650 ml. De øvrige svar er for små med henholdsvis en faktor 10.000, 100 og 10.",
-          "source": "Medicinhåndteringsprøve november 2022 · opgave 1"
+          "source": "Medicinhåndteringsprøve november 2022 · opgave 1",
+          "explanations": [
+            "0,065 ml er 10.000 gange mindre end 650 ml.",
+            "6,5 ml er 100 gange mindre end 650 ml.",
+            "65 ml er 10 gange mindre end 650 ml.",
+            "1 liter = 1.000 ml. Derfor er 0,65 liter × 1.000 ml/liter = 650 ml. De øvrige svar er for små med henholdsvis en faktor 10.000, 100 og 10."
+          ]
         },
         {
           "q": "Hvilket udsagn om insulin er sandt?",
@@ -100,7 +136,13 @@ export const pharmacologyPath = {
           ],
           "correct": 3,
           "why": "Non-selektive betablokkere kan hæmme kroppens modregulation ved lavt blodsukker og maskere advarselssymptomer på hypoglykæmi. Visse hurtigtvirkende insulinpræparater kan gives intravenøst efter ordination. Hurtigtvirkende insulinanaloger gives typisk tæt på måltidet, og glukokortikoider kan øge blodsukkeret og insulinbehovet. Administrationsvej og tidspunkt afhænger altid af det konkrete præparat.",
-          "source": "Medicinhåndteringsprøve november 2020 · opgave 25"
+          "source": "Medicinhåndteringsprøve november 2020 · opgave 25",
+          "explanations": [
+            "Visse hurtigtvirkende insulinpræparater må anvendes intravenøst efter ordination og præparatvejledning.",
+            "Hurtigtvirkende analoger gives typisk tættere på måltidet; tidspunktet er præparatspecifikt.",
+            "Glukokortikoider kan øge blodsukker og insulinbehov.",
+            "Non-selektive betablokkere kan hæmme kroppens modregulation ved lavt blodsukker og maskere advarselssymptomer på hypoglykæmi. Visse hurtigtvirkende insulinpræparater kan gives intravenøst efter ordination. Hurtigtvirkende insulinanaloger gives typisk tæt på måltidet, og glukokortikoider kan øge blodsukkeret og insulinbehovet. Administrationsvej og tidspunkt afhænger altid af det konkrete præparat."
+          ]
         },
         {
           "q": "IE er en enhed for:",
@@ -112,10 +154,16 @@ export const pharmacologyPath = {
           ],
           "correct": 0,
           "why": "IE står for internationale enheder og angiver biologisk aktivitet. Blandt svarmulighederne bruges IE til at angive en dosis. En styrke kan fx angives i IE/ml, mens volumen angives i ml og en hastighed fx i ml/time.",
-          "source": "Medicinhåndteringsprøve november 2023 · opgave 2"
+          "source": "Medicinhåndteringsprøve november 2023 · opgave 2",
+          "explanations": [
+            "IE står for internationale enheder og angiver biologisk aktivitet. Blandt svarmulighederne bruges IE til at angive en dosis. En styrke kan fx angives i IE/ml, mens volumen angives i ml og en hastighed fx i ml/time.",
+            "Volumen måles fx i ml, ikke IE.",
+            "En styrke kræver aktivitet pr. volumen, fx IE/ml.",
+            "En hastighed kræver en tidsenhed, fx IE/time."
+          ]
         },
         {
-          "q": "Du skal fremstille en injektionsvæske ved at opløse 25 mg tørstof i 10 ml isotonisk natriumklorid. Hvad bliver styrken på opløsningen?",
+          "q": "25 mg tørstof opløses til et samlet slutvolumen på 10 ml med isotonisk natriumklorid. Hvad er opløsningens styrke?",
           "a": [
             "0,25 mg/ml",
             "0,4 mg/ml",
@@ -125,7 +173,14 @@ export const pharmacologyPath = {
           ],
           "correct": 2,
           "why": "Styrke = mængde ÷ volumen = 25 mg ÷ 10 ml = 2,5 mg/ml. Beregningen forudsætter, at opløsningens slutvolumen er 10 ml som antaget i opgaven. De øvrige tal følger ikke denne division. Ved faktisk rekonstitution skal præparatets vejledning for slutvolumen og styrke følges.",
-          "source": "Medicinhåndteringsprøve november 2020 · opgave 6"
+          "source": "Medicinhåndteringsprøve november 2020 · opgave 6",
+          "explanations": [
+            "0,25 mg/ml i 10 ml giver kun 2,5 mg.",
+            "0,4 mg/ml i 10 ml giver 4 mg.",
+            "Styrke = mængde ÷ volumen = 25 mg ÷ 10 ml = 2,5 mg/ml. Beregningen forudsætter, at opløsningens slutvolumen er 10 ml som antaget i opgaven. De øvrige tal følger ikke denne division. Ved faktisk rekonstitution skal præparatets vejledning for slutvolumen og styrke følges.",
+            "25 mg/ml i 10 ml giver 250 mg.",
+            "40 mg/ml i 10 ml giver 400 mg."
+          ]
         },
         {
           "q": "Hvilket udsagn om diuretika er sandt?",
@@ -137,7 +192,13 @@ export const pharmacologyPath = {
           ],
           "correct": 0,
           "why": "Loop-diuretika kan anvendes ved svært nedsat nyrefunktion; den konkrete behandling afhænger af patienten. De har høj natriuretisk effekt. Thiazider kan typisk give hypokaliæmi, og kaliumbesparende diuretika virker distalt i nefronet, ikke i Henles slynge.",
-          "source": "Medicinhåndteringsprøve november 2020 · opgave 26"
+          "source": "Medicinhåndteringsprøve november 2020 · opgave 26",
+          "explanations": [
+            "Loop-diuretika kan anvendes ved svært nedsat nyrefunktion; den konkrete behandling afhænger af patienten. De har høj natriuretisk effekt. Thiazider kan typisk give hypokaliæmi, og kaliumbesparende diuretika virker distalt i nefronet, ikke i Henles slynge.",
+            "Thiazider kan typisk medføre hypokaliæmi, ikke hyperkaliæmi.",
+            "Kaliumbesparende diuretika virker distalt i nefronet.",
+            "Loop-diuretika har høj natriuretisk effektivitet."
+          ]
         }
       ]
     },
@@ -147,7 +208,7 @@ export const pharmacologyPath = {
       "text": "Fortsæt med opgave 11–15. Vælg ét svar til hver opgave. Procentstyrker forstås som masse/volumen. Forklaringerne er udarbejdet til øvelsen; dokumentet indeholder ikke et facit.",
       "questions": [
         {
-          "q": "1 % svarer til:",
+          "q": "1 % (masse/volumen, dvs. 1 g pr. 100 ml) svarer til:",
           "a": [
             "100 g/ml",
             "10 mg/ml",
@@ -156,7 +217,13 @@ export const pharmacologyPath = {
           ],
           "correct": 1,
           "why": "I denne beregningsopgave forstås procent som masse/volumen: 1 % = 1 g pr. 100 ml = 1.000 mg ÷ 100 ml = 10 mg/ml. Det er derfor hverken 100 g/ml, 10 mikrogram/ml eller 1 g/ml.",
-          "source": "Medicinhåndteringsprøve november 2020 · opgave 3"
+          "source": "Medicinhåndteringsprøve november 2020 · opgave 3",
+          "explanations": [
+            "100 g/ml er langt højere end 1 g pr. 100 ml.",
+            "I denne beregningsopgave forstås procent som masse/volumen: 1 % = 1 g pr. 100 ml = 1.000 mg ÷ 100 ml = 10 mg/ml. Det er derfor hverken 100 g/ml, 10 mikrogram/ml eller 1 g/ml.",
+            "10 mikrogram/ml er 1.000 gange lavere end 10 mg/ml.",
+            "1 g/ml er 100 gange højere end 1 g pr. 100 ml."
+          ]
         },
         {
           "q": "En ældre patient har fået morfin efter en operation. Personalet får ikke informeret patienten om at han ikke selv må stå ud af sengen den første nat efter operationen, da patienten er svimmel og man vil forebygge fald. Patienten står ud af sengen den første nat for at gå på toilettet, men falder og brækker hoften. Hvordan vil du beskrive det skete?",
@@ -168,7 +235,13 @@ export const pharmacologyPath = {
           ],
           "correct": 2,
           "why": "Patienten kommer til skade i forbindelse med behandlingsforløbet, hvor relevant information og faldforebyggelse svigter. Hændelsen beskrives derfor bedst som en skadevoldende utilsigtet hændelse. Det er ikke en nærhændelse, fordi skaden faktisk sker, og patienten kan ikke forventes at følge en instruktion, som ikke er givet.",
-          "source": "Medicinhåndteringsprøve februar 2023 · opgave 18"
+          "source": "Medicinhåndteringsprøve februar 2023 · opgave 18",
+          "explanations": [
+            "Patienten kan ikke forventes at følge en instruktion, som ikke er givet.",
+            "Svimmelhed kan være en bivirkning, men hele skadeforløbet klassificeres bedst som en utilsigtet hændelse.",
+            "Patienten kommer til skade i forbindelse med behandlingsforløbet, hvor relevant information og faldforebyggelse svigter. Hændelsen beskrives derfor bedst som en skadevoldende utilsigtet hændelse. Det er ikke en nærhændelse, fordi skaden faktisk sker, og patienten kan ikke forventes at følge en instruktion, som ikke er givet.",
+            "En nærhændelse medfører ikke den beskrevne faktiske skade."
+          ]
         },
         {
           "q": "En patient skal have 1 mg af et lægemiddel, som har styrken 2 mg/ml. Hvor mange ml skal patienten have?",
@@ -180,7 +253,13 @@ export const pharmacologyPath = {
           ],
           "correct": 0,
           "why": "Volumen = dosis ÷ styrke = 1 mg ÷ 2 mg/ml = 0,5 ml. Kontrol: 0,5 ml × 2 mg/ml = 1 mg. De øvrige volumener ville give mere end den ordinerede dosis.",
-          "source": "Medicinhåndteringsprøve november 2020 · opgave 4"
+          "source": "Medicinhåndteringsprøve november 2020 · opgave 4",
+          "explanations": [
+            "Volumen = dosis ÷ styrke = 1 mg ÷ 2 mg/ml = 0,5 ml. Kontrol: 0,5 ml × 2 mg/ml = 1 mg. De øvrige volumener ville give mere end den ordinerede dosis.",
+            "1 ml indeholder 2 mg, dobbelt den ordinerede dosis.",
+            "2 ml indeholder 4 mg.",
+            "5 ml indeholder 10 mg."
+          ]
         },
         {
           "q": "Hvilket udsagn er sandt?",
@@ -192,7 +271,13 @@ export const pharmacologyPath = {
           ],
           "correct": 2,
           "why": "Ved fysisk afhængighed kan gradvis, individuelt planlagt udtrapning mindske abstinenser. Teratogen betyder fosterskadende, ikke kræftfremkaldende. Allergiske reaktioner forebygges ikke pålideligt ved at sænke dosis. Tolerance betyder typisk, at samme dosis giver mindre effekt; dosisændringer kræver en klinisk vurdering.",
-          "source": "Medicinhåndteringsprøve februar 2021 · opgave 13"
+          "source": "Medicinhåndteringsprøve februar 2021 · opgave 13",
+          "explanations": [
+            "Teratogen betyder fosterskadende; karcinogen betyder kræftfremkaldende.",
+            "Dosisreduktion er ikke en pålidelig måde at forebygge allergi på.",
+            "Ved fysisk afhængighed kan gradvis, individuelt planlagt udtrapning mindske abstinenser. Teratogen betyder fosterskadende, ikke kræftfremkaldende. Allergiske reaktioner forebygges ikke pålideligt ved at sænke dosis. Tolerance betyder typisk, at samme dosis giver mindre effekt; dosisændringer kræver en klinisk vurdering.",
+            "Tolerance betyder mindre effekt af samme dosis; dosisændring kræver klinisk vurdering."
+          ]
         },
         {
           "q": "Hvilket udsagn om antineoplastiske lægemidler er sandt?",
@@ -204,7 +289,13 @@ export const pharmacologyPath = {
           ],
           "correct": 1,
           "why": "Alkylerende cytostatika kan skade DNA og øge risikoen for sekundær cancer. Neuropati og udtalt leukopeni afhænger af det konkrete præparat og er ikke korrekt beskrevet som i de øvrige svar. Hårtab ved cytostatika er oftest reversibelt, selv om vedvarende hårtab kan forekomme ved nogle behandlinger.",
-          "source": "Medicinhåndteringsprøve november 2024 · opgave 22"
+          "source": "Medicinhåndteringsprøve november 2024 · opgave 22",
+          "explanations": [
+            "Neuropati er knyttet til visse præparater, ikke alle cytostatika.",
+            "Alkylerende cytostatika kan skade DNA og øge risikoen for sekundær cancer. Neuropati og udtalt leukopeni afhænger af det konkrete præparat og er ikke korrekt beskrevet som i de øvrige svar. Hårtab ved cytostatika er oftest reversibelt, selv om vedvarende hårtab kan forekomme ved nogle behandlinger.",
+            "Leukopeni er især kendt ved mange cytostatika; antistoffers bivirkninger afhænger af præparatet.",
+            "Hårtabet er oftest reversibelt, men vedvarende hårtab kan forekomme."
+          ]
         }
       ]
     },
@@ -223,7 +314,13 @@ export const pharmacologyPath = {
           ],
           "correct": 0,
           "why": "Nyrefunktionen skal kontrolleres før og under metforminbehandling, som udgangspunkt mindst årligt og hyppigere ved øget risiko eller nedsat nyrefunktion. GLP-1-analoger alene giver normalt lav risiko for hypoglykæmi. Større operationer kan øge insulinbehovet, og SGLT-2-hæmmere giver typisk et mindre vægttab frem for vægtøgning.",
-          "source": "Medicinhåndteringsprøve november 2021 · opgave 22"
+          "source": "Medicinhåndteringsprøve november 2021 · opgave 22",
+          "explanations": [
+            "Nyrefunktionen skal kontrolleres før og under metforminbehandling, som udgangspunkt mindst årligt og hyppigere ved øget risiko eller nedsat nyrefunktion. GLP-1-analoger alene giver normalt lav risiko for hypoglykæmi. Større operationer kan øge insulinbehovet, og SGLT-2-hæmmere giver typisk et mindre vægttab frem for vægtøgning.",
+            "GLP-1-agonister alene giver normalt lav risiko for hypoglykæmi.",
+            "Operationsstress kan øge insulinbehovet; det vurderes individuelt.",
+            "SGLT-2-hæmmere giver typisk et mindre vægttab."
+          ]
         },
         {
           "q": "Hvilket udsagn om kræftbehandling er sandt?",
@@ -235,7 +332,13 @@ export const pharmacologyPath = {
           ],
           "correct": 1,
           "why": "Mange cytostatika hæmmer knoglemarven. Derfor kontrolleres blandt andet trombocyt- og leukocyttal før behandlingen. Cytostatika kombineres ofte for at øge effekt og modvirke resistens. Amning er som udgangspunkt uforenelig med cytostatikabehandling, og lungefibrose er en præparatspecifik risiko, ikke en generel bivirkning til alle cytostatika.",
-          "source": "Medicinhåndteringsprøve november 2025 · opgave 17"
+          "source": "Medicinhåndteringsprøve november 2025 · opgave 17",
+          "explanations": [
+            "Kombinationer bruges ofte for at øge effekt og begrænse resistens.",
+            "Mange cytostatika hæmmer knoglemarven. Derfor kontrolleres blandt andet trombocyt- og leukocyttal før behandlingen. Cytostatika kombineres ofte for at øge effekt og modvirke resistens. Amning er som udgangspunkt uforenelig med cytostatikabehandling, og lungefibrose er en præparatspecifik risiko, ikke en generel bivirkning til alle cytostatika.",
+            "Amning er som udgangspunkt uforenelig med cytostatikabehandling; følg konkret præparatvejledning.",
+            "Lungefibrose er en præparatspecifik risiko, ikke en generel effekt af alle cytostatika."
+          ]
         },
         {
           "q": "Hvad er et prodrug?",
@@ -247,7 +350,13 @@ export const pharmacologyPath = {
           ],
           "correct": 0,
           "why": "Et prodrug omdannes i kroppen til en aktiv forbindelse, som giver den tilsigtede virkning. Betegnelsen handler ikke om samtidig administration med et andet lægemiddel eller om særlig hurtig absorption eller elimination.",
-          "source": "Medicinhåndteringsprøve februar 2021 · opgave 15"
+          "source": "Medicinhåndteringsprøve februar 2021 · opgave 15",
+          "explanations": [
+            "Et prodrug omdannes i kroppen til en aktiv forbindelse, som giver den tilsigtede virkning. Betegnelsen handler ikke om samtidig administration med et andet lægemiddel eller om særlig hurtig absorption eller elimination.",
+            "Et prodrug er en forløber til en aktiv forbindelse, ikke et middel defineret ved kombinationsbehandling.",
+            "Betegnelsen beskriver aktivering, ikke absorptionshastighed.",
+            "Betegnelsen beskriver aktivering, ikke eliminationshastighed."
+          ]
         },
         {
           "q": "En patient skal have en infusion med 40 mg af et lægemiddel. Infusionen skal gives med en hastighed på 10 mg/time. Hvor lang tid tager infusionen?",
@@ -259,7 +368,13 @@ export const pharmacologyPath = {
           ],
           "correct": 3,
           "why": "Tid = samlet mængde ÷ hastighed = 40 mg ÷ 10 mg/time = 4 timer. Ved 2 timer gives kun 20 mg; ved 15 og 25 minutter gives endnu mindre. Enhedskontrollen giver timer.",
-          "source": "Medicinhåndteringsprøve november 2021 · opgave 6"
+          "source": "Medicinhåndteringsprøve november 2021 · opgave 6",
+          "explanations": [
+            "På 15 minutter gives 2,5 mg ved 10 mg/time.",
+            "På 25 minutter gives cirka 4,17 mg.",
+            "På 2 timer gives kun 20 mg.",
+            "Tid = samlet mængde ÷ hastighed = 40 mg ÷ 10 mg/time = 4 timer. Ved 2 timer gives kun 20 mg; ved 15 og 25 minutter gives endnu mindre. Enhedskontrollen giver timer."
+          ]
         },
         {
           "q": "En patient får ved en fejl 10 ml morfin med styrken 20 mg/ml. Hvor mange mg morfin har patienten fået?",
@@ -271,9 +386,16 @@ export const pharmacologyPath = {
           ],
           "correct": 3,
           "why": "Mængde = volumen × styrke = 10 ml × 20 mg/ml = 200 mg. De øvrige svar undervurderer mængden. Opgaven beskriver en medicineringsfejl; tallet er en beregning af den givne mængde og ikke en dosisvejledning.",
-          "source": "Medicinhåndteringsprøve november 2020 · opgave 5"
+          "source": "Medicinhåndteringsprøve november 2020 · opgave 5",
+          "explanations": [
+            "Her skal volumen multipliceres med styrken, ikke divideres.",
+            "10 mg forveksler volumenangivelsen med lægemiddelmængden.",
+            "20 mg findes i 1 ml, ikke i de indgivne 10 ml.",
+            "Mængde = volumen × styrke = 10 ml × 20 mg/ml = 200 mg. De øvrige svar undervurderer mængden. Opgaven beskriver en medicineringsfejl; tallet er en beregning af den givne mængde og ikke en dosisvejledning."
+          ]
         }
       ]
     }
-  ]
+  ],
+  "contentVersion": 2
 };
