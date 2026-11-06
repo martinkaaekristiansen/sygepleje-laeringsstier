@@ -33,6 +33,7 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
     await page.locator('[data-passage]').filter({hasText:'Aorta ascendens'}).click();await page.locator('#blood-feedback').waitFor();
     assert.match(await page.locator('.blood-lives').getAttribute('aria-label'),/^1 /);assert.match(await page.locator('.blood-message').textContent(),/ingen direkte forbindelse/);
    }
+   if(['rv','lv'].includes(s.id)){await page.locator('.blood-play').screenshot({path:'/tmp/blood-trabeculae-'+s.id+'-desktop.png'});assert.match(await page.locator('.blood-world-caption').textContent(),/trabekler/);assert.ok(Number(await page.locator('canvas').getAttribute('data-triangles'))<150000,'ventricular triangle budget');}
    if(s.id==='pcapillaries'){
     await page.waitForTimeout(4100);
     await page.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-lung-desktop.png'});
@@ -62,7 +63,7 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
   const hard=BLOOD_LEVELS.hard;
   for(let i=0;i<hard.choices.length;i++){
    const s=hard.steps[i];
-   if(s.kind==='semilunar'||s.kind.startsWith('av-')||s.id==='pcapillaries'){
+   if(s.kind==='semilunar'||s.kind.startsWith('av-')||s.id==='pcapillaries'||['rv','lv'].includes(s.id)){
     const bounds=await mobile.locator('.blood-world').boundingBox();
     for(const b of await mobile.locator('[data-passage]').all()){const box=await b.boundingBox();assert.ok(box.x>=bounds.x&&box.x+box.width<=bounds.x+bounds.width&&box.y>=bounds.y&&box.y+box.height<=bounds.y+bounds.height,'valve/lung labels fit mobile');}
     const before=await mobile.locator('.blood-world canvas').screenshot();await mobile.waitForTimeout(200);const after=await mobile.locator('.blood-world canvas').screenshot();assert.ok(after.equals(before),'reduced motion is static');

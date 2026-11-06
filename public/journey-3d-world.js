@@ -1,6 +1,7 @@
 import * as T from './three.module.min.js';
 import {vesselGeometry,cellGeometry,wallMaterial} from './journey-3d-geometry.js';
 import {visualAnatomy,anatomyCurves,lumenGeometry,lumenRadius,oxygenAt,gasRadius,addAnatomy} from './journey-3d-anatomy.js';
+import {myocardiumMaterial} from './journey-myocardium.js';
 import {cardiacCycle,valveOpening,valveTransit} from './journey-physiology.js';
 const forward=new T.Vector3(0,0,-1),up=new T.Vector3(0,1,0),ease=t=>t*t*(3-2*t);
 export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,onReady=()=>{},onFrame=()=>{},onError=()=>{},quality='auto'}={}){
@@ -71,15 +72,17 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   mode='loading';ready=false;flight=null;const built=await prepare(visual,next);if(disposed||token!==entry||!built)return;
   if(root){scene.remove(root);disposeTree(root);}pickPlanes.length=0;markers.length=0;anchors.length=0;
   stage=visual;curves=built.curves;age=0;distance=.16;hover=-1;dirty=true;root=new T.Group();scene.add(root);
-  const material=wallMaterial(stage.cap,stage.radius);material.color.set(stage.cap?0xb06870:stage.chamber?0x793542:stage.kind==='vein'?0x874652:0x9c4447);
+  const ventricular=['right-ventricle','left-ventricle'].includes(stage.kind);
+  const material=ventricular?myocardiumMaterial():wallMaterial(stage.cap,stage.radius);
+  if(!ventricular)material.color.set(stage.cap?0xb06870:stage.chamber?0x793542:stage.kind==='vein'?0x874652:0x9c4447);
   if(stage.cap&&stage.profile.pulmonary)material.opacity=.4;
   wall=new T.Mesh(built.geometry,material);root.add(wall);
   if(oldPoint){root.quaternion.setFromUnitVectors(curves.parent.getTangentAt(distance),oldDir);root.position.copy(oldPoint).sub(curves.parent.getPointAt(distance).applyQuaternion(root.quaternion));}root.updateMatrixWorld(true);
   cells=new T.InstancedMesh(cellGeo,cellMat,44);cells.count=stage.cap?8:low?24:44;cells.instanceMatrix.setUsage(T.DynamicDrawUsage);cells.frustumCulled=false;root.add(cells);
-  extras=addAnatomy(root,stage,curves,low);gas=null;
+  extras=addAnatomy(root,stage,curves,low,built.geometry);gas=null;
   if(stage.cap){const mat=new T.MeshStandardMaterial({color:0xffffff,roughness:.65,emissive:0x271a10,emissiveIntensity:.1});gas=new T.InstancedMesh(new T.SphereGeometry(1,8,6),mat,low?16:24);for(let i=0;i<gas.count;i++)gas.setColorAt(i,new T.Color(i%2?0xd0d1c6:0xf4d3a0));root.add(gas);}
   for(let i=0;i<2;i++){
-   const center=stage.branch?curves.branches[i].getPointAt(.23):curves.parent.getPointAt(stage.valve?.73:.68).add(v.set((i?1:-1)*stage.radius*(stage.valve?.72:.48),stage.valve?-stage.radius*.64:0,0));anchors.push(center);
+   const center=stage.branch?curves.branches[i].getPointAt(.23):curves.parent.getPointAt(ventricular?.56:stage.valve?.73:.68).add(v.set((i?1:-1)*stage.radius*(ventricular?.65:stage.valve?.72:.48),ventricular?-stage.radius*.30:stage.valve?-stage.radius*.64:0,0));anchors.push(center);
    const plane=new T.Mesh(new T.PlaneGeometry(stage.radius*.7,stage.radius*.85),new T.MeshBasicMaterial({visible:false,side:T.DoubleSide}));plane.position.copy(center);plane.userData.side=i;root.add(plane);pickPlanes.push(plane);
    if(!stage.branch){const marker=new T.Mesh(new T.ConeGeometry(stage.radius*.08,stage.radius*.24,6),new T.MeshStandardMaterial({color:0xd9bba2,roughness:.6,transparent:true,opacity:.65}));marker.rotation.x=-Math.PI/2;marker.position.copy(center);root.add(marker);markers.push(marker);}
   }
@@ -114,7 +117,7 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   if(root&&!document.hidden){
    if(!paused&&!motion.matches){elapsed+=dt;age+=dt;}
    if(!paused&&mode==='approach'){
-    const stop=stage.branch?.92:stage.valve?(camera.aspect<.75?.55:.60):.57;
+    const stop=stage.branch?.92:stage.chamber&&stage.kind!=='atrium'?.43:stage.valve?(camera.aspect<.75?.55:.60):.57;
     if(motion.matches)distance=stop;else distance=Math.min(stop+.012,distance+dt*(distance<stop?(stage.cap?.08:.14):.001));
     onCurve(distance);if(distance>=stop&&!ready){ready=true;onReady();}
    }else if(!paused&&flight)advanceFlight(dt);

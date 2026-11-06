@@ -20,7 +20,7 @@ Det eksisterende `progress['blodcellens-rejse'].bloodJourney` og de stabile trin
 
 - Arterier, arterioler og kapillærer har forskellige lumenstørrelser. Indgangen til et nyt kar tilpasses det foregående kars diameter, så indsnævring eller udvidelse sker langs en 3D-overflade.
 - Vener har en mere eftergivelig, fladtrykt form, roligere flow og svagere pulsation. Den perifere armvene har en åben, tofliget veneklap. Hulvener og lungevener har ingen klapper i modellen.
-- Forkamre og ventrikler har forskellige rumformer. Ventrikler har trabekler som tredimensionelle muskelstrukturer. Den venstre ventrikel har kraftigere muskelrelief end den højre. Vægtykkelsen er en kvalitativ illustration, ikke en måling.
+- Forkamre og ventrikler har forskellige rumformer. Ventrikler har trabekler som tredimensionelle muskelstrukturer. Højre ventrikel har grovere trabekler; venstre har finere trabekler og tykkere kompakt muskelvæg. Vægtykkelsen er en kvalitativ illustration, ikke en måling.
 - Trikuspidalklappen har tre sejl og mitralklappen to, med chordae tendineae og stiliserede papillærmuskler på ventrikelsiden. Semilunarklapperne har tre lommer uden chordae. Mellem-niveauets kammerpassager viser de mellemliggende klapper, selvom de ikke er separate spørgsmål. På Svær er klapperne egne trin.
 - Klapper, hjertevægge og lyd bruger samme hjerteur. AV-klapper åbner i diastolen og semilunarklapper i uddrivningsfasen. Kamerapassagen venter på den åbne fase. Hvis en langsom renderer springer tidsvinduet over, venter den på næste slag.
 - Kapillærer har en tynd, delvist transparent undervisningsvæg og blodceller i én række. Pulmonale kapillærer viser alveoler udenfor væggen, diskret respiration og O₂ ind i blodet / CO₂ ud. I muskelkapillærerne går retningerne omvendt.
@@ -64,3 +64,7 @@ Kør `npm run dev` og åbn `http://localhost:3000/#/sti/blodcellens-rejse/blood-
 ## Klapopgraderingen i version 0.7.0
 
 Se [hjerteklapper-3d.md](hjerteklapper-3d.md) for de fire modeller, undersøgte åbne modelkilder, anatomiske afgrænsninger og nye tests.
+
+## Trabekler i version 0.8.0
+
+Se [trabekler-3d.md](trabekler-3d.md) for sammenhængende endokardialt muskelrelief, fastgjorte muskelbroer og afrundede papillærmuskler.

@@ -1,10 +1,11 @@
 import * as T from './three.module.min.js';
+import {trabecularField,smoothWallSeam,myocardiumMaterial,trabecularBridges} from './journey-myocardium.js';
 const TAU=Math.PI*2,V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z),lerp=T.MathUtils.lerp;
 // Local coordinates: upstream +Z, ventricular/arterial outflow -Z. These are
 // original teaching meshes, not patient scans or a fluid/solid mechanics model.
 export const VALVE_ANATOMY={
- tricuspid:{type:'av',names:['Anterior','Posterior','Septal'],angles:[-.35,2.10,3.93,TAU-.35],saddle:.09,ellipse:.91,papillary:['Anterior','Posterior','Septal'],muscle:.065},
- mitral:{type:'av',names:['Anterior','Posterior'],angles:[0,Math.PI,TAU],saddle:-.16,ellipse:.79,papillary:['Anterolateral','Posteromedial'],muscle:.12},
+ tricuspid:{type:'av',names:['Anterior','Posterior','Septal'],angles:[-.35,2.10,3.93,TAU-.35],saddle:.09,ellipse:.91,papillary:['Anterior','Posterior','Septal']},
+ mitral:{type:'av',names:['Anterior','Posterior'],angles:[0,Math.PI,TAU],saddle:-.16,ellipse:.79,papillary:['Anterolateral','Posteromedial']},
  pulmonaryValve:{type:'semilunar',names:['Anterior','Højre','Venstre'],angles:[-Math.PI/2,Math.PI/6,5*Math.PI/6,3*Math.PI/2],sinus:.13},
  aorticValve:{type:'semilunar',names:['Højre koronarflig','Venstre koronarflig','Non-koronarflig'],angles:[-Math.PI/6,Math.PI/2,7*Math.PI/6,11*Math.PI/6],sinus:.23,ostia:[0,1]},
  venousValve:{type:'venous',names:['Flig 1','Flig 2'],angles:[0,Math.PI,TAU],ellipse:1,saddle:0},
@@ -68,7 +69,7 @@ export function createValve(s,radius){
  const collagen=new T.DataTexture(pixels,64,64);collagen.wrapS=collagen.wrapT=T.RepeatWrapping;collagen.needsUpdate=true;
  const tissue=new T.MeshStandardMaterial({color:0xd9b5a0,roughness:.56,side:T.DoubleSide,metalness:0,bumpMap:collagen,bumpScale:.012});tissue.userData.ownedTextures=[collagen];
  const edgeMat=new T.MeshStandardMaterial({color:0xe5c8ad,roughness:.66});
- const muscle=new T.MeshStandardMaterial({color:s.id==='mitral'?0x9e4d53:0x8f4c57,roughness:.82,side:T.DoubleSide});
+ const muscle=av?myocardiumMaterial():null;
  // A thin fibrous hinge follows the actual nonplanar annulus / scalloped roots.
  for(let k=0;k<d.names.length;k++){
   const hinge=Array.from({length:33},(_,i)=>leafletPoint(s.id,k,i/32,0,0));
@@ -83,7 +84,9 @@ export function createValve(s,radius){
   for(let k=0;k<d.papillary.length;k++){
    const a=d.angles[k],tip=V(Math.cos(a)*.66,Math.sin(a)*.64,-1.37),base=V(Math.cos(a)*1.01,Math.sin(a)*.99,-2.12);
    const size=s.id==='mitral'?.18:k===2?.10:.15;
-   const pm=new T.Mesh(new T.ConeGeometry(size,base.distanceTo(tip),12,4),muscle);
+   const length=base.distanceTo(tip),outline=[[0,-.5],[1.2,-.5],[1.12,-.32],[.98,-.08],[.76,.14],[.48,.32],[.19,.46],[0,.5]].map(([r,y])=>new T.Vector2(r*size,y*length));
+   const papillaryGeometry=new T.LatheGeometry(outline,24);papillaryGeometry.setAttribute('color',new T.Float32BufferAttribute(new Float32Array(papillaryGeometry.attributes.position.count*3).fill(1),3));
+   const pm=new T.Mesh(papillaryGeometry,muscle);
    pm.position.copy(base).lerp(tip,.5);pm.quaternion.setFromUnitVectors(V(0,1,0),tip.clone().sub(base).normalize());pm.name='papillary-'+d.papillary[k];group.add(pm);
    papillary.push({tip,base,mesh:pm});
    // Each papillary group supports BOTH adjacent leaflets, including both
@@ -93,14 +96,19 @@ export function createValve(s,radius){
     chordLinks.push({muscle:k,leaf,u:fromStart?u:1-u,v:.76});
    }
   }
-  // Ventricular cuff and longitudinal trabeculae connect the muscle bases to
-  // the wall. Left-sided relief is thicker; no support apparatus on semilunars.
-  const cuff=patch(18,64,(u,v)=>{const a=u*TAU,hinge=annulus(d,a),r=1.04+.035*Math.sin(a*7+v*9),w=Math.min(1,v*4);return V(lerp(hinge.x,Math.cos(a)*r,w),lerp(hinge.y,Math.sin(a)*r,w),hinge.z*(1-w)-v*2.5);});
-  const wall=new T.Mesh(cuff,muscle);wall.name='ventricular-wall';group.add(wall);
-  for(let k=0;k<(s.id==='mitral'?14:10);k++){
-   const a=k*2.39996,points=Array.from({length:8},(_,i)=>{const z=-.75-i*.23,b=a+.035*Math.sin(i);return V(Math.cos(b)*1.015,Math.sin(b)*1.015,z);});
-   const ridge=tube(points,d.muscle,muscle);ridge.name='trabecula';group.add(ridge);
-  }
+  // The endocardium itself carries the trabeculae. Folds are continuous with
+  // the wall; RV is coarser, LV finer. Keep the annulus smooth and attached.
+  const field=trabecularField(s.id==='mitral'?'left':'right',2.5),cuffRows=88,cuffColumns=128;
+  const cuffPoint=(u,v)=>{
+   const a=u*TAU,hinge=annulus(d,a),relief=field.sample(a,(v-.10)/.90),r=1.04-relief,w=Math.min(1,v*4);
+   return V(lerp(hinge.x,Math.cos(a)*r,w),lerp(hinge.y,Math.sin(a)*r,w),hinge.z*(1-w)-v*2.5);
+  };
+  const cuff=patch(cuffRows,cuffColumns,cuffPoint);
+  const colors=[];for(let j=0;j<=cuffRows;j++)for(let i=0;i<=cuffColumns;i++){const shade=.72+.28*field.sample(i/cuffColumns*TAU,(j/cuffRows-.1)/.9)/field.profile.height;colors.push(shade,shade,shade);}
+  cuff.setAttribute('color',new T.Float32BufferAttribute(colors,3));smoothWallSeam(cuff,cuffRows,cuffColumns);cuff.userData.trabeculated=true;
+  const wall=new T.Mesh(cuff,muscle);wall.name='ventricular-wall';wall.userData.ventricle=s.id==='mitral'?'left':'right';group.add(wall);
+  group.add(trabecularBridges((a,t)=>({point:cuffPoint(a/TAU,.30+t*.65),outward:V(Math.cos(a),Math.sin(a),0)}),wall.userData.ventricle,1,muscle));
+
  }
  if(semi){
   // Three separate sinus bulges between the annulus and sinotubular junction.

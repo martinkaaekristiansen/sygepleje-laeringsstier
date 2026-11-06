@@ -13,7 +13,7 @@ To svar er fortsat rutehypoteser. Der tegnes ingen faktisk forbindelse mellem lu
 | Klap | Flige og tilhæftning | Støtteapparat | Bevægelse |
 | --- | --- | --- | --- |
 | Trikuspidal | Tre uens flige: anterior, posterior og septal. Den septale tilhæftning er fladere. | Tre illustrerede papillærmuskelgrupper; hver støtter to tilstødende flige gennem marginale og sekundære chordae. Trabekler og muskelbaser er forbundet med ventrikelvæggen. | Åbner ned i højre ventrikel under diastole. Lukker under systole. |
-| Mitral | To flige med forskellig form og areal; anterior og posterior. Sadelformet annulus med atriale højdepunkter anteriort/posteriort og lavere kommissurer samt diskret tredeling af den posteriore fligs overflade. | To papillærmuskelgrupper, anterolateral og posteromedial. **Begge** har chordae til begge flige. Kraftigere muskelrelief end på højre side. | Åbner ned i venstre ventrikel under diastole. Lukker under systole. |
+| Mitral | To flige med forskellig form og areal; anterior og posterior. Sadelformet annulus med atriale højdepunkter anteriort/posteriort og lavere kommissurer samt diskret tredeling af den posteriore fligs overflade. | To papillærmuskelgrupper, anterolateral og posteromedial. **Begge** har chordae til begge flige. Fra version 0.8.0: finere trabekler end på højre side; venstre ventrikels kompakte muskelvæg er tykkere. | Åbner ned i venstre ventrikel under diastole. Lukker under systole. |
 | Pulmonal | Tre halvmåneformede lommer, U-formede tilhæftninger og tre sinusudvidelser ved udløbet. | Ingen chordae eller papillærmuskler. | Åbner mod arterievæggen i systolen. De frie rande mødes centralt ved lukning. |
 | Aorta | Højre koronarflig, venstre koronarflig og non-koronarflig. Tre Valsalva-sinus og ostier i de to koronarsinus. | Ingen chordae eller papillærmuskler. Intet ostium i non-koronarsinus. | Åbner mod aortavæggen i systolen og lukker ved diastolens begyndelse. |
 
@@ -39,3 +39,7 @@ Undersøgt den 6. november 2026:
 - Åbne og lukkede modeller inspiceres desuden visuelt i Chromium/WebGL. Mobiltesten er browseremulering, ikke en test på fysisk telefon. SwiftShader i udviklingsmiljøet giver ikke et retvisende mål for en fysisk telefons GPU-ydelse.
 
 Der tilføjes ingen backend, API, abonnementer eller nye datalagre. Publicering sker gennem den eksisterende GitHub Pages-workflow efter ejerens udtrykkelige anmodning.
+
+## Trabekler i version 0.8.0
+
+Se [trabekler-3d.md](trabekler-3d.md) for den sammenhængende væg, muskelbroer og forskellen mellem højre og venstre ventrikel.
