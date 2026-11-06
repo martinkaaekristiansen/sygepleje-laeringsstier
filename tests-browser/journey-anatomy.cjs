@@ -23,7 +23,16 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
    const s=route.steps[i];
    await page.emulateMedia({reducedMotion:s.kind==='semilunar'||s.kind.startsWith('av-')?'no-preference':'reduce'});
    assert.equal(await page.locator('[data-passage]').count(),2);
-   if(s.id==='tricuspid')await page.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-valve-desktop.png'});
+   if(s.kind==='semilunar'||s.kind.startsWith('av-')){
+    const bounds=await page.locator('.blood-world').boundingBox();
+    for(const b of await page.locator('[data-passage]').all()){const box=await b.boundingBox();assert.ok(box.x>=bounds.x&&box.x+box.width<=bounds.x+bounds.width&&box.y>=bounds.y&&box.y+box.height<=bounds.y+bounds.height,'valve choices stay inside the scene');}
+    await page.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-'+s.id+'-desktop.png'});
+   }
+   if(s.id==='trunk'){
+    assert.deepEqual((await page.locator('[data-passage] strong').allTextContents()).sort(),['Aorta ascendens','Arteria pulmonalis dextra (højre lungearterie)'].sort());
+    await page.locator('[data-passage]').filter({hasText:'Aorta ascendens'}).click();await page.locator('#blood-feedback').waitFor();
+    assert.match(await page.locator('.blood-lives').getAttribute('aria-label'),/^1 /);assert.match(await page.locator('.blood-message').textContent(),/ingen direkte forbindelse/);
+   }
    if(s.id==='pcapillaries'){
     await page.waitForTimeout(4100);
     await page.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-lung-desktop.png'});
@@ -49,16 +58,20 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
   assert.match(await page.locator('.blood-result').textContent(),/Tillykke/);
   // Reduced motion stops ambient repainting, and touch controls remain visible.
   const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
-  await mobile.goto(base+'#/sti/blodcellens-rejse/blood-medium');await mobile.locator('[data-blood=start]').tap();await mobile.locator('[data-passage]').first().waitFor();
-  const medium=BLOOD_LEVELS.medium;
-  for(let i=0;i<11;i++){
-   await mobile.locator('[data-passage]').filter({hasText:medium.steps[i+1].name}).tap();await mobile.waitForFunction(n=>document.querySelector('[role=progressbar]')?.getAttribute('aria-valuenow')===String(n),i+1);
-   if(await mobile.locator('[data-blood=continue]').count())await mobile.locator('[data-blood=continue]').tap();await mobile.locator('[data-passage]').first().waitFor();
+  await mobile.goto(base+'#/sti/blodcellens-rejse/blood-hard');await mobile.locator('[data-blood=start]').tap();await mobile.locator('[data-passage]').first().waitFor();
+  const hard=BLOOD_LEVELS.hard;
+  for(let i=0;i<hard.choices.length;i++){
+   const s=hard.steps[i];
+   if(s.kind==='semilunar'||s.kind.startsWith('av-')||s.id==='pcapillaries'){
+    const bounds=await mobile.locator('.blood-world').boundingBox();
+    for(const b of await mobile.locator('[data-passage]').all()){const box=await b.boundingBox();assert.ok(box.x>=bounds.x&&box.x+box.width<=bounds.x+bounds.width&&box.y>=bounds.y&&box.y+box.height<=bounds.y+bounds.height,'valve/lung labels fit mobile');}
+    const before=await mobile.locator('.blood-world canvas').screenshot();await mobile.waitForTimeout(200);const after=await mobile.locator('.blood-world canvas').screenshot();assert.ok(after.equals(before),'reduced motion is static');
+    await mobile.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-'+s.id+'-mobile.png'});
+   }
+   await mobile.locator('[data-passage]').filter({hasText:hard.steps[i+1].name}).tap();
+   if(i<hard.choices.length-1){await mobile.waitForFunction(n=>document.querySelector('[role=progressbar]')?.getAttribute('aria-valuenow')===String(n),i+1);await mobile.locator('[data-passage]').first().waitFor();}
   }
-  const before=await mobile.locator('.blood-world canvas').screenshot();await mobile.waitForTimeout(200);const after=await mobile.locator('.blood-world canvas').screenshot();assert.ok(after.equals(before),'reduced motion renders a static anatomical view');
-  assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-  const bounds=await mobile.locator('.blood-world').boundingBox();for(const b of await mobile.locator('[data-passage]').all()){const box=await b.boundingBox();assert.ok(box.x>=bounds.x&&box.x+box.width<=bounds.x+bounds.width,'both anatomical labels fit inside the mobile scene');}
-  await mobile.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-lung-mobile.png'});
+  await mobile.locator('.blood-result').waitFor();assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   assert.deepEqual(errors,[]);
   console.log('PASS: full hard route with sound and moving valves, common source clock, continuous layers, responsive pulmonary view, reduced motion and measured software-browser frame timing');
  }finally{await browser.close();}

@@ -1,6 +1,8 @@
 import * as T from './three.module.min.js';
-import {anatomyProfile,isValve,isChamber,valveOpening,BREATH_PERIOD} from './journey-physiology.js';
+import {anatomyProfile,isValve,valveOpening,cardiacCycle,BREATH_PERIOD} from './journey-physiology.js';
 import {makeCurves,wallMaterial} from './journey-3d-geometry.js';
+import {createValve} from './journey-valves.js';
+export {createValve} from './journey-valves.js';
 const V=(x,y,z)=>new T.Vector3(x,y,z);
 
 // Visual dimensions only. Names and answer options ALWAYS come from blood-routes.
@@ -14,9 +16,9 @@ export function visualAnatomy(s,next){
   const implicit={ra:{id:'tricuspid',kind:'av-three'},la:{id:'mitral',kind:'av-two'},rv:{id:'pulmonaryValve',kind:'semilunar'},right:{id:'pulmonaryValve',kind:'semilunar'},lv:{id:'aorticValve',kind:'semilunar'},left:{id:'aorticValve',kind:'semilunar'}};
   if(implicit[s.id])valve=implicit[s.id];
  }
- return {...s,profile,radius,entry:radius,valve,branch:s.id==='trunk',chamber,cap,smallVein,
+ return {...s,profile,radius,entry:radius,valve,branch:false,chamber,cap,smallVein,
   shape:chamber?s.kind:cap?'capillary':isValve(s)?'valve':s.kind==='vein'?'vein':s.kind==='arch'?'arch':'arterial',
-  cacheKey:[s.kind,s.id==='trunk',radius,!!valve].join(':')};
+  cacheKey:[s.kind,s.id,radius,!!valve].join(':')};
 }
 export function anatomyCurves(s){
  const r=s.radius;
@@ -26,12 +28,19 @@ export function anatomyCurves(s){
   [V(0,0,2*r),V(.1*r,.04*r,-2*r),V(-.12*r,.08*r,-5*r),V(.15*r,-.07*r,-8*r),V(.32*r,.06*r,-11*r)]);
  return {parent,branches:[]};
 }
-export function lumenRadius(s,u){
- if(s.entry!==s.radius&&u<.42){const t=T.MathUtils.clamp((u-.1)/.32,0,1);return T.MathUtils.lerp(s.entry,lumenRadius({...s,entry:s.radius},u),t*t*(3-2*t));}
+function nativeRadius(s,u){
  if(s.chamber){const swell=Math.sin(Math.PI*Math.max(0,Math.min(1,(u-.06)/.88)));return s.radius*(.48+Math.pow(Math.max(0,swell),s.kind==='atrium'?.55:.85)*.9);}
  if(s.cap)return s.radius*(1-.1*u);
  if(s.kind==='arteriole')return s.radius*(1.15-.35*u);
  return s.radius*(1-.14*u);
+}
+export function lumenRadius(s,u){
+ if(s.entry!==s.radius&&u<.42){const t=T.MathUtils.clamp((u-.1)/.32,0,1);return T.MathUtils.lerp(s.entry,lumenRadius({...s,entry:s.radius},u),t*t*(3-2*t));}
+ const base=nativeRadius(s,u);
+ // Leave room around the sinus root / ventricular support cuff, including
+ // valves embedded in the easier levels' chamber scenes.
+ if(s.valve&&u>.67&&u<.96){const clearance=nativeRadius(s,.73)*1.30,blend=Math.min(1,(u-.67)/.05,(.96-u)/.04);return T.MathUtils.lerp(base,Math.max(base,clearance),Math.max(0,blend));}
+ return base;
 }
 export function lumenGeometry(s,curve,quality){
  const length=quality==='low'?64:100,radial=quality==='low'?28:44;
@@ -50,51 +59,11 @@ export function lumenGeometry(s,curve,quality){
 export function oxygenAt(s,u){const f=T.MathUtils.clamp((u-.12)/.72,0,1);return s.oxygen==='exchange-in'?f:s.oxygen==='exchange-out'?1-f:s.oxygen==='high'?1:0;}
 export function gasRadius(s,isOxygen,f){const outward=s.oxygen==='exchange-out'?isOxygen:!isOxygen;return s.radius*(outward?.2+f*1.7:1.9-f*1.7);}
 
-// Leaflets hinge along the annulus. AV valves carry chordae on the ventricular
-// side; semilunar cusps have no chordae. Never add holes through a septum.
-export function createValve(s,radius){
- const group=new T.Group(),av=s.kind.startsWith('av-'),count=['av-two','venous'].includes(s.kind)?2:3;
- const mat=new T.MeshStandardMaterial({color:0xc5978d,roughness:.64,side:T.DoubleSide});
- const ring=new T.Mesh(new T.TorusGeometry(radius,.05*radius,8,48),mat);group.add(ring);
- const leaves=[],cords=[];
- for(let k=0;k<count;k++){
-  const positions=[],indices=[],segments=16,rows=8,angle=k/count*Math.PI*2;
-  for(let j=0;j<=rows;j++)for(let i=0;i<=segments;i++){
-   const a=angle+(i/segments-.5)*Math.PI*2/count;
-   const radial=radius*(1-j/rows*.99);
-   positions.push(Math.cos(a)*radial,Math.sin(a)*radial,0);
-  }
-  for(let j=0;j<rows;j++)for(let i=0;i<segments;i++){const a=j*(segments+1)+i,b=a+segments+1;indices.push(a,b,a+1,b,b+1,a+1);}
-  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setIndex(indices);g.computeVertexNormals();
-  const mesh=new T.Mesh(g,mat);group.add(mesh);leaves.push({mesh,angle,segments,rows});
-  if(av)for(let t=0;t<3;t++){
-   const line=new T.Line(new T.BufferGeometry().setFromPoints([V(0,0,0),V(0,0,-radius*1.6)]),new T.LineBasicMaterial({color:0xd1b5a0}));group.add(line);cords.push({line,angle:angle+(t-1)*.25});
-  }
- }
- if(av)for(let i=0;i<count;i++){const a=i/count*Math.PI*2,papillary=new T.Mesh(new T.ConeGeometry(radius*.12,radius*.65,12),new T.MeshStandardMaterial({color:0x99505b,roughness:.8}));papillary.position.set(Math.cos(a)*radius*.77,Math.sin(a)*radius*.77,-radius*1.9);papillary.rotation.x=Math.PI/2;group.add(papillary);}
- group.userData.leafletCount=count;group.userData.chordae=av?cords.length:0;
- function update(open){
-  for(const leaf of leaves){const p=leaf.mesh.geometry.attributes.position;
-   for(let j=0;j<=leaf.rows;j++)for(let i=0;i<=leaf.segments;i++){
-    const f=j/leaf.rows,a=leaf.angle+(i/leaf.segments-.5)*Math.PI*2/count;
-    const radial=radius*(1-f*(.99-open*.82));
-    const z=-radius*(open*f*.95+(av?.05:.19)*Math.sin(Math.PI*f));
-    p.setXYZ(j*(leaf.segments+1)+i,Math.cos(a)*radial,Math.sin(a)*radial,z);
-   }p.needsUpdate=true;leaf.mesh.geometry.computeVertexNormals();
-  }
-  for(const cord of cords){const radial=radius*(.01+open*.82),p=cord.line.geometry.attributes.position;
-   p.setXYZ(0,Math.cos(cord.angle)*radial,Math.sin(cord.angle)*radial,-radius*open*.95);
-   p.setXYZ(1,Math.cos(cord.angle)*radius*.77,Math.sin(cord.angle)*radius*.77,-radius*1.65);p.needsUpdate=true;
-  }
- }
- update(0);return {group,update,definition:s};
-}
-
 export function addAnatomy(root,s,curves,low){
  const extras=new T.Group();root.add(extras);let valve=null,alveoli=null;
  const dummy=new T.Object3D();
  if(s.valve){
-  valve=createValve(s.valve,lumenRadius(s,.73)*.98);
+  valve=createValve(s.valve,nativeRadius(s,.73)*.98);
   valve.group.position.copy(curves.parent.getPointAt(.73));
   valve.group.quaternion.setFromUnitVectors(V(0,0,-1),curves.parent.getTangentAt(.73));extras.add(valve.group);
  }
@@ -118,7 +87,7 @@ export function addAnatomy(root,s,curves,low){
   }
  }
  return {group:extras,valve,update(time,reduced){
-  if(valve)valve.update(reduced?1:valveOpening(s.valve,time));
+  if(valve)valve.update(reduced?1:valveOpening(s.valve,time),reduced?0:cardiacCycle(time).contraction);
   if(alveoli){const breath=reduced?1:1+.025*Math.sin(time/BREATH_PERIOD*Math.PI*2);alveoli.children.forEach(m=>m.scale.setScalar(breath));}
  }};
 }

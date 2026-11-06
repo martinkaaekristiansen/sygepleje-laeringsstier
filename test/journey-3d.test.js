@@ -12,8 +12,8 @@ test('every original route has 3D anatomy; choices remain the original anatomica
   const run=newJourney(route);
   route.steps.forEach((s,i)=>{
    const v=visualAnatomy(s,route.steps[i+1]);assert.ok(v.radius>0);assert.equal(v.name,s.name);
-   // Only the real pulmonary bifurcation is physically modelled as a fork.
-   assert.equal(v.branch,s.id==='trunk');
+   // Incorrect hypotheses must never be drawn as actual anatomical openings.
+   assert.equal(v.branch,false);
    if(i<route.choices.length){const options=passages(route,{...run,index:i});assert.deepEqual(options.map(p=>p.name).sort(),[route.steps[i+1].name,route.choices[i].wrong.name].sort());assert.ok(options.every(p=>!/biceps|triceps|Aktivt|Hvilende|Mod højre arm/.test(p.name)));}
   });
  }

@@ -28,7 +28,7 @@ for(const route of Object.values(BLOOD_LEVELS)) {
  });
 }
 test('alternate real branches have a named target and a non-false anatomical explanation',()=>{
- const alt=Object.values(BLOOD_LEVELS).flatMap(r=>r.choices).filter(c=>c.wrong.category==='other-route');assert.equal(alt.length,3);
+ const alt=Object.values(BLOOD_LEVELS).flatMap(r=>r.choices).filter(c=>c.wrong.category==='other-route');assert.equal(alt.length,2);
  for(const c of alt){assert.match(c.wrong.explanation,/normal|anatomisk og fysiologisk mulige/);assert.match(c.wrong.explanation,/højre arm|højre lunge/);}
  const hard=BLOOD_LEVELS.hard;assert.equal(hard.steps.find(s=>s.id==='tricuspid').kind,'av-three');assert.equal(hard.steps.find(s=>s.id==='mitral').kind,'av-two');assert.equal(hard.steps.filter(s=>s.kind==='semilunar').length,2);
 });

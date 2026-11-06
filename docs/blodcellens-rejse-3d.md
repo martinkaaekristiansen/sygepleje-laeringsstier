@@ -6,7 +6,7 @@ Den gamle Canvas 2D-renderer `journey-scene.js` og den separate demonstrationsco
 
 ## Ruter, svar og lagring
 
-`blood-routes.js` er uændret. Det er den eneste kilde til de anatomiske navne, svarmuligheder, rækkefølger og fejlforklaringer. Demonstrationens svar som »Mod biceps« og »Aktivt muskelområde« findes ikke længere. Hvert valg viser nøjagtig de to navne fra den oprindelige rute.
+`blood-routes.js` er den eneste kilde til de anatomiske navne, svarmuligheder, rækkefølger og fejlforklaringer. Demonstrationens svar som »Mod biceps« og »Aktivt muskelområde« findes ikke længere. Hvert valg viser to navne fra rutefilen. Fra version 0.7.0 er venstre lungearterie erstattet af aorta ascendens som umulig direkte vej ved truncus pulmonalis.
 
 - Let: 11 strukturer og 10 overgange.
 - Mellem: 17 strukturer og 16 overgange.
@@ -26,7 +26,7 @@ Det eksisterende `progress['blodcellens-rejse'].bloodJourney` og de stabile trin
 - Kapillærer har en tynd, delvist transparent undervisningsvæg og blodceller i én række. Pulmonale kapillærer viser alveoler udenfor væggen, diskret respiration og O₂ ind i blodet / CO₂ ud. I muskelkapillærerne går retningerne omvendt.
 - Erytrocytter er lukkede bikonkave 3D-meshes. Deres røde nuance følger positionen gennem udvekslingsområdet. Iltfattigt blod er stadig rødt og indeholder stadig bundet ilt.
 
-**Valgene er rutehypoteser.** De oprindelige distraktorer kan ikke alle tegnes som eksisterende karforbindelser: der er eksempelvis ingen normal åbning gennem hjertets skillevæg. Derfor ligger to tilgængelige markører i 3D-miljøet, mens kar og hjertekamre bevarer et sammenhængende lumen uden fiktive åbninger. Kun lungearteriestammens reelle todeling tegnes som en fysisk Y-forgrening. Et korrekt valg fører kameraet videre i den faktiske strømretning; en fejl giver en kort tilbagebevægelse og den oprindelige forklaring.
+**Valgene er rutehypoteser.** De oprindelige distraktorer kan ikke alle tegnes som eksisterende karforbindelser: der er eksempelvis ingen normal åbning gennem hjertets skillevæg. Derfor ligger to tilgængelige markører i 3D-miljøet, mens kar og hjertekamre bevarer et sammenhængende lumen uden fiktive åbninger. Der tegnes ingen fiktiv Y-forgrening til en forkert svarmulighed. Et korrekt valg fører kameraet videre i den faktiske strømretning; en fejl giver en kort tilbagebevægelse og den oprindelige forklaring.
 
 Modellen er en pædagogisk visualisering, ikke en målfast eller klinisk valideret anatomisk simulator. Belysning inde i blodbanen, synlige gasmarkører, nedsat celletæthed og gennemsigtighed er bevidste undervisningshjælpemidler.
 
@@ -36,11 +36,12 @@ Projektet er en JavaScript-app med ES-moduler. Three.js bruges direkte; React Th
 
 | Fil | Ansvar |
 | --- | --- |
-| `blood-routes.js` | Uændrede ruter, navne og feedback. |
+| `blood-routes.js` | Ruter, navne og feedback. |
 | `journey-engine.js` | Tilstand, liv, score og vedvarende medaljer. |
 | `blood-game.js` | Alle tre niveauers brugerflade, input og eksisterende IndexedDB-lagring. |
 | `journey-3d-world.js` | Én vedvarende WebGL-renderer, kamera, instancing, lys, raycasting og oprydning. |
-| `journey-3d-anatomy.js` | Lumenprofiler, hjertekamre, klapper, chordae, trabekler, alveoler og gasretning. |
+| `journey-3d-anatomy.js` | Lumenprofiler, hjertekamre, klapplacering, trabekler, alveoler og gasretning. |
+| `journey-valves.js` | Fire forskellige deformerbare klapper, chordae, papillærmuskler og sinus. |
 | `journey-3d-geometry.js` | Bikonkav erytrocyt, sammenhængende Y-mesh og lokale teksturer. |
 | `journey-physiology.js`, `journey-audio.js` | De eksisterende lydzoner, rytmer og tre kontinuerlige lydlag. |
 | `journey-guide.js` | Eksisterende funfacts og kropskort. |
@@ -59,3 +60,7 @@ Visuelle kontroller udføres i Chromium med software-WebGL (SwiftShader), også 
 ## Lokal afprøvning
 
 Kør `npm run dev` og åbn `http://localhost:3000/#/sti/blodcellens-rejse/blood-easy`. Alle tre niveauer vælges i samme menu. `npm run build:preview:3d` genererer en selvstændig HTML-kopi med alle tre niveauer; lokal HTTP anbefales, hvis browseren begrænser åbning af lokale HTML-filer.
+
+## Klapopgraderingen i version 0.7.0
+
+Se [hjerteklapper-3d.md](hjerteklapper-3d.md) for de fire modeller, undersøgte åbne modelkilder, anatomiske afgrænsninger og nye tests.

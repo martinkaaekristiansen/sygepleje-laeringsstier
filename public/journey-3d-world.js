@@ -58,7 +58,7 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
    pos.x+=Math.cos(seed.angle)*radial;pos.y+=Math.sin(seed.angle)*radial*(stage.kind==='right-ventricle'?.8:1);
    dummy.position.copy(pos);dummy.quaternion.setFromUnitVectors(forward,tangent);
    q.setFromAxisAngle(v.set(cap?0:1,cap?1:.4,0).normalize(),cap?Math.sin(elapsed*.3+i)*.2:seed.spin+elapsed*.12);dummy.quaternion.multiply(q);
-   const sizeVisible=pos.distanceTo(eye)<(cap?1.8:2.8)?0:size;
+   const sizeVisible=pos.distanceTo(eye)<(cap?1.8:2.8)||stage.valve&&u>.55&&u<.84?0:size;
    dummy.scale.set(sizeVisible*(cap?.81:1),sizeVisible*(cap?.94:1),sizeVisible*(cap?1.35:1));dummy.updateMatrix();cells.setMatrixAt(i,dummy.matrix);cells.setColorAt(i,colour.lerpColors(lowRed,highRed,oxygenAt(stage,u)));
   }
   cells.instanceMatrix.needsUpdate=true;cells.instanceColor.needsUpdate=true;
@@ -79,12 +79,12 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   extras=addAnatomy(root,stage,curves,low);gas=null;
   if(stage.cap){const mat=new T.MeshStandardMaterial({color:0xffffff,roughness:.65,emissive:0x271a10,emissiveIntensity:.1});gas=new T.InstancedMesh(new T.SphereGeometry(1,8,6),mat,low?16:24);for(let i=0;i<gas.count;i++)gas.setColorAt(i,new T.Color(i%2?0xd0d1c6:0xf4d3a0));root.add(gas);}
   for(let i=0;i<2;i++){
-   const center=stage.branch?curves.branches[i].getPointAt(.23):curves.parent.getPointAt(.68).add(v.set((i?1:-1)*stage.radius*.48,0,0));anchors.push(center);
+   const center=stage.branch?curves.branches[i].getPointAt(.23):curves.parent.getPointAt(stage.valve?.73:.68).add(v.set((i?1:-1)*stage.radius*(stage.valve?.72:.48),stage.valve?-stage.radius*.64:0,0));anchors.push(center);
    const plane=new T.Mesh(new T.PlaneGeometry(stage.radius*.7,stage.radius*.85),new T.MeshBasicMaterial({visible:false,side:T.DoubleSide}));plane.position.copy(center);plane.userData.side=i;root.add(plane);pickPlanes.push(plane);
    if(!stage.branch){const marker=new T.Mesh(new T.ConeGeometry(stage.radius*.08,stage.radius*.24,6),new T.MeshStandardMaterial({color:0xd9bba2,roughness:.6,transparent:true,opacity:.65}));marker.rotation.x=-Math.PI/2;marker.position.copy(center);root.add(marker);markers.push(marker);}
   }
   scene.fog=new T.FogExp2(stage.cap?0x42262a:0x300c14,.035/stage.radius);
-  key.distance=stage.radius*25;key.shadow.camera.far=stage.radius*25;fill.distance=stage.radius*15;fill.intensity=stage.chamber?.35:.15;depth.distance=stage.radius*18;
+  key.distance=stage.radius*25;key.shadow.camera.far=stage.radius*25;fill.distance=stage.radius*15;fill.intensity=stage.valve?.6:stage.chamber?.35:.15;depth.distance=stage.radius*18;
   camera.far=stage.radius*40;camera.updateProjectionMatrix();onCurve(distance,true);
   canvas.dataset.stage=s.id;canvas.dataset.meshQuality=built.quality;canvas.dataset.shape=stage.shape;canvas.dataset.valve=stage.valve?.id||'';canvas.dataset.chordae=String(extras.valve?.group.userData.chordae||0);canvas.dataset.leaflets=String(extras.valve?.group.userData.leafletCount||0);canvas.dataset.pulmonary=String(stage.profile.pulmonary);
   mode='approach';applyQuality();wake();
@@ -95,13 +95,13 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   if(stage.valve){
    if(f.age<.55){onCurve(T.MathUtils.lerp(f.from,.67,ease(f.age/.55)));return;}
    if(f.crossStart===null){const t=valveTransit(stage.valve,clock());f.crossStart=clock()+t.wait;f.crossDuration=t.duration;}
-   const crossing=(clock()-f.crossStart)/f.crossDuration;
+   const crossing=(clock()-f.crossStart)/f.crossDuration,crossEnd=stage.valve.kind.startsWith('av-')?.83:.80;
    if(crossing<0){onCurve(.67);return;}
-   if(crossing<=1){const u=T.MathUtils.lerp(.67,.79,ease(crossing));onCurve(u);if(u>=.73)f.crossed=true;return;}
+   if(crossing<=1){const u=T.MathUtils.lerp(.67,crossEnd,ease(crossing));onCurve(u);if(u>=.73)f.crossed=true;return;}
    // If a slow GPU skipped the open window, wait for the next beat rather
    // than jumping through closed cusps. The camera must cross on an open frame.
    if(!f.crossed){f.crossStart=null;onCurve(.67);return;}
-   const after=(clock()-f.crossStart-f.crossDuration)/.55;onCurve(T.MathUtils.lerp(.79,.94,ease(Math.min(1,after))));if(after>=1)completeFlight();return;
+   const after=(clock()-f.crossStart-f.crossDuration)/.55;onCurve(T.MathUtils.lerp(crossEnd,.94,ease(Math.min(1,after))));if(after>=1)completeFlight();return;
   }
   const e=ease(Math.min(1,f.age/1.8));
   if(stage.branch){if(e<.28)onCurve(T.MathUtils.lerp(f.from,1,e/.28));else{const u=(e-.28)/.72*.83;move(curves.branches[f.side].getPointAt(u),curves.branches[f.side].getTangentAt(u));}}
@@ -114,12 +114,12 @@ export async function createBloodWorld(canvas,{clock=()=>performance.now()/1000,
   if(root&&!document.hidden){
    if(!paused&&!motion.matches){elapsed+=dt;age+=dt;}
    if(!paused&&mode==='approach'){
-    const stop=stage.branch?.92:.57;
+    const stop=stage.branch?.92:stage.valve?(camera.aspect<.75?.55:.60):.57;
     if(motion.matches)distance=stop;else distance=Math.min(stop+.012,distance+dt*(distance<stop?(stage.cap?.08:.14):.001));
     onCurve(distance);if(distance>=stop&&!ready){ready=true;onReady();}
    }else if(!paused&&flight)advanceFlight(dt);
    const time=motion.matches||paused?0:clock(),cycle=cardiacCycle(time);
-   const pulse=motion.matches||paused?0:stage.chamber?-(stage.kind==='atrium'?cycle.atrialContraction*.025:cycle.contraction*.045):stage.profile.sound.pulse*cycle.contraction*.02;
+   const pulse=motion.matches||paused?0:stage.chamber||stage.valve?.kind.startsWith('av-')?-(stage.kind==='atrium'?cycle.atrialContraction*.025:cycle.contraction*.045):stage.profile.sound.pulse*cycle.contraction*.02;
    wall.scale.set(1+pulse,1+pulse,1);extras.group.scale.set(1+pulse,1+pulse,1);
    const dir=forward.clone().applyQuaternion(camera.quaternion);key.position.copy(camera.position).addScaledVector(up,stage.radius*.2);key.target.position.copy(camera.position).addScaledVector(dir,stage.radius*8);fill.position.copy(camera.position).addScaledVector(dir,-stage.radius*.5);depth.position.copy(local(curves.parent.getPointAt(.86)));
    markers.forEach((m,i)=>{m.material.opacity=i===hover?1:.65;});

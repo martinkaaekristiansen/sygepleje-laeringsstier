@@ -59,7 +59,7 @@ const W={
  tricuspid:wrong('Valva mitralis (mitralklappen)','Trikuspidalklappen sidder mellem højre forkammer og højre hjertekammer. Mitralklappen hører til venstre hjertehalvdel.'),
  pulmonaryValve:wrong('Valva aortae (aortaklappen)','Udløbet fra højre hjertekammer går gennem pulmonalklappen. Aortaklappen sidder ved venstre hjertekammers udløb.'),
  trunk:wrong('Aorta ascendens','Efter pulmonalklappen kommer truncus pulmonalis. Aorta ascendens ligger efter aortaklappen i venstre side.'),
- rpa:wrong('Arteria pulmonalis sinistra (venstre lungearterie)','Begge lungearterier er anatomisk og fysiologisk mulige. Målet i dette forsøg er højre lunge, så vælg arteria pulmonalis dextra. Venstre lungearterie fører til venstre lunge.','other-route'),
+ rpa:wrong('Aorta ascendens','Truncus pulmonalis fører blod fra højre ventrikel til lungearterierne. Der er normalt ingen direkte forbindelse herfra til aorta ascendens, som modtager blod fra venstre ventrikel gennem aortaklappen.'),
  mitral:wrong('Valva tricuspidalis (trikuspidalklappen)','Fra venstre forkammer passerer vi mitralklappen. Trikuspidalklappen forbinder højre forkammer med højre hjertekammer.'),
  aorticValve:wrong('Valva trunci pulmonalis (pulmonalklappen)','Venstre hjertekammer pumper gennem aortaklappen til aorta. Pulmonalklappen hører til højre hjertekammers udløb.'),
  ascending:wrong('Truncus pulmonalis','Efter aortaklappen er vi tilbage i aorta ascendens. Truncus pulmonalis modtager blod fra højre hjertekammer.'),

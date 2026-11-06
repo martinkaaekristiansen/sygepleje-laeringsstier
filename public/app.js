@@ -60,7 +60,7 @@ function render(focus) {
   window.speechSynthesis?.cancel();
   if(view==='home'&&!semesterSubjects(state.paths,semester).includes(subject))subject=ALL_SUBJECTS;
   const content=view==='home'?renderHome({paths:state.paths,progress:state.progress,semester,subject}):view==='learn'?learningView(state.paths.find(p=>p.id===current),index):'<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>';
-  $('#app').innerHTML=header()+`<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.6.0</span></footer>`;
+  $('#app').innerHTML=header()+`<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice?`<p class="notice" role="status">${esc(notice)}</p>`:''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.7.0</span></footer>`;
   if(view==='learn'&&current===BLOOD_PATH_ID){const path=state.paths.find(p=>p.id===current);disposeGame=mountBloodGame($('#blood-root'),{record:recordFor(path),initialLevel:path.steps[index].id.replace('blood-',''),save:options=>persist(options),exit:()=>go('#/'),onLevel:level=>{index=path.steps.findIndex(s=>s.id===levelStepId(level));history.replaceState(null,'',pathRoute(path,path.steps[index]));}});}
   displayStorage();
   $('.step-navigation')?.addEventListener('toggle',e=>{expanded=e.target.open;});
