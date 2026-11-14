@@ -80,7 +80,6 @@ export async function createBloodWorld(
   const cache = new Map(),
     persistent = new Set(),
     pickPlanes = [],
-    markers = [],
     anchors = [];
   const scene = new T.Scene();
   scene.background = new T.Color(0x2d0d14);
@@ -325,7 +324,6 @@ export async function createBloodWorld(
       disposeTree(root);
     }
     pickPlanes.length = 0;
-    markers.length = 0;
     anchors.length = 0;
     stage = visual;
     curves = built.curves;
@@ -428,21 +426,6 @@ export async function createBloodWorld(
       plane.userData.side = i;
       root.add(plane);
       pickPlanes.push(plane);
-      if (!stage.branch) {
-        const marker = new T.Mesh(
-          new T.ConeGeometry(stage.radius * 0.08, stage.radius * 0.24, 6),
-          new T.MeshStandardMaterial({
-            color: 0xd9bba2,
-            roughness: 0.6,
-            transparent: true,
-            opacity: 0.65,
-          }),
-        );
-        marker.rotation.x = -Math.PI / 2;
-        marker.position.copy(center);
-        root.add(marker);
-        markers.push(marker);
-      }
     }
     scene.fog = new T.FogExp2(stage.cap ? 0x42262a : 0x300c14, 0.035 / stage.radius);
     key.distance = stage.radius * 25;
@@ -593,9 +576,6 @@ export async function createBloodWorld(
       key.target.position.copy(camera.position).addScaledVector(dir, stage.radius * 8);
       fill.position.copy(camera.position).addScaledVector(dir, -stage.radius * 0.5);
       depth.position.copy(local(curves.parent.getPointAt(0.86)));
-      markers.forEach((m, i) => {
-        m.material.opacity = i === hover ? 1 : 0.65;
-      });
       if ((!paused && !motion.matches) || dirty) {
         drawCells();
         extras.update(time, motion.matches || paused);
