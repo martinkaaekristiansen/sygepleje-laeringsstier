@@ -175,7 +175,7 @@ test('every teaching question has option-specific feedback; answer length no lon
 test('the actual 0.9.1 catalogue updates in place, preserving previous responses and every historical completion', () => {
   const old = JSON.parse(readFileSync('test/fixtures/v091-state.json', 'utf8')),
     next = addNewBuiltins(old);
-  assert.equal(next.paths.length, 4);
+  assert.equal(next.paths.length, 5);
   assert.ok(validateState(next));
   const p = next.paths[0],
     r = next.progress[p.id],

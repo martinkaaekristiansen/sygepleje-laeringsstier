@@ -1,3 +1,5 @@
+import { digestionPath } from './digestion-data.js';
+import { validDigestion } from './digestion-engine.js';
 import { addBuiltinPaths } from './catalog.js';
 import { validJourney, validBloodProgress } from './journey-engine.js';
 import { contentFingerprint } from './content-version.js';
@@ -98,9 +100,13 @@ export function normalizePath(input, fresh = false) {
   }
   return p;
 }
-export const builtins = [pharmacologyPath, semester5Path, bloodPath, circulationPath].map((p) =>
-  normalizePath({ ...p, builtinId: p.id, builtinVersion: p.contentVersion || 1 }),
-);
+export const builtins = [
+  pharmacologyPath,
+  semester5Path,
+  bloodPath,
+  circulationPath,
+  digestionPath,
+].map((p) => normalizePath({ ...p, builtinId: p.id, builtinVersion: p.contentVersion || 1 }));
 export function emptyState() {
   return {
     schemaVersion: SCHEMA,
@@ -223,6 +229,7 @@ function validStateShape(state) {
   }
   for (const [key, p] of Object.entries(state.progress)) {
     if (!object(p)) return false;
+    if (p.digestion !== undefined && !validDigestion(p.digestion)) return false;
     if (p.bloodJourney !== undefined && !validBloodProgress(p.bloodJourney)) return false;
     if (
       p.bloodJourney?.active &&

@@ -65,7 +65,7 @@ const seed = (page, state) =>
     await page.locator('.continue-section').waitFor();
     const upgraded = await read(page),
       id = upgraded.paths[0].id;
-    assert.equal(upgraded.paths.length, 4);
+    assert.equal(upgraded.paths.length, 5);
     assert.equal(upgraded.paths[0].contentVersion, 2);
     assert.equal(
       upgraded.progress[id].notes[upgraded.paths[0].steps[0].id],
@@ -183,7 +183,7 @@ const seed = (page, state) =>
     await (await rescueEvent).saveAs('/tmp/quality-render-backup.json');
     const rescue = JSON.parse(fs.readFileSync('/tmp/quality-render-backup.json'));
     assert.equal(rescue.format, 'laeringsstier-backup');
-    assert.equal(rescue.state.paths.length, 4);
+    assert.equal(rescue.state.paths.length, 5);
     console.log(
       'Quality regression browser checks passed: upgrade, backup, corruption, XSS, focus, navigation and 320px layout.',
     );

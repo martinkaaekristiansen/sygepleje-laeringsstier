@@ -1,3 +1,5 @@
+import { DIGESTION_ID } from './digestion-data.js';
+import { mountDigestion } from './digestion-game.js';
 import { backupFile, restoreFile } from './backup.js';
 import { CIRCULATION_ID } from './circulation-data.js';
 import { mountCirculation } from './circulation-learning.js';
@@ -90,6 +92,7 @@ function header() {
   return `<a class="skip-link" href="#main-content">Spring til indhold</a><header><a href="#/" class="brand"><span class="logo" aria-hidden="true">⌁</span>Læringsstier<span class="beta">PROTOTYPE</span></a><nav aria-label="Hovednavigation"><a href="#/" class="${view === 'home' ? 'active' : ''}" ${view === 'home' ? 'aria-current="page"' : ''}>Udforsk</a></nav></header>`;
 }
 function learningView(path, stepIndex) {
+  if (path.id === DIGESTION_ID) return '<div id="digestion-root"></div>';
   if (path.id === CIRCULATION_ID) return '<div id="circulation-root"></div>';
   if (path.id === BLOOD_PATH_ID) return '<div id="blood-root"></div>';
   const record = state.progress[path.id] || { done: [], notes: {}, answers: {} };
@@ -134,7 +137,7 @@ function render(focus) {
         : '<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>';
   $('#app').innerHTML =
     header() +
-    `<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice ? `<p class="notice" role="status">${esc(notice)}</p>` : ''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.10.4</span><details class="content-status"><summary>Faglig status</summary><p>Indholdet afventer manuel faglig godkendelse. Medicinfacit, kliniske cases og anatomimodellen skal gennemgås af relevante fagpersoner. Materialet er til undervisning og erstatter ikke kliniske instrukser.</p></details><button class="text-button" data-action="backup">Hent mine data</button><label class="file-button">Gendan mine data<input id="restore-file" type="file" accept="application/json"></label></footer>`;
+    `<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice ? `<p class="notice" role="status">${esc(notice)}</p>` : ''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.11.0</span><details class="content-status"><summary>Faglig status</summary><p>Indholdet afventer manuel faglig godkendelse. Medicinfacit, kliniske cases og anatomimodellen skal gennemgås af relevante fagpersoner. Materialet er til undervisning og erstatter ikke kliniske instrukser.</p></details><button class="text-button" data-action="backup">Hent mine data</button><label class="file-button">Gendan mine data<input id="restore-file" type="file" accept="application/json"></label></footer>`;
   if (view === 'learn' && current === BLOOD_PATH_ID) {
     const path = state.paths.find((p) => p.id === current);
     disposeGame = mountBloodGame($('#blood-root'), {
@@ -158,6 +161,19 @@ function render(focus) {
         index = path.steps.findIndex((s) => s.id === `circulation-${activity}`);
         recordFor(path).last = path.steps[index].id;
         history.replaceState(null, '', pathRoute(path, path.steps[index]) + '/' + level);
+      },
+    });
+  }
+  if (view === 'learn' && current === DIGESTION_ID) {
+    const path = state.paths.find((p) => p.id === current);
+    disposeGame = mountDigestion($('#digestion-root'), {
+      record: recordFor(path),
+      initialCharacter: path.steps[index].id.replace('digestion-', ''),
+      save: (options) => persist(options),
+      onCharacter: (id) => {
+        index = path.steps.findIndex((s) => s.id === 'digestion-' + id);
+        recordFor(path).last = path.steps[index].id;
+        history.replaceState(null, '', pathRoute(path, path.steps[index]));
       },
     });
   }
@@ -234,7 +250,7 @@ async function click(event) {
     }
     return;
   }
-  if (event.target.closest('.blood-game,.circulation-learning')) return;
+  if (event.target.closest('.blood-game,.circulation-learning,.digestion-game')) return;
   const button = event.target.closest('button,[data-action]');
   if (!button || button.disabled) return;
   const d = button.dataset,
