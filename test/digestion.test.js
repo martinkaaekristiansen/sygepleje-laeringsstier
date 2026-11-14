@@ -372,7 +372,7 @@ test('selected product models retain their distinct structures between scenes', 
       'stanley',
       [
         ['polysaccharide', 14],
-        ['short-chain', 6],
+        ['short-chain', 4],
         ['maltose', 2],
         ['glucose', 1],
       ],
@@ -381,8 +381,8 @@ test('selected product models retain their distinct structures between scenes', 
       'poul',
       [
         ['protein', 12],
-        ['peptide', 6],
-        ['small-peptide', 3],
+        ['peptide', 4],
+        ['small-peptide', 2],
         ['amino-acid', 1],
       ],
     ],
@@ -392,6 +392,44 @@ test('selected product models retain their distinct structures between scenes', 
       assert.equal(m.userData.units.length, n);
       assert.equal(m.userData.form, form);
     }
+  }
+  // The followed molecule must be one of the connected products actually
+  // released by the preceding animation, rather than an unrelated new chain.
+  for (const [id, organ, input, output] of [
+    ['stanley', 'mouth', 'polysaccharide', 'short-chain'],
+    ['stanley', 'duodenum', 'short-chain', 'maltose'],
+    ['stanley', 'jejunum', 'maltose', 'glucose'],
+    ['poul', 'stomach', 'protein', 'peptide'],
+    ['poul', 'duodenum', 'peptide', 'small-peptide'],
+    ['poul', 'jejunum', 'small-peptide', 'amino-acid'],
+  ]) {
+    const m = nutrientModel(id, input);
+    m.userData.update(6, organ);
+    const sizes = [],
+      seen = new Set();
+    for (let i = 0; i < m.userData.units.length; i++) {
+      if (seen.has(i)) continue;
+      const queue = [i];
+      seen.add(i);
+      let size = 0;
+      while (queue.length) {
+        const node = queue.pop();
+        size++;
+        for (const l of m.userData.links.filter((l) => l.visible)) {
+          const { a, b } = l.userData,
+            other = a === node ? b : b === node ? a : null;
+          if (other !== null && !seen.has(other)) {
+            seen.add(other);
+            queue.push(other);
+          }
+        }
+      }
+      sizes.push(size);
+    }
+    assert.ok(
+      sizes.includes(nutrientModel(id, output).userData.units.length),
+      id + ' follows a released ' + output,
+    );
   }
   const maltose = nutrientModel('stanley', 'maltose');
   maltose.userData.update(5, 'jejunum');

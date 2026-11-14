@@ -62,12 +62,12 @@ export function nutrientModel(
     const count =
       {
         polysaccharide: 12,
-        'short-chain': 6,
+        'short-chain': 4,
         maltose: 2,
         glucose: 1,
         protein: 12,
-        peptide: 6,
-        'small-peptide': 3,
+        peptide: 4,
+        'small-peptide': 2,
         'amino-acid': 1,
       }[form] || 12;
     for (let i = 0; i < count; i++) {
@@ -112,7 +112,7 @@ export function nutrientModel(
           const fragment =
             organ === 'jejunum'
               ? i
-              : form === 'short-chain'
+              : ['short-chain', 'peptide'].includes(form)
                 ? Math.floor(i / 2)
                 : i < 4
                   ? 0
@@ -132,7 +132,8 @@ export function nutrientModel(
           ? type === 'ester-1' ||
             ((organ === 'duodenum' || form === 'lipid-products') && type === 'ester-3')
           : type !== 'alpha-1,6' &&
-            (organ === 'jejunum' || (form === 'short-chain' ? a % 2 === 1 : a === 3 || a === 7));
+            (organ === 'jejunum' ||
+              (['short-chain', 'peptide'].includes(form) ? a % 2 === 1 : a === 3 || a === 7));
       l.visible = !((state.cut || form === 'lipid-products') && cut);
       const start = units[a].position,
         end = units[b].position,
