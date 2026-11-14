@@ -1,8 +1,11 @@
-import { ROUTE, CHARACTERS, BOSSES } from './digestion-data.js';
+import { ROUTE, CHARACTERS, BOSSES, PRODUCTS } from './digestion-data.js';
 export function newDigestion(character) {
   if (!Object.hasOwn(CHARACTERS, character)) throw Error('Ukendt næringsstof');
   return {
     character,
+    routeVersion: 3,
+    completed: [],
+    product: initialProduct(character),
     index: 0,
     task: 0,
     phase: 'entry',
@@ -40,6 +43,8 @@ export function chooseDigestion(run, correct) {
     }
     run.task++;
     if (run.task === BOSSES[run.character][ROUTE[run.index].id].length) {
+      run.completed ??= [];
+      if (!run.completed.includes(ROUTE[run.index].id)) run.completed.push(ROUTE[run.index].id);
       run.task = 0;
       run.phase = 'reaction';
     }
@@ -65,7 +70,7 @@ export function retryDigestion(run) {
     run.phase = 'absorb-choice';
     return;
   }
-  run.phase = BOSSES[run.character][ROUTE[run.index].id] ? 'boss' : 'route';
+  run.phase = run.retryFrom === 'boss' ? 'boss' : 'route';
 }
 export function validDigestion(data) {
   const finite = (n) => Number.isFinite(n) && n >= 0;
@@ -74,10 +79,13 @@ export function validDigestion(data) {
     Object.hasOwn(CHARACTERS, r.character) &&
     Number.isInteger(r.index) &&
     r.index >= 0 &&
-    r.index < ROUTE.length &&
+    r.index < (r.routeVersion === 3 ? ROUTE.length : 18) &&
     Number.isInteger(r.task) &&
     r.task >= 0 &&
-    r.task < 3 &&
+    r.task <
+      (r.routeVersion === 3
+        ? Math.max(1, BOSSES[r.character][ROUTE[r.index]?.id]?.length || 1)
+        : 3) &&
     [
       'entry',
       'swallow',
@@ -98,14 +106,26 @@ export function validDigestion(data) {
     r.lives <= 2 &&
     (r.answered === undefined ||
       (Array.isArray(r.answered) &&
-        r.answered.length <= 9 &&
-        r.answered.every((k) => typeof k === 'string' && /^\d+:[012]$/.test(k)))) &&
+        r.answered.length <= 12 &&
+        r.answered.every((k) => typeof k === 'string' && /^\d+:[0-4]$/.test(k)))) &&
+    (r.routeVersion === undefined || r.routeVersion === 3) &&
+    (r.completed === undefined ||
+      (Array.isArray(r.completed) && r.completed.every((id) => ROUTE.some((s) => s.id === id)))) &&
+    (r.product === undefined || Object.hasOwn(PRODUCTS, r.product)) &&
     (r.absorbed === undefined || typeof r.absorbed === 'boolean') &&
     ['errors', 'anatomy', 'enzyme', 'started', 'elapsed'].every((k) => finite(r[k]));
   return (
     data &&
     typeof data === 'object' &&
     (!data.active || run(data.active)) &&
+    (data.settings === undefined ||
+      (data.settings &&
+        typeof data.settings.sound === 'boolean' &&
+        typeof data.settings.motion === 'boolean' &&
+        Number.isFinite(data.settings.volume) &&
+        data.settings.volume >= 0 &&
+        data.settings.volume <= 1 &&
+        ['auto', 'low'].includes(data.settings.quality))) &&
     data.results &&
     typeof data.results === 'object' &&
     !Array.isArray(data.results) &&
@@ -219,4 +239,69 @@ export function relativeActivity(ph, enzyme) {
           ? [6.8, 1.8]
           : [7, 2.1];
   return Math.exp(-0.5 * ((ph - peak) / width) ** 2);
+}
+
+export function initialProduct(id) {
+  return { stanley: 'polysaccharide', trine: 'triglyceride', poul: 'protein' }[id];
+}
+export function enzymeTotal(id) {
+  return Object.values(BOSSES[id]).reduce((n, qs) => n + qs.length, 0);
+}
+// Old trophies remain byte-for-byte intact. An interrupted old run resumes at
+// the corresponding anatomical checkpoint, with its current challenge restarted.
+export function migrateDigestion(data) {
+  const r = structuredClone(data.active);
+  if (!r || r.routeVersion === 3) return data;
+  data.active = r;
+  const old = [
+    'mouth',
+    'pharynx',
+    'oesophagus',
+    'cardia',
+    'stomach',
+    'pylorus',
+    'duodenum',
+    'jejunum',
+    'ileum',
+    'ileocaecal',
+    'caecum',
+    'ascending',
+    'transverse',
+    'descending',
+    'sigmoid',
+    'rectum',
+    'anal',
+    'anus',
+  ];
+  const removed = { cardia: 'stomach', pylorus: 'duodenum', ileocaecal: 'caecum', anal: 'anus' };
+  const id = removed[old[r.index]] || old[r.index];
+  const index = ROUTE.findIndex((s) => s.id === id);
+  if (index < 0) {
+    delete data.active;
+    return data;
+  }
+  r.routeVersion = 3;
+  r.index = index;
+  r.task = 0;
+  if (index > ROUTE.findIndex((s) => s.id === 'jejunum')) {
+    r.absorbed = true;
+    r.absorptionPassed = true;
+  }
+  r.answered = [];
+  r.enzyme = 0;
+  r.completed = ROUTE.slice(0, index)
+    .filter((s) => BOSSES[r.character][s.id])
+    .map((s) => s.id);
+  if (r.absorbed && id === 'jejunum' && BOSSES[r.character].jejunum) r.completed.push('jejunum');
+  r.answered = ROUTE.filter((s) => r.completed.includes(s.id)).flatMap((s) =>
+    BOSSES[r.character][s.id].map((_, i) => s.index + ':' + i),
+  );
+  r.enzyme = r.answered.length;
+  r.product = initialProduct(r.character);
+  for (const s of ROUTE.filter((s) => r.completed.includes(s.id)))
+    r.product = BOSSES[r.character][s.id].at(-1).output;
+  if (r.absorbed) r.product = 'residue';
+  if (!['entry', 'intro', 'won'].includes(r.phase)) r.phase = 'arrival';
+  r.lives = Math.max(1, r.lives);
+  return data;
 }

@@ -1,3 +1,4 @@
+import { routeButtons, gameToolbar, settingsDrawer } from './journey-ui.js';
 import { CIRCULATION_ID } from './circulation-data.js';
 import { lockGameViewport } from './blood-viewport.js';
 import { BLOOD_LEVELS, levelStepId } from './blood-routes.js';
@@ -85,7 +86,7 @@ export function mountBloodGame(
         '',
       )}</fieldset></div><div class="blood-audio-caption"><span data-audio-status role="status">${esc(audio.status())}</span><button class="text-button" data-audio-retry>Prøv lyd igen</button><details><summary>Om lydmodellen</summary><p>Original syntese med S1–S2-hjertelyde ved 70 slag/min og blød respiration ved 14 åndedrag/min. Lydstyrken illustrerer nærhed til hjertet og lungerne. Blodstrømmen er stiliseret. Det er en pædagogisk simulation, ikke sådan en erytrocyt fysisk ville høre inde i kroppen; normalt laminart blodflow er ikke nødvendigvis hørbart.</p></details></div><p data-audio-save role="status" ${audioSaved ? 'hidden' : ''}>Lydindstillingen virker nu, men kunne ikke gemmes på enheden.</p></section>`;
   }
-  root.innerHTML = `<section class="blood-game"><div class="blood-game-bar" aria-label="Spilbetjening"><button class="back" data-blood="exit">← Tilbage til læringsstier</button><button data-audio-toggle aria-pressed="${audio.settings.enabled}">${audio.settings.enabled ? 'Slå lyd fra' : 'Slå lyd til'}</button><button data-panel-toggle aria-controls="blood-settings" aria-expanded="false" aria-label="Spilindstillinger">⚙</button><div class="blood-foot"><button data-footer-menu data-blood="menu" aria-label="Vælg sværhedsgrad">☰</button></div></div><div class="blood-save-error" role="alert" hidden></div><aside id="blood-settings" class="blood-drawer" aria-label="Spilindstillinger" hidden><button data-panel-close class="secondary">Luk indstillinger</button><button class="secondary" data-blood="motion" aria-pressed="false">Pause bevægelse</button>${audioPanel()}</aside><div class="blood3d blood-play">
+  root.innerHTML = `<section class="blood-game">${gameToolbar({ back: '<button class="back" data-blood="exit">← Tilbage til læringsstier</button>', sound: `<button data-audio-toggle aria-pressed="${audio.settings.enabled}">${audio.settings.enabled ? 'Slå lyd fra' : 'Slå lyd til'}</button>`, settings: '<button data-panel-toggle aria-controls="blood-settings" aria-expanded="false" aria-label="Spilindstillinger">⚙</button>', menu: '<button data-footer-menu data-blood="menu" aria-label="Vælg sværhedsgrad">☰</button>' })}<div class="blood-save-error" role="alert" hidden></div>${settingsDrawer('blood-settings', `<button data-panel-close class="secondary">Luk indstillinger</button><button class="secondary" data-blood="motion" aria-pressed="false">Pause bevægelse</button>${audioPanel()}`)}<div class="blood3d blood-play">
  <div class="blood-world blood3d-viewport"><canvas class="blood3d-canvas" tabindex="0" aria-label="Blodbanen i 3D. Brug piletaster og Enter, eller vælg en rute med mus eller touch."></canvas><div class="blood3d-shade" aria-hidden="true"></div>
  <div class="blood3d-hud"><div class="blood-location"><span class="blood3d-eyebrow" data-level-name></span><h1 data-location></h1><p class="blood-world-caption"></p></div><div class="blood3d-top-controls"><span class="blood-lives" role="img"></span></div></div>
  <div class="blood3d-milestone" role="status" aria-live="polite"></div>
@@ -218,12 +219,7 @@ export function mountBloodGame(
     ready = true;
     const parent = $('.blood3d-labels');
     if (!parent.children.length)
-      parent.innerHTML = passages(BLOOD_LEVELS[run.level], run)
-        .map(
-          (p, i) =>
-            `<button data-passage="${i}" aria-label="${i ? 'Højre' : 'Venstre'} rutehypotese: ${esc(p.name)}"><span aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="${i ? 'M6 18 18 6M8 6h10v10' : 'M18 18 6 6M6 16V6h10'}"/></svg></span><strong>${esc(p.name)}</strong></button>`,
-        )
-        .join('');
+      parent.innerHTML = routeButtons(passages(BLOOD_LEVELS[run.level], run));
     parent.querySelectorAll('button').forEach((b) => (b.disabled = !ambient || panelOpen));
     showFeedback();
   }

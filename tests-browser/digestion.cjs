@@ -2,299 +2,323 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const assert = require('node:assert/strict');
 const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringsstier/';
 (async () => {
-  const { ABSORPTION_CHOICES, FINAL_TESTS } = await import('../public/digestion-assessment.js');
   const { BOSSES, ROUTE, CHARACTERS } = await import('../public/digestion-data.js');
+  const { ABSORPTION_CHOICES } = await import('../public/digestion-assessment.js');
   const browser = await chromium.launch({
     ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}),
     args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
   });
+  const errors = [];
   try {
-    const page = await browser.newPage({
-        viewport: { width: 390, height: 844 },
+    for (const mobile of [false, true]) {
+      const page = await browser.newPage({
+        viewport: mobile ? { width: 390, height: 844 } : { width: 1280, height: 800 },
+        hasTouch: mobile,
         reducedMotion: 'reduce',
-        hasTouch: true,
-      }),
-      errors = [];
-    page.on('pageerror', (e) => {
-      errors.push(e.message);
-      console.log(e.stack);
-    });
-    page.on('dialog', (d) => d.accept());
-    await page.goto(base + '#/sti/fordoejelsens-vilde-rejse/digestion-stanley');
-    await page.locator('[data-digest=start]').waitFor();
-    async function savedActive() {
-      return page.evaluate(
-        () =>
-          new Promise((resolve, reject) => {
-            const q = indexedDB.open('laeringsstier-v2');
-            q.onerror = () => reject(q.error);
-            q.onsuccess = () => {
-              const db = q.result;
-              const r = db.transaction('records').objectStore('records').get('progress');
-              r.onsuccess = () => {
-                const value = r.result['fordoejelsens-vilde-rejse'].digestion.active;
-                db.close();
-                resolve(value);
-              };
-            };
-          }),
-      );
-    }
-    async function scenePick(target) {
-      await page.waitForFunction(
-        (target) =>
-          JSON.parse(document.querySelector('canvas').dataset.targets || '[]').some(
-            (t) => t.target === target && t.visible,
-          ),
-        target,
-      );
-      const t = await page.evaluate(
-        (target) =>
-          JSON.parse(document.querySelector('canvas').dataset.targets).find(
-            (t) => t.target === target && t.visible,
-          ),
-        target,
-      );
-      const box = await page.locator('canvas').boundingBox();
-      await page.touchscreen.tap(box.x + (box.width * t.x) / 100, box.y + (box.height * t.y) / 100);
-      await page.waitForTimeout(100);
-    }
-    for (const id of Object.keys(CHARACTERS)) {
-      console.log('Testing digestion:', id);
-      await page.locator(`[data-character="${id}"]`).click();
-      await page.locator('[data-digest=start]').click();
-      let testedWrongOrder = false,
-        wrongEntry = false,
-        wrongThroat = false,
-        wrongAppendix = false;
-      let changedPerspective = false,
-        seen = new Set();
-      for (let step = 0; step < 100; step++) {
-        if (await page.locator('h2').filter({ hasText: 'TILLYKKE' }).count()) break;
-        const mode = await page.evaluate(() => {
-          const b = document.querySelector('[data-digest=skip]');
-          if (!b) return null;
-          const mode = document.querySelector('canvas').dataset.digestMode;
-          b.click();
-          return mode;
-        });
-        if (mode) {
-          seen.add(mode);
-          if (mode === 'residue') {
+      });
+      page.on('pageerror', (e) => {
+        errors.push(e.message);
+        console.error(e.stack);
+      });
+      page.on('dialog', (d) => d.accept());
+      // Hold only cinematic auto-advance, so checks can inspect each brief scene.
+      await page.addInitScript(() => {
+        const timer = window.setTimeout;
+        window.setTimeout = function (fn, ms, ...args) {
+          return timer(
+            fn,
+            typeof fn === 'function' && String(fn).includes('sequenceToken') ? 600000 : ms,
+            ...args,
+          );
+        };
+      });
+      await page.goto(base + '#/sti/fordoejelsens-vilde-rejse/digestion-stanley');
+      const state = () =>
+        page.evaluate(() => ({
+          stage: document.querySelector('canvas').dataset.digestStage,
+          mode: document.querySelector('canvas').dataset.digestMode,
+          form: document.querySelector('canvas').dataset.molecularForm,
+          heading: document.querySelector('.digest-panel h2')?.textContent,
+          entry: !!document.querySelector('[data-entry]'),
+          sequence: !!document.querySelector('[data-digest=skip]'),
+          absorb: !!document.querySelector('[data-absorb]'),
+          choices: document.querySelectorAll('[data-choice]').length,
+          retry: !!document.querySelector('[data-digest=retry]'),
+        }));
+      const changed = (before) =>
+        page.waitForFunction(
+          (before) => {
+            const c = document.querySelector('canvas'),
+              h = document.querySelector('.digest-panel h2');
+            return (
+              JSON.stringify([
+                c.dataset.digestStage,
+                c.dataset.digestMode,
+                h?.textContent,
+                document.querySelector('[data-digest=retry]')?.textContent,
+              ]) !== before
+            );
+          },
+          JSON.stringify([
+            before.stage,
+            before.mode,
+            before.heading,
+            before.retry ? 'Genstart aktuelle udfordring' : undefined,
+          ]),
+        );
+      for (const id of Object.keys(CHARACTERS)) {
+        console.log('Testing digestion', id, mobile ? 'mobile' : 'desktop');
+        await page.locator(`[data-character="${id}"]`).click();
+        await page.locator('[data-digest=start]').click();
+        const visited = [],
+          forms = new Set(),
+          wrong = new Set();
+        let absorbed = false,
+          complete = false;
+        for (let n = 0; n < 130; n++) {
+          const s = await state();
+          if (s.heading?.includes('TILLYKKE')) {
+            complete = true;
+            break;
+          }
+          if (!['face-intro', 'entry', 'menu'].includes(s.mode) && visited.at(-1) !== s.stage)
+            visited.push(s.stage);
+          if (s.form) forms.add(s.form);
+          if (s.mode === 'absorb') {
+            absorbed = true;
+            assert.equal(s.stage, 'jejunum');
+            assert.ok(
+              forms.has(
+                id === 'stanley' ? 'glucose' : id === 'poul' ? 'amino-acid' : 'lipid-products',
+              ),
+            );
+            assert.equal(
+              await page.locator('canvas').getAttribute('data-absorption-destination'),
+              id === 'trine' ? 'lymph' : 'blood',
+            );
+            if (s.sequence)
+              await page.screenshot({
+                path: `/tmp/digest-v4-${id}-${mobile ? 'mobile' : 'desktop'}-absorption.png`,
+              });
+          }
+          if (s.mode === 'residue') {
+            assert.ok(absorbed);
             assert.match(await page.locator('.digest-hud').textContent(), /ufordøjelig rest/);
-            changedPerspective = true;
           }
-          continue;
-        }
-        if (await page.locator('[data-digest=retry]').count()) {
-          await page.locator('[data-digest=retry]').click();
-          continue;
-        }
-        if (await page.locator('[data-entry]').count()) {
-          if (id === 'stanley' && !wrongEntry) {
-            await scenePick('nose');
-            await page.getByText('Forkert indgang!', { exact: false }).waitFor();
-            wrongEntry = true;
+          if (s.mode === 'transport' && id === 'trine' && mobile && !wrong.has('lymph-animation')) {
+            await page.locator('[data-digest=settings]').click();
+            await page.locator('[data-setting=motion]').check();
+            await page.locator('[data-digest=settings-close]').click();
+            await page.waitForFunction(
+              () =>
+                document.querySelector('canvas').dataset.transportProgress === '1.00' &&
+                Number(document.querySelector('canvas').dataset.chylomicrons) >= 2,
+            );
+            const fixed = await page.locator('canvas').getAttribute('data-camera');
+            await page.waitForTimeout(700);
+            assert.equal(await page.locator('canvas').getAttribute('data-camera'), fixed);
+            await page.screenshot({ path: '/tmp/digest-v4-lymph-animation-mobile.png' });
+            await page.locator('[data-digest=settings]').click();
+            await page.locator('[data-setting=motion]').uncheck();
+            await page.locator('[data-digest=settings-close]').click();
+            wrong.add('lymph-animation');
           }
-          await scenePick('mouth');
-          continue;
-        }
-        if (await page.locator('[data-absorb]').count()) {
-          await page
-            .locator('[data-absorb]')
-            .filter({ hasText: ABSORPTION_CHOICES[id].options[0] })
-            .click();
-          await page.locator('[data-absorb]').first().waitFor({ state: 'detached' });
-          continue;
-        }
-        if (await page.locator('[data-chain]').count()) {
-          if (!testedWrongOrder) {
-            for (const n of [1, 0, 2]) await page.locator(`[data-chain="${n}"]`).click();
+          if (s.sequence) {
+            await page.locator('[data-digest=skip]').evaluate((b) => b.click());
+            await changed(s);
+            continue;
+          }
+          if (s.retry) {
+            await page.locator('[data-digest=retry]').click();
+            continue;
+          }
+          if (s.entry) {
+            assert.equal(await page.locator('[data-entry]').count(), 2);
+            if (id === 'stanley' && !wrong.has('entry')) {
+              await page.locator('[data-entry]').filter({ hasText: 'Cavitas nasi' }).click();
+              await page.getByText('Forkert indgang!', { exact: false }).waitFor();
+              wrong.add('entry');
+            }
+            await page.locator('[data-entry]').filter({ hasText: 'Cavitas oris' }).click();
+            await changed(s);
+            continue;
+          }
+          if (s.absorb) {
+            assert.equal(await page.locator('[data-absorb]').count(), 3);
+            await page
+              .locator('[data-absorb]')
+              .filter({ hasText: ABSORPTION_CHOICES[id].options[0] })
+              .click();
+            await changed(s);
+            continue;
+          }
+          if (!s.choices) {
+            await page.waitForTimeout(50);
+            continue;
+          }
+          const stage = ROUTE.find((r) => r.id === s.stage),
+            task = BOSSES[id][s.stage]?.find((q) => q.prompt === s.heading);
+          assert.equal(s.choices, task ? 3 : 2);
+          assert.equal(
+            await page.locator('.digest-map svg').getAttribute('data-map-location'),
+            s.stage,
+          );
+          assert.equal(
+            await page.locator('.blood-progress').getAttribute('aria-valuenow'),
+            String(stage.index + 1),
+          );
+          assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+          if (!task && ['epiglottis', 'caecum'].includes(s.stage) && !wrong.has(s.stage)) {
+            const opts = await import('../public/digestion-navigation.js');
+            const incorrect = opts.anatomicalOptions(stage.index).find((o) => !o.correct);
+            await page.locator('[data-choice]').filter({ hasText: incorrect.label }).click();
             await page.waitForFunction(
               () =>
                 document.querySelector('.digest-feedback') ||
                 document.querySelector('[data-digest=retry]'),
             );
-            if (await page.locator('[data-digest=retry]').count()) {
-              testedWrongOrder = true;
+            if (await page.locator('[data-digest=retry]').count())
               await page.locator('[data-digest=retry]').click();
-              continue;
-            }
-            assert.equal(await page.locator('canvas').getAttribute('data-digest-mode'), 'boss');
-            testedWrongOrder = true;
+            wrong.add(s.stage);
+            continue;
           }
-          for (const n of [0, 1, 2]) await page.locator(`[data-chain="${n}"]`).click();
-          await page.locator('[data-chain]').first().waitFor({ state: 'detached' });
-          continue;
+          if (!task && s.stage === 'epiglottis')
+            await page.screenshot({
+              path: `/tmp/digest-v4-epiglottis-${mobile ? 'mobile' : 'desktop'}.png`,
+            });
+          if (task && id === 'stanley' && s.stage === 'mouth' && !wrong.has('camera')) {
+            await page.locator('[data-digest=settings]').click();
+            await page.locator('[data-setting=motion]').check();
+            assert.equal(await page.locator('canvas').evaluate((e) => e.inert), true);
+            await page.locator('[data-digest=settings-close]').click();
+            await page.waitForTimeout(1400);
+            const before = await page.locator('canvas').getAttribute('data-camera');
+            await page.waitForTimeout(1500);
+            assert.equal(
+              await page.locator('canvas').getAttribute('data-camera'),
+              before,
+              'waiting camera remains fixed with motion enabled',
+            );
+            await page.locator('[data-digest=settings]').click();
+            await page.locator('[data-digest=pause]').click();
+            await page.locator('[data-digest=settings-close]').click();
+            assert.equal(await page.locator('.digest-panel').evaluate((e) => e.inert), true);
+            await page.locator('[data-digest=settings]').click();
+            await page.locator('[data-digest=pause]').click();
+            await page.locator('[data-setting=motion]').uncheck();
+            await page.locator('[data-digest=settings-close]').click();
+            wrong.add('camera');
+          }
+          if (task && id === 'stanley' && s.stage === 'mouth' && !wrong.has('enzyme')) {
+            await page.locator('[data-choice]').filter({ hasText: 'Pepsin' }).click();
+            await page.waitForFunction(
+              () =>
+                document.querySelector('.digest-feedback') ||
+                document.querySelector('[data-digest=retry]'),
+            );
+            wrong.add('enzyme');
+            // Entry error may exhaust the second life: exercise retry as well.
+            if (await page.locator('[data-digest=retry]').count())
+              await page.locator('[data-digest=retry]').click();
+            continue;
+          }
+          const correct =
+            task?.options[0] ||
+            ROUTE[stage.index + 1].danish + ' · ' + ROUTE[stage.index + 1].latin;
+          const b = page.locator('[data-choice]').filter({ hasText: correct });
+          await b.focus();
+          await page.keyboard.press('Enter');
+          await changed(s);
         }
-        await page.waitForFunction(
-          () =>
-            document.querySelector('[data-entry]') ||
-            document.querySelector('[data-digest=retry]') ||
-            document.querySelector('[data-absorb]') ||
-            document.querySelector('[data-choice]:enabled') ||
-            document.querySelector('[data-chain]:not(:disabled)') ||
-            document.querySelector('[data-digest=skip]') ||
-            document.querySelector('.digest-panel h2')?.textContent.includes('TILLYKKE'),
+        assert.ok(complete, 'journey completes');
+        assert.deepEqual(
+          visited,
+          ROUTE.map((s) => s.id),
         );
-        if (!(await page.locator('[data-choice]:enabled').count())) continue;
-        const stage = await page.locator('.digest-panel').getAttribute('data-stage'),
-          s = ROUTE.find((s) => s.id === stage);
-        const title = await page.locator('.digest-panel h2').textContent();
-        const task = BOSSES[id][stage]?.find((t) => t.prompt === title);
-        if (task?.kind === 'enzyme' && ['mouth', 'stomach', 'duodenum'].includes(stage))
+        assert.ok(absorbed);
+        const expected = {
+          stanley: ['polysaccharide', 'short-chain', 'maltose', 'glucose', 'residue'],
+          trine: ['triglyceride', 'lipid-products', 'residue'],
+          poul: ['protein', 'peptide', 'small-peptide', 'amino-acid', 'residue'],
+        }[id];
+        for (const form of expected) assert.ok(forms.has(form), 'visible product ' + form);
+        await page.locator('[data-digest=exam]').click();
+        for (let i = 0; i < 5; i++) {
+          await page.locator('[data-exam-answer="0"]').click();
           await page.waitForFunction(
-            () => Number(document.querySelector('canvas').dataset.secretionStreams) > 0,
+            (i) =>
+              document
+                .querySelector('.digest-panel h2')
+                .textContent.includes(i === 4 ? 'Testresultat' : `${i + 2}/5`),
+            i,
           );
-        assert.equal(
-          await page.locator('[data-choice]').count(),
-          stage === 'duodenum' && task?.kind === 'enzyme' ? 3 : 2,
-        );
-        if (!task && stage === 'pharynx') {
-          if (id === 'stanley' && !wrongThroat) {
-            await scenePick('trachea');
-            await page
-              .locator('.digest-panel')
-              .getByText('aspirationsøvelse', { exact: false })
-              .waitFor();
-            wrongThroat = true;
-            continue;
-          }
-          await scenePick('oesophagus');
-          continue;
         }
-        if (!task && stage === 'caecum') {
-          if (id === 'stanley' && !wrongAppendix) {
-            await scenePick('appendix');
-            await page.screenshot({ path: '/tmp/v3-caecum.png' });
-            await page.locator('.digest-panel').getByText('blindgyde', { exact: false }).waitFor();
-            wrongAppendix = true;
-            continue;
-          }
-          await scenePick('ascending');
-          continue;
-        }
-        const target =
-          task?.options[0] || ROUTE.slice(s.index + 1).find((s) => !s.automatic)?.latin;
-        const before = await page.locator('.digest-panel').textContent();
-        await page.locator('[data-choice]').filter({ hasText: target }).click();
-        await page.waitForFunction(
-          (t) => document.querySelector('.digest-panel').textContent !== t,
-          before,
-        );
+        assert.match(await page.locator('.digest-panel h2').textContent(), /5 af 5/);
+        await page.locator('.digest-panel [data-digest=menu]').click();
+        await page.locator('[data-character=stanley]').waitFor();
       }
-      await page.locator('h2').filter({ hasText: 'TILLYKKE' }).waitFor();
-      assert.ok(changedPerspective);
-      for (const mode of [
-        'intro',
-        'reaction',
-        'face-intro',
-        'swallow',
-        'secretion',
-        'absorb',
-        'transport',
-        'residue',
-        'finale',
-      ])
-        assert.ok(seen.has(mode), mode);
-      assert.match(await page.locator('.digest-panel').textContent(), /9 \/ 9/);
-      assert.ok(Number(await page.locator('canvas').getAttribute('data-triangles')) < 150000);
-      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-      await page.locator('.digest-panel').screenshot({ path: `/tmp/digest-${id}-result.png` });
-      await page.locator('[data-digest=exam]').click();
-      for (const q of FINAL_TESTS[id]) {
-        await page.locator('[data-exam-answer]').filter({ hasText: q.options[0] }).click();
+      assert.match(await page.locator('.digest-panel').textContent(), /FORDØJELSESMESTER/);
+      await page.reload();
+      await page.locator('[data-character="stanley"] b').waitFor();
+      await page.evaluate(
+        () =>
+          new Promise((resolve, reject) => {
+            const q = indexedDB.open('laeringsstier-v2');
+            q.onerror = () => reject(q.error);
+            q.onsuccess = () => {
+              const db = q.result,
+                tx = db.transaction('records', 'readwrite'),
+                store = tx.objectStore('records'),
+                r = store.get('progress');
+              r.onsuccess = () => {
+                const all = r.result,
+                  d = all['fordoejelsens-vilde-rejse'].digestion;
+                d.active = {
+                  ...d.results.stanley,
+                  index: 7,
+                  phase: 'route',
+                  task: 0,
+                  absorbed: false,
+                };
+                delete d.active.routeVersion;
+                store.put(all, 'progress');
+              };
+              tx.oncomplete = () => {
+                db.close();
+                resolve();
+              };
+              tx.onerror = () => reject(tx.error);
+            };
+          }),
+      );
+      await page.reload();
+      await page.locator('[data-digest=resume]').click();
+      await page.waitForFunction(
+        () =>
+          document.querySelector('.digest-panel h2')?.textContent ===
+          'Hvilket enzym spalter maltose?',
+      );
+      assert.equal(await page.locator('canvas').getAttribute('data-molecular-form'), 'maltose');
+      assert.match(await page.locator('.digest-hud').textContent(), /Tomtarmen/);
+      await page.reload();
+      await page.locator('[data-digest=resume]').click();
+      await page.waitForFunction(
+        () =>
+          document.querySelector('.digest-panel h2')?.textContent ===
+          'Hvilket enzym spalter maltose?',
+      );
+      for (const v of [
+        { width: 320, height: 844 },
+        { width: 768, height: 1024 },
+      ]) {
+        await page.setViewportSize(v);
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       }
-      await page.getByRole('heading', { name: 'Testresultat: 5 af 5' }).waitFor();
-      await page.locator('[data-digest=menu]').last().click();
-      await page.locator('[data-digest=start]').waitFor();
+      await page.getByRole('link', { name: '← Tilbage til læringsstier' }).click();
+      await page.locator('#digestion-root').waitFor({ state: 'detached' });
+      assert.equal(await page.locator('#digestion-root').count(), 0);
+      await page.close();
     }
-    assert.match(await page.locator('.digest-panel').textContent(), /FORDØJELSESMESTER/);
-    await page.reload();
-    await page.locator('[data-digest=start]').waitFor();
-    assert.match(await page.locator('.digest-panel').textContent(), /FORDØJELSESMESTER/);
-    // Failed challenge recovers in place; old trophies survive a new attempt.
-    await page.locator('[data-digest=start]').click();
-    await page.locator('[data-digest=skip]').evaluate((b) => b.click());
-    await scenePick('mouth');
-    await page.locator('[data-digest=skip]').evaluate((b) => b.click());
-    const selected = await page.locator('.digest-hud strong').textContent(),
-      id = Object.keys(CHARACTERS).find((k) => CHARACTERS[k].name === selected);
-    for (let i = 0; i < 2; i++)
-      await page
-        .locator('[data-choice]')
-        .filter({ hasNotText: BOSSES[id].mouth[0].options[0] })
-        .click();
-    await page.locator('[data-digest=retry]').click();
-    assert.match(await page.locator('.digest-hud').textContent(), /♥♥/);
-    await page.locator('[data-digest=settings]').click();
-    await page.locator('[data-setting=motion]').check();
-    await page.locator('[data-setting=motion]').uncheck();
-    await page.locator('[data-setting=quality]').selectOption('low');
-    await page.locator('[data-digest=settings]').click();
-    await page.reload();
-    await page.locator('[data-digest=resume]').click();
-    await page.locator('[data-choice]').first().waitFor();
-    assert.equal(await page.locator('.digest-panel').getAttribute('data-stage'), 'mouth');
-    const correctLabel = BOSSES[id].mouth[0].options[0];
-    const index = await page
-      .locator('[data-choice]')
-      .filter({ hasText: correctLabel })
-      .getAttribute('data-choice');
-    const builds = await page.locator('canvas').getAttribute('data-environment-builds');
-    const timeBefore = (await savedActive()).elapsed;
-    await page.waitForTimeout(300);
-    await page.locator('[data-choice]').first().focus();
-    await page.keyboard.press(String(Number(index) + 1));
-    await page.waitForFunction(
-      (prompt) => document.querySelector('.digest-panel h2')?.textContent === prompt,
-      BOSSES[id].mouth[1].prompt,
-    );
-    assert.equal(await page.locator('canvas').getAttribute('data-environment-builds'), builds);
-    assert.ok(
-      (await savedActive()).elapsed >= timeBefore + 250,
-      'active time continues across rendering the next question',
-    );
-    assert.equal(await page.locator('.digest-ph,.digest-structures').count(), 0);
-    await page.locator('[data-digest=map]').click();
-    assert.equal(await page.locator('.digest-map svg').count(), 1);
-    await page.locator('[data-digest=map]').click();
-    for (const viewport of [
-      { width: 1024, height: 768 },
-      { width: 768, height: 1024 },
-      { width: 320, height: 844 },
-      { width: 390, height: 844 },
-    ]) {
-      await page.setViewportSize(viewport);
-      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-    }
-    const box = await page.locator('canvas').boundingBox();
-    await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.4);
-    await page.mouse.down();
-    await page.mouse.move(box.x + box.width * 0.5 + 120, box.y + box.height * 0.4 + 30, {
-      steps: 6,
-    });
-    await page.mouse.up();
-    await page.waitForFunction(
-      () => Math.abs(JSON.parse(document.querySelector('canvas').dataset.look).yaw) > 0.1,
-    );
-    const look = JSON.parse(await page.locator('canvas').getAttribute('data-look'));
-    assert.ok(Math.abs(look.yaw) <= 0.95 && Math.abs(look.pitch) <= 0.5);
-    await page.locator('[data-digest=center]').click();
-    await page.waitForFunction(
-      () => JSON.parse(document.querySelector('canvas').dataset.look).yaw === 0,
-    );
-    await page.locator('[data-digest=pause]').click();
-    assert.equal(await page.locator('.digest-panel').evaluate((e) => e.inert), true);
-    await page.locator('[data-digest=pause]').click();
-    await page.locator('.digestion-game').screenshot({ path: '/tmp/digest-mobile.png' });
-    await page.getByRole('link', { name: '← Læringsstier' }).click();
-    await page.locator('.continue-section').waitFor();
-    assert.equal(await page.locator('#digestion-root').count(), 0);
-    assert.equal(
-      await page.locator('html').evaluate((e) => e.classList.contains('blood-viewport-active')),
-      false,
-    );
     const fallback = await browser.newPage();
     await fallback.addInitScript(() => {
       const original = HTMLCanvasElement.prototype.getContext;
@@ -304,13 +328,10 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     });
     await fallback.goto(base + '#/sti/fordoejelsens-vilde-rejse/digestion-stanley');
     await fallback.getByRole('heading', { name: '3D kunne ikke vises' }).waitFor();
-    assert.ok(await fallback.locator('[data-digest=menu]').isDisabled());
-    await fallback.getByRole('link', { name: 'Åbn kredsløbsøvelser uden 3D' }).click();
-    await fallback.locator('.circulation-learning').waitFor();
     await fallback.close();
     assert.deepEqual(errors, []);
     console.log(
-      'PASS digestion: all three journeys, three bosses each, ordered processes, all scale transitions, residue perspective, finale, trophies, reload, retries, settings, mobile, performance budget and cleanup',
+      'PASS digestion: six complete journeys, 15 stops, three biochemical answers/two anatomical answers, staged molecules, epithelial transport, residue, stable camera on mobile/desktop, retries, settings, trophies, exams and WebGL fallback',
     );
   } finally {
     await browser.close();

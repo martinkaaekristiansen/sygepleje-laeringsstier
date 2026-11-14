@@ -1,13 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  CHARACTERS,
-  ROUTE,
-  BOSSES,
-  ABSORPTION,
-  REACTIONS,
-  DIGESTION_ID,
-} from '../public/digestion-data.js';
+import { CHARACTERS, ROUTE, BOSSES, ABSORPTION, DIGESTION_ID } from '../public/digestion-data.js';
 import {
   newDigestion,
   chooseDigestion,
@@ -21,27 +14,24 @@ test('digestive route preserves all anatomical transitions, including ileum afte
     [
       'mouth',
       'pharynx',
+      'epiglottis',
       'oesophagus',
-      'cardia',
       'stomach',
-      'pylorus',
       'duodenum',
       'jejunum',
       'ileum',
-      'ileocaecal',
       'caecum',
       'ascending',
       'transverse',
       'descending',
       'sigmoid',
       'rectum',
-      'anal',
       'anus',
     ],
   );
   assert.deepEqual(
     ROUTE.filter((s) => s.automatic).map((s) => s.id),
-    ['cardia', 'pylorus', 'ileocaecal', 'anal'],
+    [],
   );
   assert.ok(ROUTE.every((s) => Number.isFinite(s.ph) && s.ph > 0 && s.ph < 14));
 });
@@ -59,14 +49,14 @@ for (const id of Object.keys(CHARACTERS))
         retryDigestion(r);
         assert.equal(r.lives, 2);
         assert.equal(r.task, 0);
-        for (let i = 0; i < 3; i++) assert.equal(chooseDigestion(r, true), true);
+        for (let i = 0; i < BOSSES[id][s.id].length; i++)
+          assert.equal(chooseDigestion(r, true), true);
         assert.equal(r.phase, 'reaction');
-        assert.equal(BOSSES[id][s.id].length, 3);
-        assert.equal(REACTIONS[id][s.id].length, 3);
+        assert.ok(BOSSES[id][s.id].every((q) => q.options.length === 3));
       }
     }
-    assert.equal(r.enzyme, 9);
-    assert.equal(r.errors, 6);
+    assert.equal(r.enzyme, enzymeTotal(id));
+    assert.equal(r.errors, Object.keys(BOSSES[id]).length * 2);
     r.phase = 'won';
     assert.ok(validDigestion({ active: r, results: { [id]: r } }));
     assert.deepEqual(
@@ -90,7 +80,10 @@ test('nutrient-specific mechanisms distinguish blood, lymph, denaturation, emuls
   assert.match(CHARACTERS.trine.transport, /2-monoglycerider/);
   assert.match(CHARACTERS.trine.transport, /lymfekar/);
   assert.match(CHARACTERS.poul.transport, /PEPT1/);
-  assert.match(BOSSES.trine.stomach[0].why, /begrænset/);
+  assert.equal(BOSSES.trine.mouth, undefined);
+  assert.equal(BOSSES.trine.stomach, undefined);
+  assert.equal(BOSSES.stanley.stomach, undefined);
+  assert.equal(BOSSES.poul.mouth, undefined);
   assert.match(BOSSES.trine.duodenum[0].why, /ikke et enzym/);
   assert.match(BOSSES.poul.stomach[1].why, /ikke i sig selv/);
 });
@@ -268,7 +261,7 @@ test('external entry and anatomical branch choices preserve real routes without 
     ['mouth', 'nose'],
   );
   for (const [id, correct, wrong] of [
-    ['pharynx', 'oesophagus', 'trachea'],
+    ['epiglottis', 'oesophagus', 'trachea'],
     ['caecum', 'ascending', 'appendix'],
   ]) {
     const opts = anatomicalOptions(ROUTE.findIndex((s) => s.id === id));
@@ -277,7 +270,7 @@ test('external entry and anatomical branch choices preserve real routes without 
     assert.equal(opts.find((o) => !o.correct).target, wrong);
   }
   const ordinary = anatomicalOptions(2);
-  assert.ok(ordinary.some((o) => o.inspect));
+  assert.ok(ordinary.every((o) => !o.inspect));
 });
 test('upper and lower crowns face each other, with incisors at the front of both arches', () => {
   const upper = toothPose(7),
@@ -298,9 +291,13 @@ test('colon curves and front-view map follow patient-right up, across, patient-l
   assert.ok(asc.getPointAt(0.8).y > asc.getPointAt(0.2).y);
   assert.ok(trans.getPointAt(0.8).x > trans.getPointAt(0.2).x);
   assert.ok(desc.getPointAt(0.8).y < desc.getPointAt(0.2).y);
-  assert.ok(DIGEST_MAP_POINTS[11][0] < DIGEST_MAP_POINTS[13][0]);
-  assert.ok(DIGEST_MAP_POINTS[11][1] < DIGEST_MAP_POINTS[10][1]);
-  assert.match(renderDigestMap(11), /opadstigende/i);
+  assert.ok(DIGEST_MAP_POINTS[9][0] < DIGEST_MAP_POINTS[11][0]);
+  assert.ok(DIGEST_MAP_POINTS[9][1] < DIGEST_MAP_POINTS[8][1]);
+  assert.match(renderDigestMap(9), /opadstigende/i);
+  assert.ok(
+    DIGEST_MAP_POINTS.slice(4).every(([x, y]) => x >= 42 && x <= 78 && y <= 116),
+    'bowel stays inside the shared torso and pelvis silhouette',
+  );
 });
 test('salivary, gastric and duodenal secretions use fluid streams and nutrient-specific proteins', () => {
   for (const [id, char] of [
@@ -333,13 +330,144 @@ test('salivary, gastric and duodenal secretions use fluid streams and nutrient-s
     });
   }
 });
-test('duodenal hypotheses are the requested enzymes/secretions and Danish uses bugspytamylase', () => {
-  assert.deepEqual(BOSSES.stanley.duodenum[0].options, ['Bugspytamylase', 'Galdesalte', 'Trypsin']);
-  assert.deepEqual(BOSSES.trine.duodenum[0].options, [
-    'Bugspytlipase med colipase',
-    'Bugspytamylase',
-    'Trypsin',
-  ]);
-  assert.equal(BOSSES.poul.duodenum[0].options.length, 3);
-  assert.ok(!JSON.stringify(BOSSES).toLowerCase().includes('pankreasamylase'));
+test('question counts and products follow the requested three nutrient pathways', () => {
+  assert.deepEqual(Object.keys(BOSSES.stanley), ['mouth', 'duodenum', 'jejunum']);
+  assert.deepEqual(Object.keys(BOSSES.trine), ['duodenum']);
+  assert.deepEqual(Object.keys(BOSSES.poul), ['stomach', 'duodenum', 'jejunum']);
+  assert.equal(BOSSES.trine.duodenum.length, 5);
+  assert.deepEqual(
+    Object.values(BOSSES.stanley).map((qs) => qs.at(-1).output),
+    ['short-chain', 'maltose', 'glucose'],
+  );
+  assert.deepEqual(
+    Object.values(BOSSES.poul).map((qs) => qs.at(-1).output),
+    ['peptide', 'small-peptide', 'amino-acid'],
+  );
+  assert.ok(!JSON.stringify(BOSSES.trine).includes('lingual'));
+  assert.match(BOSSES.poul.duodenum[1].why, /Enteropeptidase.*trypsinogen/);
+});
+
+import { migrateDigestion, enzymeTotal } from '../public/digestion-engine.js';
+test('every navigation step has one true next structure and a varying explanatory distractor', () => {
+  assert.equal(ROUTE.length, 15);
+  const wrongs = new Set();
+  for (const s of ROUTE.slice(0, -1)) {
+    assert.ok(s.danish && s.latin);
+    const opts = anatomicalOptions(s.index);
+    assert.equal(opts.length, 2);
+    assert.equal(opts.filter((o) => o.correct).length, 1);
+    assert.equal(opts.find((o) => o.correct).target, ROUTE[s.index + 1].id);
+    const wrong = opts.find((o) => !o.correct);
+    assert.notEqual(wrong.target, ROUTE[s.index + 1].id);
+    assert.ok(wrong.why.length > 30);
+    wrongs.add(wrong.target);
+  }
+  assert.ok(wrongs.size >= 8);
+  assert.match(ROUTE[2].text, /ikke gennem strubelåget/);
+  assert.equal(DIGEST_MAP_POINTS.length, 15);
+});
+test('selected product models retain their distinct structures between scenes', () => {
+  for (const [id, forms] of [
+    [
+      'stanley',
+      [
+        ['polysaccharide', 14],
+        ['short-chain', 6],
+        ['maltose', 2],
+        ['glucose', 1],
+      ],
+    ],
+    [
+      'poul',
+      [
+        ['protein', 12],
+        ['peptide', 6],
+        ['small-peptide', 3],
+        ['amino-acid', 1],
+      ],
+    ],
+  ]) {
+    for (const [form, n] of forms) {
+      const m = nutrientModel(id, form);
+      assert.equal(m.userData.units.length, n);
+      assert.equal(m.userData.form, form);
+    }
+  }
+  const maltose = nutrientModel('stanley', 'maltose');
+  maltose.userData.update(5, 'jejunum');
+  assert.equal(maltose.userData.links.filter((l) => !l.visible).length, 1);
+  const lipid = nutrientModel('trine', 'lipid-products');
+  assert.deepEqual(
+    lipid.userData.links.filter((l) => !l.visible).map((l) => l.userData.type),
+    ['ester-1', 'ester-3'],
+  );
+});
+test('old route checkpoints migrate safely and preserve all trophies and test results', () => {
+  for (const [oldIndex, newId] of [
+    [3, 'stomach'],
+    [5, 'duodenum'],
+    [9, 'caecum'],
+    [16, 'anus'],
+    [17, 'anus'],
+  ]) {
+    const old = { ...newDigestion('stanley'), index: oldIndex, phase: 'route' };
+    delete old.routeVersion;
+    const won = { ...old, index: 17, phase: 'won' };
+    const data = {
+      active: old,
+      results: { stanley: won },
+      assessments: { stanley: [scoreAssessment('stanley', [0, 1, 0, 0, 0])] },
+    };
+    assert.ok(validDigestion(data));
+    const trophies = structuredClone(data.results),
+      tests = structuredClone(data.assessments);
+    migrateDigestion(data);
+    assert.equal(ROUTE[data.active.index].id, newId);
+    assert.equal(data.active.phase, 'arrival');
+    assert.ok(validDigestion(data));
+    assert.deepEqual(data.results, trophies);
+    assert.deepEqual(data.assessments, tests);
+    const once = structuredClone(data);
+    migrateDigestion(data);
+    assert.deepEqual(data, once);
+  }
+});
+test('five-question fat challenge can save and retry without replaying completed chemistry on a route mistake', () => {
+  const r = newDigestion('trine');
+  r.index = 5;
+  r.phase = 'boss';
+  for (let i = 0; i < 4; i++) chooseDigestion(r, true);
+  assert.equal(r.task, 4);
+  assert.ok(validDigestion({ active: r, results: {} }));
+  chooseDigestion(r, true);
+  assert.equal(r.phase, 'reaction');
+  assert.deepEqual(r.completed, ['duodenum']);
+  r.phase = 'route';
+  chooseDigestion(r, false);
+  chooseDigestion(r, false);
+  retryDigestion(r);
+  assert.equal(r.phase, 'route');
+});
+
+test('legacy absorbed checkpoints resume for every nutrient, including fat without a jejunal boss', () => {
+  for (const id of Object.keys(CHARACTERS)) {
+    const r = { ...newDigestion(id), index: 7, phase: 'route', absorbed: true };
+    delete r.routeVersion;
+    const data = { active: r, results: {} };
+    migrateDigestion(data);
+    assert.equal(data.active.product, 'residue');
+    assert.equal(data.active.index, 6);
+    assert.ok(validDigestion(data));
+  }
+});
+
+test('legacy lower-bowel checkpoints without an absorption flag safely follow residue', () => {
+  const r = { ...newDigestion('poul'), index: 11, phase: 'route' };
+  delete r.routeVersion;
+  delete r.absorbed;
+  const data = { active: r, results: {} };
+  migrateDigestion(data);
+  assert.equal(data.active.product, 'residue');
+  assert.equal(data.active.absorbed, true);
+  assert.ok(validDigestion(data));
 });

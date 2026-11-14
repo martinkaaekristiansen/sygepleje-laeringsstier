@@ -42,6 +42,7 @@ export function addSecretions(parent, stage, character) {
       color,
       protein,
       acid,
+      bile: color === 0xb5c85f,
     });
   }
   if (stage.id === 'mouth') {
@@ -69,8 +70,7 @@ export function addSecretions(parent, stage, character) {
       for (let i = 0; i < 3; i++)
         flow([side * (0.8 + i * 0.25), -1.45, -0.5 - i * 0.3], [0, -0.2, -3.2], 0xa3d7df, 7);
     }
-    if (character === 'stanley') flow([2.2, 0.8, -1.3], [0, -0.2, -4.5], 0x65d6ec, 10, true);
-    if (character === 'trine') flow([0.5, -1.3, -1.8], [0, -0.2, -4.5], 0xf28a57, 3, true);
+    if (character === 'stanley') flow([2.2, 0.8, -1.3], [0, 1.2, -4.5], 0x65d6ec, 10, true);
   }
   if (stage.id === 'stomach') {
     for (const side of [-1, 1]) {
@@ -78,7 +78,6 @@ export function addSecretions(parent, stage, character) {
       flow([side * 3.8, -0.4, -7], [0, -0.6, -6.5], 0xf2aa64, 20, false, true);
     }
     if (character === 'poul') flow([3.8, -0.2, -7], [0, -0.2, -6.3], 0xaaa0b7, 12, true, true);
-    if (character === 'trine') flow([-3.8, -0.2, -7], [0, -0.2, -6.3], 0xf28a57, 8, true);
   }
   if (stage.id === 'duodenum') {
     tube(
@@ -106,19 +105,44 @@ export function addSecretions(parent, stage, character) {
     papilla.scale.set(0.6, 1, 1);
     papilla.position.set(2, 0.35, -4);
     group.add(papilla);
-    flow([2, 0.35, -4], [0, -0.2, -5.4], 0xb5c85f, 30);
+    if (character === 'trine') flow([2, 0.35, -4], [0, -0.2, -5.4], 0xb5c85f, 30);
     flow([2, 0.35, -4], [0, -0.4, -5.3], 0x82cde2, 32, false, true);
     flow(
       [2, 0.35, -4],
-      [0, -0.25, -4.5],
+      [0, 1.2, -4.5],
       character === 'stanley' ? 0x65d6ec : character === 'trine' ? 0xf28a57 : 0x93dc85,
       10,
       true,
     );
   }
+  if (stage.id === 'jejunum' && character !== 'trine') {
+    for (let i = 0; i < 6; i++) {
+      const brush = new T.Mesh(
+        new T.TorusKnotGeometry(0.09, 0.025, 20, 5),
+        new T.MeshStandardMaterial({ color: character === 'stanley' ? 0x65d6ec : 0xb69cf0 }),
+      );
+      brush.position.set((i - 3) * 0.28, -1.8, -5);
+      brush.name = character === 'stanley' ? 'Maltase ved børstesøm' : 'Peptidase ved børstesøm';
+      group.add(brush);
+    }
+  }
+  if (stage.id === 'duodenum' && character === 'poul') {
+    const activator = new T.Mesh(
+      new T.TorusKnotGeometry(0.14, 0.04, 24, 6),
+      new T.MeshStandardMaterial({ color: 0xb69cf0 }),
+    );
+    activator.position.set(1, 0.05, -4.25);
+    activator.name = 'Enteropeptidase ved børstesømmen';
+    group.add(activator);
+  }
   const dummy = new T.Object3D();
   return {
     count: systems.length,
+    setProgress({ enzyme, bile }) {
+      for (const s of systems) {
+        s.m.visible = s.protein ? enzyme : s.bile ? bile : true;
+      }
+    },
     update(t, ph) {
       for (const s of systems) {
         for (let i = 0; i < s.m.count; i++) {
@@ -129,6 +153,13 @@ export function addSecretions(parent, stage, character) {
           dummy.rotation.set(f * 2, i, f * 3);
           dummy.updateMatrix();
           s.m.setMatrixAt(i, dummy.matrix);
+          if (stage.id === 'duodenum' && character === 'poul' && s.protein) {
+            s.m.material.color.setHex(0xffffff);
+            s.m.setColorAt(
+              i,
+              new T.Color(0xaaa0b7).lerp(new T.Color(0x93dc85), Math.min(1, f * 2)),
+            );
+          }
           if (stage.id === 'stomach' && s.protein && s.acid) {
             s.m.material.color.setHex(0xffffff);
             s.m.setColorAt(

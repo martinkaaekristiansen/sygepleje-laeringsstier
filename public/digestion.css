@@ -1,11 +1,420 @@
-#digestion-root{position:fixed;z-index:1000;inset:var(--game-top,0px) 0 auto;height:var(--game-height,100dvh);background:#24101b;color:#fff1de;isolation:isolate}
-.digestion-game{height:100%;position:relative;font:14px/1.45 system-ui,sans-serif}.digestion-game canvas{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
-.digestion-game button,.digestion-game a{color:#fff1de;background:#302336e8;border:1px solid #a69294;border-radius:9px;padding:9px 12px;text-decoration:none;cursor:pointer;min-height:44px;font:inherit}.digestion-game button:hover,.digestion-game button[aria-pressed=true]{background:#00646e}.digestion-game :focus-visible{outline:3px solid #ffe673;outline-offset:3px}.digestion-game [hidden]{display:none!important}
-.digest-top{position:absolute;top:0;left:0;right:0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:9px;background:linear-gradient(#211021ef,#21102199)}.digest-top a{margin-right:auto}.digest-top button{font-size:12px}
-.digest-hud{position:absolute;top:calc(var(--digest-toolbar-height,65px) + 9px);left:16px;right:16px;pointer-events:none;text-shadow:0 1px 4px #180e18}.digest-hud>div{display:flex;justify-content:space-between;gap:10px;font-size:12px}.digest-hud h1{font:23px Georgia,serif;margin:5px 0}.digest-hud p{font-size:11px;margin:3px 0}
-.digest-panel{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);width:min(820px,94%);max-height:55%;overflow:auto;overscroll-behavior:contain;background:#201324ed;border:1px solid #987581;border-radius:16px;padding:17px;box-sizing:border-box}.digest-panel.digest-active{width:min(750px,94%);max-height:35%;padding:12px;background:linear-gradient(#211324d9,#211324fa)}.digest-panel h1,.digest-panel h2{font-family:Georgia,serif;font-weight:400;margin:0 0 8px}.digest-panel h2{font-size:23px}.digest-panel p{margin:6px 0}.digest-eyebrow{font-size:10px;letter-spacing:1px;color:#b8e4d7}.digest-panel small{font-size:10px}.digest-choices{display:flex;gap:8px}.digest-choices button{flex:1;min-width:0;text-align:left;overflow-wrap:anywhere}.digest-choices b{color:#ffe673;margin-right:4px}.digest-feedback{border-left:3px solid #ffe673;padding-left:8px}.digest-panel[inert]{opacity:.45}.digest-panel>button{margin:5px}.digest-panel dl{display:grid;grid-template-columns:1fr auto;gap:4px}.digest-panel dd{margin:0}.digest-chain{font-size:12px}
-.digest-menu{max-height:75%}.digest-characters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.digest-characters button{display:flex;flex-direction:column;text-align:left;gap:7px}.digest-characters span{font-size:12px}.digest-organ-token{font-size:11px;border:1px dashed #a5dccd;padding:7px;border-radius:7px;cursor:grab}
-.digest-save{position:absolute;bottom:0;left:12px;font-size:10px;max-width:90%;margin:4px}.digest-save button{padding:2px 8px;min-height:28px;font-size:11px}
-.digest-map,.digest-info,.digest-settings{position:absolute;z-index:4;top:calc(var(--digest-toolbar-height,65px) + 8px);right:10px;width:min(300px,86vw);max-height:55%;overflow:auto;padding:12px;border:1px solid #9bbfc2;background:#162d36f5;border-radius:14px;box-sizing:border-box}.digest-map{width:175px}.digest-map svg{display:block;height:190px;margin:auto}.digest-map h2,.digest-info h2{font-size:16px;margin:0}.digest-map p,.digest-map small{font-size:11px}.digest-info p,.digest-settings p{font-size:12px}.digest-info button{font-size:12px;margin:5px 0}.digest-settings label{display:block;padding:8px 0}.digest-settings input[type=range]{max-width:90%}
-@media(max-width:600px){.digestion-game{font-size:13px}.digest-top{padding:5px;gap:4px}.digest-top a{margin-right:0}.digest-top button,.digest-top a{font-size:10px;padding:6px 8px}.digest-hud{left:12px;right:12px}.digest-hud h1{font-size:19px}.digest-panel{padding:12px;bottom:25px;max-height:53%}.digest-panel.digest-active{max-height:37%;padding:10px}.digest-panel h2{font-size:18px}.digest-choices{flex-direction:column;gap:5px}.digest-choices button{padding:7px 9px}.digest-menu{max-height:75%}.digest-characters{grid-template-columns:1fr}.digest-characters span{font-size:11px}.digest-map{width:155px}.digest-map svg{height:165px}}
-.digest-nav .digest-eyebrow,.digest-nav .digest-instruction,.digest-nav>small,.digest-nav>[data-digest=hint]{display:none}.digest-panel.digest-nav h2{font-size:16px;margin:0 0 5px}.digest-panel.digest-nav{max-height:28%;padding:9px}.digest-nav .digest-choices button{padding:7px 9px}
+#digestion-root {
+  position: fixed;
+  z-index: 1000;
+  inset: var(--game-top, 0px) 0 auto;
+  height: var(--game-height, 100dvh);
+  background: #24101b;
+  color: #f8e7d4;
+  isolation: isolate;
+  overflow: hidden;
+}
+.digestion-game {
+  height: 100%;
+  position: relative;
+  font:
+    16px/1.45 system-ui,
+    sans-serif;
+  max-width: none;
+}
+.digestion-game > canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+.digestion-game [hidden] {
+  display: none !important;
+}
+.digestion-game button,
+.digestion-game a {
+  color: #f8e7d4;
+  background: #2c1924;
+  border: 1px solid #e3c6b566;
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 44px;
+  font: inherit;
+}
+.digestion-game button:hover,
+.digestion-game button[aria-pressed='true'] {
+  background: #42212b;
+}
+.digestion-game :focus-visible {
+  outline: 3px solid #f7dfbc;
+  outline-offset: 3px;
+}
+.digestion-game button:disabled {
+  opacity: 0.4;
+  cursor: wait;
+}
+.digestion-game > .blood-game-bar {
+  position: absolute;
+  inset: 0 0 auto;
+  flex-wrap: nowrap;
+}
+.digestion-game > .blood-game-bar .back {
+  margin-right: auto;
+  max-width: 170px;
+}
+.digestion-game .blood-foot {
+  padding: 0;
+}
+.digest-hud.blood3d-hud {
+  top: calc(var(--digest-toolbar-height, 66px) + 12px);
+  left: 14px;
+  right: 14px;
+  bottom: auto;
+  text-shadow: 0 2px 8px #180e18;
+}
+.digest-hud .blood-location {
+  max-width: calc(100% - 75px);
+}
+.digest-hud h1 {
+  font:
+    clamp(24px, 2.6vw, 36px) / 1.2 Georgia,
+    serif;
+  margin: 8px 0;
+}
+.digest-hud strong {
+  font-size: 14px;
+}
+.digest-hud p {
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 600px;
+}
+.digest-panel {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(820px, 94%);
+  max-height: calc(100% - var(--digest-toolbar-height, 66px) - 130px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: #24121aef;
+  border: 1px solid #e3c6b566;
+  border-radius: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 3;
+}
+.digest-panel h1,
+.digest-panel h2 {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  margin: 0 0 12px;
+}
+.digest-panel h1 {
+  font-size: clamp(27px, 4vw, 44px);
+}
+.digest-panel h2 {
+  font-size: clamp(22px, 2.5vw, 30px);
+}
+.digest-panel p {
+  margin: 8px 0;
+}
+.digest-panel > button {
+  margin: 5px;
+}
+.digest-panel dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+.digest-panel dd {
+  margin: 0;
+}
+.digest-panel[inert] {
+  opacity: 0.45;
+}
+.digest-panel.digest-active {
+  max-height: 40%;
+  width: min(820px, 94%);
+}
+.digest-eyebrow {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: #edbca5;
+}
+.digest-choices {
+  display: flex;
+  gap: 10px;
+}
+.digest-choices button {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.digest-choices b {
+  color: #f7dfbc;
+}
+.digest-feedback {
+  border-left: 3px solid #e5c19a;
+  padding-left: 12px;
+  font-size: 16px;
+}
+.digest-panel.digest-nav {
+  top: var(--hud-end, 200px);
+  bottom: auto;
+  max-height: 23%;
+  width: min(620px, 88%);
+  padding: 10px 16px;
+  background: #2a1821e8;
+  pointer-events: none;
+}
+.digest-nav .digest-eyebrow {
+  display: none;
+}
+.digest-nav h2 {
+  font: 600 16px/1.4 system-ui;
+  margin: 0;
+}
+.digest-nav p:empty {
+  display: none;
+}
+.digest-route-labels {
+  z-index: 2;
+}
+.digest-route-labels button {
+  top: 52%;
+  max-width: min(38vw, 260px);
+  font-size: 18px;
+  line-height: 1.4;
+}
+.digest-route-labels button:first-child {
+  left: 25%;
+}
+.digest-route-labels button:last-child {
+  left: 75%;
+}
+.digest-menu {
+  bottom: 24px;
+  max-height: calc(100% - var(--digest-toolbar-height, 66px) - 45px);
+}
+.digest-characters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.digest-characters button {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 8px;
+}
+.digest-characters span {
+  font-size: 14px;
+}
+.digest-save {
+  position: absolute;
+  bottom: 0;
+  left: 12px;
+  font-size: 12px;
+  max-width: 90%;
+  margin: 4px;
+  z-index: 4;
+}
+.digest-save button {
+  padding: 2px 8px;
+  min-height: 28px;
+}
+.digest-map .blood-minimap {
+  width: 96px;
+  bottom: 24px;
+  left: 10px;
+}
+.digest-map .blood-minimap figcaption {
+  font-size: 12px;
+  letter-spacing: 0;
+}
+.digest-map .blood-minimap > span {
+  font-size: 12px;
+}
+.digest-map .blood-minimap svg {
+  height: 104px;
+}
+.digestion-game .blood3d-bottom {
+  bottom: 28px;
+  left: 130px;
+  right: 16px;
+}
+.digestion-game .blood3d-bottom > span,
+.digest-product {
+  font-size: 14px;
+  margin: 3px 0;
+}
+.digest-settings label {
+  display: block;
+  padding: 10px 0;
+}
+.digest-settings button {
+  margin: 4px;
+}
+.digest-settings input[type='range'] {
+  width: 100%;
+}
+.digest-settings .blood-audio {
+  margin: 12px 0;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.digest-info {
+  font-size: 16px;
+}
+.digest-info button {
+  display: block;
+}
+.digest-settings p {
+  font-size: 14px;
+}
+@media (max-width: 600px) {
+  .digestion-game > .blood-game-bar {
+    gap: 4px;
+    padding-inline: 6px;
+  }
+  .digestion-game > .blood-game-bar .back {
+    font-size: 16px;
+    max-width: 145px;
+  }
+  .digest-hud p {
+    max-width: 100%;
+    font-size: 14px;
+  }
+  .digest-hud h1 {
+    font-size: 24px;
+  }
+  .digest-panel {
+    padding: 14px;
+    bottom: 100px;
+  }
+  .digest-panel.digest-active {
+    max-height: 43%;
+  }
+  .digest-choices {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .digest-choices button {
+    padding: 8px 10px;
+  }
+  .digest-characters {
+    grid-template-columns: 1fr;
+  }
+  .digest-route-labels button {
+    font-size: 16px;
+    max-width: 43vw;
+    padding: 8px;
+  }
+  .digest-menu {
+    bottom: 24px;
+  }
+  .digest-panel.digest-nav {
+    max-height: 22%;
+    font-size: 14px;
+  }
+}
+@media (max-height: 650px) {
+  .digest-hud p {
+    display: none;
+  }
+  .digest-map .blood-minimap svg {
+    height: 68px;
+  }
+  .digest-hud h1 {
+    font-size: 24px;
+  }
+  .digest-panel.digest-nav {
+    max-height: 22%;
+  }
+  .digest-route-labels button {
+    top: 55%;
+  }
+}
+/* Toolbar and heading share the same viewport; reserve their actual height. */
+#digestion-root .digest-hud {
+  inset: calc(var(--digest-toolbar-height, 66px) + 12px) 14px auto;
+}
+#digestion-root .digest-panel.digest-active:not(.digest-nav) {
+  bottom: 195px;
+}
+#digestion-root .digest-panel.digest-nav {
+  bottom: auto;
+}
+@media (max-height: 600px) {
+  #digestion-root .digest-panel.digest-active {
+    left: auto;
+    right: 12px;
+    transform: none;
+    width: 55%;
+    bottom: 75px;
+    max-height: 50%;
+  }
+  .digest-choices button {
+    font-size: 14px;
+  }
+  .digest-panel h2 {
+    font-size: 20px;
+  }
+}
+.digest-compartments {
+  position: absolute;
+  right: 16px;
+  top: var(--hud-end, 210px);
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 1px solid #bed6db66;
+  border-radius: 10px;
+  background: #142b38e8;
+  font-size: 14px;
+  pointer-events: none;
+}
+.digest-compartments span:before {
+  content: '●';
+  color: #edc16e;
+  margin-right: 8px;
+}
+.digest-compartments span:nth-child(2):before {
+  color: #dfa6b3;
+}
+.digest-compartments .blood-compartment:before {
+  color: #ed7964;
+}
+.digest-compartments .lymph-compartment:before {
+  color: #8bd898;
+}
+@media (min-width: 800px) {
+  .digest-micro .digest-panel {
+    left: auto;
+    right: 16px;
+    transform: none;
+    width: 42%;
+    bottom: 115px;
+  }
+  .digest-micro .digest-compartments {
+    left: 16px;
+    right: auto;
+  }
+}
+@media (max-width: 600px) {
+  .digest-micro .digest-compartments {
+    left: 12px;
+    right: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+  .digest-micro .digest-panel h2 {
+    font-size: 22px;
+  }
+  .digest-micro .digest-panel {
+    padding: 12px;
+  }
+}

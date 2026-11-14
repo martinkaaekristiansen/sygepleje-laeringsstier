@@ -2,7 +2,7 @@ export const ABSORPTION_CHOICES = {
   stanley: {
     prompt: 'Glukosen er i enterocytten. Hvilken vej fører den videre?',
     options: [
-      'Basolateral GLUT2 → interstitium → blodkapillær → portåre',
+      'Gennem tarmcellen → blodkapillær → portåre',
       'Chylomikron → centralt lymfekar',
       'Tilbage til colon som intakt stivelse',
     ],
@@ -61,22 +61,18 @@ export const FINAL_TESTS = {
       'Amylaseaktivitet aftager med forsuringen; det er ikke en øjeblikkelig kontakt.',
     ),
     q(
-      'SGLT1 hæmmes. Hvilket trin påvirkes direkte?',
-      [
-        'Na⁺-koblet glukoseoptagelse over den apikale membran',
-        'Chylomikrondannelse',
-        'Glukoseudskillelse gennem anus',
-      ],
-      'SGLT1 er apikal, mens GLUT2 formidler basolateral passage.',
+      'Hvilket enzym spalter maltose ved børstesømmen?',
+      ['Maltase', 'Pepsin', 'Bugspytlipase'],
+      'Maltase danner to glukosemolekyler fra maltose.',
     ),
     q(
-      'Na⁺/K⁺-ATPasen hæmmes. Hvorfor kan glukoseoptagelsen falde?',
+      'Hvor går glukosen hen efter absorption i jejunum?',
       [
-        'Na⁺-gradienten svækkes, så SGLT1 mister sin drivkraft',
-        'Pumpen er et enzym, der direkte hydrolyserer stivelse',
-        'Pumpen producerer GLUT2',
+        'Til blodkapillærerne og portåresystemet',
+        'I chylomikroner til lymfen',
+        'Som stivelse til anus',
       ],
-      'Den basolaterale pumpe understøtter sekundær aktiv transport indirekte.',
+      'Glukose optages ved koblet transport gennem enterocytterne og følger blodet.',
     ),
   ],
   trine: [
@@ -121,13 +117,9 @@ export const FINAL_TESTS = {
       'Syreudfoldning og proteolytisk hydrolyse er forskellige processer.',
     ),
     q(
-      'Enteropeptidase mangler. Hvilket første aktiveringstrin påvirkes?',
-      [
-        'Trypsinogen → trypsin ved børstesømmen',
-        'Pepsinogen → pepsin i maven',
-        'Spytamylase → galde',
-      ],
-      'Trypsin aktiverer dernæst flere pankreatiske proteaseforstadier.',
+      'Hvor kommer trypsin fra?',
+      ['Bugspytkirtlen, som udskiller trypsinogen', 'Spytkirtlerne', 'Leveren, som danner galde'],
+      'Bugspytkirtlen udskiller trypsinogen. Det aktiveres til trypsin ved tyndtarmens børstesøm.',
     ),
     q(
       'Et dipeptid er transporteret ind via PEPT1. Hvad kan ske i enterocytten?',

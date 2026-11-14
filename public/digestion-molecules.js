@@ -3,7 +3,10 @@ import { CHARACTERS } from './digestion-data.js';
 import { reactionState } from './digestion-engine.js';
 // Units and connecting bonds are independent objects. Only the selected chemical
 // bonds disappear; intact product fragments move together, never as loose atoms.
-export function nutrientModel(id) {
+export function nutrientModel(
+  id,
+  form = { stanley: 'polysaccharide', trine: 'triglyceride', poul: 'protein' }[id],
+) {
   const group = new T.Group(),
     units = [],
     links = [];
@@ -56,15 +59,26 @@ export function nutrientModel(id) {
       link(i, 3 + i, 'ester-' + (i + 1));
     }
   } else {
-    for (let i = 0; i < 12; i++) {
+    const count =
+      {
+        polysaccharide: 12,
+        'short-chain': 6,
+        maltose: 2,
+        glucose: 1,
+        protein: 12,
+        peptide: 6,
+        'small-peptide': 3,
+        'amino-acid': 1,
+      }[form] || 12;
+    for (let i = 0; i < count; i++) {
       const p =
-        id === 'poul'
+        id === 'poul' && form === 'protein'
           ? [Math.cos(i * 0.85) * 0.6, Math.sin(i * 0.85) * 0.6, (i - 6) * 0.11]
-          : [(i - 6) * 0.27, Math.sin(i * 0.7) * 0.17, 0];
+          : [(i - (count - 1) / 2) * 0.3, Math.sin(i * 0.7) * 0.17, 0];
       unit(p, i);
       if (i) link(i - 1, i, id === 'poul' ? 'peptide' : 'alpha-1,4');
     }
-    if (id === 'stanley') {
+    if (id === 'stanley' && form === 'polysaccharide') {
       unit([-0.3, 0.65, 0], 12);
       unit([0, 0.8, 0], 13);
       link(5, 12, 'alpha-1,6');
@@ -76,16 +90,35 @@ export function nutrientModel(id) {
       p = state.progress;
     units.forEach((u, i) => {
       u.position.copy(u.userData.home);
-      if (id === 'poul' && organ === 'stomach' && t > 0) {
+      if (id === 'poul' && form === 'protein' && organ === 'stomach' && t > 0) {
         const f = Math.min(1, t / 2);
         u.position.lerp(new T.Vector3((i - 6) * 0.24, Math.sin(i * 0.4) * 0.1, 0), f);
       }
-      if (state.cut) {
+      if (state.cut || form === 'lipid-products') {
         if (id === 'trine') {
-          if (i === 3 || (i === 5 && organ === 'duodenum'))
-            u.position.add(new T.Vector3(p * 0.8, (i === 3 ? -1 : 1) * p * 0.55, 0));
+          if (
+            i === 3 ||
+            (i === 5 && organ === 'duodenum') ||
+            (form === 'lipid-products' && (i === 3 || i === 5))
+          )
+            u.position.add(
+              new T.Vector3(
+                (form === 'lipid-products' ? 1 : p) * 0.8,
+                (i === 3 ? -1 : 1) * (form === 'lipid-products' ? 1 : p) * 0.55,
+                0,
+              ),
+            );
         } else {
-          const fragment = i < 4 ? 0 : i < 8 || i >= 12 ? 1 : 2;
+          const fragment =
+            organ === 'jejunum'
+              ? i
+              : form === 'short-chain'
+                ? Math.floor(i / 2)
+                : i < 4
+                  ? 0
+                  : i < 8 || i >= 12
+                    ? 1
+                    : 2;
           u.position.add(
             new T.Vector3((fragment - 1) * p * 0.55, (fragment === 1 ? 0.2 : -0.15) * p, 0),
           );
@@ -96,9 +129,11 @@ export function nutrientModel(id) {
       const { a, b, type } = l.userData;
       const cut =
         id === 'trine'
-          ? type === 'ester-1' || (organ === 'duodenum' && type === 'ester-3')
-          : (a === 3 || a === 7) && type !== 'alpha-1,6';
-      l.visible = !(state.cut && cut);
+          ? type === 'ester-1' ||
+            ((organ === 'duodenum' || form === 'lipid-products') && type === 'ester-3')
+          : type !== 'alpha-1,6' &&
+            (organ === 'jejunum' || (form === 'short-chain' ? a % 2 === 1 : a === 3 || a === 7));
+      l.visible = !((state.cut || form === 'lipid-products') && cut);
       const start = units[a].position,
         end = units[b].position,
         d = end.clone().sub(start);
@@ -112,6 +147,6 @@ export function nutrientModel(id) {
     return state;
   }
   update(-1, 'mouth');
-  group.userData = { units, links, update };
+  group.userData = { units, links, update, form };
   return group;
 }

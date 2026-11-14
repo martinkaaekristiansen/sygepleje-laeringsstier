@@ -2,6 +2,11 @@ import * as T from './three.module.min.js';
 export const ORGAN_LABELS = {
   mouth: ['Tandbuer', 'Hård og blød gane', 'Tunge'],
   pharynx: ['Svælg', 'Larynxindgang', 'Epiglottis'],
+  epiglottis: [
+    'Strubelåg · observationspunkt',
+    'Beskyttet larynxindgang',
+    'Oesophagus bag luftvejen',
+  ],
   oesophagus: ['Længdefolder', 'Peristaltisk bølge'],
   stomach: [
     'Fundus',
@@ -154,7 +159,9 @@ export function buildOrganSurface(stage, low = false) {
       ? 'asymmetric-sac'
       : stage.id === 'duodenum'
         ? 'c-shaped'
-        : stage.index >= 10
+        : ['caecum', 'ascending', 'transverse', 'descending', 'sigmoid', 'rectum'].includes(
+              stage.id,
+            )
           ? 'haustra'
           : 'folded',
     along,
