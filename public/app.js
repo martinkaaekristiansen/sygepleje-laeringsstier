@@ -134,7 +134,7 @@ function render(focus) {
         : '<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>';
   $('#app').innerHTML =
     header() +
-    `<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice ? `<p class="notice" role="status">${esc(notice)}</p>` : ''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.10.2</span><button class="text-button" data-action="backup">Hent mine data</button><label class="file-button">Gendan mine data<input id="restore-file" type="file" accept="application/json"></label></footer>`;
+    `<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice ? `<p class="notice" role="status">${esc(notice)}</p>` : ''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.10.3</span><details class="content-status"><summary>Faglig status</summary><p>Indholdet afventer manuel faglig godkendelse. Medicinfacit, kliniske cases og anatomimodellen skal gennemgås af relevante fagpersoner. Materialet er til undervisning og erstatter ikke kliniske instrukser.</p></details><button class="text-button" data-action="backup">Hent mine data</button><label class="file-button">Gendan mine data<input id="restore-file" type="file" accept="application/json"></label></footer>`;
   if (view === 'learn' && current === BLOOD_PATH_ID) {
     const path = state.paths.find((p) => p.id === current);
     disposeGame = mountBloodGame($('#blood-root'), {
@@ -154,10 +154,10 @@ function render(focus) {
       record: recordFor(path),
       initialActivity: path.steps[index].id.replace('circulation-', ''),
       save: () => persist(),
-      onActivity: (activity) => {
+      onActivity: (activity, level) => {
         index = path.steps.findIndex((s) => s.id === `circulation-${activity}`);
         recordFor(path).last = path.steps[index].id;
-        history.replaceState(null, '', pathRoute(path, path.steps[index]));
+        history.replaceState(null, '', pathRoute(path, path.steps[index]) + '/' + level);
       },
     });
   }
@@ -204,6 +204,10 @@ async function route() {
     if (index < 0) index = getPathProgress(path, state.progress[path.id]).lastIndex;
     view = 'learn';
     const record = recordFor(path);
+    if (path.id === CIRCULATION_ID && ['easy', 'medium', 'hard'].includes(parts[4])) {
+      record.circulation ??= { level: 'easy', drafts: {}, results: {}, errors: {} };
+      record.circulation.level = parts[4];
+    }
     record.started = true;
     record.last = path.steps[index].id;
     record.updatedAt = Date.now();
@@ -272,13 +276,7 @@ async function handle(d, a) {
   }
   if (d.open || d.resume) {
     const p = state.paths.find((p) => p.id === (d.open || d.resume));
-    go(
-      pathRoute(
-        p,
-        p.steps.find((s) => getPathProgress(p, state.progress[p.id]).reviewSteps.includes(s.id)) ||
-          p.steps[getPathProgress(p, state.progress[p.id]).lastIndex],
-      ),
-    );
+    go(pathRoute(p, p.steps[getPathProgress(p, state.progress[p.id]).lastIndex]));
     return;
   }
   if (a === 'home') {

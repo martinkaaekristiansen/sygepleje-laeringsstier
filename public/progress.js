@@ -1,5 +1,54 @@
 import { repetitionNeeds } from './circulation-engine.js';
-import { ACTIVITIES, BLOOD_LEVELS } from './circulation-data.js';
+import { ACTIVITIES, BLOOD_LEVELS, CIRCULATION_ID } from './circulation-data.js';
+
+export function getReviewItems(paths, progress) {
+  return paths.flatMap((path) => {
+    const record = progress[path.id] || {};
+    const items = path.steps.flatMap((step) => {
+      const wrong = (step.questions || []).filter(
+        (q) =>
+          record.answers?.[step.id]?.[q.id] &&
+          record.answers[step.id][q.id] !== q.optionIds[q.correct],
+      );
+      const base = { pathId: path.id, pathTitle: path.title, stepId: step.id };
+      return [
+        ...(record.reviewSteps?.includes(step.id)
+          ? [{ ...base, title: step.title, reason: 'Opdateret indhold – gennemgå trinnet igen' }]
+          : []),
+        ...wrong.map((q) => ({
+          ...base,
+          title: q.q,
+          reason: 'Forkert svar – øv spørgsmålet igen',
+        })),
+      ];
+    });
+    if (path.id === CIRCULATION_ID && record.circulation) {
+      for (const [level, metadata] of Object.entries(BLOOD_LEVELS)) {
+        const needs = Object.keys(repetitionNeeds(record.circulation, level));
+        for (const [activity, title] of ACTIVITIES) {
+          const result = record.circulation.results?.[`${level}:${activity}`];
+          if ((result && !result.last?.passed) || (activity === 'context' && needs.length)) {
+            items.push({
+              pathId: path.id,
+              pathTitle: path.title,
+              stepId: `circulation-${activity}`,
+              level,
+              title: `${metadata.name}: ${title}`,
+              reason:
+                activity === 'context' && needs.length
+                  ? 'Anatomiske områder til repetition: ' +
+                    needs
+                      .map((id) => metadata.steps.find((s) => s.id === id)?.name || id)
+                      .join(', ')
+                  : 'Seneste forsøg er ikke bestået',
+            });
+          }
+        }
+      }
+    }
+    return items;
+  });
+}
 // Progress is based on completed steps, not quiz scores or time spent.
 export function getPathProgress(path, record) {
   const state = record && typeof record === 'object' ? record : {};

@@ -45,7 +45,9 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
     await page.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-lung-desktop.png'});
     assert.match(await page.locator('.blood-world-caption').textContent(),/alveoler/);
    }
-   const started=Date.now();await page.locator('[data-passage]').filter({hasText:route.steps[i+1].name}).click();
+   // Valve labels move with the animation; Playwright's stability wait cannot settle on slow software GPUs.
+   // Keep all passage, timing and valve-opening assertions below.
+   const started=Date.now();await page.locator('[data-passage]').filter({hasText:route.steps[i+1].name}).click({force:true});
    if(i===route.choices.length-1)await page.locator('.blood-result').waitFor();
    else {
     await page.waitForFunction(expected=>document.querySelector('[role=progressbar]')?.getAttribute('aria-valuenow')===String(expected),i+1);

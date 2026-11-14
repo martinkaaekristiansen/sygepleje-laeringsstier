@@ -1,3 +1,4 @@
+import { CIRCULATION_ID } from './circulation-data.js';
 import { lockGameViewport } from './blood-viewport.js';
 import { BLOOD_LEVELS, levelStepId } from './blood-routes.js';
 import {
@@ -281,7 +282,7 @@ export function mountBloodGame(
     const el = $('[data-overlay]');
     el.hidden = false;
     el.className = 'blood3d-overlay';
-    el.innerHTML = `<h2 id="blood-title" tabindex="-1">3D kunne ikke vises</h2><p>${esc(message)}</p><p>Der bruges kun 3D til spillet. Din progression er bevaret.</p><button data-blood="reload">Genindlæs spillet</button><button data-blood="exit">Tilbage til læringsstierne</button>`;
+    el.innerHTML = `<h2 id="blood-title" tabindex="-1">3D kunne ikke vises</h2><p>${esc(message)}</p><p>Der bruges kun 3D til spillet. Din progression er bevaret.</p><a class="secondary" href="#/sti/${CIRCULATION_ID}/circulation-order/${selected}">Øv kredsløbet uden 3D →</a><button data-blood="reload">Genindlæs spillet</button><button data-blood="exit">Tilbage til læringsstierne</button>`;
   }
   function onFrame(f) {
     if (disposed) return;

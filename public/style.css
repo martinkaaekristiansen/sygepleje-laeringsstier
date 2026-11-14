@@ -309,3 +309,12 @@ header nav a{padding:10px;font-size:14px}
 footer{flex-wrap:wrap;gap:1rem}footer .file-button{font-size:.9rem;cursor:pointer}footer input[type=file]{max-width:180px}
 .tag{max-width:90%;white-space:normal;overflow-wrap:anywhere;font-size:.78rem}
 @media(max-width:380px){.route-card{padding:.6rem;grid-template-columns:1.5rem minmax(0,1fr)}.route-card>div{grid-column:2;flex-wrap:wrap}.circulation-learning{padding:.75rem}.activity-tabs{grid-template-columns:1fr}}
+.review-section{margin:2rem 0;padding:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:16px}
+.review-list{list-style:none;padding:0;display:grid;gap:1rem}
+.review-list li{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border)}
+.review-list li>div{min-width:0;overflow-wrap:anywhere}.review-list p{margin:.5rem 0}.review-list a{flex-shrink:0}
+.available-semesters{display:flex;justify-content:center;flex-wrap:wrap;gap:.75rem}
+.semester{min-width:0;overflow-wrap:anywhere}.semester small{display:block;margin-top:.4rem;font-size:.65rem;line-height:1.3;white-space:normal}.content-status{max-width:36rem}.content-status p{line-height:1.5}
+@media(max-width:600px){.review-list li{align-items:flex-start;flex-direction:column}.review-section{padding:1rem}}
+.card-art{height:auto;min-height:202px}.card-art .tag{display:inline-block;max-width:100%}
+@media(max-width:380px){.semesters{grid-template-columns:repeat(3,minmax(0,1fr))}}

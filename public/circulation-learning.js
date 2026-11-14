@@ -75,7 +75,7 @@ export function mountCirculation(root, { record, initialActivity = 'order', save
     const d = draft();
     if (b.dataset.activity) {
       activity = b.dataset.activity;
-      onActivity(activity);
+      onActivity(activity, data.level);
       draw('#activity-title');
       await persistFeedback();
     } else if (b.dataset.move) {
@@ -104,7 +104,7 @@ export function mountCirculation(root, { record, initialActivity = 'order', save
     } else if (b.hasAttribute('data-repeat')) {
       activity = 'context';
       data.drafts[key()] = newDraft(data.level, activity, repetitionNeeds(data, data.level));
-      onActivity(activity);
+      onActivity(activity, data.level);
       draw('#activity-title');
       await persistFeedback();
     }
@@ -113,6 +113,7 @@ export function mountCirculation(root, { record, initialActivity = 'order', save
     const d = draft();
     if (e.target.hasAttribute('data-level')) {
       data.level = e.target.value;
+      onActivity(activity, data.level);
       draw('#activity-title');
       await persistFeedback();
     } else if (e.target.dataset.moveTo !== undefined && !d.submitted) {

@@ -4,6 +4,9 @@ Dansk, mobilvenlig læringsapp til sygeplejestuderende. Appen fungerer uden logi
 
 ## Indhold og funktioner
 
+- **Version 0.10.3:** “Fortsæt” åbner det senest besøgte trin. **Din repetition** samler aktuelle forkerte svar, opdaterede trin og kredsløbsøvelser med direkte links, som bevarer sværhedsgraden. Rettede svar forsvinder fra repetitionsoversigten.
+- Semesterknapper viser, om der er indhold, og tomme semestre giver genveje til semestre med indhold. Ved manglende 3D-understøttelse kan brugeren åbne kredsløbsøvelser uden 3D. **Faglig status** nederst på siden beskriver den fortsat afventende manuelle godkendelse; denne version ændrer ikke facit eller registrerer en faglig godkendelse.
+
 - Valg af semester 1–7. Forsiden åbner på 1. semester og husker derefter dit semester- og fagvalg på enheden.
 - Fagfiltre viser kun fag med læringsstier på det valgte semester. En sti kan tilhøre flere fag.
 - **1. semester: Blodcellens rejse** — et visuelt kredsløbsspil med tre sværhedsgrader, to liv, anatomiske kar og klapper, dynamisk lyd, kropskort, funfacts og lokalt gemte resultater. Rejsen fortsætter direkte til næste valg uden ekstra fortsæt-knapper. Lyden er valgfri og bruger original syntese uden eksterne lydfiler. [Afprøvning og anatomisk model](docs/blodcellens-rejse.md).
