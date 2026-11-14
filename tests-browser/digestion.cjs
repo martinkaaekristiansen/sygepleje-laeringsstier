@@ -182,6 +182,19 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
             wrong.add(s.stage);
             continue;
           }
+          if (!task && s.stage === 'pharynx') {
+            await page.waitForFunction(() =>
+              JSON.parse(document.querySelector('canvas').dataset.targets || '[]').some(
+                (t) => t.target === 'epiglottis' && t.visible,
+              ),
+            );
+            const targets = JSON.parse(await page.locator('canvas').getAttribute('data-targets'));
+            assert.equal(
+              targets.filter((t) => t.target === 'epiglottis').length,
+              1,
+              'one solid epiglottis target, not a ring and lumen',
+            );
+          }
           if (!task && s.stage === 'epiglottis')
             await page.screenshot({
               path: `/tmp/digest-v4-epiglottis-${mobile ? 'mobile' : 'desktop'}.png`,

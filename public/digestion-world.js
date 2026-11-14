@@ -389,6 +389,7 @@ export function createDigestionWorld(canvas, onPick) {
       }
       const epi = sphere(0, -0.1, -3.9, 0.7, 0xbc718c);
       epi.scale.set(0.7, 0.13, 1);
+      if (s.id === 'pharynx') tag(epi, 'epiglottis');
       actors.push({ object: epi, type: 'epiglottis' });
     }
     if (s.id === 'ileum') {
@@ -414,7 +415,7 @@ export function createDigestionWorld(canvas, onPick) {
       tag(hit, 'appendix');
       opening(0, 1.6, -5, 1.05, 'ascending');
     }
-    if (!['epiglottis', 'caecum'].includes(s.id)) {
+    if (!['pharynx', 'epiglottis', 'caecum'].includes(s.id)) {
       const center =
         s.id === 'stomach' ? new T.Vector3(4.5, -1.8, -6.8) : built.path.getPointAt(0.32);
       const exit = opening(
