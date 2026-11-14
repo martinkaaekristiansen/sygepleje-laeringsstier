@@ -37,3 +37,32 @@ Grundlag til faglig efterprøvning: OpenStax *Anatomy and Physiology 2e*, kapite
 `tests-browser/digestion.cjs` gennemspiller alle tre rejser med de ni enzymdelopgaver i hver, bygger reaktionsrækkefølger, kontrollerer alle mikrozoomtrin og perspektivskift, finale, trofæer, genindlæsning, genstart, grafik-/bevægelsesindstillinger, mobilbredde, geometribudget og oprydning. De øvrige browsertests afprøver fortsat blodspillet og de eksisterende læringsstier.
 
 Filmsekvenser kan springes over. Reduceret bevægelse giver statiske demonstrationer med samme tekst og læringsopgaver. Automatisk grafik begrænser pixeltæthed; Lav sænker den yderligere. Lyd kræver brugerhandling og er valgfri.
+
+## Spilversion 2.0 – ændringer og kontrol
+
+Implementeringsplanen blev gennemført i logik/lagring, organmodeller, overgange, molekylereaktioner, absorption/pH, finale/resultater og samlet test.
+
+Nye moduler:
+
+- `public/digestion-anatomy.js`: asymmetrisk mavesæk, C-formet duodenum, forskellige jejunum-/ileumprofiler, colonhaustra, anatomiske kendetegn og fremadgående peristaltisk bølge.
+- `public/digestion-molecules.js`: sammenhængende molekylære enheder og eksplicitte forbindelser. Hydrolyse skjuler udvalgte α-1,4-, ester- eller peptidbindinger, mens fragmenterne forbliver sammenhængende. α-1,6-forgreninger og triglyceridets midterste esterbinding bevares i de relevante illustrationer.
+- `public/digestion-assessment.js`: næringsstofspecifik absorptionsopgave og fem afsluttende forståelsesspørgsmål pr. karakter. Facit og forklaringer vises efter aflevering; testhistorik gemmes separat fra trofæer. Uafsluttede tests kan genoptages.
+
+Eksisterende moduler er videreudviklet: `digestion-world.js` bevarer organmiljøet gennem opgaver og reaktioner og det samme mikromiljø gennem kameraets skalaniveauer. Det begrænser ny geometri og GPU-frigivelser. Organovergange bruger kameraindflyvning og kort overlap; reduceret bevægelse bruger direkte, statiske visninger. `digestion-game.js` håndterer aktiv tid, pause, skjulte faner, pause af sekvenstimer, drag/drop til produktionssted med tastatur-/knapalternativ, tilfældige svarplaceringer, valg af absorptionsvej og separate testresultater. `digestion.css` understøtter pH-intervaller, relativ aktivitet og anatomiske etiketter. Engine, Node- og browsertests er udvidet.
+
+Dokumenterede fejl/svagheder:
+
+- Dato-minus-start medregnede tid uden for spillet. Nye gennemspilninger bruger et monotont, sessionslokalt ur og gemmer aktiv spilletid. Pause, indstillinger, skjult fane og menu tæller ikke med. Historiske tider fra før v2 bevares og mærkes som historiske; de kan ikke rekonstrueres præcist. Checkpoints gemmes hvert femte sekund samt ved handlinger og faneskift; ved et brat browsernedbrud kan de sidste sekunder mangle.
+- Fast rotation af svar og faste reaktionskort kunne udnyttes. Begge blandes nu med Fisher–Yates; tastaturvalg følger synlig placering.
+- Reaktionsrækkefølger bedømmes nu af en direkte, særskilt validator med afvisning af dubletter, ufuldstændige og ukendte trin. Regressionstesten verificerer, at en forkert rækkefølge koster et liv og ikke giver point eller adgang til reaktionen.
+- Lagringsformatet accepterer fortsat ældre gennemførelser og manglende nye felter. Sluttest, kladde og nye absorptionstilstande valideres særskilt.
+
+### Kendte begrænsninger og manuel kontrol
+
+Organer, skalaovergange, aktive sites og transportproteiner er didaktiske modeller, ikke patientanatomi eller proteinstrukturer baseret på atomdata. Mavesækkens form, orientering, portplacering og de synlige folder bør gennemgås visuelt af en anatomiunderviser. Skalaniveauerne deler et miljø, men bruger forskellige geometriske forstørrelser; skalaangivelserne er vejledende, ikke målestokke.
+
+Den relative pH-aktivitet er en glat, skematisk kurve, som alene viser pH-bidraget. Den er ikke en målt kinetisk kurve og tager ikke højde for koncentration, temperatur, cofaktorer eller hele fødebolussens sammensætning. Den vises kun ved relevante enzymstop. En farmakologisk/fysiologisk fagperson bør kontrollere de valgte intervaller og undervisningsforklaringer.
+
+Glukose, natrium og Na⁺/K⁺-ATPase, peptidtransport samt lipidernes reesterificering/lymfevej bør afprøves fagligt i den animerede visning. Transportfigurer er symboler. Ny sluttest og hjælpetekster kræver undervisers vurdering af niveau og formuleringer. Der er ikke registreret ekstern faglig godkendelse.
+
+Test dækker forkerte/korrekte rækkefølger, kemiske bindingsvalg i modellerne, alle tre rejser, tre absorptionsvalg, pH-kurver, pause/aktiv tid, historiske data, særskilt testhistorik, mobil-/tablet-/desktopbredder, geometri og oprydning. De øvrige læringsstiers tests køres fortsat gennem den eksisterende Pages-workflow.

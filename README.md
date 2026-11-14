@@ -4,7 +4,7 @@ Dansk, mobilvenlig læringsapp til sygeplejestuderende. Appen fungerer uden logi
 
 ## Indhold og funktioner
 
-- **1. semester: Fordøjelsens vilde rejse – fra første bid til sidste skyl**: Tre næringsstoffer, tre enzymudfordringer pr. rejse, anatomiske valg, pH, absorption og en humoristisk finale. [Arkitektur, faglige afgrænsninger og test](docs/fordoejelsens-vilde-rejse.md).
+- **1. semester: Fordøjelsens vilde rejse – fra første bid til sidste skyl**: Spilversion 2.0: Tre næringsstoffer, særskilte organmodeller, enzymreaktioner, sammenhængende mikrozoom, absorptionsvalg, aktiv tid og en separat afsluttende test. [Arkitektur, faglige afgrænsninger og test](docs/fordoejelsens-vilde-rejse.md).
 
 - **Version 0.10.3:** “Fortsæt” åbner det senest besøgte trin. **Din repetition** samler aktuelle forkerte svar, opdaterede trin og kredsløbsøvelser med direkte links, som bevarer sværhedsgraden. Rettede svar forsvinder fra repetitionsoversigten.
 - Semesterknapper viser, om der er indhold, og tomme semestre giver genveje til semestre med indhold. Ved manglende 3D-understøttelse kan brugeren åbne kredsløbsøvelser uden 3D. **Faglig status** nederst på siden beskriver den fortsat afventende manuelle godkendelse; denne version ændrer ikke facit eller registrerer en faglig godkendelse.
