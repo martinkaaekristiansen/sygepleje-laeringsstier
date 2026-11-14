@@ -92,7 +92,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
   function showScene(mode) {
     world?.setScene(
       ROUTE[run?.index || 0],
-      run?.character || selected,
+      mode === 'menu' ? selected : run?.character || selected,
       mode,
       Boolean(run?.absorbed),
     );

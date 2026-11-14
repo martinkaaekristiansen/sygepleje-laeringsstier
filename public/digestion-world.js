@@ -363,13 +363,10 @@ export function createDigestionWorld(canvas, onPick) {
     scene.background.set(0x24101b);
     scene.fog.color.set(0x24101b);
     if (mode === 'menu') {
-      ['stanley', 'trine', 'poul']
-        .filter((k) => CHARACTERS[k])
-        .forEach((k, i) => {
-          const m = molecule(k);
-          m.position.set((i - 1) * 2.7, 0, -5);
-          actors.push({ object: m, type: 'molecule', i });
-        });
+      const m = molecule(id);
+      m.position.set(0, 3.2, -5);
+      m.scale.setScalar(0.8);
+      actors.push({ object: m, type: 'molecule', i: 0 });
     } else if (mode === 'finale') {
       scene.background.set(0xf5e9cd);
       scene.fog.color.set(0xf5e9cd);
