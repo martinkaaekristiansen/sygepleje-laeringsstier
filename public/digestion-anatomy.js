@@ -24,46 +24,67 @@ export const ORGAN_LABELS = {
 };
 export function organCurve(id) {
   const points =
-    id === 'duodenum'
+    id === 'ascending'
       ? [
           [0, 0, 3],
-          [0, 0, -1],
-          [0.6, -1.7, -5],
-          [4, -3, -7],
-          [7, -1.5, -6],
-          [8, 1, -5],
+          [0, 2, 1],
+          [0, 6, 0],
+          [0, 11, 0],
         ]
-      : id === 'jejunum'
+      : id === 'transverse'
         ? [
             [0, 0, 3],
-            [-0.7, 0.2, -2],
-            [-1.4, 1, -7],
-            [1, 0.5, -12],
-            [1.6, -1, -18],
-            [0, 0, -24],
+            [3, 0, 1],
+            [7, 0, 0],
+            [11, 0, 0],
           ]
-        : id === 'ileum'
+        : id === 'descending'
           ? [
               [0, 0, 3],
-              [0.8, -0.5, -3],
-              [1.5, -1, -9],
-              [-0.5, -0.8, -16],
-              [0, -1, -24],
+              [0, -3, 1],
+              [0, -7, 0],
+              [0, -11, 0],
             ]
-          : id === 'sigmoid'
+          : id === 'duodenum'
             ? [
                 [0, 0, 3],
-                [-1, 0, -3],
-                [1.4, -0.8, -9],
-                [-1.5, -1.6, -15],
-                [0, -2, -23],
+                [0, 0, -1],
+                [0.6, -1.7, -5],
+                [4, -3, -7],
+                [7, -1.5, -6],
+                [8, 1, -5],
               ]
-            : [
-                [0, 0, 5],
-                [0, 0, -3],
-                [0.25, 0, -12],
-                [0, 0, -24],
-              ];
+            : id === 'jejunum'
+              ? [
+                  [0, 0, 3],
+                  [-0.7, 0.2, -2],
+                  [-1.4, 1, -7],
+                  [1, 0.5, -12],
+                  [1.6, -1, -18],
+                  [0, 0, -24],
+                ]
+              : id === 'ileum'
+                ? [
+                    [0, 0, 3],
+                    [0.8, -0.5, -3],
+                    [1.5, -1, -9],
+                    [-0.5, -0.8, -16],
+                    [0, -1, -24],
+                  ]
+                : id === 'sigmoid'
+                  ? [
+                      [0, 0, 3],
+                      [-1, 0, -3],
+                      [1.4, -0.8, -9],
+                      [-1.5, -1.6, -15],
+                      [0, -2, -23],
+                    ]
+                  : [
+                      [0, 0, 5],
+                      [0, 0, -3],
+                      [0.25, 0, -12],
+                      [0, 0, -24],
+                    ];
   return new T.CatmullRomCurve3(points.map((p) => new T.Vector3(...p)));
 }
 export function stomachPoint(u, v) {
@@ -90,7 +111,7 @@ export function lumenRadius(id, u, a = 0) {
 export function peristalsis(u, t) {
   const center = (t * 0.14) % 1;
   const d = Math.min(Math.abs(u - center), 1 - Math.abs(u - center));
-  return 1 - 0.2 * Math.exp((-d * d) / 0.003);
+  return 1 - 0.38 * Math.exp((-d * d) / 0.002);
 }
 export function buildOrganSurface(stage, low = false) {
   const sack = stage.id === 'stomach',
@@ -140,4 +161,15 @@ export function buildOrganSurface(stage, low = false) {
     around,
   };
   return { geometry: g, path, frames };
+}
+
+export function toothPose(i) {
+  const j = i % 16,
+    a = (j / 15) * Math.PI;
+  return {
+    position: [Math.cos(a) * 2.35, (i < 16 ? 1 : -1) * 1.75, -2.8 + Math.sin(a) * 3.3],
+    rotation: i < 16 ? Math.PI : 0,
+    crownDirection: i < 16 ? -1 : 1,
+    type: j < 4 || j > 11 ? 'molar' : j === 4 || j === 11 ? 'canine' : 'incisor',
+  };
 }

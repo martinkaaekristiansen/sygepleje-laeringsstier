@@ -66,3 +66,35 @@ Den relative pH-aktivitet er en glat, skematisk kurve, som alene viser pH-bidrag
 Glukose, natrium og Na⁺/K⁺-ATPase, peptidtransport samt lipidernes reesterificering/lymfevej bør afprøves fagligt i den animerede visning. Transportfigurer er symboler. Ny sluttest og hjælpetekster kræver undervisers vurdering af niveau og formuleringer. Der er ikke registreret ekstern faglig godkendelse.
 
 Test dækker forkerte/korrekte rækkefølger, kemiske bindingsvalg i modellerne, alle tre rejser, tre absorptionsvalg, pH-kurver, pause/aktiv tid, historiske data, særskilt testhistorik, mobil-/tablet-/desktopbredder, geometri og oprydning. De øvrige læringsstiers tests køres fortsat gennem den eksisterende Pages-workflow.
+
+## Spilversion 3.0 – to udviklingsomgange
+
+### Omgang 1: anatomi, navigation og kamera
+
+- Ny start foran et stiliseret ansigt. Føden nærmer sig ansigtet, hvorefter mund og næse kan vælges direkte på deres synlige geometri eller via tekstknapper. Forkert næsevalg giver en ny chance og den humoristiske forklaring.
+- Tandbuerne er vendt korrekt: Overkæbens kroner peger ned, underkæbens op. Fortænderne ligger fortil; hjørne- og kindtænder har forskellige profiler. Underkæbens tyggebevægelse, fødefragmenter og tungebevægelse illustrerer findeling og bolusdannelse.
+- Svælget viser en ringstøttet trachea fortil og en glat/foldet oesophagus bagtil. Valget er raycast-baseret. Synkningen viser epiglottisbevægelse, larynxløft og lukning af stemmelæberne; epiglottis er ikke den eneste beskyttelse.
+- Peristaltisk indsnævring følger bag bolus i oesophagus; kameraet bliver i lumen. Colons kurver går op, på tværs og ned og videre gennem et S-formet sigmoid. Et lukket appendix er en blind sidegren ved caecum, hvor colon ascendens er den rigtige vej.
+- Musetræk og touch-swipe ændrer kun kameraets retning med afgrænset yaw/pitch; ◎ centrerer det. Hover/fokus fremhæver valgbare objekter. Den synlige appendixspids har en lidt større usynlig touchflade, så tynde strukturer er lettere at ramme.
+- Kropskortet følger samme frontvisningsprincip som blodspillet: patientens højre vises til venstre. Det viser aktuel position, gennemført og resterende rute og kan lukkes. Kort og koordinater er samlet i `digestion-navigation.js`.
+
+Ved de almindelige, ikke-forgrenede passager vælger man mellem at fortsætte gennem den synlige åbning eller blive og undersøge. Der opfindes ikke falske sidegrene. De anatomiske fejlruter ved mund/næse, svælg og caecum testes særskilt.
+
+Omgang 1 blev afprøvet med Node-tests og en browserkontrol af forkert næsevalg, korrekt mundvalg, kameratræk og kort, før sekret- og brugerfladearbejdet blev tilføjet.
+
+### Omgang 2: sekret, reaktioner og visuel formidling
+
+- `digestion-secretions.js` tegner udførselsgange og instancerede sekretstrømme. Mundhulen har parotis-, submandibulære og sublinguale tilførsler; kirtler kan ses som skematiske gennemskæringer via Info. Mavesækken viser syrepartikler og næringsstofrelevante proteinsekreter; proteinets pepsinogen ændrer farve ved aktivering. Duodenum viser galdegang/pankreasgang og indløb ved papillen samt neutralisering af surt indhold.
+- Enzymfarver adskiller sig fra karakterernes farver. Proteinfigurer har foldet bånd, aktivt site og bevægelse mod substratet. Galdesalte vises som en anden type hypotese, uden proteinets aktive site. Enzym og substrat kan fremhæves særskilt. De tidligere bindingsspecifikke hydrolysemodeller er bevaret.
+- Den særlige enzymopgave i duodenum tilbyder præcis de tre ønskede muligheder for hver karakter. Øvrige almindelige valg har to muligheder; reaktionsopgaven bruger fortsat tre ordnede proceskort. Dansk brugerflade bruger bugspytamylase.
+- Den lange absorptions-zoomserie er fjernet. En kort, samlet model viser lumen, epitel og kapillær/lymfekar uden gentagne kameraforstørrelser. Spilleren vælger transportvej og ser den følges. Perspektivskift til en ufordøjelig rest er fortsat eksplicit.
+- Permanent pH-skala, relativ aktivitetsmåler og panel med anatomiske kendetegn er fjernet. Forsuring, amylasehæmning og neutralisering formidles gennem væske- og enzymanimationer og valgfri forklaring under Info. Det aktive navigationspanel er reduceret, så det ikke dækker appendix på mobil.
+- Procedural slimhindetekstur, bump, filmisk tone mapping og adskilte sekret-/proteinmaterialer giver mere overfladedetalje uden eksterne filer. Sekretpartikler bruger instanser frem for et separat draw call pr. dråbe.
+
+En fejl fra v2 blev fundet og rettet: `drawChoices` nulstillede spilleflag og ur ved en genoptegning. En browserregression kontrollerer nu gemt aktiv tid hen over et spørgsmålsskift. Ældre tidsregistreringer kan ikke rekonstrueres og bevarer deres historiske markering. Spil-ID, trin-ID'er, trofæer, sluttesthistorik, kladder og eksisterende gennemførelser er bevaret.
+
+### Tests og begrænsninger i v3
+
+Node-tests kontrollerer indgangsvalg, tandorientering, reelle anatomiske alternativer, kolonretninger og kort, sekretstrukturer, fravær af opdigtet proteolyse i munden samt de tre duodenumhypoteser. Browseren rammer selve mund/næse, trachea/oesophagus og appendix/colon via raycasting og kontrollerer forkert feedback såvel som korrekt passage. Alle tre rejser, tre enzymstop, kort absorption, sluttest, genoptagelse, pause, kameragrænser, kort, mobilbredder, WebGL-fejl og oprydning testes fortsat.
+
+Visuel genkendelighed er manuelt kontrolleret med skærmbilleder, men kan ikke bevises af en grøn teknisk test. Ansigt, organer, kirtelgennemskæringer, villi og molekyler er procedurale undervisningsmodeller, ikke scanninger eller atommodeller. Sekretstrømme og farveskift er kvalitative illustrationer, ikke målt sekretion eller kemisk kinetik. Kirteludførselsgange, svælgets orientering, villusproportioner, duodenums indløb, enzym-/sekretforklaringer og den anatomiske genkendelighed bør bedømmes af en relevant underviser. Der er fortsat ikke registreret ekstern faglig godkendelse.

@@ -12,17 +12,61 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     const page = await browser.newPage({
         viewport: { width: 390, height: 844 },
         reducedMotion: 'reduce',
+        hasTouch: true,
       }),
       errors = [];
-    page.on('pageerror', (e) => errors.push(e.message));
+    page.on('pageerror', (e) => {
+      errors.push(e.message);
+      console.log(e.stack);
+    });
     page.on('dialog', (d) => d.accept());
     await page.goto(base + '#/sti/fordoejelsens-vilde-rejse/digestion-stanley');
     await page.locator('[data-digest=start]').waitFor();
+    async function savedActive() {
+      return page.evaluate(
+        () =>
+          new Promise((resolve, reject) => {
+            const q = indexedDB.open('laeringsstier-v2');
+            q.onerror = () => reject(q.error);
+            q.onsuccess = () => {
+              const db = q.result;
+              const r = db.transaction('records').objectStore('records').get('progress');
+              r.onsuccess = () => {
+                const value = r.result['fordoejelsens-vilde-rejse'].digestion.active;
+                db.close();
+                resolve(value);
+              };
+            };
+          }),
+      );
+    }
+    async function scenePick(target) {
+      await page.waitForFunction(
+        (target) =>
+          JSON.parse(document.querySelector('canvas').dataset.targets || '[]').some(
+            (t) => t.target === target && t.visible,
+          ),
+        target,
+      );
+      const t = await page.evaluate(
+        (target) =>
+          JSON.parse(document.querySelector('canvas').dataset.targets).find(
+            (t) => t.target === target && t.visible,
+          ),
+        target,
+      );
+      const box = await page.locator('canvas').boundingBox();
+      await page.touchscreen.tap(box.x + (box.width * t.x) / 100, box.y + (box.height * t.y) / 100);
+      await page.waitForTimeout(100);
+    }
     for (const id of Object.keys(CHARACTERS)) {
       console.log('Testing digestion:', id);
       await page.locator(`[data-character="${id}"]`).click();
       await page.locator('[data-digest=start]').click();
-      let testedWrongOrder = false;
+      let testedWrongOrder = false,
+        wrongEntry = false,
+        wrongThroat = false,
+        wrongAppendix = false;
       let changedPerspective = false,
         seen = new Set();
       for (let step = 0; step < 100; step++) {
@@ -42,6 +86,19 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           }
           continue;
         }
+        if (await page.locator('[data-digest=retry]').count()) {
+          await page.locator('[data-digest=retry]').click();
+          continue;
+        }
+        if (await page.locator('[data-entry]').count()) {
+          if (id === 'stanley' && !wrongEntry) {
+            await scenePick('nose');
+            await page.getByText('Forkert indgang!', { exact: false }).waitFor();
+            wrongEntry = true;
+          }
+          await scenePick('mouth');
+          continue;
+        }
         if (await page.locator('[data-absorb]').count()) {
           await page
             .locator('[data-absorb]')
@@ -53,7 +110,16 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
         if (await page.locator('[data-chain]').count()) {
           if (!testedWrongOrder) {
             for (const n of [1, 0, 2]) await page.locator(`[data-chain="${n}"]`).click();
-            await page.waitForFunction(() => document.querySelector('.digest-feedback'));
+            await page.waitForFunction(
+              () =>
+                document.querySelector('.digest-feedback') ||
+                document.querySelector('[data-digest=retry]'),
+            );
+            if (await page.locator('[data-digest=retry]').count()) {
+              testedWrongOrder = true;
+              await page.locator('[data-digest=retry]').click();
+              continue;
+            }
             assert.equal(await page.locator('canvas').getAttribute('data-digest-mode'), 'boss');
             testedWrongOrder = true;
           }
@@ -63,6 +129,8 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
         }
         await page.waitForFunction(
           () =>
+            document.querySelector('[data-entry]') ||
+            document.querySelector('[data-digest=retry]') ||
             document.querySelector('[data-absorb]') ||
             document.querySelector('[data-choice]:enabled') ||
             document.querySelector('[data-chain]:not(:disabled)') ||
@@ -74,6 +142,38 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           s = ROUTE.find((s) => s.id === stage);
         const title = await page.locator('.digest-panel h2').textContent();
         const task = BOSSES[id][stage]?.find((t) => t.prompt === title);
+        if (task?.kind === 'enzyme' && ['mouth', 'stomach', 'duodenum'].includes(stage))
+          await page.waitForFunction(
+            () => Number(document.querySelector('canvas').dataset.secretionStreams) > 0,
+          );
+        assert.equal(
+          await page.locator('[data-choice]').count(),
+          stage === 'duodenum' && task?.kind === 'enzyme' ? 3 : 2,
+        );
+        if (!task && stage === 'pharynx') {
+          if (id === 'stanley' && !wrongThroat) {
+            await scenePick('trachea');
+            await page
+              .locator('.digest-panel')
+              .getByText('aspirationsøvelse', { exact: false })
+              .waitFor();
+            wrongThroat = true;
+            continue;
+          }
+          await scenePick('oesophagus');
+          continue;
+        }
+        if (!task && stage === 'caecum') {
+          if (id === 'stanley' && !wrongAppendix) {
+            await scenePick('appendix');
+            await page.screenshot({ path: '/tmp/v3-caecum.png' });
+            await page.locator('.digest-panel').getByText('blindgyde', { exact: false }).waitFor();
+            wrongAppendix = true;
+            continue;
+          }
+          await scenePick('ascending');
+          continue;
+        }
         const target =
           task?.options[0] || ROUTE.slice(s.index + 1).find((s) => !s.automatic)?.latin;
         const before = await page.locator('.digest-panel').textContent();
@@ -88,10 +188,10 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       for (const mode of [
         'intro',
         'reaction',
-        'lumen',
-        'villus',
-        'cell',
-        'membrane',
+        'face-intro',
+        'swallow',
+        'secretion',
+        'absorb',
         'transport',
         'residue',
         'finale',
@@ -116,12 +216,14 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     // Failed challenge recovers in place; old trophies survive a new attempt.
     await page.locator('[data-digest=start]').click();
     await page.locator('[data-digest=skip]').evaluate((b) => b.click());
+    await scenePick('mouth');
+    await page.locator('[data-digest=skip]').evaluate((b) => b.click());
     const selected = await page.locator('.digest-hud strong').textContent(),
       id = Object.keys(CHARACTERS).find((k) => CHARACTERS[k].name === selected);
     for (let i = 0; i < 2; i++)
       await page
         .locator('[data-choice]')
-        .filter({ hasText: BOSSES[id].mouth[0].options[1] })
+        .filter({ hasNotText: BOSSES[id].mouth[0].options[0] })
         .click();
     await page.locator('[data-digest=retry]').click();
     assert.match(await page.locator('.digest-hud').textContent(), /♥♥/);
@@ -140,6 +242,8 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       .filter({ hasText: correctLabel })
       .getAttribute('data-choice');
     const builds = await page.locator('canvas').getAttribute('data-environment-builds');
+    const timeBefore = (await savedActive()).elapsed;
+    await page.waitForTimeout(300);
     await page.locator('[data-choice]').first().focus();
     await page.keyboard.press(String(Number(index) + 1));
     await page.waitForFunction(
@@ -147,20 +251,39 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       BOSSES[id].mouth[1].prompt,
     );
     assert.equal(await page.locator('canvas').getAttribute('data-environment-builds'), builds);
-    await page.locator('.digest-ph summary').click();
-    await page.waitForFunction(() =>
-      Number.isFinite(Number(document.querySelector('canvas').dataset.ph)),
+    assert.ok(
+      (await savedActive()).elapsed >= timeBefore + 250,
+      'active time continues across rendering the next question',
     );
-    assert.ok(Number(await page.locator('canvas').getAttribute('data-ph')) > 0);
-    await page.locator('.digest-ph summary').click();
+    assert.equal(await page.locator('.digest-ph,.digest-structures').count(), 0);
+    await page.locator('[data-digest=map]').click();
+    assert.equal(await page.locator('.digest-map svg').count(), 1);
+    await page.locator('[data-digest=map]').click();
     for (const viewport of [
       { width: 1024, height: 768 },
       { width: 768, height: 1024 },
+      { width: 320, height: 844 },
       { width: 390, height: 844 },
     ]) {
       await page.setViewportSize(viewport);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     }
+    const box = await page.locator('canvas').boundingBox();
+    await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.4);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width * 0.5 + 120, box.y + box.height * 0.4 + 30, {
+      steps: 6,
+    });
+    await page.mouse.up();
+    await page.waitForFunction(
+      () => Math.abs(JSON.parse(document.querySelector('canvas').dataset.look).yaw) > 0.1,
+    );
+    const look = JSON.parse(await page.locator('canvas').getAttribute('data-look'));
+    assert.ok(Math.abs(look.yaw) <= 0.95 && Math.abs(look.pitch) <= 0.5);
+    await page.locator('[data-digest=center]').click();
+    await page.waitForFunction(
+      () => JSON.parse(document.querySelector('canvas').dataset.look).yaw === 0,
+    );
     await page.locator('[data-digest=pause]').click();
     assert.equal(await page.locator('.digest-panel').evaluate((e) => e.inert), true);
     await page.locator('[data-digest=pause]').click();

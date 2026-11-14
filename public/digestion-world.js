@@ -1,3 +1,4 @@
+import { addSecretions, mucosaTexture } from './digestion-secretions.js';
 import { nutrientModel } from './digestion-molecules.js';
 import {
   buildOrganSurface,
@@ -5,13 +6,17 @@ import {
   lumenRadius,
   peristalsis,
   stomachPoint as stomachPointLocal,
+  toothPose,
 } from './digestion-anatomy.js';
-import { reactionState } from './digestion-engine.js';
+import { reactionState, relativeActivity } from './digestion-engine.js';
 import * as T from './three.module.min.js';
 import { CHARACTERS } from './digestion-data.js';
 // One renderer, camera and animation loop for every nutrient and scale.
 export function createDigestionWorld(canvas, onPick) {
   const renderer = new T.WebGLRenderer({ canvas, antialias: true, powerPreference: 'low-power' });
+  renderer.toneMapping = T.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.95;
+  const texture = mucosaTexture();
   const scene = new T.Scene(),
     camera = new T.PerspectiveCamera(74, 1, 0.03, 180);
   scene.background = new T.Color(0x24101b);
@@ -56,7 +61,17 @@ export function createDigestionWorld(canvas, onPick) {
     microReady = false,
     wall = null,
     wallBase = null,
-    organPath = null;
+    organPath = null,
+    targets = [],
+    envTargets = [],
+    choiceTargets = [],
+    hovered = -1,
+    yaw = 0,
+    pitch = 0,
+    drag = null,
+    cough = 0,
+    highlightEntity = null,
+    secretions = null;
   const resize = () => {
     const b = canvas.getBoundingClientRect();
     renderer.setSize(b.width, b.height, false);
@@ -112,6 +127,9 @@ export function createDigestionWorld(canvas, onPick) {
       p.userData.choice = index;
     }
     enzymes.push(g);
+    const ribbon = mesh(new T.TorusKnotGeometry(0.32, 0.045, 40, 6, 2, 3), color, g);
+    ribbon.position.z = -0.2;
+    ribbon.userData.choice = index;
     return g;
   }
   function free(group) {
@@ -141,11 +159,13 @@ export function createDigestionWorld(canvas, onPick) {
     enzymes = [];
     teeth = [];
     drops = [];
+    targets = [];
     environment = null;
     environmentKey = '';
     microReady = false;
     wall = null;
     wallBase = null;
+    secretions = null;
   }
   function clearContent() {
     for (const child of [...root.children])
@@ -157,6 +177,54 @@ export function createDigestionWorld(canvas, onPick) {
     drops = [...envDrops];
     teeth = [...envTeeth];
     enzymes = [];
+    targets = [...envTargets];
+  }
+  function tag(object, target) {
+    object.userData.target = target;
+    targets.push(object);
+    return object;
+  }
+  function opening(x, y, z, r, target, color = 0x3a1724) {
+    const group = new T.Group();
+    root.add(group);
+    const lip = mesh(new T.TorusGeometry(r, 0.12, 10, 36), 0xba7787, group);
+    const hole = mesh(new T.CircleGeometry(r, 36), color, group);
+    hole.position.z = -0.04;
+    if (!['mouth', 'nose'].includes(target)) {
+      hole.material.transparent = true;
+      hole.material.opacity = 0.22;
+      hole.material.depthWrite = false;
+    }
+    group.position.set(x, y, z);
+    tag(lip, target);
+    tag(hole, target);
+    return group;
+  }
+  function face() {
+    const head = sphere(0, 0.2, -3, 2.35, 0xc89c83);
+    head.scale.set(0.82, 1.25, 0.66);
+    for (const side of [-1, 1]) {
+      const ear = sphere(side * 1.85, 0.15, -3, 0.42, 0xc3927e);
+      ear.scale.set(0.45, 1, 0.65);
+      const eye = sphere(side * 0.65, 0.9, -1.6, 0.25, 0xf2e8df);
+      eye.scale.y = 0.55;
+      sphere(side * 0.65, 0.9, -1.39, 0.1, 0x493528);
+    }
+    const nose = sphere(0, 0.35, -1.15, 0.4, 0xd6ab92);
+    nose.scale.set(0.65, 1.1, 1.05);
+    tag(nose, 'nose');
+    for (const x of [-0.16, 0.16]) {
+      const nostril = opening(x, 0.12, -0.86, 0.12, 'nose', 0x20161a);
+      nostril.scale.y = 0.55;
+    }
+    const mouth = opening(0, -0.75, -1.1, 0.72, 'mouth', 0x27121b);
+    mouth.scale.y = 0.48;
+    const chin = sphere(0, -1.5, -1.6, 0.55, 0xc89c83);
+    chin.scale.y = 0.7;
+    for (let i = 0; i < 5; i++) {
+      const food = sphere((i - 2) * 0.16, -0.65, 2, 0.15, 0xc7a46a);
+      actors.push({ object: food, type: 'face-food', i });
+    }
   }
   function lumen(s) {
     canvas.dataset.environmentBuilds = String(Number(canvas.dataset.environmentBuilds || 0) + 1);
@@ -167,10 +235,22 @@ export function createDigestionWorld(canvas, onPick) {
     const built = buildOrganSurface(s, quality === 'low');
     organPath = built.path;
     wall = mesh(built.geometry, stomach ? 0xa34a61 : colon ? 0x946f79 : 0xb96f72);
+    tag(wall, 'inspect');
     wall.material.side = T.DoubleSide;
-    wall.material.roughness = 0.64;
+    wall.material.roughness = 0.45;
+    if (texture) {
+      wall.material.map = texture;
+      wall.material.bumpMap = texture;
+      wall.material.bumpScale = 0.055;
+    }
     wallBase = wall.geometry.attributes.position.array.slice();
     canvas.dataset.organShape = built.geometry.userData.kind;
+    if (stomach && character === 'stanley') {
+      const amylase = mesh(new T.TorusKnotGeometry(0.22, 0.06, 32, 7), 0x65d6ec);
+      amylase.position.set(-0.6, 0.3, -6.5);
+      amylase.material.transparent = true;
+      actors.push({ object: amylase, type: 'amylase-inhibition' });
+    }
     if (stomach) {
       for (let i = 0; i < 16; i++) {
         const a = i / 16;
@@ -193,7 +273,16 @@ export function createDigestionWorld(canvas, onPick) {
     if (small) {
       const count = s.id === 'ileum' ? 50 : quality === 'low' ? 70 : 180;
       const instance = new T.InstancedMesh(
-        new T.CapsuleGeometry(0.09, 0.42, 3, 6),
+        new T.LatheGeometry(
+          [
+            new T.Vector2(0, 0),
+            new T.Vector2(0.075, 0.04),
+            new T.Vector2(0.1, 0.24),
+            new T.Vector2(0.07, 0.48),
+            new T.Vector2(0, 0.63),
+          ],
+          8,
+        ),
         new T.MeshStandardMaterial({ color: 0xe8a18f, roughness: 0.65 }),
         count,
       );
@@ -225,27 +314,32 @@ export function createDigestionWorld(canvas, onPick) {
       tongue.scale.set(1.8, 0.35, 2.8);
       actors.push({ object: tongue, type: 'tongue' });
       for (let i = 0; i < 32; i++) {
-        const molar = i % 16 < 4 || i % 16 > 11;
-        const tooth = mesh(new T.SphereGeometry(1, 16, 12), 0xffedd6);
-        tooth.scale.set(molar ? 0.28 : 0.22, molar ? 0.34 : 0.44, molar ? 0.3 : 0.15);
-        if (molar) {
-          for (let k = 0; k < 3; k++) {
-            const cusp = sphere((k - 1) * 0.13, (i < 16 ? -1 : 1) * 0.24, 0, 0.13, 0xffedd6, tooth);
-          }
-        }
-        const a = ((i % 16) / 15) * Math.PI;
-        tooth.position.set(Math.cos(a) * 2.7, (i < 16 ? 1 : -1) * 2.1, -Math.sin(a) * 2.8);
+        const j = i % 16,
+          molar = j < 4 || j > 11,
+          canine = j === 4 || j === 11;
+        const tooth = mesh(new T.SphereGeometry(1, 16, 12), 0xf5e4c6);
+        tooth.scale.set(
+          molar ? 0.31 : canine ? 0.2 : 0.24,
+          molar ? 0.32 : canine ? 0.5 : 0.37,
+          molar ? 0.32 : 0.13,
+        );
+        if (molar)
+          for (let k = 0; k < 3; k++) sphere((k - 1) * 0.24, 0.65, 0, 0.22, 0xf5e4c6, tooth);
+        const pose = toothPose(i);
+        tooth.position.fromArray(pose.position);
+        tooth.rotation.z = pose.rotation;
+        tooth.userData.crownDirection = pose.crownDirection;
         teeth.push(tooth);
       }
-      for (const y of [-2.3, 2.3]) {
+      for (const y of [-2, 2]) {
         const arch = new T.CatmullRomCurve3(
           Array.from(
             { length: 20 },
             (_, i) =>
               new T.Vector3(
-                Math.cos((i / 19) * Math.PI) * 2.7,
+                Math.cos((i / 19) * Math.PI) * 2.35,
                 y,
-                -Math.sin((i / 19) * Math.PI) * 2.8,
+                -2.8 + Math.sin((i / 19) * Math.PI) * 3.3,
               ),
           ),
         );
@@ -263,13 +357,30 @@ export function createDigestionWorld(canvas, onPick) {
       actors.push({ object: ring, type: 'sphincter' });
     }
     if (s.id === 'pharynx') {
-      const epiglottis = sphere(1.25, -0.5, -4, 0.7, 0xc47e94);
-      epiglottis.scale.set(0.6, 0.14, 1.2);
-      actors.push({ object: epiglottis, type: 'epiglottis' });
-      for (let i = 0; i < 7; i++) {
-        const ring = mesh(new T.TorusGeometry(0.72, 0.07, 7, 20), 0xe3bba6);
-        ring.position.set(2, -1, -4 - i * 0.25);
+      const trachea = opening(0, -1, -4, 0.8, 'trachea');
+      actors.push({ object: trachea, type: 'larynx' });
+      for (const side of [-1, 1]) {
+        const fold = sphere(side * 0.25, 0, -0.3, 0.2, 0xe6c5cf, trachea);
+        fold.scale.set(0.35, 2.6, 0.35);
+        actors.push({ object: fold, type: 'vocal-fold', side });
       }
+      for (let i = 0; i < 9; i++) {
+        const ring = mesh(new T.TorusGeometry(0.8, 0.08, 8, 30, Math.PI * 1.6), 0xdfc6b0, trachea);
+        ring.position.set(0, -i * 0.05, -i * 0.32);
+        tag(ring, 'trachea');
+      }
+      const esophagus = opening(0, 1, -6, 0.7, 'oesophagus');
+      esophagus.scale.y = 0.7;
+      for (let i = 0; i < 8; i++) {
+        const a = (i / 8) * Math.PI * 2;
+        const f = mesh(new T.CapsuleGeometry(0.045, 0.55, 3, 6), 0xcf8c98);
+        f.position.set(Math.cos(a) * 0.55, 1 + Math.sin(a) * 0.3, -6.1);
+        f.rotation.x = Math.PI / 2;
+        tag(f, 'oesophagus');
+      }
+      const epi = sphere(0, -0.1, -3.9, 0.7, 0xbc718c);
+      epi.scale.set(0.7, 0.13, 1);
+      actors.push({ object: epi, type: 'epiglottis' });
     }
     if (s.id === 'ileum') {
       for (let i = 0; i < 6; i++) {
@@ -277,14 +388,41 @@ export function createDigestionWorld(canvas, onPick) {
         p.scale.set(0.14, 0.6, 1.6);
       }
     }
-    if (s.id === 'pharynx' || s.id === 'caecum') {
-      const branch = mesh(
-        new T.CylinderGeometry(s.id === 'caecum' ? 0.3 : 0.8, 0.15, 3, 16, 1, true),
-        0x92536b,
-      );
-      branch.position.set(2.6, -0.7, -6);
-      branch.rotation.z = 0.8;
+    if (s.id === 'caecum') {
+      const curve = new T.CatmullRomCurve3([
+        new T.Vector3(-1.4, -1, -5),
+        new T.Vector3(-2.3, -1.6, -5.5),
+        new T.Vector3(-2.5, -2.5, -6),
+        new T.Vector3(-1.9, -2.7, -6.2),
+      ]);
+      const appendix = mesh(new T.TubeGeometry(curve, 28, 0.24, 12, false), 0xa96f83);
+      tag(appendix, 'appendix');
+      appendix.userData.pickPosition = new T.Vector3(-1.9, -2.7, -6.2);
+      tag(sphere(-1.9, -2.7, -6.2, 0.24, 0xa96f83), 'appendix');
+      const hit = sphere(-1.9, -2.7, -6.2, 0.42, 0xa96f83);
+      hit.material.transparent = true;
+      hit.material.opacity = 0;
+      tag(hit, 'appendix');
+      opening(0, 1.6, -5, 1.05, 'ascending');
     }
+    if (!['pharynx', 'caecum'].includes(s.id)) {
+      const center =
+        s.id === 'stomach' ? new T.Vector3(4.5, -1.8, -6.8) : built.path.getPointAt(0.32);
+      const exit = opening(
+        center.x,
+        center.y,
+        center.z,
+        s.id === 'stomach' ? 0.65 : 1.25,
+        'forward',
+      );
+      if (s.id === 'stomach') exit.rotation.y = Math.PI / 3;
+      else
+        exit.quaternion.setFromUnitVectors(
+          new T.Vector3(0, 0, 1),
+          built.path.getTangentAt(0.32).negate(),
+        );
+    }
+    secretions = addSecretions(root, s, character);
     for (let i = 0; i < 26; i++) {
       const m = sphere(
         Math.sin(i * 9) * 2,
@@ -300,10 +438,35 @@ export function createDigestionWorld(canvas, onPick) {
   function microscopic(kind) {
     scene.background.set(0x142b38);
     scene.fog.color.set(0x142b38);
-    const vill = mesh(new T.CapsuleGeometry(0.82, 2.6, 10, 24), 0xd99b96);
+    const vill = mesh(
+      new T.LatheGeometry(
+        [
+          new T.Vector2(0, -2.1),
+          new T.Vector2(0.65, -2),
+          new T.Vector2(0.82, -1.2),
+          new T.Vector2(0.72, 0.8),
+          new T.Vector2(0.4, 1.65),
+          new T.Vector2(0, 1.85),
+        ],
+        24,
+      ),
+      0xd99b96,
+    );
     vill.position.set(0, -0.8, -8);
     vill.material.transparent = true;
     vill.material.opacity = 0.25;
+    for (let i = 0; i < 48; i++) {
+      const a = i * 2.399,
+        y = -1.6 + (i % 9) * 0.32;
+      const cell = sphere(
+        Math.cos(a) * 0.77,
+        y,
+        Math.sin(a) * 0.77 - 8,
+        0.1,
+        i % 9 === 0 ? 0x80c6cf : 0xd9a38d,
+      );
+      cell.scale.set(0.75, 1.55, 0.75);
+    }
     const lymph = mesh(new T.CylinderGeometry(0.11, 0.11, 3.2, 12), 0x8bd898);
     lymph.position.set(0, -0.8, -7.8);
     for (const x of [-0.55, 0.55]) {
@@ -385,10 +548,21 @@ export function createDigestionWorld(canvas, onPick) {
   function labelChoices(labels) {
     const types = ['amylase', 'pepsin', 'lipase', 'trypsin'];
     enzymes.forEach((e, i) => {
-      const type = types.findIndex((t) => (labels[i] || '').toLowerCase().includes(t));
-      const color = [0xf4c35d, 0xb69cf0, 0x7bd5bb, 0xed9a85][type] || 0x94b8cb;
+      e.visible = i < labels.length;
+      e.position.x = labels.length === 2 ? (i - 0.5) * 2.3 : (i - 1) * 1.7;
+      let type = types.findIndex((t) => (labels[i] || '').toLowerCase().includes(t));
+      if ((labels[i] || '').toLowerCase().includes('proteas')) type = 3;
+      const bile = (labels[i] || '').toLowerCase().includes('galdesalt');
+      e.userData.kind = bile ? 'bile-salts' : 'protein-enzyme';
+      const color = bile ? 0xc7ce69 : [0x65d6ec, 0xe975a9, 0xf28a57, 0x93dc85][type] || 0x94b8cb;
       e.children.forEach((p, j) => {
-        const a = (j / e.children.length) * Math.PI * 1.65;
+        p.scale.setScalar(bile ? 0.6 : 1);
+        if (p.geometry.type === 'TorusKnotGeometry') {
+          p.visible = !bile;
+          p.material.color.setHex(color);
+          return;
+        }
+        const a = (j / e.children.length) * Math.PI * (bile ? 2 : 1.65);
         p.material.color.setHex(color);
         p.position.set(
           Math.cos(a) * (0.45 + (type === 2 ? 0.12 : 0)),
@@ -404,8 +578,9 @@ export function createDigestionWorld(canvas, onPick) {
     wake();
   }
   function setScene(s, id, nextMode = 'travel', residue = false) {
-    const micro = ['villus', 'cell', 'membrane', 'transport'].includes(nextMode);
-    const organ = !micro && !['menu', 'finale'].includes(nextMode);
+    const micro = ['absorb', 'villus', 'cell', 'membrane', 'transport'].includes(nextMode);
+    const isFace = ['entry', 'face-intro'].includes(nextMode);
+    const organ = !micro && !isFace && !['menu', 'finale'].includes(nextMode);
     const reuse = organ && environment && environmentKey === s.id + ':' + id + ':' + residue;
     const reuseMicro = micro && microReady && character === id;
     if (reuse) clearContent();
@@ -415,7 +590,7 @@ export function createDigestionWorld(canvas, onPick) {
     mode = nextMode;
     age = 0;
     targetPH = s.ph || ph;
-    canvas.dataset.scale = ['villus', 'cell', 'membrane', 'transport'].includes(mode)
+    canvas.dataset.scale = ['absorb', 'villus', 'cell', 'membrane', 'transport'].includes(mode)
       ? {
           villus: 'millimeter',
           cell: 'mikrometer',
@@ -423,6 +598,10 @@ export function createDigestionWorld(canvas, onPick) {
           transport: 'mikrometer',
         }[mode]
       : 'centimeter';
+    if (!reuse && !reuseMicro) {
+      yaw = 0;
+      pitch = 0;
+    }
     if (!reuseMicro) {
       cameraTarget.set(0, 0, 2);
       lookTarget.set(0, 0, -8);
@@ -433,7 +612,11 @@ export function createDigestionWorld(canvas, onPick) {
     }
     scene.background.set(0x24101b);
     scene.fog.color.set(0x24101b);
-    if (mode === 'menu') {
+    if (isFace) {
+      face();
+      cameraTarget.set(0, 0, 5.5);
+      lookTarget.set(0, 0, -2);
+    } else if (mode === 'menu') {
       const m = molecule(id);
       m.position.set(0, 3.2, -5);
       m.scale.setScalar(0.8);
@@ -454,16 +637,17 @@ export function createDigestionWorld(canvas, onPick) {
         ring.position.set(0, -2.27, -6);
         actors.push({ object: ring, type: 'ripple', i });
       }
-    } else if (['villus', 'cell', 'membrane', 'transport'].includes(mode)) {
+    } else if (['absorb', 'villus', 'cell', 'membrane', 'transport'].includes(mode)) {
       if (!reuseMicro) {
         microscopic(mode);
         microReady = true;
       }
       const targets = {
+        absorb: [0, 0, -2.5, 0, -0.6, -7.7],
         villus: [0, 0.5, -3, 0, 0, -8],
         cell: [0, 1.7, -5.6, 0, 0.5, -7],
         membrane: [-0.12, 1.35, -6.55, -0.12, 1, -6.98],
-        transport: [0, -0.8, -4.5, -0.4, -1, -7.7],
+        transport: [0, 0, -2.5, 0, -0.6, -7.7],
       };
       const v = targets[mode];
       cameraTarget.set(...v.slice(0, 3));
@@ -480,6 +664,7 @@ export function createDigestionWorld(canvas, onPick) {
         envActors = [...actors];
         envDrops = [...drops];
         envTeeth = [...teeth];
+        envTargets = [...targets];
       }
       if (mode === 'intro')
         for (let i = 0; i < 8; i++) {
@@ -523,7 +708,7 @@ export function createDigestionWorld(canvas, onPick) {
         (s.id === 'mouth' && id !== 'stanley') ||
         (s.id === 'stomach' && id === 'stanley')
       );
-      if (mode === 'reaction' && chemical)
+      if (['reaction', 'secretion'].includes(mode) && chemical)
         for (let i = 0; i < 8; i++) {
           const w = sphere((i - 4) * 0.3, -0.3, -5, 0.06, 0x80cbe0);
           drops.push(w);
@@ -534,7 +719,7 @@ export function createDigestionWorld(canvas, onPick) {
       if (mode === 'boss')
         for (let i = 0; i < 3; i++)
           enzyme((i - 1) * 1.7, 0.8, -6, [0x87d4b6, 0xb29be8, 0xf6b955][i], i);
-      if (mode === 'reaction' && chemical) {
+      if (['reaction', 'secretion'].includes(mode) && chemical) {
         enzyme(0, 0.8, -6, CHARACTERS[id].color, 0);
         labelChoices([
           id === 'stanley'
@@ -549,6 +734,9 @@ export function createDigestionWorld(canvas, onPick) {
     }
     if (s.id === 'stomach') enzymes.forEach((e) => e.scale.setScalar(0.65));
     if (!moving && mode === 'reaction') age = 5;
+    canvas.dataset.hypotheses = JSON.stringify(
+      enzymes.filter((e) => e.visible).map((e) => e.userData.kind || 'protein-enzyme'),
+    );
     canvas.dataset.digestStage = s.id;
     canvas.dataset.digestMode = mode;
     wake();
@@ -562,6 +750,7 @@ export function createDigestionWorld(canvas, onPick) {
       age += dt;
       if (moving) time += dt;
     }
+    secretions?.update(moving ? time : 2, ph);
     ph += (targetPH - ph) * Math.min(1, dt * 1.6);
     let destination = cameraTarget.clone();
     if (
@@ -570,7 +759,7 @@ export function createDigestionWorld(canvas, onPick) {
       stage.id !== 'stomach' &&
       ['travel', 'boss', 'reaction'].includes(mode)
     ) {
-      const u = Math.min(0.2, age / 60);
+      const u = Math.min(0.35, age / 30);
       destination = organPath.getPointAt(u);
       const ahead = organPath.getPointAt(Math.min(0.35, u + 0.15));
       lookTarget.copy(ahead);
@@ -578,35 +767,64 @@ export function createDigestionWorld(canvas, onPick) {
     camera.position.lerp(destination, moving ? Math.min(1, dt * 2) : 1);
     cameraLook.lerp(lookTarget, moving ? Math.min(1, dt * 2) : 1);
     camera.lookAt(cameraLook);
+    camera.quaternion.multiply(new T.Quaternion().setFromEuler(new T.Euler(pitch, yaw, 0, 'YXZ')));
+    if (cough > 0) {
+      cough -= dt;
+      camera.rotation.z += Math.sin(cough * 60) * 0.025;
+    }
     camera.near = ['cell', 'membrane'].includes(mode) ? 0.002 : 0.03;
     camera.updateProjectionMatrix();
     if (mode === 'intro' && moving) {
       camera.position.z = 5 - Math.min(1, age / 12) * 3;
       camera.position.y = Math.sin(age * 1.3) * 0.12;
     }
-    light.intensity = ['villus', 'cell', 'membrane', 'transport'].includes(mode) ? 0.45 : 14;
+    light.intensity = ['absorb', 'villus', 'cell', 'membrane', 'transport'].includes(mode)
+      ? 0.45
+      : 14;
     light.position.copy(camera.position);
     light.position.y = 1.2;
     for (const [i, m] of teeth.entries())
       m.position.y =
-        (i < 16 ? 1 : -1) * (2.1 - (moving ? Math.max(0, Math.sin(time * 3)) * 0.55 : 0));
+        i < 16 ? 1.75 : -1.75 + (moving ? Math.max(0, Math.sin(time * 2.7)) * 0.45 : 0);
     for (const [i, m] of drops.entries()) {
       if (moving) m.position.z += dt * 0.5;
       if (m.position.z > 2) m.position.z = -18;
     }
     for (const a of actors) {
       const m = a.object;
+      if (a.type === 'substrate' && stage.id === 'oesophagus' && organPath && moving)
+        m.position.copy(organPath.getPointAt(Math.min(0.65, 0.12 + age * 0.055)));
       if (a.type === 'molecule' || a.type === 'substrate') {
         m.rotation.y = moving ? Math.sin(time * 0.5 + (a.i || 0)) * 0.4 : 0;
-        if (mode === 'reaction' && m.userData.update) {
-          const state = m.userData.update(age, stage.id);
+        if (['reaction', 'secretion'].includes(mode) && m.userData.update) {
+          const state = m.userData.update(mode === 'secretion' ? age * 2 : age, stage.id);
           canvas.dataset.reactionPhase = state.phase;
           canvas.dataset.cleavedBonds = String(m.userData.links.filter((l) => !l.visible).length);
         }
       }
-      if (a.type === 'epiglottis' && moving)
-        m.rotation.x = Math.sin(Math.min(1, age / 3) * Math.PI) * 0.8;
-      if (a.type === 'tongue' && moving) m.position.z = -2 + Math.sin(time * 1.2) * 0.25;
+      if (a.type === 'larynx') {
+        const f = mode === 'swallow' ? (moving ? Math.min(1, age / 1.2) : 1) : 0;
+        m.position.y = -1 + f * 0.4;
+        m.scale.y = 1 - f * 0.35;
+      }
+      if (a.type === 'vocal-fold') {
+        const f = mode === 'swallow' ? (moving ? Math.min(1, age / 1.2) : 1) : 0;
+        m.position.x = a.side * (0.25 - f * 0.22);
+      }
+      if (a.type === 'amylase-inhibition') {
+        const activity = relativeActivity(ph, 'amylase');
+        m.material.opacity = 0.2 + 0.8 * activity;
+        m.rotation.y = time * 0.3 * activity;
+      }
+      if (a.type === 'epiglottis')
+        m.rotation.x = mode === 'swallow' ? (moving ? Math.min(1, age / 1.2) : 1) * 1.1 : -0.4;
+      if (a.type === 'face-food') {
+        m.position.z = mode === 'face-intro' ? 2 - Math.min(1, age / 3) * 2.4 : 1.2;
+        m.position.x = (a.i - 2) * 0.16;
+      }
+      if (a.type === 'tongue' && moving)
+        m.position.z =
+          mode === 'intro' ? -2 - Math.min(1, age / 10) * 0.45 : -2 + Math.sin(time * 1.2) * 0.15;
       if (a.type === 'food') {
         const f = moving ? Math.min(1, age / 10) : 1;
         m.position.set(
@@ -627,11 +845,15 @@ export function createDigestionWorld(canvas, onPick) {
         const f =
           mode === 'transport'
             ? moving
-              ? Math.min(1, age / 5)
+              ? 0.5 + Math.min(0.5, age / 10)
               : 1
-            : mode === 'membrane'
-              ? 0.2
-              : 0;
+            : mode === 'absorb'
+              ? moving
+                ? Math.min(0.5, age / 10)
+                : 0.35
+              : mode === 'membrane'
+                ? 0.2
+                : 0;
         const start = new T.Vector3(-0.2 + (a.i % 3) * 0.04, 1.3, -6.95);
         const inside = new T.Vector3(0.05 + (a.i % 3) * 0.02, 0.3, -7);
         const end = new T.Vector3(character === 'trine' ? 0 : -0.55, -1.8, -7.7);
@@ -670,10 +892,16 @@ export function createDigestionWorld(canvas, onPick) {
     }
     for (const [i, e] of enzymes.entries()) {
       e.rotation.z = moving ? Math.sin(time + i) * 0.15 : 0;
-      if (mode === 'reaction') {
+      if (['reaction', 'secretion'].includes(mode)) {
         const f = age < 3 ? Math.min(1, age / 2) : age < 6 ? 1 : Math.max(0, 1 - (age - 6) / 2);
         const z = stage.id === 'stomach' ? -6.3 : -4.5;
-        e.position.set(-0.2, -0.15, z - 1.7 + f * 1.7);
+        if (mode === 'secretion')
+          e.position.set(
+            2 * (1 - Math.min(1, age / 2)),
+            0.35 - 0.5 * Math.min(1, age / 2),
+            -4 - 0.5 * Math.min(1, age / 2),
+          );
+        else e.position.set(-0.2, -0.15, z - 1.7 + f * 1.7);
         e.rotation.z = 0;
         canvas.dataset.enzymeIntact = String(e.children.length > 0);
       }
@@ -683,7 +911,7 @@ export function createDigestionWorld(canvas, onPick) {
         meta = wall.geometry.userData;
       for (let j = 0; j <= meta.along; j++) {
         const u = j / meta.along,
-          f = peristalsis(u, time);
+          f = peristalsis(u, (Math.min(0.65, 0.12 + age * 0.055) - 0.075) / 0.14);
         for (let i = 0; i <= meta.around; i++) {
           const k = (j * (meta.around + 1) + i) * 3;
           a.array[k] = wallBase[k] * f;
@@ -732,7 +960,7 @@ export function createDigestionWorld(canvas, onPick) {
           };
         }),
       );
-    } else if (['villus', 'cell', 'membrane', 'transport'].includes(mode)) {
+    } else if (['absorb', 'villus', 'cell', 'membrane', 'transport'].includes(mode)) {
       const names =
         character === 'trine'
           ? [
@@ -759,6 +987,28 @@ export function createDigestionWorld(canvas, onPick) {
       );
     } else canvas.dataset.landmarks = '[]';
     renderer.render(scene, camera);
+    root.updateMatrixWorld(true);
+    camera.updateMatrixWorld();
+    canvas.dataset.targets = JSON.stringify(
+      targets.map((o) => {
+        o.geometry?.computeBoundingSphere();
+        const p = (
+          o.userData.pickPosition?.clone() ||
+          o.geometry?.boundingSphere?.center.clone() ||
+          new T.Vector3()
+        )
+          .applyMatrix4(o.matrixWorld)
+          .project(camera);
+        return {
+          target: o.userData.target,
+          x: (p.x + 1) * 50,
+          y: (1 - p.y) * 50,
+          visible: p.z < 1 && Math.abs(p.x) < 1 && Math.abs(p.y) < 1,
+        };
+      }),
+    );
+    canvas.dataset.look = JSON.stringify({ yaw, pitch });
+    canvas.dataset.secretionStreams = String(secretions?.count || 0);
     canvas.dataset.ph = ph.toFixed(2);
     canvas.dataset.triangles = renderer.info.render.triangles;
     canvas.dataset.drawCalls = renderer.info.render.calls;
@@ -773,15 +1023,64 @@ export function createDigestionWorld(canvas, onPick) {
   }
   const ray = new T.Raycaster(),
     ndc = new T.Vector2();
-  const click = (e) => {
-    if (mode !== 'boss') return;
-    const b = canvas.getBoundingClientRect();
-    ndc.set(((e.clientX - b.left) / b.width) * 2 - 1, 1 - ((e.clientY - b.top) / b.height) * 2);
+  function resolvePick(x, y) {
+    const box = canvas.getBoundingClientRect();
+    ndc.set(((x - box.left) / box.width) * 2 - 1, 1 - ((y - box.top) / box.height) * 2);
     ray.setFromCamera(ndc, camera);
-    const hit = ray.intersectObjects(enzymes, true)[0];
-    if (hit) onPick(hit.object.userData.choice);
+    const objects = mode === 'boss' ? enzymes.filter((e) => e.visible) : targets;
+    const hit = ray.intersectObjects(objects, true)[0];
+    if (!hit) return -1;
+    let o = hit.object;
+    while (o && !o.userData.target && o.userData.choice === undefined) o = o.parent;
+    return o?.userData.target
+      ? choiceTargets.indexOf(o.userData.target)
+      : (o?.userData.choice ?? -1);
+  }
+  function mark(index) {
+    hovered = index;
+    targets.forEach((o) => {
+      if (o.material?.emissive)
+        o.material.emissive.setHex(choiceTargets[index] === o.userData.target ? 0x355b55 : 0);
+    });
+    enzymes.forEach((e, i) =>
+      e.traverse((o) => {
+        if (o.material?.emissive) o.material.emissive.setHex(i === index ? 0x244c55 : 0);
+      }),
+    );
+    canvas.style.cursor = index >= 0 ? 'pointer' : 'grab';
+    wake();
+  }
+  const down = (e) => {
+    drag = { x: e.clientX, y: e.clientY, lastX: e.clientX, lastY: e.clientY, moved: false };
+    canvas.setPointerCapture(e.pointerId);
   };
-  canvas.addEventListener('click', click);
+  const move = (e) => {
+    if (drag) {
+      if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > 7) drag.moved = true;
+      if (drag.moved) {
+        yaw = T.MathUtils.clamp(yaw + (e.clientX - drag.lastX) * 0.004, -0.95, 0.95);
+        pitch = T.MathUtils.clamp(pitch + (e.clientY - drag.lastY) * 0.003, -0.5, 0.5);
+        wake();
+      }
+      drag.lastX = e.clientX;
+      drag.lastY = e.clientY;
+    } else mark(resolvePick(e.clientX, e.clientY));
+  };
+  const up = (e) => {
+    if (drag && !drag.moved && !paused) {
+      const index = resolvePick(e.clientX, e.clientY);
+      if (index >= 0) onPick(index);
+    }
+    drag = null;
+  };
+  const abort = () => {
+    drag = null;
+  };
+  canvas.addEventListener('pointerdown', down);
+  canvas.addEventListener('pointermove', move);
+  canvas.addEventListener('pointerup', up);
+  canvas.addEventListener('pointercancel', abort);
+  canvas.style.touchAction = 'none';
   const visibility = () => {
     paused = document.hidden;
     if (!paused) wake();
@@ -791,6 +1090,62 @@ export function createDigestionWorld(canvas, onPick) {
   return {
     setScene,
     labelChoices,
+    configureChoices(options, kind = 'anatomy') {
+      if (mode === 'boss' && kind !== 'enzyme') enzymes.forEach((e) => (e.visible = false));
+      canvas.dataset.hypotheses = JSON.stringify(
+        enzymes.filter((e) => e.visible).map((e) => e.userData.kind),
+      );
+      choiceTargets = options.map((o) => o.target || '');
+      canvas.dataset.targets = JSON.stringify(
+        targets.map((o) => {
+          o.geometry?.computeBoundingSphere();
+          const p = (
+            o.userData.pickPosition?.clone() ||
+            o.geometry?.boundingSphere?.center.clone() ||
+            new T.Vector3()
+          )
+            .applyMatrix4(o.matrixWorld)
+            .project(camera);
+          return { target: o.userData.target, x: (p.x + 1) * 50, y: (1 - p.y) * 50 };
+        }),
+      );
+    },
+    highlightChoice: mark,
+    center() {
+      yaw = 0;
+      pitch = 0;
+      wake();
+    },
+    feedback() {
+      if (moving) cough = 0.5;
+      wake();
+    },
+    highlightEntity(which) {
+      if (highlightEntity === which) which = null;
+      highlightEntity = which;
+      secretions?.group.traverse((o) => {
+        if (o.isInstancedMesh && o.geometry.type === 'TorusKnotGeometry')
+          o.material.emissive.setHex(which === 'enzyme' ? 0x2b6c7a : 0);
+      });
+      if (wall) {
+        wall.material.transparent = which === 'glands';
+        wall.material.opacity = which === 'glands' ? 0.22 : 1;
+      }
+      actors
+        .filter((a) => a.type === 'substrate')
+        .forEach((a) =>
+          a.object.traverse((o) => {
+            if (o.material?.emissive)
+              o.material.emissive.setHex(which === 'substrate' ? 0x584d16 : 0);
+          }),
+        );
+      enzymes.forEach((e) =>
+        e.traverse((o) => {
+          if (o.material?.emissive) o.material.emissive.setHex(which === 'enzyme' ? 0x145663 : 0);
+        }),
+      );
+      wake();
+    },
     settings(o) {
       moving = o.motion;
       quality = o.quality;
@@ -805,10 +1160,14 @@ export function createDigestionWorld(canvas, onPick) {
       disposed = true;
       cancelAnimationFrame(raf);
       obs.disconnect();
-      canvas.removeEventListener('click', click);
+      canvas.removeEventListener('pointerdown', down);
+      canvas.removeEventListener('pointermove', move);
+      canvas.removeEventListener('pointerup', up);
+      canvas.removeEventListener('pointercancel', abort);
       document.removeEventListener('visibilitychange', visibility);
       disposeRoot();
       if (oldRoot) free(oldRoot);
+      texture?.dispose();
       renderer.dispose();
       renderer.forceContextLoss();
     },

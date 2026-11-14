@@ -5,7 +5,7 @@ export const CHARACTERS = {
     color: 0xf4c35d,
     description:
       'En lang kæde af glukose med store ambitioner. Desværre er fordøjelsessystemet ved at skille dig ad.',
-    enzymes: 'Spytamylase · pankreasamylase · maltase og isomaltase',
+    enzymes: 'Spytamylase · bugspytamylase · maltase og isomaltase',
     transport:
       'Glukose + Na⁺ via SGLT1 ind i enterocytten; GLUT2 ud til interstitset, blodkapillærer og portåresystemet mod leveren.',
   },
@@ -25,7 +25,7 @@ export const ROUTE = [
     'Svælget',
     6.8,
     'Synkning',
-    'Epiglottis hjælper med at beskytte luftvejen. Fødebolus føres mod spiserøret.',
+    'Synkning koordinerer larynxløft, lukning af stemmelæber og larynxindgang samt epiglottisbevægelse. Fødebolus føres mod spiserøret.',
   ],
   [
     'oesophagus',
@@ -215,8 +215,8 @@ export const BOSSES = {
     duodenum: [
       task(
         'Vælg enzymet, der overtager stivelsen',
-        ['Pankreasamylase', 'Pepsin', 'Trypsin'],
-        'Pankreasamylase fortsætter hydrolysen i det mindre sure tarmlumen.',
+        ['Bugspytamylase', 'Pepsin', 'Trypsin'],
+        'Bugspytamylase fortsætter hydrolysen i det mindre sure tarmlumen.',
       ),
       task(
         'Forbind enzymet med organ → udskillelsessted',
@@ -542,7 +542,7 @@ export const REACTIONS = {
   stanley: {
     mouth: ['Stivelse', 'Amylase + vand', 'Kortere kulhydrater'],
     stomach: ['Spytamylase inde i bolus', 'Syre trænger gradvist ind', 'Amylaseaktivitet aftager'],
-    duodenum: ['Pankreasamylase', 'Børstesømsenzymer', 'Glukose'],
+    duodenum: ['Bugspytamylase', 'Børstesømsenzymer', 'Glukose'],
   },
   trine: {
     mouth: [
@@ -567,3 +567,8 @@ export const REACTIONS = {
     ],
   },
 };
+
+// Three visible secret/enzyme hypotheses at the special duodenal stop.
+BOSSES.stanley.duodenum[0].options = ['Bugspytamylase', 'Galdesalte', 'Trypsin'];
+BOSSES.trine.duodenum[0].options = ['Bugspytlipase med colipase', 'Bugspytamylase', 'Trypsin'];
+BOSSES.poul.duodenum[0].options = ['Aktiverede pankreasproteaser', 'Bugspytamylase', 'Galdesalte'];

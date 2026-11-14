@@ -5,7 +5,7 @@ export function newDigestion(character) {
     character,
     index: 0,
     task: 0,
-    phase: 'intro',
+    phase: 'entry',
     lives: 2,
     errors: 0,
     answered: [],
@@ -17,7 +17,7 @@ export function newDigestion(character) {
   };
 }
 export function chooseDigestion(run, correct) {
-  if (!['route', 'boss', 'absorb-choice'].includes(run.phase)) return false;
+  if (!['route', 'boss', 'absorb-choice', 'entry'].includes(run.phase)) return false;
   if (!correct) {
     run.errors++;
     run.lives--;
@@ -26,6 +26,10 @@ export function chooseDigestion(run, correct) {
       run.phase = 'retry';
     }
     return false;
+  }
+  if (run.phase === 'entry') {
+    run.phase = 'intro';
+    return true;
   }
   if (run.phase === 'boss') {
     run.answered ??= [];
@@ -53,6 +57,10 @@ export function retryDigestion(run) {
   if (run.phase !== 'retry') return;
   run.lives = 2;
   run.task = 0;
+  if (run.retryFrom === 'entry') {
+    run.phase = 'entry';
+    return;
+  }
   if (run.retryFrom === 'absorb-choice') {
     run.phase = 'absorb-choice';
     return;
@@ -71,6 +79,9 @@ export function validDigestion(data) {
     r.task >= 0 &&
     r.task < 3 &&
     [
+      'entry',
+      'swallow',
+      'secretion',
       'intro',
       'arrival',
       'route',

@@ -246,3 +246,100 @@ test('legacy results survive new assessments, drafts and active clocks without d
   data.assessmentDraft.answers = [99];
   assert.equal(validDigestion(data), false);
 });
+
+import {
+  ENTRY_OPTIONS,
+  anatomicalOptions,
+  DIGEST_MAP_POINTS,
+  renderDigestMap,
+} from '../public/digestion-navigation.js';
+import { toothPose, organCurve } from '../public/digestion-anatomy.js';
+import { addSecretions } from '../public/digestion-secretions.js';
+import * as T from '../public/three.module.min.js';
+test('external entry and anatomical branch choices preserve real routes without invented junctions', () => {
+  const r = newDigestion('stanley');
+  assert.equal(r.phase, 'entry');
+  chooseDigestion(r, false);
+  assert.equal(r.lives, 1);
+  chooseDigestion(r, true);
+  assert.equal(r.phase, 'intro');
+  assert.deepEqual(
+    ENTRY_OPTIONS.map((o) => o.target),
+    ['mouth', 'nose'],
+  );
+  for (const [id, correct, wrong] of [
+    ['pharynx', 'oesophagus', 'trachea'],
+    ['caecum', 'ascending', 'appendix'],
+  ]) {
+    const opts = anatomicalOptions(ROUTE.findIndex((s) => s.id === id));
+    assert.equal(opts.length, 2);
+    assert.equal(opts.find((o) => o.correct).target, correct);
+    assert.equal(opts.find((o) => !o.correct).target, wrong);
+  }
+  const ordinary = anatomicalOptions(2);
+  assert.ok(ordinary.some((o) => o.inspect));
+});
+test('upper and lower crowns face each other, with incisors at the front of both arches', () => {
+  const upper = toothPose(7),
+    lower = toothPose(23);
+  assert.equal(upper.crownDirection, -1);
+  assert.equal(lower.crownDirection, 1);
+  const axis = new T.Vector3(0, 1, 0).applyAxisAngle(new T.Vector3(0, 0, 1), upper.rotation);
+  assert.ok(axis.y < -0.99);
+  assert.ok(upper.position[2] > toothPose(0).position[2]);
+  assert.equal(toothPose(0).type, 'molar');
+  assert.equal(toothPose(4).type, 'canine');
+  assert.equal(upper.type, 'incisor');
+});
+test('colon curves and front-view map follow patient-right up, across, patient-left down and sigmoid S', () => {
+  const asc = organCurve('ascending'),
+    trans = organCurve('transverse'),
+    desc = organCurve('descending');
+  assert.ok(asc.getPointAt(0.8).y > asc.getPointAt(0.2).y);
+  assert.ok(trans.getPointAt(0.8).x > trans.getPointAt(0.2).x);
+  assert.ok(desc.getPointAt(0.8).y < desc.getPointAt(0.2).y);
+  assert.ok(DIGEST_MAP_POINTS[11][0] < DIGEST_MAP_POINTS[13][0]);
+  assert.ok(DIGEST_MAP_POINTS[11][1] < DIGEST_MAP_POINTS[10][1]);
+  assert.match(renderDigestMap(11), /opadstigende/i);
+});
+test('salivary, gastric and duodenal secretions use fluid streams and nutrient-specific proteins', () => {
+  for (const [id, char] of [
+    ['mouth', 'poul'],
+    ['mouth', 'stanley'],
+    ['stomach', 'stanley'],
+    ['duodenum', 'trine'],
+  ]) {
+    const parent = new T.Group();
+    const fluid = addSecretions(
+      parent,
+      ROUTE.find((s) => s.id === id),
+      char,
+    );
+    assert.ok(fluid.count >= 2);
+    fluid.update(2, 3);
+    const instanced = [];
+    parent.traverse((o) => {
+      if (o.isInstancedMesh) instanced.push(o);
+    });
+    assert.ok(instanced.length > 0);
+    if ((id === 'mouth' && char === 'poul') || (id === 'stomach' && char === 'stanley'))
+      assert.ok(instanced.every((o) => o.geometry.type !== 'TorusKnotGeometry'));
+    if (char === 'stanley' && id === 'mouth')
+      assert.ok(instanced.some((o) => o.geometry.type === 'TorusKnotGeometry'));
+    parent.traverse((o) => {
+      o.geometry?.dispose();
+      o.material?.dispose();
+      if (o.isInstancedMesh) o.dispose();
+    });
+  }
+});
+test('duodenal hypotheses are the requested enzymes/secretions and Danish uses bugspytamylase', () => {
+  assert.deepEqual(BOSSES.stanley.duodenum[0].options, ['Bugspytamylase', 'Galdesalte', 'Trypsin']);
+  assert.deepEqual(BOSSES.trine.duodenum[0].options, [
+    'Bugspytlipase med colipase',
+    'Bugspytamylase',
+    'Trypsin',
+  ]);
+  assert.equal(BOSSES.poul.duodenum[0].options.length, 3);
+  assert.ok(!JSON.stringify(BOSSES).toLowerCase().includes('pankreasamylase'));
+});
