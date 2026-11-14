@@ -251,8 +251,16 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       } else if (run.phase === 'reaction') {
         tone();
         sequence(
-          'Enzymet arbejder – og overlever',
-          task.why + ' Hydrolyse bruger vand; enzymet frigives intakt til en ny reaktion.',
+          s.id === 'mouth' && run.character !== 'stanley'
+            ? 'Mekanisk findeling – kæden bevares'
+            : s.id === 'stomach' && run.character === 'stanley'
+              ? 'Syren dæmper amylasens aktivitet'
+              : 'Enzymet arbejder – og overlever',
+          task.why +
+            ((s.id === 'mouth' && run.character !== 'stanley') ||
+            (s.id === 'stomach' && run.character === 'stanley')
+              ? ' Mekanisk findeling og ændret enzymaktivitet er ikke i sig selv hydrolyse.'
+              : ' Hydrolyse bruger vand; enzymet frigives intakt til en ny reaktion.'),
           'reaction',
           6,
           () => {
