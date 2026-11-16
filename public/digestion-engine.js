@@ -125,7 +125,15 @@ export function validDigestion(data) {
         Number.isFinite(data.settings.volume) &&
         data.settings.volume >= 0 &&
         data.settings.volume <= 1 &&
-        ['auto', 'low'].includes(data.settings.quality))) &&
+        ['auto', 'low'].includes(data.settings.quality) &&
+        ['ambient', 'effects', 'map'].every(
+          (k) => data.settings[k] === undefined || typeof data.settings[k] === 'boolean',
+        ))) &&
+    (data.learningLog === undefined ||
+      (Array.isArray(data.learningLog) &&
+        data.learningLog.length <= 200 &&
+        data.learningLog.every(validLearningPoint))) &&
+    (data.learningCurrent === undefined || validLearningPoint(data.learningCurrent)) &&
     data.results &&
     typeof data.results === 'object' &&
     !Array.isArray(data.results) &&
@@ -304,4 +312,20 @@ export function migrateDigestion(data) {
   if (!['entry', 'intro', 'won'].includes(r.phase)) r.phase = 'arrival';
   r.lives = Math.max(1, r.lives);
   return data;
+}
+
+function validLearningPoint(p) {
+  return (
+    p &&
+    Object.hasOwn(CHARACTERS, p.character) &&
+    ROUTE.some((s) => s.id === p.stage) &&
+    typeof p.key === 'string' &&
+    p.key.length <= 160 &&
+    typeof p.short === 'string' &&
+    p.short.length <= 400 &&
+    typeof p.detail === 'string' &&
+    p.detail.length <= 4000 &&
+    typeof p.title === 'string' &&
+    p.title.length <= 160
+  );
 }

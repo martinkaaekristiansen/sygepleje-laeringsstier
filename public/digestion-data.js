@@ -371,99 +371,49 @@ export const BOSSES = {
 };
 export const ABSORPTION = {
   stanley: [
+    ['lumen', 'Jejunums lumen', 'Maltase danner to glukosemolekyler.'],
     [
-      'lumen',
-      'Lumen · millimeter',
-      'Plicae circulares bærer villi. Stivelsen er blevet til absorberbar glukose.',
+      'epithelium',
+      'Tarmepitel',
+      'Glukose optages sammen med natrium via SGLT1; GLUT2 fører den videre.',
     ],
-    [
-      'villus',
-      'Villus · ca. 0,5–1 mm',
-      'Enterocytter og bægerceller dækker villus. Indeni ses blodkapillærer og et centralt lymfekar.',
-    ],
-    [
-      'cell',
-      'Enterocyt · mikrometer',
-      'Børstesømmen består af mikrovilli. Glukose nærmer sig den apikale membran.',
-    ],
-    [
-      'membrane',
-      'Membran · nanometer',
-      'SGLT1 optager glukose sammen med Na⁺ apikalt. Na⁺-gradienten vedligeholdes af den basolaterale Na⁺/K⁺-ATPase.',
-    ],
-    [
-      'transport',
-      'GLUT2 → blod → portåre',
-      'Glukose forlader enterocytten via basolateral GLUT2, passerer interstitset og når blodkapillærerne.',
-    ],
+    ['transport', 'Blodkapillærer', 'Glukosen følger blodet og portåren.'],
     [
       'residue',
       'Perspektivskift',
-      'Mission fuldført! Glukosen er optaget. Du følger nu en ufordøjelig rest gennem ileum og tyktarmen.',
+      'Det absorberede næringsstof er inde i kroppen; du følger en ufordøjelig rest.',
     ],
   ],
   trine: [
     [
       'lumen',
-      'Tyndtarmens lumen · millimeter',
-      'Galdesaltene danner blandede miceller med lipidnedbrydningsprodukter.',
+      'Jejunums lumen',
+      'Miceller afleverer langkædede fedtsyrer og 2-monoglycerider ved epitelet.',
     ],
     [
-      'villus',
-      'Villus · ca. 0,5–1 mm',
-      'Blodkapillærer omgiver et centralt lymfekar. Chylomikronernes vej er især lymfen.',
+      'epithelium',
+      'Tarmepitel',
+      'Lipidprodukter optages, triglycerider gendannes og chylomikroner dannes.',
     ],
-    [
-      'cell',
-      'Enterocyt · mikrometer',
-      'Miceller afleverer langkædede fedtsyrer og 2-monoglycerider ved børstesømmen. Hele micellen optages ikke.',
-    ],
-    [
-      'membrane',
-      'Optagelse og reesterificering',
-      'Lipidprodukterne optages i enterocytten og reesterificeres til triglycerider. Transporten vises skematisk – ikke som SGLT1-transport.',
-    ],
-    [
-      'transport',
-      'Chylomikron → lymfe',
-      'Triglycerider pakkes med andre lipider og apoB-48 i chylomikroner. De forlader cellen og når det centrale lymfekar. Denne vej gælder især langkædede fedtsyrer.',
-    ],
+    ['transport', 'Lymfekar', 'Chylomikroner transporteres til de centrale lymfekar.'],
     [
       'residue',
       'Perspektivskift',
-      'Trine er optaget og pakket til lymfetransport. Du følger nu en ufordøjelig rest videre gennem ileum.',
+      'Det absorberede fedt følger lymfen; du følger nu en ufordøjelig rest.',
     ],
   ],
   poul: [
+    ['lumen', 'Jejunums lumen', 'Peptidaser danner aminosyrer fra mindre peptider.'],
     [
-      'lumen',
-      'Tyndtarmens lumen · millimeter',
-      'Proteaser og peptidaser danner aminosyrer og små peptider.',
+      'epithelium',
+      'Tarmepitel',
+      'Aminosyrer optages via transportproteiner; nogle små peptider spaltes først inde i cellen.',
     ],
-    [
-      'villus',
-      'Villus · ca. 0,5–1 mm',
-      'Enterocytter over blodkapillærer og et centralt lymfekar. Aminosyrer følger især blodvejen.',
-    ],
-    [
-      'cell',
-      'Enterocyt · mikrometer',
-      'Børstesømmens mikrovilli bærer enzymer og transportproteiner.',
-    ],
-    [
-      'membrane',
-      'Aminosyrer og PEPT1',
-      'Aminosyrer optages bl.a. med Na⁺-koblede transportere. H⁺-koblede PEPT1 optager di-/tripeptider.',
-    ],
-    [
-      'transport',
-      'Intracellulær hydrolyse → portalblod',
-      'Mange små peptider hydrolyseres i enterocytten. Aminosyrer transporteres basolateralt til interstitset, blodkapillærerne og portåresystemet.',
-    ],
+    ['transport', 'Blodkapillærer', 'Aminosyrer føres videre til blodet og portåren.'],
     [
       'residue',
       'Perspektivskift',
-      'Poul er blevet optaget som nedbrydningsprodukter. Nu følger du en ufordøjelig rest gennem resten af tarmen.',
+      'De absorberede aminosyrer er inde i kroppen; du følger en ufordøjelig rest.',
     ],
   ],
 };

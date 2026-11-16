@@ -61,7 +61,7 @@ for (const id of Object.keys(CHARACTERS))
     assert.ok(validDigestion({ active: r, results: { [id]: r } }));
     assert.deepEqual(
       ABSORPTION[id].map((s) => s[0]),
-      ['lumen', 'villus', 'cell', 'membrane', 'transport', 'residue'],
+      ['lumen', 'epithelium', 'transport', 'residue'],
     );
     const state = emptyState();
     state.progress[DIGESTION_ID] = {

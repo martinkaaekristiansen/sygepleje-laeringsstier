@@ -418,3 +418,272 @@
     padding: 12px;
   }
 }
+/* Version 4: the lumen owns the centre; controls share a compact lower rail. */
+#digestion-root .digest-panel.digest-compact {
+  top: auto;
+  bottom: 16px;
+  left: 130px;
+  right: 16px;
+  transform: none;
+  width: auto;
+  max-height: 20%;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: #21121be8;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px 12px;
+}
+#digestion-root .digest-compact h2 {
+  font: 600 17px/1.35 system-ui;
+  margin: 0;
+  flex: 1 1 100%;
+}
+#digestion-root .digest-compact .digest-eyebrow {
+  font-size: 11px;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+#digestion-root .digest-compact .digest-choices {
+  width: 100%;
+  gap: 7px;
+}
+#digestion-root .digest-compact .digest-choices button {
+  padding: 7px 10px;
+  min-height: 44px;
+  font-size: 15px;
+}
+#digestion-root .digest-compact .digest-feedback {
+  display: none;
+}
+#digestion-root .digest-panel.digest-nav {
+  top: auto;
+  bottom: 92px;
+  left: 140px;
+  right: 16px;
+  transform: none;
+  width: auto;
+  padding: 0;
+  background: none;
+  border: 0;
+  max-height: 40px;
+}
+#digestion-root .digest-route-labels {
+  inset: auto 16px 24px 130px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  height: auto;
+}
+#digestion-root .digest-route-labels button {
+  position: static;
+  transform: none;
+  max-width: 45%;
+  width: 45%;
+  font-size: 16px;
+  padding: 7px 10px;
+  flex-direction: row;
+  justify-content: center;
+}
+#digestion-root .digest-route-labels button span {
+  display: flex;
+}
+#digestion-root .blood3d-bottom {
+  bottom: auto;
+  top: calc(var(--digest-toolbar-height, 66px) + 60px);
+  left: auto;
+  right: 16px;
+  width: 105px;
+  font-size: 12px;
+}
+#digestion-root .blood3d-bottom .digest-product {
+  display: none;
+}
+#digestion-root .blood3d-bottom > span {
+  font-size: 12px;
+}
+.digest-learning {
+  position: absolute;
+  z-index: 3;
+  top: var(--hud-end, 200px);
+  left: 16px;
+  max-width: min(700px, calc(100% - 32px));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 9px;
+  border: 1px solid #d4bda644;
+  border-radius: 10px;
+  background: #20151be6;
+  font-size: 14px;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+.digest-learning .digest-point {
+  flex: 1;
+}
+.digest-learning button {
+  padding: 3px 7px;
+  min-height: 36px;
+  min-width: 36px;
+  border: 0;
+  background: none;
+}
+.digest-reader {
+  z-index: 15;
+}
+.digest-reader li {
+  margin: 12px 0;
+}
+.digest-reader details {
+  font-size: 14px;
+}
+.digest-reader p {
+  line-height: 1.5;
+}
+#digestion-root .digest-map .blood-minimap {
+  bottom: 20px;
+}
+@media (max-width: 600px) {
+  #digestion-root .digest-panel.digest-compact {
+    left: 10px;
+    right: 10px;
+    bottom: 12px;
+    max-height: 33%;
+    padding: 8px 10px;
+    gap: 5px;
+  }
+  #digestion-root .digest-compact h2 {
+    font-size: 16px;
+  }
+  #digestion-root .digest-compact .digest-choices {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  #digestion-root .digest-compact .digest-choices button {
+    font-size: 14px;
+    flex: 1 1 28%;
+    padding: 6px;
+    line-height: 1.3;
+  }
+  #digestion-root .digest-route-labels {
+    left: 10px;
+    right: 10px;
+    bottom: 16px;
+  }
+  #digestion-root .digest-route-labels button {
+    font-size: 14px;
+    max-width: 49%;
+    width: 49%;
+    padding: 7px;
+  }
+  #digestion-root .digest-panel.digest-nav {
+    left: 12px;
+    bottom: 105px;
+  }
+  #digestion-root .digest-map .blood-minimap {
+    bottom: calc(var(--digest-controls-height, 160px) + 16px);
+    width: 78px;
+  }
+  #digestion-root .digest-map .blood-minimap svg {
+    height: 76px;
+  }
+  .digest-learning {
+    left: 12px;
+    max-width: calc(100% - 24px);
+    font-size: 13px;
+    gap: 3px;
+    padding: 5px;
+  }
+  .digest-learning button {
+    padding: 2px;
+    min-width: 32px;
+  }
+  .digest-hud .blood-location {
+    max-width: calc(100% - 100px);
+  }
+}
+#digestion-root .digest-panel.digest-active.digest-compact {
+  bottom: 16px;
+}
+@media (max-width: 600px) {
+  #digestion-root .digest-panel.digest-active.digest-compact {
+    bottom: 12px;
+  }
+}
+.digest-learning .digest-molecule-icon {
+  width: 42px;
+  height: 38px;
+  flex: 0 0 42px;
+}
+.digest-choices .digest-molecule-icon,
+.digest-choices .digest-origin-icon {
+  width: 42px;
+  height: 36px;
+  flex: 0 0 42px;
+}
+.digest-choices button[data-answer-kind] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.digest-answer-source {
+  border-color: #dfa6b388 !important;
+}
+.digest-answer-reaction {
+  border-color: #f4c35d88 !important;
+}
+#digestion-root .digest-compartments {
+  top: auto;
+  bottom: calc(var(--digest-controls-height, 140px) + 20px);
+  right: 18px;
+  left: auto;
+  font-size: 12px;
+  padding: 6px;
+  gap: 4px;
+  max-width: 220px;
+  background: #142b38bb;
+}
+@media (max-width: 600px) {
+  .digest-learning .digest-molecule-icon {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+  .digest-choices .digest-molecule-icon,
+  .digest-choices .digest-origin-icon {
+    width: 30px;
+    height: 25px;
+    flex-basis: 30px;
+  }
+  #digestion-root .digest-compact .digest-choices button[data-answer-kind] {
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+  }
+  #digestion-root .digest-compartments {
+    bottom: calc(var(--digest-controls-height, 160px) + 12px);
+    right: 12px;
+    font-size: 10px;
+    max-width: 150px;
+  }
+}
+#digestion-root .digest-compact .digest-exam-question {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  flex: 1 1 100%;
+}
+#digestion-root .digest-compact:has([data-exam-answer]) h2 {
+  font-size: 12px;
+  color: #edbca5;
+}
+.digest-result {
+  max-height: 75%;
+  bottom: 24px;
+}
+.digest-result li {
+  margin-bottom: 12px;
+}
