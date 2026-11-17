@@ -1,6 +1,6 @@
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const assert = require('node:assert/strict');
-const base = process.env.APP_URL || 'http://127.0.0.1:3001/';
+const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringsstier/';
 (async () => {
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH, args: ['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
   try {
@@ -67,7 +67,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/';
     }
     // A long source question exercises internal scrolling and a different saved nutrient.
     await page.evaluate(async (base) => {
-      const { newDigestion } = await import(base+'digestion-engine.js');
+      const { newDigestion } = await import(new URL('digestion-engine.js', document.querySelector('script[type="module"]').src).href);
       const run = {...newDigestion('poul'), index:6, phase:'boss', task:1, product:'small-peptide', completed:['stomach','duodenum']};
       const db = await new Promise(resolve => { const q=indexedDB.open('laeringsstier-v2'); q.onsuccess=()=>resolve(q.result); });
       await new Promise((resolve,reject) => {
