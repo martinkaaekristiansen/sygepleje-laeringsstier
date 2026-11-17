@@ -1,0 +1,3 @@
+PASS organic audio gesture, real gain, chewing sync, mute, reading pause and cleanup desktop
+PASS organic audio gesture, real gain, chewing sync, mute, reading pause and cleanup mobile
+PASS unsupported audio keeps the learning game available

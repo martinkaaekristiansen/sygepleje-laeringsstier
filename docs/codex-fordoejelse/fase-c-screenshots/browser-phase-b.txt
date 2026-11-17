@@ -1,0 +1,2 @@
+Cloud render sample {"renderer":"Chromium SwiftShader in cloud; emulated mobile 390x844","samples":24,"medianFrameMs":316.7,"medianFps":3.2,"triangles":252684,"drawCalls":45,"renderRatio":0.8,"villi":3200}
+PASS phase B: actual scene screenshots, rest/swallow coordination, 1500–3200 rooted villi, stable camera and unrestricted backward mouse/touch look, desktop/mobile, no page errors

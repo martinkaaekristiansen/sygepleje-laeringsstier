@@ -1,0 +1,16 @@
+CAPTURE 30-epitel-lille-portrait.png {"age":5.568900000000001,"phase":"glucose-sglt1-uptake","triangles":253502,"drawCalls":34}
+CAPTURE 31-lymfe-lille-portrait.png {"age":9.2563,"phase":"lymph-to-systemic-blood","triangles":248234,"drawCalls":35}
+CAPTURE 32-finale-lille-portrait.png {"age":5.65,"triangles":4322,"drawCalls":17}
+CAPTURE 30-epitel-landskab.png {"age":5.583399999999999,"phase":"glucose-sglt1-uptake","triangles":253502,"drawCalls":34}
+CAPTURE 31-lymfe-landskab.png {"age":9.3167,"phase":"lymph-to-systemic-blood","triangles":248234,"drawCalls":35}
+CAPTURE 32-finale-landskab.png {"age":5.633300000000002,"triangles":4322,"drawCalls":17}
+PASS recording peristaltik-oesophagus 34 actual frames
+PASS recording chylomikroner-lymfe 19 actual frames
+PASS recording toiletfinale 117 actual frames
+PASS animation checkpoint stanley reaction 2.9332000000000003 3.1831000000000005
+PASS animation checkpoint stanley swallow 3.6330000000000013 3.6497000000000015
+PASS animation checkpoint trine bile 2.7572 3.4071000000000002
+PASS animation checkpoint poul absorb 3.1887999999999996 3.5221999999999998
+PASS animation checkpoint trine transport 4.4869000000007455 4.837000000000746
+PASS animation checkpoint stanley finale 3.7165999999999966 3.7499999999999964
+PASS phase C: actual desktop/mobile animations, blood/lymph separation, intracellular peptide hydrolysis, above-water finale, all three ending screens, replay and IndexedDB animation checkpoints; no shader/page errors.

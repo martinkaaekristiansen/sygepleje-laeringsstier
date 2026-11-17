@@ -1,0 +1,29 @@
+{
+  "createdUtc": "2026-11-17T16:40:37.057937+00:00",
+  "branch": "forbedringer-fordoejelse",
+  "baseCommit": "8689f3d7bc548ba252ee5a77d7e19d7136c17981",
+  "remoteRefs": [
+    "8689f3d7bc548ba252ee5a77d7e19d7136c17981\trefs/heads/forbedringer-fordoejelse",
+    "e0b3f808725cc6ba5bcf989279c41faa621d13fb\trefs/heads/main"
+  ],
+  "baselineByteForByteVerifiedFiles": 71,
+  "sourceSha256": {
+    "package.json": "d1fc8ab5ab5f23c2a7e64af8c1fa78ed73f2c7cd9a817f04fcd140c2e2af39b3",
+    "public/digestion-engine.js": "ef316f2afb2edf5c264c4261d2c6a3fec31f9e0c9a96ced56927270817ab49e6",
+    "public/digestion-epithelium.js": "d4c25256557d65257c024a8234025e83033b63428efb7a871e6dff5fafc731e1",
+    "public/digestion-finale.js": "d3065693be0ef865146f563042ad88853e4c2ed376b31e533522fc3229622da5",
+    "public/digestion-flow.js": "49bd5520a9688672f9517ffbd3fe65f9e1f301b25a7f63ae157659d8e8ba5f1d",
+    "public/digestion-game.js": "bc5346a5b66ed055a0c37b1013c3088b7e31e0561cf85a34472a4332d66ca211",
+    "public/digestion-motility.js": "bf7588a164711db475855c9ad1173a42bbf2f89176811f0c1942bd90e8a20a17",
+    "public/digestion-mucosa.js": "1c8cbacd093d1376c3aa52b0bfe6330bcebf1950d2051dda74c8d61a8b406302",
+    "public/digestion-physiology-label.js": "51fa404ef5f332a27182b7988cdfbfe7a42d96b8ac9cc97388a7c0f7d2118345",
+    "public/digestion-world.js": "7ffa9b5b820ed0d301bf594de7d389f2901be22c8b545c07c14f38e11b421638",
+    "public/digestion.css": "a7dd177afd10fc305c7b6f92afda744a8e93b37d4e469d189487553f390f02fa",
+    "test/digestion-phase-c.test.js": "cd75e12454baf0517d5237eb2bb73c06b23ceedeefeb553458cea12e1c0d5e44",
+    "tests-browser/digestion-performance.cjs": "d0179fb76108c5046a658797f4e221f24fc36a2c13c8a1455c18ec48f14347e1",
+    "tests-browser/digestion-phase-c.cjs": "c9ac6dd79d07fa35d24c814cffb9a0267ad711537733d0a689c1f008516496e2"
+  },
+  "captureMethod": "Actual Chromium app, real WebGL/SwiftShader and IndexedDB fixtures; no AI images; separate six full journeys.",
+  "committedOrPushed": false,
+  "snapshotContext": "Historical snapshot from the visual review before the approved Phase C commit; remoteRefs and committedOrPushed describe the capture time."
+}

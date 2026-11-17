@@ -1,0 +1,1 @@
+PASS gallery: 66 actual PNGs load, three H.264 videos have playable metadata, mobile filter and desktop/mobile layout, no page errors.

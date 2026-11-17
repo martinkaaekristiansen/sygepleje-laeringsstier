@@ -113,6 +113,22 @@ export function validDigestion(data) {
       (Array.isArray(r.completed) && r.completed.every((id) => ROUTE.some((s) => s.id === id)))) &&
     (r.product === undefined || Object.hasOwn(PRODUCTS, r.product)) &&
     (r.absorbed === undefined || typeof r.absorbed === 'boolean') &&
+    (r.animation === undefined ||
+      (r.animation &&
+        ROUTE.some((s) => s.id === r.animation.stage) &&
+        [
+          'reaction',
+          'swallow',
+          'absorb',
+          'transport',
+          'finale',
+          'secretion',
+          'brush-border',
+          'bile',
+        ].includes(r.animation.mode) &&
+        Number.isFinite(r.animation.age) &&
+        r.animation.age >= 0 &&
+        r.animation.age <= 3600)) &&
     ['errors', 'anatomy', 'enzyme', 'started', 'elapsed'].every((k) => finite(r[k]));
   return (
     data &&

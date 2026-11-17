@@ -47,7 +47,7 @@ export function mucosaFrame(id, built, u, a) {
 export function villusSway(y, height, time, phase) {
   return 0.022 * Math.sin(time * 0.6 + phase) * Math.pow(Math.max(0, y) / height, 2);
 }
-export function buildVilli(id, built, texture) {
+export function buildVilli(id, built, texture, motility = null) {
   const region = MUCOSA_REGIONS[id],
     camera = built.path.getPointAt(0.045);
   const group = new T.Group();
@@ -76,6 +76,8 @@ export function buildVilli(id, built, texture) {
     const key = `${Math.floor(u * 8)}:${lod}`;
     if (!entries.has(key)) entries.set(key, { lod, instances: [] });
     entries.get(key).instances.push({
+      u,
+      axis: built.path.getPointAt(u).toArray(),
       matrix: object.matrix.clone(),
       phase: i * 2.399963,
       color: new T.Color(region.color).multiplyScalar(0.9 + 0.12 * Math.sin(i * 1.73)),
@@ -123,6 +125,11 @@ export function buildVilli(id, built, texture) {
     const lowGeometry = new T.CapsuleGeometry(0.075, 0.29, ...lowDetail);
     lowGeometry.translate(0, 0.205, 0);
     lowGeometry.setAttribute('villusPhase', geometry.getAttribute('villusPhase'));
+    if (motility) {
+      motility.instances(geometry, instances);
+      motility.instances(lowGeometry, instances);
+      motility.material(material, true);
+    }
     const mesh = new T.InstancedMesh(geometry, material, instances.length);
     mesh.userData.geometryLods = [geometry, lowGeometry];
     instances.forEach((entry, i) => {
@@ -131,7 +138,7 @@ export function buildVilli(id, built, texture) {
     });
     mesh.computeBoundingSphere();
     // Shader displacement is not included in the CPU geometry bounds.
-    mesh.boundingSphere.radius += 0.06;
+    mesh.boundingSphere.radius += motility ? 0.65 : 0.06;
     mesh.userData.distanceLod = lod;
     group.add(mesh);
     return mesh;

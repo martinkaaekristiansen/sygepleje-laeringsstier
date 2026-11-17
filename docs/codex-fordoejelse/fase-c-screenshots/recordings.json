@@ -1,0 +1,29 @@
+[
+  {
+    "name": "peristaltik-oesophagus.mp4",
+    "frames": 34,
+    "duration": 8.10191297531128,
+    "source": "Actual Chromium Page.screencastFrame; variable frame timestamps retained.",
+    "encodedFrames": 34,
+    "encodedDuration": 8.0,
+    "encoding": "H.264, yuv420p, variable timestamps; source frames may be dropped when rounding the MP4 timebase; no interpolated frames."
+  },
+  {
+    "name": "chylomikroner-lymfe.mp4",
+    "frames": 19,
+    "duration": 10.739652872085571,
+    "source": "Actual Chromium Page.screencastFrame; variable frame timestamps retained.",
+    "encodedFrames": 19,
+    "encodedDuration": 10.76,
+    "encoding": "H.264, yuv420p, variable timestamps; source frames may be dropped when rounding the MP4 timebase; no interpolated frames."
+  },
+  {
+    "name": "toiletfinale.mp4",
+    "frames": 117,
+    "duration": 5.949457168579102,
+    "source": "Actual Chromium Page.screencastFrame; variable frame timestamps retained.",
+    "encodedFrames": 117,
+    "encodedDuration": 6.0,
+    "encoding": "H.264, yuv420p, variable timestamps; source frames may be dropped when rounding the MP4 timebase; no interpolated frames."
+  }
+]

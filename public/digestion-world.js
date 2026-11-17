@@ -1,3 +1,7 @@
+import { createMotility } from './digestion-motility.js';
+import { lumenFlow } from './digestion-flow.js';
+import { buildEpithelium, epithelialCutaway } from './digestion-epithelium.js';
+import { buildFinale } from './digestion-finale.js';
 import { viewPose } from './digestion-camera.js';
 import { anatomicalLabel } from './digestion-anatomy-labels.js';
 import { buildSwallowAnatomy } from './digestion-swallow.js';
@@ -7,14 +11,12 @@ import { enzymeModel } from './digestion-enzyme-model.js';
 import { enzymeIdentity } from './digestion-enzyme-identity.js';
 import { renderBudget } from './digestion-performance.js';
 import { chewingPose, chewBeat } from './digestion-audio.js';
-import { absorptionPoint, ABSORPTION_ANCHORS } from './digestion-absorption.js';
 import { addSecretions, mucosaTexture } from './digestion-secretions.js';
 import { nutrientModel } from './digestion-molecules.js';
 import {
   buildOrganSurface,
   organCurve,
   lumenRadius,
-  peristalsis,
   stomachPoint as stomachPointLocal,
   toothPose,
 } from './digestion-anatomy.js';
@@ -23,7 +25,12 @@ import * as T from './three.module.min.js';
 import { CHARACTERS, ROUTE, PRODUCTS } from './digestion-data.js';
 // One renderer, camera and animation loop for every nutrient and scale.
 export function createDigestionWorld(canvas, onPhysiology = () => {}) {
-  const renderer = new T.WebGLRenderer({ canvas, antialias: true, powerPreference: 'low-power' });
+  const renderer = new T.WebGLRenderer({
+    canvas,
+    antialias: true,
+    stencil: true,
+    powerPreference: 'low-power',
+  });
   renderer.toneMapping = T.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.95;
   const texture = mucosaTexture();
@@ -63,15 +70,20 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     envDrops = [],
     envTeeth = [],
     environmentKey = '',
-    oldRoot = null,
-    transitionAge = 0,
     cameraTarget = new T.Vector3(0, 0, 2),
     lookTarget = new T.Vector3(0, 0, -8),
     cameraLook = new T.Vector3(0, 0, -8),
     swallow = null,
     mucosa = null,
+    motility = null,
+    flow = null,
+    epithelium = null,
+    epithelialState = null,
+    cutaway = null,
+    finale = null,
+    physiologyTime = 0,
+    motilityStarted = 0,
     wall = null,
-    wallBase = null,
     organPath = null,
     targets = [],
     envTargets = [],
@@ -87,6 +99,9 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     lastDiagnostics = -Infinity,
     diagnosticsDirty = true;
   const budget = renderBudget(devicePixelRatio || 1);
+  function finaleViewportLook(width, height) {
+    if (mode === 'finale') lookTarget.y = width <= 600 && height <= 650 ? 0 : -2.5;
+  }
   const resize = () => {
     const b = canvas.getBoundingClientRect();
     renderer.setSize(b.width, b.height, false);
@@ -94,6 +109,8 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     mucosa?.setBudget(budget.ratio);
     camera.aspect = b.width / Math.max(1, b.height);
     camera.updateProjectionMatrix();
+    finaleViewportLook(b.width, b.height);
+    epithelium?.layout(b.width, b.height);
     if (enzymes.length && mode === 'boss') labelChoices(enzymes.map((e) => e.userData.label || ''));
     wake();
   };
@@ -144,19 +161,11 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
         for (const m of Array.isArray(o.material) ? o.material : [o.material]) m.dispose();
     });
   }
-  function disposeRoot(transition = false) {
-    if (oldRoot) {
-      scene.remove(oldRoot);
-      free(oldRoot);
-      oldRoot = null;
-    }
-    if (transition && moving && budget.ratio >= 1 && root.children.length) {
-      oldRoot = root;
-      transitionAge = 0;
-    } else {
-      scene.remove(root);
-      free(root);
-    }
+  function disposeRoot() {
+    // A canvas fade masks station changes without rendering old food/anatomy
+    // over the new scene or doubling GPU geometry during transitions.
+    scene.remove(root);
+    free(root);
     root = new T.Group();
     scene.add(root);
     actors = [];
@@ -166,13 +175,17 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     targets = [];
     environment = null;
     environmentKey = '';
+    canvas.dataset.villusCount = '0';
+    canvas.dataset.mucosaRegion = '';
     wall = null;
     swallow = null;
     mucosa = null;
-    wallBase = null;
+    motility = flow = epithelium = epithelialState = finale = null;
+    cutaway = null;
     secretions = null;
   }
   function clearContent() {
+    epithelium = epithelialState = null;
     for (const child of [...root.children])
       if (child !== environment) {
         root.remove(child);
@@ -286,7 +299,10 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       wall.material.bumpMap = texture;
       wall.material.bumpScale = 0.055;
     }
-    wallBase = wall.geometry.attributes.position.array.slice();
+    motility = createMotility(s.id, built);
+    motilityStarted = physiologyTime - age;
+    if (motility) motility.material(wall.material);
+    if (s.id === 'jejunum') cutaway = epithelialCutaway();
     canvas.dataset.organShape = built.geometry.userData.kind;
     if (stomach && character === 'stanley') {
       const amylase = mesh(new T.TorusKnotGeometry(0.22, 0.06, 32, 7), 0x65d6ec);
@@ -302,11 +318,17 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
           p.multiplyScalar(0.98);
           return p;
         });
-        mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points), 40, 0.075, 6, false), 0xcb7c8b);
+        const fold = mesh(
+          new T.TubeGeometry(new T.CatmullRomCurve3(points), 40, 0.075, 6, false),
+          0xcb7c8b,
+        );
+        motility.geometry(fold.geometry);
+        motility.material(fold.material);
       }
       const outlet = mesh(new T.TorusGeometry(0.7, 0.17, 10, 32), 0xd6979d);
       outlet.position.set(4.5, -1.8, -6.8);
       outlet.rotation.y = Math.PI / 2;
+      actors.push({ object: outlet, type: 'pylorus-gate' });
       const liquid = mesh(new T.CircleGeometry(5, 48), 0x9e9146);
       liquid.rotation.x = -Math.PI / 2;
       liquid.position.set(0.5, -2.8, -6.8);
@@ -314,7 +336,7 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       liquid.material.opacity = 0.45;
     }
     if (small) {
-      mucosa = buildVilli(s.id, built, texture);
+      mucosa = buildVilli(s.id, built, texture, motility);
       root.add(mucosa.mesh);
       mucosa.setBudget(budget.ratio);
       canvas.dataset.villusCount = String(mucosa.count);
@@ -384,7 +406,9 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       }
     }
     if (s.id === 'caecum') {
-      root.add(buildIleocaecalLips());
+      const lips = buildIleocaecalLips();
+      root.add(lips);
+      actors.push({ object: lips, type: 'ileocaecal-valve' });
       for (const [text, p, w] of [
         ['Caecums blinde bund', [0, -3.5, -6], 2.5],
         ['Ileocøkalklap', [2.4, 0.9, -5.9], 1.8],
@@ -404,96 +428,16 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     }
     // No artificial exit marker: the continuous lumen/folds are the anatomical route.
     secretions = addSecretions(root, s, character);
-    for (let i = 0; i < 26; i++) {
-      const m = sphere(
-        Math.sin(i * 9) * 2,
-        Math.cos(i * 4) * 2,
-        -2 - (i % 12) * 1.4,
-        colon ? 0.09 : 0.045,
-        colon ? 0x80b9a1 : 0xf0c7b7,
-      );
-      if (colon) m.scale.y = 2.5;
-      drops.push(m);
+    if (!['mouth', 'pharynx', 'epiglottis'].includes(s.id)) {
+      flow = lumenFlow(s.id, built);
+      root.add(flow.mesh);
     }
   }
   function absorptionInLumen() {
-    // The original wall, folds, villi, camera and organ path remain in place.
-    // A translucent teaching cutaway reveals vessels beyond the epithelium.
-    if (wall) {
-      wall.material.transparent = true;
-      wall.material.opacity = 0.24;
-      wall.material.depthWrite = false;
-    }
-    const barrier = mesh(new T.BoxGeometry(0.32, 1.9, 0.8), 0xdfa6b3);
-    barrier.position.set(0.84, 0.5, -5.13);
-    barrier.material.transparent = true;
-    barrier.material.opacity = 0.4;
-    barrier.material.depthWrite = false;
-    for (let i = 0; i < 7; i++) {
-      const v = mesh(new T.CapsuleGeometry(0.045, 0.25, 3, 7), 0xf5c7a6);
-      v.rotation.z = -Math.PI / 2;
-      v.position.set(0.6, -0.15 + i * 0.22, -4.85);
-    }
-    for (const [x, z, c] of [
-      [1.38, -5.55, 0xcf5369],
-      [1.75, -5.4, 0x8bd898],
-    ]) {
-      const curve = new T.CatmullRomCurve3([
-        new T.Vector3(x, -1.3, z),
-        new T.Vector3(x, 0, z),
-        new T.Vector3(x - 0.15, 1.3, z),
-      ]);
-      mesh(new T.TubeGeometry(curve, 24, x > 1.5 ? 0.1 : 0.07, 8, false), c);
-    }
-    for (const [x, y, z, name] of [
-      [0.6, 0.7, -4.8, character === 'stanley' ? 'SGLT1' : 'Optagelse'],
-      [1.12, 0.1, -5.25, character === 'stanley' ? 'GLUT2' : 'Videre transport'],
-    ]) {
-      const gateway = mesh(new T.TorusGeometry(0.11, 0.035, 8, 18), 0x65c5df);
-      gateway.position.set(x, y, z);
-      gateway.rotation.y = Math.PI / 3;
-      gateway.name = name;
-    }
-    if (character === 'trine') {
-      const micelle = new T.Group();
-      root.add(micelle);
-      micelle.position.set(-0.55, 0.9, -4.7);
-      for (let i = 0; i < 12; i++)
-        sphere(
-          Math.cos((i * Math.PI) / 6) * 0.23,
-          Math.sin((i * Math.PI) / 6) * 0.23,
-          0,
-          0.04,
-          0xc7ce69,
-          micelle,
-        );
-      const tg = molecule('trine', root, 'triglyceride');
-      tg.position.fromArray(ABSORPTION_ANCHORS.cell);
-      tg.scale.setScalar(0.16);
-      actors.push({ object: tg, type: 'reesterified' });
-      const ch = molecule('trine', root, 'triglyceride');
-      ch.scale.setScalar(0.14);
-      const coat = sphere(0, 0, 0, 0.24, 0xf5dc8c);
-      coat.material.transparent = true;
-      coat.material.opacity = 0.7;
-      coat.material.depthWrite = false;
-      actors.push({ object: ch, type: 'chylomicron' }, { object: coat, type: 'chylomicron' });
-    }
-    for (let i = 0; i < (character === 'trine' ? 6 : 2); i++) {
-      const form =
-        character === 'stanley'
-          ? 'glucose'
-          : character === 'poul'
-            ? 'amino-acid'
-            : 'lipid-products';
-      const m = molecule(character, root, form);
-      m.scale.setScalar(character === 'trine' ? 0.13 : 0.65);
-      actors.push({ object: m, type: 'absorb', i });
-      if (character !== 'trine') {
-        const ion = sphere(0, 0, 0, 0.035, 0x7fc9ef);
-        actors.push({ object: ion, type: 'sodium', i });
-      }
-    }
+    cutaway.apply(wall.material);
+    mucosa.meshes.forEach((mesh) => cutaway.apply(mesh.material));
+    epithelium = buildEpithelium(character, wall, motility, cutaway);
+    root.add(epithelium.group);
     canvas.dataset.absorptionSpace = 'intestinal-lumen';
     canvas.dataset.epithelialBarrier = 'true';
   }
@@ -526,25 +470,27 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     );
     wake();
   }
-  function setScene(s, id, nextMode = 'travel', residue = false, nextProduct) {
+  function setScene(s, id, nextMode = 'travel', residue = false, nextProduct, initialAge = 0) {
     if (['villus', 'cell', 'membrane'].includes(nextMode)) nextMode = 'absorb';
     const absorbing = ['absorb', 'transport'].includes(nextMode);
     const isFace = ['entry', 'face-intro'].includes(nextMode);
     const organ = !isFace && !['menu', 'finale'].includes(nextMode);
     const reuse = organ && environment && environmentKey === s.id + ':' + id + ':' + residue;
     if (reuse) clearContent();
-    else disposeRoot(true);
+    else disposeRoot();
     stage = s;
     character = id;
     product =
       nextProduct || { stanley: 'polysaccharide', trine: 'triglyceride', poul: 'protein' }[id];
     mode = nextMode;
-    age = 0;
+    age = Math.max(0, Math.min(3600, initialAge));
     canvas.dataset.sceneAge = '0';
     sceneSoundEvents.clear();
     targetPH = s.ph || ph;
     canvas.dataset.scale = 'centimeter';
     canvas.dataset.absorptionSpace = absorbing ? 'intestinal-lumen' : '';
+    canvas.dataset.epithelialBarrier = String(absorbing);
+    if (nextMode !== 'finale') delete canvas.dataset.defecation;
     if (!reuse) {
       yaw = 0;
       pitch = 0;
@@ -570,21 +516,16 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       m.scale.setScalar(0.8);
       actors.push({ object: m, type: 'molecule', i: 0 });
     } else if (mode === 'finale') {
-      scene.background.set(0xf5e9cd);
-      scene.fog.color.set(0xf5e9cd);
-      const bowl = mesh(new T.TorusGeometry(2, 0.55, 20, 64), 0xf7f7ef);
-      bowl.rotation.x = -Math.PI / 2;
-      bowl.position.set(0, -2, -6);
-      const water = mesh(new T.CircleGeometry(1.7, 48), 0x61c9de);
-      water.rotation.x = -Math.PI / 2;
-      water.position.set(0, -2.3, -6);
-      actors.push({ object: water, type: 'water' });
-      for (let i = 0; i < 4; i++) {
-        const ring = mesh(new T.TorusGeometry(0.3, 0.025, 6, 40), 0xd7f8ff);
-        ring.rotation.x = -Math.PI / 2;
-        ring.position.set(0, -2.27, -6);
-        actors.push({ object: ring, type: 'ripple', i });
-      }
+      scene.background.set(0x29313d);
+      scene.fog.color.set(0x29313d);
+      finale = buildFinale();
+      root.add(finale.group);
+      const pose = finale.update(age);
+      cameraTarget.fromArray(pose.camera);
+      lookTarget.fromArray(pose.look);
+      finaleViewportLook(canvas.clientWidth, canvas.clientHeight);
+      camera.position.copy(cameraTarget);
+      cameraLook.copy(lookTarget);
     } else {
       if (!reuse) {
         environment = new T.Group();
@@ -685,7 +626,14 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     canvas.dataset.hypotheses = JSON.stringify(
       enzymes.filter((e) => e.visible).map((e) => e.userData.kind || 'protein-enzyme'),
     );
+    if (!reuse && moving && mode !== 'menu' && canvas.animate) {
+      canvas.getAnimations().forEach((animation) => animation.cancel());
+      canvas.animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 450, easing: 'ease-out' });
+    }
     diagnosticsDirty = true;
+    // Keep ambient food specks out of the teaching section; only the relevant
+    // nutrient packets cross its epithelium. Wall/villus motility continues.
+    if (flow) flow.mesh.visible = !absorbing;
     canvas.dataset.digestStage = s.id;
     canvas.dataset.digestMode = mode;
     canvas.dataset.molecularForm = product;
@@ -700,8 +648,25 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     last = now;
     if (!paused) {
       age += elapsed;
-      if (moving) time += dt;
+      if (moving) {
+        time += dt;
+        physiologyTime += Math.min(0.5, elapsed);
+      }
     }
+    const organTime = physiologyTime - motilityStarted;
+    motility?.update(organTime, moving);
+    if (flow?.mesh.visible) flow.update(moving ? organTime : 0);
+    if (epithelium)
+      epithelialState = epithelium.update(
+        moving ? age : mode === 'transport' ? 10 : 7,
+        mode,
+        organTime,
+      );
+    if (finale)
+      canvas.dataset.defecation = JSON.stringify({
+        ...finale.update(moving ? age : 5.2),
+        look: lookTarget.toArray(),
+      });
     secretions?.update(moving ? time : 2, ph);
     if (mucosa) mucosa.clock.value = moving ? time : 0;
     if (swallow)
@@ -748,19 +713,22 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     if (!paused && moving) {
       if (stage.id === 'mouth' && !['menu', 'entry', 'face-intro'].includes(mode))
         beat('chew', chewBeat(time), 'chew');
-      if (stage.id === 'oesophagus' && age < 9)
-        beat('oesophagus', Math.floor(age / 2.5), 'peristalsis');
-      if (stage.id === 'stomach') beat('stomach', Math.floor(time / 7.3), 'rumble');
+      if (stage.id === 'oesophagus') beat('oesophagus', Math.floor(organTime / 9), 'peristalsis');
+      if (stage.id === 'stomach') beat('stomach', Math.floor(organTime / 20), 'rumble');
       if (['duodenum', 'jejunum', 'ileum'].includes(stage.id))
-        beat('wet', Math.floor(time / 6.7), stage.id === 'duodenum' ? 'secretion' : 'peristalsis');
+        beat(
+          'wet',
+          Math.floor(organTime / 6.7),
+          stage.id === 'duodenum' ? 'secretion' : 'peristalsis',
+        );
       if (
         ['caecum', 'ascending', 'transverse', 'descending', 'sigmoid', 'rectum'].includes(stage.id)
       )
-        beat('colon', Math.floor(time / 8.7), 'bubble');
+        beat('colon', Math.floor(organTime / 8.7), 'bubble');
       if (mode === 'reaction' && age >= 2) emitOnce('binding', 'binding');
       if (mode === 'reaction' && age >= 3.2) emitOnce('cleave', 'cleave');
       if (mode === 'absorb' && age >= 3) emitOnce('absorption', 'absorption');
-      if (mode === 'finale' && age >= 2.7) emitOnce('splash', 'splash');
+      if (mode === 'finale' && age >= 4.8) emitOnce('splash', 'splash');
     }
     canvas.dataset.chewingPhase = String(chewingPose(time));
     canvas.dataset.chewBeat = String(chewBeat(time));
@@ -772,13 +740,34 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     }
     for (const a of actors) {
       const m = a.object;
+      if (a.type === 'ileocaecal-valve') {
+        const phase = (organTime / 28) % 1;
+        const gate = phase < 0.14 ? Math.sin((phase / 0.14) * Math.PI) : 0;
+        m.children.forEach((lip, i) => {
+          const p = new T.Vector3(
+            3.06,
+            0.65 + (i ? 1 : -1) * (moving ? 0.1 + gate * 0.17 : 0.27),
+            -6,
+          );
+          lip.position.copy(motility.point(p, (p.y + 4.2) / 9, new T.Vector3(0.35, p.y, -6.2)));
+        });
+      }
+      if (a.type === 'pylorus-gate') {
+        const phase = motility?.clock.value.x || 0;
+        const open = phase > 0.88 ? (1 - phase) / 0.12 : 0;
+        m.scale.setScalar(0.72 + open * 0.28);
+      }
       if (a.type === 'fat-drop') {
         const f = moving ? Math.min(1, age / 3) : 1;
         m.scale.setScalar(1 - f * 0.45);
-        m.position.x = ((a.i % 4) - 1.5) * (0.2 + f * 0.7);
+        m.position.copy(
+          tableau(((a.i % 4) - 1.5) * (0.2 + f * 0.45), 0.5 + Math.floor(a.i / 4) * 0.4, -0.1),
+        );
       }
-      if (a.type === 'substrate' && stage.id === 'oesophagus' && organPath && moving)
-        m.position.copy(organPath.getPointAt(Math.min(0.65, 0.12 + age * 0.055)));
+      if (a.type === 'substrate' && stage.id === 'oesophagus' && organPath && moving) {
+        m.position.copy(organPath.getPointAt(Math.min(0.92, motility.clock.value.x + 0.09)));
+        m.visible = motility.clock.value.x < 0.84;
+      }
       if (a.type === 'molecule' || a.type === 'substrate') {
         m.rotation.y = moving ? Math.sin(time * 0.5 + (a.i || 0)) * 0.4 : 0;
         if (
@@ -826,44 +815,12 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
         m.scale.setScalar(1 - f * 0.8);
       }
       if (a.type === 'sphincter') m.scale.setScalar(moving ? 1 + Math.sin(time * 1.5) * 0.08 : 1);
-      if (a.type === 'absorb' || a.type === 'sodium') {
-        const t = moving ? age : 5;
-        m.position.fromArray(absorptionPoint(character, mode, t, a.i).position);
-        if (a.type === 'sodium') {
-          m.position.x -= 0.09;
-          m.visible = mode === 'absorb';
-        }
-        if (character === 'trine') m.visible = mode === 'absorb';
-      }
-      if (a.type === 'reesterified') m.visible = mode === 'transport' && (!moving || age < 2);
-      if (a.type === 'chylomicron') {
-        m.visible = mode === 'transport' && (!moving || age >= 2);
-        m.position.fromArray(absorptionPoint('trine', 'transport', moving ? age : 5).position);
-      }
-      if (a.type === 'ripple') {
-        const u = Math.max(0, age - 2.5 - a.i * 0.18);
-        m.visible = age > 2.5;
-        m.scale.setScalar(0.3 + Math.min(1.5, u) * 1.1);
-        m.material.transparent = true;
-        m.material.opacity = Math.max(0, 1 - u / 2);
-      }
-      if (a.type === 'water') {
-        m.scale.setScalar(1 + (moving ? Math.sin(age * 5) * 0.03 : 0));
-        const fall = Math.min(1, Math.max(0, (age - 1.5) / 1.4));
-        camera.position.set(0, 1.4 - fall * 2.9, -2 - fall * 2);
-        camera.lookAt(0, -2.3, -6);
-        scene.background.setRGB(
-          0.25 + Math.min(1, age / 2) * 0.7,
-          0.16 + Math.min(1, age / 2) * 0.75,
-          0.2 + Math.min(1, age / 2) * 0.65,
-        );
-      }
     }
     for (const [i, e] of enzymes.entries()) {
       e.rotation.z = moving ? Math.sin(time + i) * 0.15 : 0;
       if (['reaction', 'secretion', 'brush-border'].includes(mode)) {
         const f = age < 3 ? Math.min(1, age / 2) : age < 6 ? 1 : Math.max(0, 1 - (age - 6) / 2);
-        const approach = Math.min(1, age / 2);
+        const approach = f;
         e.position.copy(tableau(-0.75 * (1 - approach), 0.25, 0.7 * (1 - approach)));
         const width =
           cameraTarget.distanceTo(lookTarget) *
@@ -875,43 +832,6 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
         canvas.dataset.enzymeIntact = String(e.children.length > 0);
       }
     }
-    if (wall && wallBase && moving && stage.id === 'oesophagus') {
-      const a = wall.geometry.attributes.position,
-        meta = wall.geometry.userData;
-      for (let j = 0; j <= meta.along; j++) {
-        const u = j / meta.along,
-          f = peristalsis(u, (Math.min(0.65, 0.12 + age * 0.055) - 0.075) / 0.14);
-        for (let i = 0; i <= meta.around; i++) {
-          const k = (j * (meta.around + 1) + i) * 3;
-          a.array[k] = wallBase[k] * f;
-          a.array[k + 1] = wallBase[k + 1] * f;
-        }
-      }
-      a.needsUpdate = true;
-      // This wall actually deforms. Refresh its bounds before rendering; static
-      // organs and target projections reuse their cached geometry bounds.
-      wall.geometry.computeBoundingSphere();
-    }
-    if (wall && moving && stage.id === 'stomach') {
-      wall.scale.set(1 + Math.sin(time * 0.7) * 0.012, 1 + Math.sin(time * 0.7 + 0.8) * 0.018, 1);
-    }
-    if (oldRoot) {
-      transitionAge += elapsed;
-      const fade = Math.min(1, transitionAge / 1.1);
-      oldRoot.traverse((o) => {
-        if (o.material) {
-          o.material.transparent = true;
-          o.material.userData.transitionBase ??= o.material.opacity;
-          o.material.opacity = o.material.userData.transitionBase * (1 - fade);
-        }
-      });
-      if (fade === 1) {
-        scene.remove(oldRoot);
-        free(oldRoot);
-        oldRoot = null;
-      }
-    }
-
     if (!paused && moving && budget.sample(elapsed * 1000)) resize();
     canvas.dataset.renderRatio = String(budget.ratio);
     renderer.render(scene, camera);
@@ -974,8 +894,17 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
         fov: camera.fov,
         quaternion: camera.quaternion.toArray(),
       });
-      canvas.dataset.chylomicrons = String(
-        actors.filter((a) => a.type === 'chylomicron' && a.object.visible).length,
+      canvas.dataset.chylomicrons = String(epithelialState?.chylomicrons || 0);
+      canvas.dataset.epithelialState = JSON.stringify(epithelialState || {});
+      canvas.dataset.motility = JSON.stringify(
+        motility
+          ? {
+              id: stage.id,
+              kind: motility.kind,
+              time: organTime,
+              weights: motility.clock.value.toArray(),
+            }
+          : {},
       );
       canvas.dataset.transportProgress = (mode === 'transport' ? Math.min(1, age / 5) : 0).toFixed(
         2,
@@ -990,7 +919,11 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       canvas.dataset.drawCalls = renderer.info.render.calls;
       canvas.dataset.geometries = renderer.info.memory.geometries;
     }
-    if (!raf && !paused && (moving || Math.abs(ph - targetPH) > 0.01))
+    if (
+      !raf &&
+      !paused &&
+      ((moving && !(mode === 'finale' && age > 8)) || Math.abs(ph - targetPH) > 0.01)
+    )
       raf = requestAnimationFrame(frame);
   }
   function wake() {
@@ -1048,6 +981,13 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
   resize();
   return {
     setScene,
+    timeline() {
+      return { stage: stage?.id, mode, age };
+    },
+    complete() {
+      finale?.complete();
+      wake();
+    },
     labelChoices,
     learningState(run) {
       secretions?.setProgress({
@@ -1108,7 +1048,6 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       canvas.removeEventListener('pointercancel', abort);
       document.removeEventListener('visibilitychange', visibility);
       disposeRoot();
-      if (oldRoot) free(oldRoot);
       texture?.dispose();
       renderer.dispose();
       renderer.forceContextLoss();

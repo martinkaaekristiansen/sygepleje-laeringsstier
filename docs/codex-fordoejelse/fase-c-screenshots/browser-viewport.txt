@@ -1,0 +1,1 @@
+PASS: mobile/desktop start with suppressed native dialogs, cancellation, new attempts, resume, viewport rotation, controls, settings, scroll lock and cleanup

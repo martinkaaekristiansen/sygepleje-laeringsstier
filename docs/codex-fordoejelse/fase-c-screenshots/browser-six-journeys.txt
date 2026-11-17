@@ -1,0 +1,7 @@
+Testing digestion stanley desktop
+Testing digestion trine desktop
+Testing digestion poul desktop
+Testing digestion stanley mobile
+Testing digestion trine mobile
+Testing digestion poul mobile
+PASS digestion: six complete journeys, 15 stops, three biochemical answers/two anatomical answers, staged molecules, absorption in the unchanged lumen camera, persistent molecule-specific learning, compact UI, button-only choices, exam feedback/review, residue, stable camera on mobile/desktop, retries, settings, trophies, exams and WebGL fallback

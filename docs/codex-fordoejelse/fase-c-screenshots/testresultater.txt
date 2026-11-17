@@ -1,0 +1,34 @@
+FASE C – TESTRESULTATER
+
+| Kontrol | Resultat |
+|---|---|
+| `npm test` | 144 bestået, 0 fejl: alle 137 eksisterende + 7 nye C-tests. |
+| `npm run build` | Bestået; nye moduler medtaget i det indholdsadresserede build. |
+| Fase A-browser | Bestået: desktop, tablet, 320 px mobil, landskab, knapvalg og enzymidentiteter. |
+| Komplette rejser | 6 af 6 bestået: Stanley, Trine og Poul på desktop og emuleret mobil; 15 stationer, gemning, sluttest, indstillinger og WebGL-fallback. |
+| Lyd-browser | Bestået på begge størrelser: brugeraktivering, faktisk gain, tygning, mute, læsepause, oprydning samt fallback uden lyd. |
+| Fase B-browser | Bestået: synkning, anatomiske forskelle, 1.500–3.200 villi, stabile kameraer og mus/touch mere end 180° bagud. |
+| Viewport-browser | Bestået: start, afbrydelse, genoptagelse, rotation, kontrolknapper og scroll-lås. |
+| Fase C-browser | Bestået: 58 faktiske billeder, tre MP4-klip, alle tre slutskærme, gentagelse med tastatur og seks IndexedDB-genoptagelser. Ingen shader-/sidefejl. |
+| `git diff --check` | Bestået. Nye tekstfiler er desuden kontrolleret særskilt for afsluttende mellemrum. |
+
+Komplette logs ligger ved galleriet, herunder node-tests.txt, browser-six-journeys.txt og browser-phase-c.txt. Node-version: 24.22.1. Chromium-version: 155.0.8059.79.
+
+digestion-phase-a: 0
+digestion: 0
+digestion-audio: 0
+digestion-phase-b: 0
+game-viewport: 0
+C: 0
+before-route: 0
+after-route: 0
+before-transport: 0
+after-transport: 0
+Node: 0
+Build: 0
+Six journeys: 0
+Diff: 0
+
+PASS gallery: 66 actual PNGs load, three H.264 videos have playable metadata, mobile filter and desktop/mobile layout, no page errors.
+
+Kontrol før fase C-commit: npm test genkørt med 144 bestået og 0 fejl; npm run build genkørt uden fejl. De ovenstående browserresultater er fra den godkendte fase C-gennemgang.

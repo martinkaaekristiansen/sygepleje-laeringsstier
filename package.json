@@ -14,7 +14,8 @@
     "test:browser:digestion-b": "node tests-browser/digestion-phase-b.cjs",
     "test:3d": "node tests-browser/journey-3d.cjs",
     "format": "prettier --write \"public/*.js\" \"test/*.test.js\" \"tests-browser/*.cjs\"",
-    "test:browser:digestion-performance": "node tests-browser/digestion-performance.cjs"
+    "test:browser:digestion-performance": "node tests-browser/digestion-performance.cjs",
+    "test:browser:digestion-c": "node tests-browser/digestion-phase-c.cjs"
   },
   "engines": {
     "node": ">=22"

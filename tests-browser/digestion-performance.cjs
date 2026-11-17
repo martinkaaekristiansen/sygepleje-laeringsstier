@@ -10,6 +10,8 @@ const label = process.env.PERF_LABEL || 'after';
 const samples = Number(process.env.PERF_SAMPLES || 90);
 const ratio = Number(process.env.PERF_RATIO || 0.8);
 const regions = (process.env.PERF_REGIONS || 'jejunum').split(',');
+const mode = process.env.PERF_MODE || 'route';
+const character = process.env.PERF_CHARACTER || 'stanley';
 const sizes = (process.env.PERF_SIZES || 'mobile,desktop').split(',');
 fs.mkdirSync(output, { recursive: true });
 
@@ -36,7 +38,7 @@ async function fixture(page, index, motion) {
   );
   await page.goto(base + '?performance-fixture');
   await page.evaluate(
-    async ({ base, index, motion, profile }) => {
+    async ({ base, index, motion, profile, mode, character }) => {
       if (profile) {
         const T = await import(base + 'three.module.min.js');
         window.__cpu = { sphereCalls: 0, sphereMs: 0, rootMatrixCalls: 0, rootMatrixMs: 0 };
@@ -65,23 +67,33 @@ async function fixture(page, index, motion) {
           digestion: {
             results: {},
             active: {
-              ...newDigestion('stanley'),
+              ...newDigestion(character),
               index,
-              phase: 'route',
+              phase: mode === 'route' ? 'route' : 'absorption',
+              absorptionPassed: mode === 'transport',
+              absorptionView: mode === 'transport' ? 'transport' : 'absorb',
               absorbed: index > 6,
-              product: index > 6 ? 'residue' : 'polysaccharide',
+              product:
+                index > 6
+                  ? 'residue'
+                  : mode !== 'route'
+                    ? { stanley: 'glucose', poul: 'amino-acid', trine: 'lipid-products' }[character]
+                    : 'polysaccharide',
             },
             settings: { sound: false, motion, volume: 0.3 },
           },
         },
-        save: async () => {},
+        save: async () => true,
         onCharacter: () => {},
       });
     },
-    { base, index, motion, profile: process.env.PERF_PROFILE === '1' },
+    { base, index, motion, mode, character, profile: process.env.PERF_PROFILE === '1' },
   );
   await page.locator('[data-digest=resume]').click();
-  await page.locator('[data-choice]').first().waitFor();
+  await page
+    .locator(mode === 'route' ? '[data-choice]' : '[data-digest=skip]')
+    .first()
+    .waitFor();
   await page.waitForFunction(
     (motion) => Number(document.querySelector('canvas').dataset.sceneAge) >= (motion ? 1.2 : 0.001),
     motion,
@@ -204,6 +216,8 @@ async function prepare(page) {
             label,
             size,
             region,
+            mode,
+            character,
             viewport,
             yaw: Number(process.env.PERF_YAW || 0),
             ...result,
