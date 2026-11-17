@@ -1,0 +1,10 @@
+{
+  "renderer": "Chromium SwiftShader in cloud; emulated mobile 390x844",
+  "samples": 24,
+  "medianFrameMs": 333.4,
+  "medianFps": 3,
+  "triangles": 289204,
+  "drawCalls": 58,
+  "renderRatio": 0.8,
+  "villi": 3200
+}

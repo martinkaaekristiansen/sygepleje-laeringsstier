@@ -1,0 +1,159 @@
+{
+  "conditions": "Chromium SwiftShader, DPR=1, ratio=0.8, sound off, motion on, Stanley jejunum route question, initial camera, 5 s warmup, two sequential rounds with 90 intervals each. Separate static screenshots with motion off.",
+  "chromium": "155.0.8059.79",
+  "summary": {
+    "mobile": {
+      "before": {
+        "samples": 180,
+        "medianFrameMs": 349.9500000000007,
+        "medianFps": 2.8575510787255265,
+        "meanFrameMs": 371.18888888888887,
+        "p95FrameMs": 1333.199999999997,
+        "trianglesMedianOfRunMedians": 288628.0,
+        "drawCallsMedianOfRunMedians": 56.0,
+        "triangleRange": [
+          287476,
+          289204
+        ],
+        "drawCallRange": [
+          52,
+          58
+        ]
+      },
+      "after": {
+        "samples": 180,
+        "medianFrameMs": 300.0,
+        "medianFps": 3.3333333333333335,
+        "meanFrameMs": 311.0061111111111,
+        "p95FrameMs": 883.3000000000011,
+        "trianglesMedianOfRunMedians": 256988.0,
+        "drawCallsMedianOfRunMedians": 64.0,
+        "triangleRange": [
+          255836,
+          257564
+        ],
+        "drawCallRange": [
+          60,
+          66
+        ]
+      },
+      "fpsGainPercent": 16.650000000000233,
+      "frameTimeReductionPercent": 14.273467638234216,
+      "buffer": [
+        312,
+        675
+      ],
+      "camera": {
+        "position": [
+          -0.17700015054247284,
+          0.03637770781779192,
+          1.735713210410908
+        ],
+        "look": [
+          -1.2613044222156828,
+          1.0091852809290351,
+          -7.569790782074129
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.051623832638336885,
+          0.057889824677147386,
+          -0.0029975387051279405,
+          0.9969828297740587
+        ]
+      }
+    },
+    "desktop": {
+      "before": {
+        "samples": 180,
+        "medianFrameMs": 566.5999999999985,
+        "medianFps": 1.7649135192375618,
+        "meanFrameMs": 578.3111111111111,
+        "p95FrameMs": 1499.9000000000015,
+        "trianglesMedianOfRunMedians": 289636.0,
+        "drawCallsMedianOfRunMedians": 59.5,
+        "triangleRange": [
+          288916,
+          290356
+        ],
+        "drawCallRange": [
+          57,
+          62
+        ]
+      },
+      "after": {
+        "samples": 180,
+        "medianFrameMs": 500.0,
+        "medianFps": 2.0,
+        "meanFrameMs": 522.2016666666667,
+        "p95FrameMs": 1100,
+        "trianglesMedianOfRunMedians": 257852.0,
+        "drawCallsMedianOfRunMedians": 67.0,
+        "triangleRange": [
+          257276,
+          258716
+        ],
+        "drawCallRange": [
+          65,
+          70
+        ]
+      },
+      "fpsGainPercent": 13.319999999999709,
+      "frameTimeReductionPercent": 11.754324038121911,
+      "buffer": [
+        1024,
+        640
+      ],
+      "camera": {
+        "position": [
+          -0.17700015054247284,
+          0.03637770781779192,
+          1.735713210410908
+        ],
+        "look": [
+          -1.2613044222156828,
+          1.0091852809290351,
+          -7.569790782074129
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.051623832638336885,
+          0.057889824677147386,
+          -0.0029975387051279405,
+          0.9969828297740587
+        ]
+      }
+    }
+  },
+  "sourceSha256": {
+    "digestion-world.js": {
+      "before": "5f7536e37626316f9472004431e8794e52ad1200c708b85ef175053218a8b492",
+      "after": "70669031d59792006b0d84d494a750b3c99a9df97080081809acdfcd37cf1bd2"
+    },
+    "digestion-mucosa.js": {
+      "before": "4334cea2f31ee63a1e4e04e331631c5a323f2d7118b87f97acf4ff53f5d546df",
+      "after": "e6305ddb475730a85291068775df665249ec723a5fa564878b1b39faf8ab5fb4"
+    }
+  },
+  "unchangedSincePhaseB": [
+    "digestion-anatomy.js",
+    "digestion-camera.js",
+    "digestion-swallow.js",
+    "digestion-caecum.js",
+    "digestion-anatomy-labels.js",
+    "digestion-performance.js",
+    "digestion-secretions.js",
+    "digestion-game.js",
+    "digestion-engine.js",
+    "digestion-data.js",
+    "digestion-learning.js",
+    "digestion-enzyme-model.js",
+    "digestion-enzyme-identity.js",
+    "digestion-audio.js",
+    "digestion-absorption.js",
+    "digestion-assessment.js",
+    "digestion-molecules.js",
+    "digestion.css"
+  ],
+  "note": "FPS is 1000 / pooled median frame interval; draw/triangle summaries are medians of the two run medians. Ranges reflect moving particles entering/leaving the view. Physical GPU/mobile unverified."
+}

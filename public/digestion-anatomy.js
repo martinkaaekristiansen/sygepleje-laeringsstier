@@ -1,3 +1,4 @@
+import { MUCOSA_REGIONS, mucosaRadius } from './digestion-mucosa.js';
 import * as T from './three.module.min.js';
 export const ORGAN_LABELS = {
   mouth: ['Tandbuer', 'Hård og blød gane', 'Tunge'],
@@ -106,9 +107,9 @@ export function stomachPoint(u, v) {
 export function lumenRadius(id, u, a = 0) {
   if (id === 'mouth') return 3.5 * (1 + 0.05 * Math.cos(a * 2));
   if (id === 'oesophagus') return 2.35 + 0.12 * Math.cos(a * 10);
-  if (id === 'duodenum') return 2.25 + 0.12 * Math.cos(u * 130);
-  if (id === 'jejunum') return 2.65 + 0.22 * Math.cos(u * 180);
-  if (id === 'ileum') return 2.5 + 0.08 * Math.cos(u * 96);
+  if (id === 'duodenum') return mucosaRadius(id, u, a);
+  if (id === 'jejunum') return mucosaRadius(id, u, a);
+  if (id === 'ileum') return mucosaRadius(id, u, a);
   if (['caecum', 'ascending', 'transverse', 'descending', 'sigmoid'].includes(id))
     return 3.8 + 0.42 * Math.cos(u * 46) * (0.65 + 0.35 * Math.cos(a * 3));
   return 2.7 + 0.06 * Math.cos(a * 8);
@@ -120,11 +121,12 @@ export function peristalsis(u, t) {
 }
 export function buildOrganSurface(stage, low = false) {
   const sack = stage.id === 'stomach',
-    along = low ? 64 : 112,
-    around = low ? 32 : 56;
+    along = MUCOSA_REGIONS[stage.id] ? 224 : low ? 64 : 112,
+    around = MUCOSA_REGIONS[stage.id] ? 64 : low ? 32 : 56;
   const path = organCurve(stage.id),
     frames = path.computeFrenetFrames(along, false),
     positions = [],
+    uvs = [],
     indices = [];
   for (let j = 0; j <= along; j++)
     for (let i = 0; i <= around; i++) {
@@ -141,6 +143,7 @@ export function buildOrganSurface(stage, low = false) {
           .addScaledVector(frames.binormals[j], Math.sin(a) * r * (stage.id === 'mouth' ? 0.8 : 1));
       }
       positions.push(p.x, p.y, p.z);
+      uvs.push(i / around, j / along);
       if (j < along && i < around) {
         const k = j * (around + 1) + i;
         // Distinct cardia and pyloric openings, rather than an open tube through the stomach.
@@ -152,6 +155,7 @@ export function buildOrganSurface(stage, low = false) {
     }
   const g = new T.BufferGeometry();
   g.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
+  g.setAttribute('uv', new T.Float32BufferAttribute(uvs, 2));
   g.setIndex(indices);
   g.computeVertexNormals();
   g.userData = {

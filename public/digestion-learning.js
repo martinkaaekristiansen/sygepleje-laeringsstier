@@ -2,7 +2,7 @@ import { ROUTE, BOSSES } from './digestion-data.js';
 export const STATION_POINTS = {
   mouth: 'Tænderne findeler føden, mens spyt blander og fugter den.',
   pharynx: 'Svælget fører fødebolus mod spiserøret under koordineret synkning.',
-  epiglottis: 'Strubelåget beskytter luftvejen; føden passerer bag larynx mod spiserøret.',
+  epiglottis: 'Epiglottis hjælper med at beskytte luftvejene, når føden synkes mod spiserøret.',
   oesophagus: 'Peristaltiske sammentrækninger fører føden gennem spiserøret mod mavesækken.',
   stomach:
     'Mavesækken blander føden; saltsyre denaturerer proteiner og giver pepsin et surt arbejdsmiljø.',
@@ -10,8 +10,7 @@ export const STATION_POINTS = {
     'Bugspyt og galde tilføres duodenum; bikarbonat neutraliserer gradvist det sure maveindhold.',
   jejunum: 'Tarmvæggen optager færdigfordøjede næringsstoffer til blod eller lymfe.',
   ileum: 'Det absorberede næringsstof er inde i kroppen; du følger nu en ufordøjelig rest.',
-  caecum:
-    'Caecum er starten af tyktarmen; hovedruten fortsætter opad, mens appendix er en blind sidegren.',
+  caecum: 'Caecum er tyktarmens første afsnit. Appendix er et smalt, blindt endende vedhæng.',
   ascending:
     'Vand og elektrolytter absorberes, mens bakterier omsætter dele af det resterende indhold.',
   transverse: 'Tarmindholdet bliver fastere, efterhånden som vand og elektrolytter optages.',
@@ -89,17 +88,24 @@ export function clinicalFor(stage) {
 }
 const nutrientPoints = {
   stanley: {
-    stomach: 'Mavesyren hæmmer spytamylase. Stivelsesnedbrydningen fortsætter med bugspytamylase i duodenum.',
-    duodenum: 'Bikarbonat neutraliserer syren, og bugspytamylase fortsætter nedbrydningen af stivelse.',
-    jejunum: 'Maltase danner glukose, som optages gennem tarmepitelet og transporteres videre til blodet.',
+    stomach:
+      'Mavesyren hæmmer spytamylase. Stivelsesnedbrydningen fortsætter med bugspytamylase i duodenum.',
+    duodenum:
+      'Bikarbonat neutraliserer syren, og bugspytamylase fortsætter nedbrydningen af stivelse.',
+    jejunum:
+      'Maltase danner glukose, som optages gennem tarmepitelet og transporteres videre til blodet.',
   },
   trine: {
-    stomach: 'Mavesækken blander fedtet med resten af føden og doserer indholdet videre til duodenum.',
-    duodenum: 'Galde emulgerer fedt; bugspytlipase spalter triglycerider til 2-monoglycerid og frie fedtsyrer.',
-    jejunum: 'Lipidprodukter optages i tarmcellerne; gendannede triglycerider pakkes i chylomikroner, som følger lymfen.',
+    stomach:
+      'Mavesækken blander fedtet med resten af føden og doserer indholdet videre til duodenum.',
+    duodenum:
+      'Galde emulgerer fedt; bugspytlipase spalter triglycerider til 2-monoglycerid og frie fedtsyrer.',
+    jejunum:
+      'Lipidprodukter optages i tarmcellerne; gendannede triglycerider pakkes i chylomikroner, som følger lymfen.',
   },
   poul: {
-    jejunum: 'Peptidaser danner aminosyrer, som optages gennem tarmepitelet og transporteres videre til blodet.',
+    jejunum:
+      'Peptidaser danner aminosyrer, som optages gennem tarmepitelet og transporteres videre til blodet.',
   },
 };
 export function learningPoint(character, stage, taskIndex) {
@@ -109,7 +115,9 @@ export function learningPoint(character, stage, taskIndex) {
     key: character + ':' + stage + ':' + (taskIndex ?? 'station'),
     character,
     stage,
-    short: task ? points[character][stage][taskIndex] : nutrientPoints[character]?.[stage] || STATION_POINTS[stage],
+    short: task
+      ? points[character][stage][taskIndex]
+      : nutrientPoints[character]?.[stage] || STATION_POINTS[stage],
     detail: task?.why || s?.text || '',
     title: s?.danish || stage,
   };

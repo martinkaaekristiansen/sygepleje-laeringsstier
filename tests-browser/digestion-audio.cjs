@@ -65,6 +65,13 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
         () =>
           JSON.parse(document.querySelector('.digestion-game').dataset.audio).lastEvent === 'chew',
       );
+      // lastEvent can still describe an earlier chew. The gain uses a smooth
+      // AudioParam ramp, so wait for its actual value rather than click latency.
+      await p.waitForFunction(
+        () => Math.abs(__contexts[0].__gains[0].gain.value - 0.6) < 0.03,
+        undefined,
+        { timeout: 5000 },
+      );
       assert.ok(
         Math.abs((await p.evaluate(() => __contexts[0].__gains[0].gain.value)) - 0.6) < 0.03,
       );
@@ -72,11 +79,15 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       assert.equal(snap.profile, 'mouth');
       assert.ok(snap.voices <= 4);
       await p.locator('[data-digest=sound]').click();
-      await p.waitForTimeout(200);
+      await p.waitForFunction(() => __contexts[0].__gains[0].gain.value < 0.01, undefined, {
+        timeout: 5000,
+      });
       assert.ok((await p.evaluate(() => __contexts[0].__gains[0].gain.value)) < 0.01);
       await p.locator('[data-digest=sound]').click();
       await p.locator('[data-digest=settings]').click();
-      await p.waitForTimeout(200);
+      await p.waitForFunction(() => __contexts[0].__gains[0].gain.value < 0.01, undefined, {
+        timeout: 5000,
+      });
       assert.ok((await p.evaluate(() => __contexts[0].__gains[0].gain.value)) < 0.01);
       await p.locator('[data-digest=settings-close]').click();
       const profiles = new Set();

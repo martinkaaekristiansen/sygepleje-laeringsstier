@@ -1,0 +1,25 @@
+{
+  "environment": "Cloud Chromium/SwiftShader software rendering, emulated 390x844, isolated runs. Different version-specific anatomy/camera; not a physical-device benchmark.",
+  "phaseACommit": "a664d434e9773c9d3cccbbbd0421af8b577cb207",
+  "phaseA": {
+    "renderer": "Chromium SwiftShader in cloud; emulated mobile 390x844",
+    "samples": 24,
+    "medianFrameMs": 199.9,
+    "medianFps": 5,
+    "triangles": 38972,
+    "drawCalls": 61,
+    "renderRatio": 1,
+    "villi": null
+  },
+  "phaseB": {
+    "renderer": "Chromium SwiftShader in cloud; emulated mobile 390x844",
+    "samples": 24,
+    "medianFrameMs": 333.4,
+    "medianFps": 3,
+    "triangles": 289204,
+    "drawCalls": 58,
+    "renderRatio": 0.8,
+    "villi": 3200
+  },
+  "note": "All 3200 jejunal villi retained. Physical mobile/hardware GPU performance remains unverified."
+}

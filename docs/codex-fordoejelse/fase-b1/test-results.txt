@@ -1,0 +1,197 @@
+npm test
+
+> laeringsstier@0.15.0 test
+> node --test test/*.test.js
+
+✔ easy: active and archived activities retain compatible result data (38.441654ms)
+✔ medium: active and archived activities retain compatible result data (10.38605ms)
+✔ hard: active and archived activities retain compatible result data (9.233764ms)
+✔ wrong answers complete a submitted activity but never imply academic mastery; attempts are idempotent (0.990828ms)
+✔ Danish / Latin synonyms are accepted, incorrect side and anatomically distinct structures are rejected (0.33305ms)
+✔ order is assessed, duplicate aorta occurrences interchangeable; retries shuffle and keyboard reorder (0.308864ms)
+✔ installing new builtin preserves every previous path and saved learner record (2.117428ms)
+✔ invalid persisted activity data is rejected without resetting existing learner data (1.990751ms)
+✔ only order and context remain, and archived scores do not count towards mastery (9.177291ms)
+✔ medielinks afviser scripts og ukendte YouTube-domæner (1.036406ms)
+✔ progression tæller kun eksisterende gennemførte trin (0.219543ms)
+✔ spørgsmål er valgfrie og valideres på tværs af trintyper (0.50959ms)
+✔ uptake crosses from lumen through an epithelial barrier, then reaches blood or lymph (1.394013ms)
+✔ visible product hypotheses have different, labelled structures and origins have organ illustrations (1.37858ms)
+✔ every station has an organic sound profile and transients are bounded with quiet edges (82.626522ms)
+✔ chewing sound beats occur at the jaw closing peak of the shared physiological clock (0.266102ms)
+✔ audio never opens a context without an enabled user unlock, and unsupported audio remains optional (0.585722ms)
+✔ every anatomical and biochemical event has a complete, short, persistent learning point (3.17882ms)
+✔ clinical perspectives remain optional and identify relevant mechanisms without prescribing treatment (0.267093ms)
+✔ learning logs and extended settings survive old saves and reject malformed imported entries (0.703125ms)
+✔ spatial villus batches preserve every distinct root and conservative bounds at both budgets (356.26545ms)
+✔ automatic quality adaptation retains the existing 0.8 resolution floor and can recover (2.898367ms)
+✔ small-bowel backface culling preserves the nearest visible wall in every viewing direction (4756.411086ms)
+✔ each enzyme option retains its matching model and icon when shuffled (107.061896ms)
+✔ origin silhouettes distinguish pancreas, salivary glands, liver and gallbladder (0.287663ms)
+✔ station information follows the nutrient and stays valid for every route checkpoint (0.42098ms)
+✔ render budget drops and recovers resolution without changing save data or scene content (1.227978ms)
+✔ epiglottis has a broad rounded blade, narrow attachment and coordinated resting/recovery pose (60.47458ms)
+✔ villi are numerous, rounded, rooted on the actual curved folds, and regional heights differ (201.172375ms)
+✔ caecal sac has one connected wall, a low blind floor, smaller appendix and welded side branches (128.27131ms)
+✔ station cameras and their initial view rays stay inside the real lumen (126.944427ms)
+✔ digestive route preserves all anatomical transitions, including ileum after jejunal absorption (1.571954ms)
+✔ stanley: three compulsory bosses, retries, unique scores, absorption and persisted result (2.82583ms)
+✔ trine: three compulsory bosses, retries, unique scores, absorption and persisted result (0.848829ms)
+✔ poul: three compulsory bosses, retries, unique scores, absorption and persisted result (0.849311ms)
+✔ nutrient-specific mechanisms distinguish blood, lymph, denaturation, emulsification and hydrolysis (0.303066ms)
+✔ adding digestive game preserves old learner data and keeps retired lesson inaccessible (1.57551ms)
+✔ reaction order rejects wrong order, duplicates, partial and malformed sequences (0.214235ms)
+✔ active time excludes pauses, closed tab time and replay of old start dates (0.192674ms)
+✔ answer permutation preserves identity and does not repeat the old fixed rotation (0.917261ms)
+✔ assessment is separately scored and all nutrients have five explanatory questions (0.791976ms)
+✔ chemical animation separates denaturation, emulsification, hydrolysis and reuse (0.21031ms)
+✔ organ geometries are distinct, bounded and finite; jejunum and ileum have different folds (107.980999ms)
+✔ molecular hydrolysis preserves alpha-1,6 and middle ester bonds and leaves coherent products (7.75043ms)
+✔ legacy results survive new assessments, drafts and active clocks without deletion (0.444504ms)
+✔ external entry and anatomical branch choices preserve real routes without invented junctions (0.297518ms)
+✔ upper and lower crowns face each other, with incisors at the front of both arches (0.252381ms)
+✔ colon curves and front-view map follow patient-right up, across, patient-left down and sigmoid S (0.490622ms)
+✔ salivary, gastric and duodenal secretions use fluid streams and nutrient-specific proteins (15.463235ms)
+✔ question counts and products follow the requested three nutrient pathways (0.246833ms)
+✔ every navigation step has one true next structure and a varying explanatory distractor (0.379538ms)
+✔ selected product models retain their distinct structures between scenes (8.827896ms)
+✔ old route checkpoints migrate safely and preserve all trophies and test results (1.096955ms)
+✔ five-question fat challenge can save and retry without replaying completed chemistry on a route mistake (0.152474ms)
+✔ legacy absorbed checkpoints resume for every nutrient, including fat without a jejunal boss (0.256458ms)
+✔ legacy lower-bowel checkpoints without an absorption flag safely follow residue (0.129841ms)
+✔ every original route has 3D anatomy; choices remain the original anatomical names (3.635583ms)
+✔ erythrocyte is a closed biconcave 3D mesh (21.530968ms)
+✔ all 3D lumens contain their camera path, without extra openings in heart chambers (13376.524878ms)
+✔ AV and semilunar leaflets/chordae and open transit phase are distinguished (220.803787ms)
+✔ oxygen/gas direction reverses at lungs; original completion survives a failure (0.888718ms)
+✔ all structures have bounded anatomical audio zones; heart/lung proximity follows the route (1.790866ms)
+✔ synthesis has distinct S1/S2, 70 bpm, 14 breaths/min, quiet loop boundaries and safe headroom (163.735293ms)
+✔ only peripheral veins have venous valves; LV walls thicker than RV; single file capillary profile (0.858634ms)
+✔ AV and semilunar valves open in opposite phases and camera transit stays within open phase (1.733392ms)
+✔ oxygenation changes gradually through capillaries, with no blue state (0.189849ms)
+✔ settings validate corrupt data and clamp volume (0.179584ms)
+✔ ra: cavity, distinct ports, deforming wall, clear camera corridor (2388.891387ms)
+✔ rv: cavity, distinct ports, deforming wall, clear camera corridor (2131.594614ms)
+✔ la: cavity, distinct ports, deforming wall, clear camera corridor (2019.204348ms)
+✔ lv: cavity, distinct ports, deforming wall, clear camera corridor (2352.321404ms)
+✔ every structure on all routes has an anatomical fact and a map location (1.341094ms)
+✔ front-view map keeps right arm and right lung on patient right, separates chambers and closes the circuit (0.327192ms)
+✔ right ventricular trabeculae are coarser than left; periodic, bounded relief fades to smooth boundaries (31.06263ms)
+✔ ventricular relief is one continuous wall with only its inlet/outlet boundaries, no holes through myocardium (6154.022821ms)
+✔ AV walls carry continuous relief and rounded papillary muscles; arterial valves have no trabecular support cuff (246.44042ms)
+✔ trabecular bridges have two wall attachments and leave the central flow path clear (3.528825ms)
+✔ trunk offers right pulmonary artery versus an impossible direct aortic connection, never left versus right lung (1.169242ms)
+✔ closed valves seal their central lumen; open valves provide a clear central passage (328.996298ms)
+✔ leaflets are curved patches with fixed hinges and continuously deforming free edges (1.644021ms)
+✔ AV support apparatus is ventricular, attached to both adjacent leaflets; semilunars have none (201.314575ms)
+✔ semilunar scalloped attachments join their own sinus wall without floating gaps (0.392057ms)
+✔ commissures remain attached through the entire cycle; mitral saddle peaks are anterior/posterior (0.626782ms)
+✔ Let: exact route, two unambiguous options, gated progression, two lives (1.810175ms)
+✔ Let: oxygen follows systemic and pulmonary capillary exchange (0.157842ms)
+✔ Mellem: exact route, two unambiguous options, gated progression, two lives (0.192854ms)
+✔ Mellem: oxygen follows systemic and pulmonary capillary exchange (0.070804ms)
+✔ Svær: exact route, two unambiguous options, gated progression, two lives (0.172303ms)
+✔ Svær: oxygen follows systemic and pulmonary capillary exchange (0.07455ms)
+✔ alternate real branches have a named target and a non-false anatomical explanation (0.367121ms)
+✔ attempts, best score and completion date survive subsequent failed attempts and serialization (0.73356ms)
+✔ adding the game preserves existing learning content and progression (2.855865ms)
+✔ legacy migration preserves content, indexed completion and reflections with stable IDs (5.722255ms)
+✔ malformed legacy storage is not silently replaced (1.03911ms)
+✔ deleted builtins stay deleted and local editions are not overwritten (0.445055ms)
+✔ reorder and title edits preserve progression; content edits invalidate only changed steps (9.65927ms)
+✔ reordering questions and options preserves the correct option and completion (33.878666ms)
+✔ updates keep the local edition with notes and quiz responses as a separate copy (6.21493ms)
+✔ new imports have independent IDs and incomplete drafts remain valid (0.930009ms)
+✔ orphaned legacy progress is retained without blocking migration (2.178397ms)
+✔ malformed backups and unsafe draft structure are rejected without crashing (1.092449ms)
+✔ retired first-semester path disappears from old devices and backups without changing other progress (6.317731ms)
+✔ entrypoint assets resolve inside the GitHub Pages repository path (4.3132ms)
+✔ 3rd semester pharmacology contains 20 distinct sourced questions in four steps (2.171928ms)
+✔ new path is added without replacing existing content or duplicating on reload (0.555879ms)
+✔ deleting a previously installed built-in path is respected (0.358117ms)
+✔ selected arithmetic answers match independent calculations (0.212583ms)
+✔ overview includes newly opened and legacy unfinished paths but not untouched, completed, deleted or empty paths (1.430476ms)
+✔ completed-step counts tolerate duplicates and obsolete step indices (0.197811ms)
+✔ sorts by most recent activity across paths and preserves legacy ordering without timestamps (0.391156ms)
+✔ notes from previous versions count as started; incomplete paths never display 100% (0.265501ms)
+✔ unsafe statistics, unknown route and malformed review data are rejected; missing legacy stats are accepted (3.862607ms)
+✔ valid exports and recovery snapshots restore identically; damaged data cannot masquerade as a backup (4.711476ms)
+✔ published updates preserve historical completion and notes, archive responses, and mark affected steps for review (12.088066ms)
+✔ locally edited content remains playable with mapped progress after official update; removed content stays removed (41.243151ms)
+✔ failed activities remain visible for review and repeated success resolves targeted repetition without erasing history (5.873176ms)
+✔ ventricle reaches end-systolic emptying then fills; respiratory sound and volume share phases (0.314083ms)
+✔ the actual workflow shell fails when a command before tee fails (6.86735ms)
+✔ every teaching question has option-specific feedback; answer length no longer identifies most semester-5 answers (0.368072ms)
+✔ the actual 0.9.1 catalogue updates in place, preserving previous responses and every historical completion (6.081743ms)
+✔ targeted context repetition resolves previous ordering mistakes, and does not leak to another difficulty (0.552563ms)
+✔ a quiz restart archives first and corrected answers without erasing notes or other steps (0.922128ms)
+✔ wrong choices can change until correct; correct choices only inspect alternatives (1.197303ms)
+✔ choice-specific explanations fall back to existing reasoning, with validation (0.307082ms)
+✔ inspection keeps correct marking and score and safely renders feedback (0.481359ms)
+✔ adding explanations does not discard a saved correct answer or completion (8.080496ms)
+✔ repetition lists current wrong answers and content updates, and clears corrected answers (1.353673ms)
+✔ circulation repetition links retain difficulty and ignore archived activities (7.957745ms)
+✔ semester 5 has twelve integrated steps with 36 valid questions and reflection guidance (1.110475ms)
+✔ all four curriculum themes and the research/implementation progression are represented (0.507727ms)
+✔ adding semester 5 preserves previously edited pharmacology and does not reinstall deleted paths (1.921239ms)
+✔ one path appears once in all selected subjects on its semester (1.544874ms)
+✔ names normalize spaces and case, keep Danish letters, and treat old subject as one selection (0.24479ms)
+✔ multiple subjects and custom subjects preserve legacy data and existing progress (38.987739ms)
+✔ blank selection is allowed in autosaved drafts, but required before saving a path (1.265674ms)
+✔ custom subject names are escaped in student labels and filter buttons (1.872346ms)
+✔ student filters hide all unused subjects, including default subjects (0.20381ms)
+ℹ tests 137
+ℹ suites 0
+ℹ pass 137
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 38591.337389
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+
+npm run build
+
+> laeringsstier@0.15.0 build
+> node scripts/build.js
+
+GitHub Pages artifact ready in dist/ (assets/a404f7ae6998)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+
+node tests-browser/digestion-phase-a.cjs
+PASS phase A: desktop, tablet, small mobile and landscape layouts; stable enzyme/icon identity; removed controls; canvas clicks do not answer; drag still works; two anatomical buttons in question panel
+
+
+node tests-browser/digestion.cjs
+Testing digestion stanley desktop
+Testing digestion trine desktop
+Testing digestion poul desktop
+Testing digestion stanley mobile
+Testing digestion trine mobile
+Testing digestion poul mobile
+PASS digestion: six complete journeys, 15 stops, three biochemical answers/two anatomical answers, staged molecules, absorption in the unchanged lumen camera, persistent molecule-specific learning, compact UI, button-only choices, exam feedback/review, residue, stable camera on mobile/desktop, retries, settings, trophies, exams and WebGL fallback
+
+
+node tests-browser/digestion-audio.cjs (afsluttende kørsel)
+PASS organic audio gesture, real gain, chewing sync, mute, reading pause and cleanup desktop
+PASS organic audio gesture, real gain, chewing sync, mute, reading pause and cleanup mobile
+PASS unsupported audio keeps the learning game available
+
+
+node tests-browser/digestion-phase-b.cjs
+Cloud render sample {"renderer":"Chromium SwiftShader in cloud; emulated mobile 390x844","samples":24,"medianFrameMs":300,"medianFps":3.3,"triangles":257564,"drawCalls":66,"renderRatio":0.8,"villi":3200}
+PASS phase B: actual scene screenshots, rest/swallow coordination, 1500–3200 rooted villi, stable camera and unrestricted backward mouse/touch look, desktop/mobile, no page errors
+
+
+node tests-browser/game-viewport.cjs
+PASS: mobile/desktop start with suppressed native dialogs, cancellation, new attempts, resume, viewport rotation, controls, settings, scroll lock and cleanup
