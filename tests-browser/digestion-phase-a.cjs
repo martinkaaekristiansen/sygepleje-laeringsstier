@@ -1,6 +1,11 @@
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const assert = require('node:assert/strict');
 const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringsstier/';
+const viewports = [
+  {width:1280,height:800}, {width:1024,height:768}, {width:768,height:1024},
+  {width:390,height:844}, {width:375,height:667}, {width:320,height:568},
+  {width:568,height:320}, {width:667,height:375}, {width:844,height:390},
+];
 (async () => {
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH, args: ['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader'] });
   try {
@@ -28,8 +33,9 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       assert.ok(result.info.bottom<result.panel.top,label+': permanent text remains above controls');
       assert.ok(result.scroll<=result.width,label+': no horizontal scroll');
       for(const b of result.buttons) assert.ok(b.height>=44,label+': touch target');
+      console.log('PASS layout:',label);
     }
-    for (const v of [{width:1280,height:800},{width:390,height:844},{width:320,height:568},{width:844,height:390},{width:768,height:1024}]) {
+    for (const v of viewports) {
       await page.setViewportSize(v); await page.waitForFunction(() => Math.abs(document.querySelector('#digestion-root').clientHeight-innerHeight)<2); await page.waitForTimeout(200);
       await layout('enzyme '+v.width+'x'+v.height);
       const identities=JSON.parse(await page.locator('canvas').getAttribute('data-enzyme-identities'));
@@ -61,7 +67,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     await page.locator('[data-digest=skip]').click();
     assert.equal(await page.locator('.digest-panel h2').textContent(),'Hvad er næste anatomiske struktur?');
     assert.equal(await page.locator('.digest-panel [data-choice]').count(),2);
-    for(const v of [{width:1280,height:800},{width:390,height:844},{width:320,height:568},{width:844,height:390}]) {
+    for(const v of viewports) {
       await page.setViewportSize(v); await page.waitForFunction(() => Math.abs(document.querySelector('#digestion-root').clientHeight-innerHeight)<2); await page.waitForTimeout(200); await layout('anatomy '+v.width+'x'+v.height);
       await page.screenshot({path:`/tmp/phase-a-route-${v.width}x${v.height}.png`});
     }
@@ -79,7 +85,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     }, base);
     await page.reload(); await page.locator('[data-digest=resume]').click();
     await page.getByRole('heading',{name:'Hvor findes de relevante peptidaser?'}).waitFor();
-    for(const v of [{width:320,height:568},{width:390,height:844},{width:844,height:390},{width:1280,height:800}]) {
+    for(const v of viewports) {
       await page.setViewportSize(v); await page.waitForFunction(() => Math.abs(document.querySelector('#digestion-root').clientHeight-innerHeight)<2); await page.waitForTimeout(200); await layout('long source '+v.width+'x'+v.height);
       for(const button of await page.locator('[data-choice]').all()) {
         await button.scrollIntoViewIfNeeded();
@@ -87,6 +93,13 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       }
       await page.screenshot({path:`/tmp/phase-a-long-${v.width}x${v.height}.png`});
     }
+    // Reproduce the CI failure independently of the installed system font:
+    // wrapped source answers need 82px while the information field remains visible.
+    await page.setViewportSize({width:844,height:390});
+    await page.addStyleTag({content: '.digest-choices button { min-height: 82px !important; }'});
+    await page.waitForTimeout(200);
+    await layout('long source with taller wrapped answers 844x390');
+    await page.screenshot({path:'/tmp/phase-a-long-wrapped-844x390.png'});
     assert.deepEqual(errors,[]);
     console.log('PASS phase A: desktop, tablet, small mobile and landscape layouts; stable enzyme/icon identity; removed controls; canvas clicks do not answer; drag still works; two anatomical buttons in question panel');
   } finally { await browser.close(); }

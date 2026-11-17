@@ -769,7 +769,7 @@
   #digestion-root .digest-map .blood-minimap svg { height: 24px; }
 }
 @media (max-width: 360px) and (min-height: 501px) {
-  #digestion-root .digest-panel.digest-compact { max-height: 33%; }
+  #digestion-root .digest-panel.digest-compact { --digest-panel-limit: 33%; max-height: 33%; }
 }
 @media (max-width: 360px) {
   #digestion-root .digest-compact .digest-choices { flex-direction: column; flex-wrap: nowrap; }
@@ -830,4 +830,12 @@
 @media (min-width: 601px) and (max-height: 500px) {
   #digestion-root :is(.digest-absorption, .digest-finale) .digest-learning { width: min(260px, calc(100% - 150px)); }
   #digestion-root .digest-absorption .digest-compartments { display: none; }
+}
+
+/* Leave the measured information field clear when answers wrap on short screens. */
+#digestion-root .digest-panel:is(.digest-compact, .digest-nav) {
+  max-height: min(var(--digest-panel-limit, 38%), max(0px, calc(100% - var(--digest-info-bottom, 0px) - 16px)));
+}
+@media (max-width: 600px) and (max-height: 500px) {
+  #digestion-root .digest-learning { left: 110px; width: calc(100% - 122px); }
 }
