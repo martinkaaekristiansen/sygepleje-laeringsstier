@@ -75,10 +75,10 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       await p.waitForTimeout(200);
       assert.ok((await p.evaluate(() => __contexts[0].__gains[0].gain.value)) < 0.01);
       await p.locator('[data-digest=sound]').click();
-      await p.locator('[data-digest=learning-info]').click();
+      await p.locator('[data-digest=settings]').click();
       await p.waitForTimeout(200);
       assert.ok((await p.evaluate(() => __contexts[0].__gains[0].gain.value)) < 0.01);
-      await p.locator('[data-digest=reader-close]').click();
+      await p.locator('[data-digest=settings-close]').click();
       const profiles = new Set();
       let wrongTrachea = false,
         won = false;

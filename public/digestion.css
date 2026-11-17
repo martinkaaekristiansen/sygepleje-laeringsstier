@@ -687,3 +687,99 @@
 .digest-result li {
   margin-bottom: 12px;
 }
+/* Phase A: question and answers occupy one measured rail, never independent layers. */
+#digestion-root .digest-panel.digest-nav {
+  top: auto;
+  bottom: 16px;
+  left: 130px;
+  right: 16px;
+  width: auto;
+  max-height: 35%;
+  padding: 10px 12px;
+  background: #21121be8;
+  border: 1px solid #e3c6b566;
+  border-radius: 12px;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+#digestion-root .digest-nav .digest-eyebrow { display: none; }
+#digestion-root .digest-nav h2 { font: 600 17px/1.35 system-ui; margin: 0; }
+#digestion-root .digest-route-labels {
+  position: static;
+  inset: auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  pointer-events: auto;
+}
+#digestion-root .digest-route-labels button {
+  position: static;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  transform: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-wrap: anywhere;
+  font-size: 15px;
+}
+#digestion-root .digest-route-labels button strong { min-width: 0; }
+#digestion-root .digest-panel.digest-compact { max-height: 38%; }
+#digestion-root .digest-choices button span { min-width: 0; }
+#digestion-root .digest-learning {
+  width: min(540px, calc(100% - 150px));
+  max-height: 15%;
+  overflow-y: auto;
+  align-items: flex-start;
+}
+@media (max-width: 600px) {
+  #digestion-root .digest-panel.digest-nav { left: 10px; right: 10px; bottom: 12px; max-height: 38%; }
+  #digestion-root .digest-nav h2 { font-size: 16px; }
+  #digestion-root .digest-route-labels button { font-size: 14px; text-align: left; }
+  #digestion-root .digest-learning { width: calc(100% - 24px); max-height: 14%; }
+  #digestion-root .digest-panel.digest-compact { max-height: 38%; }
+}
+@media (max-height: 500px) {
+  #digestion-root .digest-hud h1 { font-size: 20px; margin: 2px 0; }
+  #digestion-root .digest-learning { width: min(540px, calc(100% - 150px)); max-height: 17%; font-size: 12px; }
+  #digestion-root .digest-panel.digest-compact,
+  #digestion-root .digest-panel.digest-nav { left: 110px; right: 12px; bottom: 8px; max-height: 38%; }
+  #digestion-root .digest-choices { flex-direction: row; }
+  #digestion-root .digest-map .blood-minimap { bottom: 12px; }
+}
+@media (max-width: 600px) and (min-height: 501px) {
+  #digestion-root .digest-hud .blood-location { max-width: calc(100% - 110px); }
+  #digestion-root .digest-map .blood-minimap { width: 64px; padding: 5px; }
+  #digestion-root .digest-map .blood-minimap svg { height: 42px; }
+  #digestion-root .digest-map .blood-minimap figcaption,
+  #digestion-root .digest-map .blood-minimap > span { font-size: 10px; }
+}
+@media (max-width: 600px) and (min-height: 501px) {
+  #digestion-root .digestion-game .digest-map .blood-minimap {
+    width: 64px;
+    bottom: var(--digest-controls-height, 160px);
+  }
+}
+@media (max-width: 360px) and (min-height: 501px) {
+  #digestion-root .digest-map .blood-minimap svg { height: 24px; }
+}
+@media (max-width: 360px) and (min-height: 501px) {
+  #digestion-root .digest-panel.digest-compact { max-height: 33%; }
+}
+@media (max-width: 360px) {
+  #digestion-root .digest-compact .digest-choices { flex-direction: column; flex-wrap: nowrap; }
+  #digestion-root .digest-compact .digest-choices button[data-answer-kind] {
+    flex: 0 0 auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+}
+@media (max-width: 600px) and (min-height: 501px) {
+  #digestion-root .digestion-game .digest-map .blood-minimap { width: 78px; }
+}

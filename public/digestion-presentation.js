@@ -1,3 +1,4 @@
+import { enzymeSymbol } from './digestion-enzyme-identity.js';
 import { esc } from './ui.js';
 const colours = { stanley: '#f4c35d', trine: '#7bd5bb', poul: '#b69cf0', enzyme: '#65d6ec' };
 export function moleculeIcon(form, label = '') {
@@ -64,11 +65,13 @@ export function productForm(text) {
 export function originIcon(text) {
   const s = text.toLowerCase();
   let path;
-  if (s.includes('spyt'))
+  if (s.includes('spyt') && !s.includes('bugspyt'))
     path =
-      '<ellipse cx="14" cy="17" rx="7" ry="11"/><ellipse cx="36" cy="17" rx="7" ry="11"/><path d="M20 18l5 14 5-14"/>';
+      '<path d="M12 5C5 5 3 11 6 15C2 20 6 25 10 25L13 34 19 29 18 22C23 18 22 13 18 12L18 8Z M38 5C45 5 47 11 44 15C48 20 44 25 40 25L37 34 31 29 32 22C27 18 28 13 32 12L32 8Z M17 17h7m9 0h-7 M20 28l5 10 5-10"/>';
   else if (s.includes('bugspyt'))
     path = '<path d="M5 26Q6 12 20 17Q30 10 44 17L38 26 23 28 11 33Z"/><path d="M12 25l24-5"/>';
+  else if (s.includes('galdeblære'))
+    path = '<path d="M25 5v10c-9 2-14 14-8 20s18 1 16-8c-1-6-4-9-4-12V5Z"/>';
   else if (s.includes('lever')) path = '<path d="M5 13Q22 5 43 17L34 32 8 30Z"/>';
   else if (s.includes('børstesøm') || s.includes('tarmcelle'))
     path = '<path d="M7 31V16h36v15M10 16V8m6 8V8m6 8V8m6 8V8m6 8V8m6 8V8"/>';
@@ -80,5 +83,5 @@ export function answerIcon(task, label) {
     ? moleculeIcon(productForm(label), label)
     : task.kind === 'source'
       ? originIcon(label)
-      : moleculeIcon('enzyme', label);
+      : enzymeSymbol(label) || moleculeIcon('enzyme', label);
 }

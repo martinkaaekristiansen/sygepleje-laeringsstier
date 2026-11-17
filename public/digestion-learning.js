@@ -87,6 +87,21 @@ export function clinicalFor(stage) {
       : null)
   );
 }
+const nutrientPoints = {
+  stanley: {
+    stomach: 'Mavesyren hæmmer spytamylase. Stivelsesnedbrydningen fortsætter med bugspytamylase i duodenum.',
+    duodenum: 'Bikarbonat neutraliserer syren, og bugspytamylase fortsætter nedbrydningen af stivelse.',
+    jejunum: 'Maltase danner glukose, som optages gennem tarmepitelet og transporteres videre til blodet.',
+  },
+  trine: {
+    stomach: 'Mavesækken blander fedtet med resten af føden og doserer indholdet videre til duodenum.',
+    duodenum: 'Galde emulgerer fedt; bugspytlipase spalter triglycerider til 2-monoglycerid og frie fedtsyrer.',
+    jejunum: 'Lipidprodukter optages i tarmcellerne; gendannede triglycerider pakkes i chylomikroner, som følger lymfen.',
+  },
+  poul: {
+    jejunum: 'Peptidaser danner aminosyrer, som optages gennem tarmepitelet og transporteres videre til blodet.',
+  },
+};
 export function learningPoint(character, stage, taskIndex) {
   const s = ROUTE.find((s) => s.id === stage);
   const task = Number.isInteger(taskIndex) ? BOSSES[character]?.[stage]?.[taskIndex] : null;
@@ -94,7 +109,7 @@ export function learningPoint(character, stage, taskIndex) {
     key: character + ':' + stage + ':' + (taskIndex ?? 'station'),
     character,
     stage,
-    short: task ? points[character][stage][taskIndex] : STATION_POINTS[stage],
+    short: task ? points[character][stage][taskIndex] : nutrientPoints[character]?.[stage] || STATION_POINTS[stage],
     detail: task?.why || s?.text || '',
     title: s?.danish || stage,
   };

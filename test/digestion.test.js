@@ -320,9 +320,9 @@ test('salivary, gastric and duodenal secretions use fluid streams and nutrient-s
     });
     assert.ok(instanced.length > 0);
     if ((id === 'mouth' && char === 'poul') || (id === 'stomach' && char === 'stanley'))
-      assert.ok(instanced.every((o) => o.geometry.type !== 'TorusKnotGeometry'));
+      assert.ok(instanced.every((o) => o.geometry.type !== 'ExtrudeGeometry'));
     if (char === 'stanley' && id === 'mouth')
-      assert.ok(instanced.some((o) => o.geometry.type === 'TorusKnotGeometry'));
+      assert.ok(instanced.some((o) => o.geometry.type === 'ExtrudeGeometry'));
     parent.traverse((o) => {
       o.geometry?.dispose();
       o.material?.dispose();

@@ -200,6 +200,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           const stage = ROUTE.find((r) => r.id === s.stage),
             task = BOSSES[id][s.stage]?.find((q) => q.prompt === s.heading);
           assert.equal(s.choices, task ? 3 : 2);
+          if (!task) assert.equal(s.heading, 'Hvad er næste anatomiske struktur?');
           assert.equal(
             await page.locator('.digest-map svg').getAttribute('data-map-location'),
             s.stage,
@@ -249,23 +250,8 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
             assert.ok(point.split(/\s+/).length <= 20);
             await page.waitForTimeout(800);
             assert.equal(await page.locator('.digest-point').textContent(), point);
-            await page.locator('[data-digest=learning-info]').click();
-            assert.equal(await page.locator('canvas').evaluate((e) => e.inert), true);
-            await page.locator('[data-digest=reader-close]').click();
-            await page.locator('[data-digest=learning-log]').last().click();
-            assert.match(await page.locator('.digest-reader').textContent(), /Mundhulen/);
-            await page.locator('[data-digest=reader-close]').click();
+            assert.equal(await page.locator('[data-digest=learning-info],[data-digest=learning-log],[data-digest=clinical],.digest-reader,[data-setting=quality]').count(), 0);
             wrong.add('layout');
-          }
-          if (
-            !task &&
-            ['stomach', 'duodenum', 'ascending'].includes(s.stage) &&
-            !wrong.has('clinical-' + s.stage)
-          ) {
-            await page.locator('[data-digest=clinical]').click();
-            assert.ok((await page.locator('.digest-reader p').textContent()).length > 40);
-            await page.locator('[data-digest=reader-close]').click();
-            wrong.add('clinical-' + s.stage);
           }
           if (task && id === 'stanley' && s.stage === 'mouth' && !wrong.has('camera')) {
             await page.locator('[data-digest=settings]').click();
@@ -403,7 +389,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       );
       assert.equal(await page.locator('canvas').getAttribute('data-molecular-form'), 'maltose');
       assert.match(await page.locator('.digest-hud').textContent(), /Tomtarmen/);
-      assert.match(await page.locator('.digest-point').textContent(), /Tarmvæggen optager/);
+      assert.match(await page.locator('.digest-point').textContent(), /glukose/);
       await page.reload();
       await page.locator('[data-digest=resume]').click();
       await page.waitForFunction(
@@ -435,7 +421,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     await fallback.close();
     assert.deepEqual(errors, []);
     console.log(
-      'PASS digestion: six complete journeys, 15 stops, three biochemical answers/two anatomical answers, staged molecules, absorption in the unchanged lumen camera, student-paced learning log, compact UI, clinical perspectives, exam feedback/review, residue, stable camera on mobile/desktop, retries, settings, trophies, exams and WebGL fallback',
+      'PASS digestion: six complete journeys, 15 stops, three biochemical answers/two anatomical answers, staged molecules, absorption in the unchanged lumen camera, persistent molecule-specific learning, compact UI, button-only choices, exam feedback/review, residue, stable camera on mobile/desktop, retries, settings, trophies, exams and WebGL fallback',
     );
   } finally {
     await browser.close();

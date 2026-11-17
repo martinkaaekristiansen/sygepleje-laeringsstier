@@ -1,3 +1,5 @@
+import { enzymeGeometry, enzymeModel } from './digestion-enzyme-model.js';
+import { enzymeIdentity } from './digestion-enzyme-identity.js';
 import { relativeActivity } from './digestion-engine.js';
 import * as T from './three.module.min.js';
 export function addSecretions(parent, stage, character) {
@@ -5,6 +7,10 @@ export function addSecretions(parent, stage, character) {
   group.name = 'secretions';
   parent.add(group);
   const systems = [];
+  const enzymeLabel = character === 'stanley'
+    ? stage.id === 'mouth' ? 'Spytamylase' : stage.id === 'jejunum' ? 'Maltase' : 'Bugspytamylase'
+    : character === 'trine' ? 'Bugspytlipase'
+    : stage.id === 'stomach' ? 'Pepsin' : stage.id === 'jejunum' ? 'Peptidaser' : 'Trypsin';
   function tube(points, color, r = 0.08) {
     const c = new T.CatmullRomCurve3(points.map((p) => new T.Vector3(...p)));
     const m = new T.Mesh(
@@ -25,10 +31,10 @@ export function addSecretions(parent, stage, character) {
   }
   function flow(from, to, color, count = 24, protein = false, acid = false) {
     const geometry = protein
-      ? new T.TorusKnotGeometry(0.045, 0.018, 18, 5)
+      ? enzymeGeometry(enzymeLabel).scale(0.08, 0.08, 0.08)
       : new T.SphereGeometry(0.045, 7, 5);
     const mat = new T.MeshStandardMaterial({
-      color,
+      color: protein ? enzymeIdentity(enzymeLabel).color : color,
       roughness: 0.3,
       transparent: true,
       opacity: 0.8,
@@ -117,10 +123,8 @@ export function addSecretions(parent, stage, character) {
   }
   if (stage.id === 'jejunum' && character !== 'trine') {
     for (let i = 0; i < 6; i++) {
-      const brush = new T.Mesh(
-        new T.TorusKnotGeometry(0.09, 0.025, 20, 5),
-        new T.MeshStandardMaterial({ color: character === 'stanley' ? 0x65d6ec : 0xb69cf0 }),
-      );
+      const brush = enzymeModel(enzymeLabel);
+      brush.scale.setScalar(0.16);
       brush.position.set((i - 3) * 0.28, -1.8, -5);
       brush.name = character === 'stanley' ? 'Maltase ved børstesøm' : 'Peptidase ved børstesøm';
       group.add(brush);
