@@ -27,6 +27,9 @@ import {
 import { createDigestionWorld } from './digestion-world.js';
 import { lockGameViewport } from './blood-viewport.js';
 import { esc } from './ui.js';
+const RESIDUE_MESSAGE =
+  'Næringsstoffet er nu optaget gennem tyndtarmsslimhinden, godt arbejde! Du følger nu et ufordøjeligt affaldsstof resten af vejen.';
+const RESIDUE_READING_SECONDS = 10;
 export function mountDigestion(root, { record, initialCharacter = 'stanley', save, onCharacter }) {
   const data = migrateDigestion((record.digestion ??= { results: {} }));
   let run = data.active,
@@ -67,8 +70,13 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     },
   )}${settingsDrawer('digestion-settings', `<button data-digest="settings-close" class="secondary">Luk indstillinger</button><button data-digest="pause" aria-pressed="false">Pause</button><section class="blood-audio" aria-label="Lydindstillinger"><label><input type="checkbox" data-setting="sound" ${sound ? 'checked' : ''}>Lyd</label><label class="blood-volume">Lydstyrke <output data-volume>${Math.round(volume * 100)}%</output><input type="range" min="0" max="1" step=".05" value="${volume}" data-setting="volume"></label><p>Originale, dæmpede miljø- og effektlyde. Ingen lydfiler hentes under spillet.</p><label><input type="checkbox" data-setting="ambient" ${ambientSounds ? 'checked' : ''}>Miljølyde</label><label><input type="checkbox" data-setting="effects" ${effectSounds ? 'checked' : ''}>Effektlyde</label><p data-digest-audio-status>Lyd starter efter dit klik.</p></section><label><input type="checkbox" data-setting="motion" ${motion ? 'checked' : ''}>Bevægelse</label><button data-digest="map" aria-expanded="${mapVisible}">Vis / skjul kropskort</button><button data-digest="center">◎ Centrér kamera</button><p>Træk eller swipe for at kigge rundt. Venstre/højre pil flytter fokus mellem svar; Enter vælger. Tasterne 1–3 kan også bruges.</p><p>Stiliseret undervisningsmodel. Molekyler og organer vises i forskellige skalaer.</p>`)}<div class="digest-hud blood3d-hud"></div><div class="digest-learning" hidden></div><div class="digest-compartments" hidden></div><aside class="digest-map" data-body-map ${mapVisible ? '' : 'hidden'}></aside><div class="blood3d-bottom"><p class="digest-product"></p><div class="blood-progress" role="progressbar" aria-label="Fremdrift gennem fordøjelseskanalen" aria-valuemin="1" aria-valuemax="15" aria-valuenow="1"><span></span></div><span data-progress-copy></span></div><div class="digest-panel"></div><p class="digest-save" role="status"></p></section>`;
   root.querySelector('#digestion-settings').classList.add('digest-settings');
+  root.querySelector('.digestion-game').insertAdjacentHTML(
+    'beforeend',
+    '<div class="digest-perspective-shift" role="status" aria-live="polite" aria-atomic="true" hidden></div>',
+  );
   const $ = (s) => root.querySelector(s),
-    panel = $('.digest-panel');
+    panel = $('.digest-panel'),
+    perspectiveNotice = $('.digest-perspective-shift');
   const toolbarObserver = new ResizeObserver(() => {
     root.style.setProperty('--digest-toolbar-height', $('.blood-game-bar').offsetHeight + 'px');
     root.style.setProperty('--toolbar-end', $('.blood-game-bar').offsetHeight + 8 + 'px');
@@ -293,6 +301,8 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
   function cancel() {
     $('.digest-route-labels')?.remove();
     sequenceRunner.cancel();
+    perspectiveNotice.hidden = true;
+    perspectiveNotice.replaceChildren();
     panel.hidden = false;
   }
   function sequence(title, text, mode, seconds, next) {
@@ -368,6 +378,10 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     }
     panel.replaceChildren();
     panel.hidden = true;
+    if (mode === 'residue') {
+      perspectiveNotice.innerHTML = `<div class="digest-perspective-card"><h2>Perspektivskift</h2><p>${esc(RESIDUE_MESSAGE)}</p></div>`;
+      perspectiveNotice.hidden = false;
+    }
     sequenceRunner.start({
       seconds,
       initialAge: world?.timeline().age || 0,
@@ -711,9 +725,9 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     if (run.absorbed && run.absorptionView === 'residue') {
       sequence(
         'Nu skifter perspektivet',
-        'Næringsstoffet er optaget. Du følger nu en ufordøjelig rest.',
+        RESIDUE_MESSAGE,
         'residue',
-        2,
+        RESIDUE_READING_SECONDS,
         () => {
           run.phase = 'route';
           showScene('travel');
@@ -744,9 +758,9 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
           void store();
           sequence(
             'Nu skifter perspektivet',
-            'Næringsstoffet er optaget. Du følger en ufordøjelig rest gennem ileum.',
+            RESIDUE_MESSAGE,
             'residue',
-            2,
+            RESIDUE_READING_SECONDS,
             () => {
               run.phase = 'route';
               showScene('travel');

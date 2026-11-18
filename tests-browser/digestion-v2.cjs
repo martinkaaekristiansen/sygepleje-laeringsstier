@@ -54,7 +54,7 @@ fs.mkdirSync(output, { recursive: true });
         ['stanley', 6, 'secretion', 'brush-border', 4],
         ['poul', 6, 'absorption', 'absorb', 7],
         ['trine', 6, 'absorption', 'transport', 11],
-        ['stanley', 6, 'absorption', 'residue', 2],
+        ['stanley', 6, 'absorption', 'residue', 10],
         ['stanley', 14, 'finale', 'finale', 5],
       ]) {
         await seed(page, base, { character, index, phase, mode, motion: true });
@@ -63,6 +63,14 @@ fs.mkdirSync(output, { recursive: true });
         );
         assert.ok(await page.locator('.digest-learning').isVisible());
         assert.ok((await page.locator('.digest-point-title').textContent()).length > 0);
+        if (mode === 'residue') {
+          assert.ok(await page.locator('.digest-perspective-shift').isVisible());
+          assert.equal(
+            await page.locator('.digest-perspective-card p').textContent(),
+            'Næringsstoffet er nu optaget gennem tyndtarmsslimhinden, godt arbejde! Du følger nu et ufordøjeligt affaldsstof resten af vejen.',
+          );
+          assert.equal(await page.locator('.digest-perspective-shift button').count(), 0);
+        }
         await page.locator('[data-digest=settings]').click();
         await page.locator('[data-digest=pause]').click();
         await page.locator('[data-digest=settings-close]').click();
@@ -74,6 +82,25 @@ fs.mkdirSync(output, { recursive: true });
           page,
           (r) => r.digestion.active.animation?.age >= frozen - 0.1,
         );
+        if (mode === 'residue' && !mobile) {
+          for (const viewport of [
+            { width: 320, height: 568 }, { width: 375, height: 667 },
+            { width: 390, height: 844 }, { width: 568, height: 320 },
+            { width: 667, height: 375 }, { width: 844, height: 390 },
+            { width: 768, height: 1024 }, { width: 1024, height: 768 },
+            { width: 1280, height: 800 },
+          ]) {
+            await page.setViewportSize(viewport);
+            await page.waitForFunction(() => Math.abs(document.querySelector('#digestion-root').clientHeight - innerHeight) < 2);
+            const layout = await page.locator('.digest-perspective-card').evaluate(card => {
+              const b = card.getBoundingClientRect(), toolbar = document.querySelector('.blood-game-bar').getBoundingClientRect();
+              return { centered: Math.abs((b.left + b.right) / 2 - innerWidth / 2) < 2 && Math.abs((b.top + b.bottom) / 2 - (toolbar.bottom + innerHeight) / 2) < 2,
+                fits: b.left >= 10 && b.right <= innerWidth - 10 && b.top >= toolbar.bottom && b.bottom <= innerHeight - 10,
+                readable: card.scrollHeight <= card.clientHeight && card.scrollWidth <= card.clientWidth };
+            });
+            assert.ok(layout.centered && layout.fits && layout.readable, JSON.stringify({ viewport, layout }));
+          }
+        }
         await page.waitForTimeout(300);
         assert.equal(
           Number(await page.locator('canvas').getAttribute('data-scene-age')),
@@ -94,6 +121,8 @@ fs.mkdirSync(output, { recursive: true });
           Number(await page.locator('canvas').getAttribute('data-scene-age')) >=
             before.digestion.active.animation.age - 0.05,
         );
+        const readingStarted = performance.now();
+        const remainingReading = seconds - Number(await page.locator('canvas').getAttribute('data-scene-age'));
         await page.waitForFunction(
           (mode) =>
             document.querySelector('canvas').dataset.digestMode !== mode ||
@@ -101,6 +130,10 @@ fs.mkdirSync(output, { recursive: true });
           mode,
         );
         const after = await waitSaved(page, (r) => r.digestion.active.animation?.mode !== mode);
+        if (mode === 'residue') {
+          assert.equal(await page.locator('.digest-perspective-shift').isVisible(), false);
+          assert.ok(performance.now() - readingStarted >= remainingReading * 1000 - 500, 'perspective notice retains its remaining ten-second reading time');
+        }
         assert.equal(
           after.digestion.active.enzyme,
           before.digestion.active.enzyme,

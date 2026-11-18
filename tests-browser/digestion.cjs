@@ -114,6 +114,11 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           if (s.mode === 'residue') {
             assert.ok(absorbed);
             assert.match(await page.locator('.digest-hud').textContent(), /ufordøjelig rest/);
+            assert.ok(await page.locator('.digest-perspective-shift').isVisible());
+            assert.equal(
+              await page.locator('.digest-perspective-card p').textContent(),
+              'Næringsstoffet er nu optaget gennem tyndtarmsslimhinden, godt arbejde! Du følger nu et ufordøjeligt affaldsstof resten af vejen.',
+            );
           }
           if (s.mode === 'transport') {
             assert.equal(
