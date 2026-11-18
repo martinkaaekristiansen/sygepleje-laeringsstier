@@ -1,0 +1,481 @@
+{
+  "base": "http://127.0.0.1:3023/sygepleje-laeringsstier/",
+  "assetBase": "http://127.0.0.1:3023/sygepleje-laeringsstier/assets/1fe709894b12/",
+  "htmlSha256": "68b380c5287be3b1ddbfc65dfdaa034b8377a32f0f7e8af61a99052badc8f4e9",
+  "verifiedAssets": [
+    {
+      "file": "app.js",
+      "status": 200,
+      "sha256": "4d05224c4957a1d4f26734e35afc88645b3bb433d32b763ca83ae39bbb183cdc",
+      "bytes": 18476
+    },
+    {
+      "file": "backup.js",
+      "status": 200,
+      "sha256": "d344c9b5965bc8cfa53744c549f973244f0f8b5d41479b29eb0767abe312832d",
+      "bytes": 932
+    },
+    {
+      "file": "blood-fullscreen.css",
+      "status": 200,
+      "sha256": "31cdc223a9964364d0f5d7e2ba9bd88459c98827ce4b7eff9dd3116e66a5f242",
+      "bytes": 10090
+    },
+    {
+      "file": "blood-game.css",
+      "status": 200,
+      "sha256": "a0318e97f642395a6a644af44d521fbb8e57354c29620b6ef12dcb55884c644f",
+      "bytes": 3007
+    },
+    {
+      "file": "blood-game.js",
+      "status": 200,
+      "sha256": "18dfa9e2d90522fae73e74bdb71195a6f9cbcc8265784463497478432a22b675",
+      "bytes": 28953
+    },
+    {
+      "file": "blood-routes.js",
+      "status": 200,
+      "sha256": "da033acbc3127511f1ec1333eea863af988cf389ed52eaf43e0c9e49aba6fbe4",
+      "bytes": 11251
+    },
+    {
+      "file": "blood-viewport.js",
+      "status": 200,
+      "sha256": "074661f7ca2359ddcef08fffc491659a721407ee853ac14e146eaa8927458088",
+      "bytes": 1353
+    },
+    {
+      "file": "builtin-baselines.js",
+      "status": 200,
+      "sha256": "845fc693cdabb713a8a3306b1c3eef2847649e07661dd7d842ebcfe72ae8f751",
+      "bytes": 425
+    },
+    {
+      "file": "catalog.js",
+      "status": 200,
+      "sha256": "a0aa8f0d62daefc147493e8d50f1d7d40c16e334581b887e5dc359021f3a821b",
+      "bytes": 522
+    },
+    {
+      "file": "circulation-config.js",
+      "status": 200,
+      "sha256": "75d5a309f67f0f7c49ae8f939577a3b6eac06465385f3bd79176489044e41dfd",
+      "bytes": 204
+    },
+    {
+      "file": "circulation-context.js",
+      "status": 200,
+      "sha256": "85cfcc5953ea1ab748f6fb1005b0d92e3c8b63fa8d702a75fae1a4e646e3fd53",
+      "bytes": 1489
+    },
+    {
+      "file": "circulation-data.js",
+      "status": 200,
+      "sha256": "bfb3671072dec2eb3c2ea45560bfe3a7df23affff392bed50e3486fc05697dfa",
+      "bytes": 3624
+    },
+    {
+      "file": "circulation-engine.js",
+      "status": 200,
+      "sha256": "acf3099ccb0515ccbce1921efc9ad44c4737be0399fcea230d979191844a6d70",
+      "bytes": 12241
+    },
+    {
+      "file": "circulation-learning.js",
+      "status": 200,
+      "sha256": "2182bd29f543868bd2eef7c1111e23aac3c26f25dceef3178685bf6baa892842",
+      "bytes": 8831
+    },
+    {
+      "file": "circulation-order.js",
+      "status": 200,
+      "sha256": "5c1d549175c36d084c36e32777a85769b3c65cc3b94915c92b5d1d5ea5bba7e6",
+      "bytes": 1464
+    },
+    {
+      "file": "content-version.js",
+      "status": 200,
+      "sha256": "d3c6434374b5b1f55f78b1f44ecce1f1f02eca1c925e258f4f7ed58c1cce848a",
+      "bytes": 973
+    },
+    {
+      "file": "data.js",
+      "status": 200,
+      "sha256": "5f086d38e7f865a5ae6e35edea2858e7a98f9a4ba22891e326e05d1a9bbfcd9c",
+      "bytes": 1505
+    },
+    {
+      "file": "digestion-absorption.js",
+      "status": 200,
+      "sha256": "8bd2817bdd04657c8e06c742c3ac77221bd325a3f8e9dd4c51cd9ff9e341f1b6",
+      "bytes": 1383
+    },
+    {
+      "file": "digestion-anatomy-labels.js",
+      "status": 200,
+      "sha256": "ab60a002372a88d5733e8bff26c8c61a97beca70b84af39acb3ea7f4453d0274",
+      "bytes": 1085
+    },
+    {
+      "file": "digestion-anatomy.js",
+      "status": 200,
+      "sha256": "86b73d3808aedd78295df1062e4fbb73719727ed0d4aa1575e2915f075bf8c8f",
+      "bytes": 6181
+    },
+    {
+      "file": "digestion-assessment.js",
+      "status": 200,
+      "sha256": "d7d4ec024ec1cca4f9e299173cb3d014f3b908e6fad05c8c233afc3bdb5cdfa7",
+      "bytes": 6727
+    },
+    {
+      "file": "digestion-audio.js",
+      "status": 200,
+      "sha256": "c562a15388615fa16cb6ffb0daea03086ee821c474a19c5b7a6c2403d3e5e49e",
+      "bytes": 7901
+    },
+    {
+      "file": "digestion-caecum.js",
+      "status": 200,
+      "sha256": "cf404b84425bb0ea75f341274f4a1b80ab16df4ac784eedff974737d635c1018",
+      "bytes": 7224
+    },
+    {
+      "file": "digestion-camera.js",
+      "status": 200,
+      "sha256": "4980e41ccab676f0b708ce729a77c833a65f8ce83af3a9252485ea329a27e31b",
+      "bytes": 885
+    },
+    {
+      "file": "digestion-data.js",
+      "status": 200,
+      "sha256": "c216773cb3fa6710d25a16963b490deca488fbc59e1bcc1b5a760b418da35f3c",
+      "bytes": 15860
+    },
+    {
+      "file": "digestion-engine.js",
+      "status": 200,
+      "sha256": "3a40c3e94e090967002d02df902a74c9c9e0647d057e12ff6b8b118eddc0b837",
+      "bytes": 10267
+    },
+    {
+      "file": "digestion-enzyme-identity.js",
+      "status": 200,
+      "sha256": "25531cdfef8344ec12dd96ac491b9d4ea62f8a6ff9f844e7baf2ee4024ef5306",
+      "bytes": 2248
+    },
+    {
+      "file": "digestion-enzyme-model.js",
+      "status": 200,
+      "sha256": "fb1242cdc54a4966db5d623a263d7268c1db7c89ffce05f27f3de01d9dd92c2f",
+      "bytes": 809
+    },
+    {
+      "file": "digestion-epithelium.js",
+      "status": 200,
+      "sha256": "d4c25256557d65257c024a8234025e83033b63428efb7a871e6dff5fafc731e1",
+      "bytes": 13600
+    },
+    {
+      "file": "digestion-exam-controller.js",
+      "status": 200,
+      "sha256": "a2e3d0c27240a38336c4f96efab65ad6314bb3204aae6bbad9ce33c1baa550f8",
+      "bytes": 6718
+    },
+    {
+      "file": "digestion-exam.js",
+      "status": 200,
+      "sha256": "b521f72a3773a44eefa4af2665b4a70b7018dabe1eb4363b53b25c6a1c1f9411",
+      "bytes": 2634
+    },
+    {
+      "file": "digestion-finale.js",
+      "status": 200,
+      "sha256": "d3065693be0ef865146f563042ad88853e4c2ed376b31e533522fc3229622da5",
+      "bytes": 4666
+    },
+    {
+      "file": "digestion-flow.js",
+      "status": 200,
+      "sha256": "4283a9e4ede8bab5bbc9e1f31af66fba959b04b3e51f7a92bc86d8e19d6e482a",
+      "bytes": 2216
+    },
+    {
+      "file": "digestion-game.js",
+      "status": 200,
+      "sha256": "9c3f58e615d68b3b5cb6d565f7518cd65c65dc9ed89aec2cc7da05dd85f0211a",
+      "bytes": 45413
+    },
+    {
+      "file": "digestion-gastric.js",
+      "status": 200,
+      "sha256": "f8297595d04b1575e16699167a57eeccae36cb1f878e070c976c971d5804cb95",
+      "bytes": 3447
+    },
+    {
+      "file": "digestion-learning.js",
+      "status": 200,
+      "sha256": "6e47c2cd0a4e628e6626322d87498496ae2c7a6ffa7243c09fd7962069e7e063",
+      "bytes": 6235
+    },
+    {
+      "file": "digestion-molecules.js",
+      "status": 200,
+      "sha256": "99e30afaf8dd014216d6c6215a90c88cda0ecc9f419bbed7b170c3d3e88d160f",
+      "bytes": 5227
+    },
+    {
+      "file": "digestion-motility.js",
+      "status": 200,
+      "sha256": "1b4a06ebb373538a11dba1ce1475353750aae8573fceb61ad6cc491251606b9c",
+      "bytes": 9296
+    },
+    {
+      "file": "digestion-mucosa.js",
+      "status": 200,
+      "sha256": "1c8cbacd093d1376c3aa52b0bfe6330bcebf1950d2051dda74c8d61a8b406302",
+      "bytes": 6470
+    },
+    {
+      "file": "digestion-navigation.js",
+      "status": 200,
+      "sha256": "0bee8a0af3308b3f95259c1036930d42729bec0ee90962c11563732704fbf765",
+      "bytes": 4960
+    },
+    {
+      "file": "digestion-performance.js",
+      "status": 200,
+      "sha256": "353b88751fd5c62125f129077ce8af9a518ce57a03c4bba6b5c4c2e8a9221d97",
+      "bytes": 864
+    },
+    {
+      "file": "digestion-physiology-label.js",
+      "status": 200,
+      "sha256": "51fa404ef5f332a27182b7988cdfbfe7a42d96b8ac9cc97388a7c0f7d2118345",
+      "bytes": 1909
+    },
+    {
+      "file": "digestion-presentation.js",
+      "status": 200,
+      "sha256": "63a7d803b66b72899d9fee4e234015c89c83437329a7257c7e926c8b05f5fdf6",
+      "bytes": 4328
+    },
+    {
+      "file": "digestion-question-pools.js",
+      "status": 200,
+      "sha256": "a86c03b28c5e384b0f97acf5a766588719908685cb7e9979c5bfb6b7593c99e5",
+      "bytes": 9717
+    },
+    {
+      "file": "digestion-save.js",
+      "status": 200,
+      "sha256": "00fa6384cbbf832fcd05b9b05675986a46d32ab45d43c277f53ae5847ca25260",
+      "bytes": 1200
+    },
+    {
+      "file": "digestion-secretions.js",
+      "status": 200,
+      "sha256": "961b7df7954daaad985b88f5d997bd75a0886e480a5bf46ee5d861fd5f95e772",
+      "bytes": 7264
+    },
+    {
+      "file": "digestion-sequence.js",
+      "status": 200,
+      "sha256": "4df459c828f0cbec764882140707485623899f9c02377bb9b58e309e4e90ed44",
+      "bytes": 1962
+    },
+    {
+      "file": "digestion-swallow.js",
+      "status": 200,
+      "sha256": "7fc71ceeaa4938ea98594fd9e8c80b61e8e90110dfdffc3bfde013ef3bb90cef",
+      "bytes": 6110
+    },
+    {
+      "file": "digestion-world.js",
+      "status": 200,
+      "sha256": "19ea15d3d2f7cfd368b819bba192f71eb6f653d2dfa1007f4d61426e97f59286",
+      "bytes": 38083
+    },
+    {
+      "file": "digestion.css",
+      "status": 200,
+      "sha256": "097f661a9b627fa0e1e21175128a3860a1846ba3480717d89fd9f33fb2c5c60c",
+      "bytes": 19488
+    },
+    {
+      "file": "home.js",
+      "status": 200,
+      "sha256": "ff6aed2112ca10385010fcfec371b0a6f1869f71fca500e7a51c9c6e13a30fa8",
+      "bytes": 10407
+    },
+    {
+      "file": "journey-3d-anatomy.js",
+      "status": 200,
+      "sha256": "c4d51ee849c8707e975a62a5e196939ffbcb6df9edaffa3bf7ce0c1040659ce2",
+      "bytes": 9732
+    },
+    {
+      "file": "journey-3d-geometry.js",
+      "status": 200,
+      "sha256": "5e13c9deed30a80e37235374a6e6b2ba293fe078c58c80de7a6b6d9c92f8a9f4",
+      "bytes": 7616
+    },
+    {
+      "file": "journey-3d-world.js",
+      "status": 200,
+      "sha256": "cdc5ea7e6c528df074b6f94c9943c5205f3bc26a4c473d67de868438caf88b56",
+      "bytes": 25526
+    },
+    {
+      "file": "journey-3d.css",
+      "status": 200,
+      "sha256": "37b4033ee9a2f91b427a4c5022cd9c2550f1055538e12e5a994da1fe2e461f22",
+      "bytes": 13822
+    },
+    {
+      "file": "journey-audio.js",
+      "status": 200,
+      "sha256": "50bfd41c64c88869cf83ecc06301c5f809ec3a90d9043125e1db0c8147782a84",
+      "bytes": 9536
+    },
+    {
+      "file": "journey-chambers.js",
+      "status": 200,
+      "sha256": "2ca1f86c994885aeb78d49a6659cdba5ec1e14142b57f5fd2ca2c38324fc7f53",
+      "bytes": 14901
+    },
+    {
+      "file": "journey-engine.js",
+      "status": 200,
+      "sha256": "6d9c85698407ce82710ec63a158cbdb1765ead0e93451824db6cf5ccc95b7306",
+      "bytes": 4343
+    },
+    {
+      "file": "journey-geometry-loader.js",
+      "status": 200,
+      "sha256": "7bb48f7b060f47e2146c209f01701770d522638ed812e7c217f08e9ee0ccc8ef",
+      "bytes": 1970
+    },
+    {
+      "file": "journey-geometry-worker.js",
+      "status": 200,
+      "sha256": "2e06deefde92e0f53fcc3d2ba3eb2697afb6a41638c8ce78fa8973bf9b8b7278",
+      "bytes": 691
+    },
+    {
+      "file": "journey-guide.js",
+      "status": 200,
+      "sha256": "1630e1a1c1e9d997b7a00c93a6c135cc3f112a3f3af350928bd6b6893f68ebea",
+      "bytes": 6844
+    },
+    {
+      "file": "journey-myocardium.js",
+      "status": 200,
+      "sha256": "eec806b57fa35c383eb2481fa84ce46186abead11a07e82ad0c31121202a095f",
+      "bytes": 5184
+    },
+    {
+      "file": "journey-physiology.js",
+      "status": 200,
+      "sha256": "3de82f6da02f8802a55a3cd7d35fbd14952f711920532af3fab7d7d509865ae2",
+      "bytes": 5271
+    },
+    {
+      "file": "journey-ui.js",
+      "status": 200,
+      "sha256": "569b2a1cce5dad8b5cc179db590f9c08b3c590bb56991c2fdae0e2e4448b2854",
+      "bytes": 1325
+    },
+    {
+      "file": "journey-valves.js",
+      "status": 200,
+      "sha256": "a15316fe05dab15d88417a49cb82bd6dfc5cd96bd40de3a7a7fb02a0e17f7ee2",
+      "bytes": 11907
+    },
+    {
+      "file": "learner.js",
+      "status": 200,
+      "sha256": "73bb30309d2f5c3a9ab5cf7a97d5799dca72e6b812d68faef84e18eec2acbf7c",
+      "bytes": 4366
+    },
+    {
+      "file": "model.js",
+      "status": 200,
+      "sha256": "be89ae05b26f10502a33078b1b538288be680224b708fce087976e80d8700a56",
+      "bytes": 21028
+    },
+    {
+      "file": "pharmacology.js",
+      "status": 200,
+      "sha256": "8b0e595e166369406856751f043df5c59591de48f9d29bb4a82d8ae154788acf",
+      "bytes": 27518
+    },
+    {
+      "file": "progress.js",
+      "status": 200,
+      "sha256": "c5ba7209880e007a47f0df421a334c8725f5d16f971c640ca67e32191490f039",
+      "bytes": 4940
+    },
+    {
+      "file": "quiz.js",
+      "status": 200,
+      "sha256": "5bf407080f53a37226d7ee356ad2781d2edadc81742b2dca11fd31ec82e79045",
+      "bytes": 3993
+    },
+    {
+      "file": "semester5.js",
+      "status": 200,
+      "sha256": "297487abd2e1151dc5a184e3428839fda97c39f67010368de3919ad360f4a3de",
+      "bytes": 68706
+    },
+    {
+      "file": "storage.js",
+      "status": 200,
+      "sha256": "ffb4d3071c0bf3f019e4bdb11d8529ebf96210b9fedd8a66ff176f0474ffcec9",
+      "bytes": 5114
+    },
+    {
+      "file": "style.css",
+      "status": 200,
+      "sha256": "97df6f812a8521af82b79a0733ae1257d45b4ea45696ff7018b35ac43c21c1d6",
+      "bytes": 26461
+    },
+    {
+      "file": "subjects.js",
+      "status": 200,
+      "sha256": "2aa4e9a8cbaa049d7c888b0aa3848dbdf0e0363c30a1311f9d0070ae6ee36465",
+      "bytes": 2041
+    },
+    {
+      "file": "theme.css",
+      "status": 200,
+      "sha256": "185c277977b9fcdd080132537837e906082584b3ee0eaf02c2c05afedf13902c",
+      "bytes": 1498
+    },
+    {
+      "file": "three-LICENSE.txt",
+      "status": 200,
+      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+      "bytes": 1081
+    },
+    {
+      "file": "three.core.min.js",
+      "status": 200,
+      "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
+      "bytes": 381124
+    },
+    {
+      "file": "three.module.min.js",
+      "status": 200,
+      "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
+      "bytes": 338908
+    },
+    {
+      "file": "ui.js",
+      "status": 200,
+      "sha256": "ab2e3dab702560ed7b5aa5d8153c38bf901a28dfcf5f1eb7661c96ad1b4b33d3",
+      "bytes": 599
+    }
+  ]
+}

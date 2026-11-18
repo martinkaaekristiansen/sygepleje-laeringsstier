@@ -1,3 +1,4 @@
+import { buildGastricFolds } from './digestion-gastric.js';
 import { createMotility } from './digestion-motility.js';
 import { lumenFlow } from './digestion-flow.js';
 import { buildEpithelium, epithelialCutaway } from './digestion-epithelium.js';
@@ -13,13 +14,7 @@ import { renderBudget } from './digestion-performance.js';
 import { chewingPose, chewBeat } from './digestion-audio.js';
 import { addSecretions, mucosaTexture } from './digestion-secretions.js';
 import { nutrientModel } from './digestion-molecules.js';
-import {
-  buildOrganSurface,
-  organCurve,
-  lumenRadius,
-  stomachPoint as stomachPointLocal,
-  toothPose,
-} from './digestion-anatomy.js';
+import { buildOrganSurface, organCurve, lumenRadius, toothPose } from './digestion-anatomy.js';
 import { reactionState, relativeActivity } from './digestion-engine.js';
 import * as T from './three.module.min.js';
 import { CHARACTERS, ROUTE, PRODUCTS } from './digestion-data.js';
@@ -311,20 +306,9 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       actors.push({ object: amylase, type: 'amylase-inhibition' });
     }
     if (stomach) {
-      for (let i = 0; i < 16; i++) {
-        const a = i / 16;
-        const points = Array.from({ length: 24 }, (_, j) => {
-          const p = stomachPointLocal(0.14 + (j / 24) * 0.73, a);
-          p.multiplyScalar(0.98);
-          return p;
-        });
-        const fold = mesh(
-          new T.TubeGeometry(new T.CatmullRomCurve3(points), 40, 0.075, 6, false),
-          0xcb7c8b,
-        );
-        motility.geometry(fold.geometry);
-        motility.material(fold.material);
-      }
+      const folds = mesh(buildGastricFolds(), 0xcb7c8b);
+      motility.geometry(folds.geometry);
+      motility.material(folds.material);
       const outlet = mesh(new T.TorusGeometry(0.7, 0.17, 10, 32), 0xd6979d);
       outlet.position.set(4.5, -1.8, -6.8);
       outlet.rotation.y = Math.PI / 2;
@@ -622,7 +606,6 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
         }
       }
     }
-    if (!moving && mode === 'reaction') age = 5;
     canvas.dataset.hypotheses = JSON.stringify(
       enzymes.filter((e) => e.visible).map((e) => e.userData.kind || 'protein-enzyme'),
     );
@@ -638,6 +621,8 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     canvas.dataset.digestMode = mode;
     canvas.dataset.molecularForm = product;
     canvas.dataset.absorptionDestination = character === 'trine' ? 'lymph' : 'blood';
+    // Geometry construction is loading time, not elapsed animation time.
+    last = performance.now();
     wake();
   }
   function frame(now) {

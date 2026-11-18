@@ -1,3 +1,4 @@
+import { gastricFlowPose } from './digestion-gastric.js';
 import * as T from './three.module.min.js';
 import { flowProgress } from './digestion-motility.js';
 // One draw call replaces the old individual droplet meshes. Geometry/material
@@ -12,10 +13,13 @@ export function lumenFlow(id, built) {
     'rectum',
     'anus',
   ].includes(id);
-  const geometry = new T.SphereGeometry(colon ? 0.08 : 0.045, 7, 5);
+  const geometry = new T.SphereGeometry(colon || id === 'stomach' ? 0.08 : 0.045, 7, 5);
   const mesh = new T.InstancedMesh(
     geometry,
-    new T.MeshStandardMaterial({ color: colon ? 0x80b9a1 : 0xf0c7b7, roughness: 0.55 }),
+    new T.MeshStandardMaterial({
+      color: colon ? 0x80b9a1 : id === 'stomach' ? 0xf5cf7a : 0xf0c7b7,
+      roughness: 0.55,
+    }),
     26,
   );
   const dummy = new T.Object3D(),
@@ -33,16 +37,7 @@ export function lumenFlow(id, built) {
             Math.round(u * (built.frames.normals.length - 1)),
           );
         if (id === 'stomach') {
-          // Antral approach then retrograde flow, with a small distal outflow.
-          const cycle = (seconds / 20 + i / 26) % 1,
-            back = cycle > 0.72;
-          point.set(
-            -1.6 + (back ? (1 - cycle) / 0.28 : cycle / 0.72) * 5.5,
-            -1.2 + Math.sin(i * 2.4) * 1.2,
-            -6.8 + Math.cos(i * 2.4) * 1.4,
-          );
-          if (i % 5 === 0 && cycle > 0.88 && (seconds / 20) % 1 > 0.88)
-            point.set(4.3 + ((cycle - 0.88) / 0.12) * 1.1, -2, -6.8);
+          point.copy(gastricFlowPose(seconds, i).point);
         } else if (id === 'caecum') {
           point.set(
             0.2 + Math.cos(i * 2.4 + seconds * 0.14) * 1.3,

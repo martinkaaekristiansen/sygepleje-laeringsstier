@@ -40,7 +40,6 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
         await p.locator('[data-digest=settings-close]').click();
       }
       await p.locator('[data-digest=start]').click();
-      await p.locator('[data-digest=skip]').evaluate((b) => b.click());
       await p.locator('[data-entry]').filter({ hasText: 'Cavitas oris' }).click();
       await p.locator('[data-entry]').first().waitFor({ state: 'detached' });
       if (!mobile) {
@@ -53,7 +52,6 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           'intro motion has a bounded end',
         );
       }
-      await p.locator('[data-digest=skip]').evaluate((b) => b.click());
       await p.locator('[data-choice]').first().waitFor();
       await p.locator('[data-digest=sound]').click();
       await p.waitForFunction(() => __contexts.length === 1 && __contexts[0].state === 'running');
@@ -111,12 +109,10 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           await p.waitForFunction(
             () =>
               JSON.parse(document.querySelector('.digestion-game').dataset.audio).lastEvent ===
-              'splash',
+              'splash' || JSON.parse(document.querySelector('.digestion-game').dataset.audio).lastEvent === 'finish',
           );
         const before = JSON.stringify([s.stage, s.mode, s.title]);
-        if (await p.locator('[data-digest=skip]').count())
-          await p.locator('[data-digest=skip]').evaluate((b) => b.click());
-        else if (await p.locator('[data-absorb]').count())
+        if (await p.locator('[data-absorb]').count())
           await p
             .locator('[data-absorb]')
             .filter({ hasText: ABSORPTION_CHOICES.stanley.options[0] })
@@ -139,7 +135,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
             .filter({ hasText: q?.options[0] || ROUTE[next].danish + ' · ' + ROUTE[next].latin })
             .click();
         } else {
-          await p.waitForTimeout(50);
+          await p.waitForFunction(before=>JSON.stringify([document.querySelector('canvas').dataset.digestStage,document.querySelector('canvas').dataset.digestMode,document.querySelector('.digest-panel h2')?.textContent])!==before,before);
           continue;
         }
         await p.waitForFunction(
@@ -174,14 +170,13 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     });
     await silent.goto(base + '#/sti/fordoejelsens-vilde-rejse/digestion-stanley');
     await silent.locator('[data-digest=start]').click();
-    await silent.locator('[data-digest=skip]').evaluate((b) => b.click());
     await silent.locator('[data-entry]').filter({ hasText: 'Cavitas oris' }).click();
     await silent.locator('[data-entry]').first().waitFor({ state: 'detached' });
-    await silent.locator('[data-digest=skip]').evaluate((b) => b.click());
     await silent.locator('[data-digest=sound]').click();
     await silent.waitForFunction(
       () => JSON.parse(document.querySelector('.digestion-game').dataset.audio).blocked,
     );
+    await silent.locator('[data-choice]').first().waitFor();
     assert.equal(await silent.locator('[data-choice]').count(), 3);
     await silent.locator('[data-choice]').filter({ hasText: 'Spytamylase' }).click();
     await silent.getByRole('heading', { name: 'Hvor kommer spytamylase fra?' }).waitFor();

@@ -1,0 +1,394 @@
+{
+  "baseCommit": "fc1d75442d0368fb97e97bd000ccb8ed8e13bb84",
+  "candidateBranch": "forbedringer-fordoejelse-v2",
+  "candidateCommitted": false,
+  "protocol": "Two serial alternating before/after trials; 60 real animated frames per case after warmup. DPR 1; render pixel ratio .8; no concurrent GPU tests. FPS in the report is 1000 divided by median of the two trial median frame times. Raw files retain means, p95 and all intervals.",
+  "hardwareAccelerated": false,
+  "storage": {
+    "beforeWrites": 31,
+    "afterWrites": 2,
+    "seconds": 31,
+    "stage": "stomach",
+    "character": "trine",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "motion": true,
+    "reductionPercent": 93.5483870967742
+  },
+  "cases": [
+    {
+      "size": "mobile",
+      "region": "stomach",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "buffer": [
+        312,
+        675
+      ],
+      "renderRatio": 0.8,
+      "villi": 0,
+      "camera": {
+        "position": [
+          0,
+          0,
+          -3.2
+        ],
+        "look": [
+          1,
+          -0.4,
+          -7
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.05028310047294915,
+          -0.12814214935799093,
+          -0.006505453603796008,
+          0.9904589231453017
+        ]
+      },
+      "before": {
+        "medianOfTrialFrameMediansMs": 100.0,
+        "fpsFromFrameMedian": 10.0,
+        "meanFrameMs": 101.8025,
+        "trialMedianFpsRange": [
+          10,
+          10
+        ],
+        "triangles": 26196,
+        "drawCalls": 51
+      },
+      "after": {
+        "medianOfTrialFrameMediansMs": 100.0,
+        "fpsFromFrameMedian": 10.0,
+        "meanFrameMs": 101.52333333333334,
+        "trialMedianFpsRange": [
+          10,
+          10
+        ],
+        "triangles": 26196,
+        "drawCalls": 36
+      },
+      "trials": [
+        {
+          "label": "before-1",
+          "medianFrameMs": 100,
+          "medianFps": 10,
+          "meanFrameMs": 101.94166666666665,
+          "p95FrameMs": 116.70000000000073,
+          "triangles": 26196,
+          "drawCalls": 51
+        },
+        {
+          "label": "before-2",
+          "medianFrameMs": 100,
+          "medianFps": 10,
+          "meanFrameMs": 101.66333333333334,
+          "p95FrameMs": 133.29999999999927,
+          "triangles": 26196,
+          "drawCalls": 51
+        },
+        {
+          "label": "after-1",
+          "medianFrameMs": 100,
+          "medianFps": 10,
+          "meanFrameMs": 104.16333333333336,
+          "p95FrameMs": 133.40000000000146,
+          "triangles": 26196,
+          "drawCalls": 36
+        },
+        {
+          "label": "after-2",
+          "medianFrameMs": 100,
+          "medianFps": 10,
+          "meanFrameMs": 98.88333333333331,
+          "p95FrameMs": 100.10000000000036,
+          "triangles": 26196,
+          "drawCalls": 36
+        }
+      ]
+    },
+    {
+      "size": "desktop",
+      "region": "stomach",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "buffer": [
+        1024,
+        640
+      ],
+      "renderRatio": 0.8,
+      "villi": 0,
+      "camera": {
+        "position": [
+          0,
+          0,
+          -3.2
+        ],
+        "look": [
+          1,
+          -0.4,
+          -7
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.05028310047294915,
+          -0.12814214935799093,
+          -0.006505453603796008,
+          0.9904589231453017
+        ]
+      },
+      "before": {
+        "medianOfTrialFrameMediansMs": 266.64999999999964,
+        "fpsFromFrameMedian": 3.7502343896493584,
+        "meanFrameMs": 265.8225,
+        "trialMedianFpsRange": [
+          3.7495313085864166,
+          3.750937734433629
+        ],
+        "triangles": 27052,
+        "drawCalls": 53
+      },
+      "after": {
+        "medianOfTrialFrameMediansMs": 266.65000000000055,
+        "fpsFromFrameMedian": 3.7502343896493455,
+        "meanFrameMs": 265.40666666666664,
+        "trialMedianFpsRange": [
+          3.7495313085864166,
+          3.7509377344336032
+        ],
+        "triangles": 27052,
+        "drawCalls": 38
+      },
+      "trials": [
+        {
+          "label": "before-1",
+          "medianFrameMs": 266.59999999999854,
+          "medianFps": 3.750937734433629,
+          "meanFrameMs": 269.7116666666667,
+          "p95FrameMs": 483.40000000000055,
+          "triangles": 27052,
+          "drawCalls": 53
+        },
+        {
+          "label": "before-2",
+          "medianFrameMs": 266.7000000000007,
+          "medianFps": 3.7495313085864166,
+          "meanFrameMs": 261.93333333333334,
+          "p95FrameMs": 483.3000000000029,
+          "triangles": 27052,
+          "drawCalls": 53
+        },
+        {
+          "label": "after-1",
+          "medianFrameMs": 266.7000000000007,
+          "medianFps": 3.7495313085864166,
+          "meanFrameMs": 267.49,
+          "p95FrameMs": 300.09999999999854,
+          "triangles": 27052,
+          "drawCalls": 38
+        },
+        {
+          "label": "after-2",
+          "medianFrameMs": 266.60000000000036,
+          "medianFps": 3.7509377344336032,
+          "meanFrameMs": 263.3233333333333,
+          "p95FrameMs": 416.7000000000007,
+          "triangles": 27052,
+          "drawCalls": 38
+        }
+      ]
+    },
+    {
+      "size": "mobile",
+      "region": "jejunum",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "buffer": [
+        312,
+        675
+      ],
+      "renderRatio": 0.8,
+      "villi": 3200,
+      "camera": {
+        "position": [
+          -0.17700015054247284,
+          0.03637770781779192,
+          1.735713210410908
+        ],
+        "look": [
+          -1.2613044222156828,
+          1.0091852809290351,
+          -7.569790782074129
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.051623832638336885,
+          0.057889824677147386,
+          -0.0029975387051279405,
+          0.9969828297740587
+        ]
+      },
+      "before": {
+        "medianOfTrialFrameMediansMs": 316.64999999999964,
+        "fpsFromFrameMedian": 3.15806095057635,
+        "meanFrameMs": 318.4591666666667,
+        "trialMedianFpsRange": [
+          3.1575623618566393,
+          3.1585596967782834
+        ],
+        "triangles": 252684,
+        "drawCalls": 45
+      },
+      "after": {
+        "medianOfTrialFrameMediansMs": 308.3000000000002,
+        "fpsFromFrameMedian": 3.2435939020434623,
+        "meanFrameMs": 316.79166666666663,
+        "trialMedianFpsRange": [
+          3.1585596967782656,
+          3.3333333333333335
+        ],
+        "triangles": 252684,
+        "drawCalls": 45
+      },
+      "trials": [
+        {
+          "label": "before-1",
+          "medianFrameMs": 316.7000000000007,
+          "medianFps": 3.1575623618566393,
+          "meanFrameMs": 326.65333333333336,
+          "p95FrameMs": 416.6999999999989,
+          "triangles": 252684,
+          "drawCalls": 45
+        },
+        {
+          "label": "before-2",
+          "medianFrameMs": 316.59999999999854,
+          "medianFps": 3.1585596967782834,
+          "meanFrameMs": 310.26500000000004,
+          "p95FrameMs": 600,
+          "triangles": 252684,
+          "drawCalls": 45
+        },
+        {
+          "label": "after-1",
+          "medianFrameMs": 316.60000000000036,
+          "medianFps": 3.1585596967782656,
+          "meanFrameMs": 321.09666666666664,
+          "p95FrameMs": 366.7999999999993,
+          "triangles": 252684,
+          "drawCalls": 45
+        },
+        {
+          "label": "after-2",
+          "medianFrameMs": 300,
+          "medianFps": 3.3333333333333335,
+          "meanFrameMs": 312.4866666666666,
+          "p95FrameMs": 550,
+          "triangles": 252684,
+          "drawCalls": 45
+        }
+      ]
+    },
+    {
+      "size": "desktop",
+      "region": "jejunum",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "buffer": [
+        1024,
+        640
+      ],
+      "renderRatio": 0.8,
+      "villi": 3200,
+      "camera": {
+        "position": [
+          -0.17700015054247284,
+          0.03637770781779192,
+          1.735713210410908
+        ],
+        "look": [
+          -1.2613044222156828,
+          1.0091852809290351,
+          -7.569790782074129
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.051623832638336885,
+          0.057889824677147386,
+          -0.0029975387051279405,
+          0.9969828297740587
+        ]
+      },
+      "before": {
+        "medianOfTrialFrameMediansMs": 500.0,
+        "fpsFromFrameMedian": 2.0,
+        "meanFrameMs": 504.14666666666665,
+        "trialMedianFpsRange": [
+          2,
+          2
+        ],
+        "triangles": 252684,
+        "drawCalls": 45
+      },
+      "after": {
+        "medianOfTrialFrameMediansMs": 500.0,
+        "fpsFromFrameMedian": 2.0,
+        "meanFrameMs": 502.0633333333333,
+        "trialMedianFpsRange": [
+          2,
+          2
+        ],
+        "triangles": 252684,
+        "drawCalls": 45
+      },
+      "trials": [
+        {
+          "label": "before-1",
+          "medianFrameMs": 500,
+          "medianFps": 2,
+          "meanFrameMs": 507.2033333333333,
+          "p95FrameMs": 566.7000000000007,
+          "triangles": 252684,
+          "drawCalls": 45
+        },
+        {
+          "label": "before-2",
+          "medianFrameMs": 500,
+          "medianFps": 2,
+          "meanFrameMs": 501.09000000000003,
+          "p95FrameMs": 916.5999999999995,
+          "triangles": 252684,
+          "drawCalls": 45
+        },
+        {
+          "label": "after-1",
+          "medianFrameMs": 500,
+          "medianFps": 2,
+          "meanFrameMs": 502.47999999999996,
+          "p95FrameMs": 549.9000000000015,
+          "triangles": 252684,
+          "drawCalls": 45
+        },
+        {
+          "label": "after-2",
+          "medianFrameMs": 500,
+          "medianFps": 2,
+          "meanFrameMs": 501.64666666666665,
+          "p95FrameMs": 550,
+          "triangles": 252684,
+          "drawCalls": 45
+        }
+      ]
+    }
+  ]
+}

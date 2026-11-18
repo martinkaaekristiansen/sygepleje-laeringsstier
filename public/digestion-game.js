@@ -1,3 +1,6 @@
+import { createExamController } from './digestion-exam-controller.js';
+import { createSequenceRunner } from './digestion-sequence.js';
+import { createCheckpointSaver, CHECKPOINT_INTERVAL } from './digestion-save.js';
 import { NUTRIENT_ENDINGS } from './digestion-finale.js';
 import { createDigestAudio } from './digestion-audio.js';
 import { moleculeIcon, answerIcon } from './digestion-presentation.js';
@@ -10,7 +13,7 @@ import {
   renderDigestMap,
 } from './digestion-navigation.js';
 import { CHARACTERS, ROUTE, BOSSES, PRODUCTS } from './digestion-data.js';
-import { ABSORPTION_CHOICES, FINAL_TESTS, scoreAssessment } from './digestion-assessment.js';
+import { ABSORPTION_CHOICES } from './digestion-assessment.js';
 import {
   newDigestion,
   chooseDigestion,
@@ -19,6 +22,7 @@ import {
   enzymeTotal,
   shuffled,
   activeClock,
+  initialProduct,
 } from './digestion-engine.js';
 import { createDigestionWorld } from './digestion-world.js';
 import { lockGameViewport } from './blood-viewport.js';
@@ -27,8 +31,6 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
   const data = migrateDigestion((record.digestion ??= { results: {} }));
   let run = data.active,
     world,
-    timer,
-    sequenceToken = 0,
     disposed = false,
     restoringAnimation = false,
     busy = false,
@@ -42,15 +44,11 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     latin = true,
     options = [],
     feedback = '',
-    sequenceEnd,
     clock = run ? activeClock(run) : null,
     playing = false,
     userPaused = false,
-    timerPaused = false,
-    remaining = 0,
-    deadline = 0,
-    exam = null,
-    sequenceAutomatic = false;
+    lifecycleSuspended = false;
+  const sequenceRunner = createSequenceRunner();
   const unlock = lockGameViewport(root);
   const preferences = data.settings || {};
   sound = preferences.sound ?? false;
@@ -93,6 +91,12 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     ),
   );
   controlsObserver.observe(panel);
+  function measureMap() {
+    const height =
+      playing && mapVisible ? $('.blood-minimap')?.getBoundingClientRect().height || 0 : 0;
+    root.style.setProperty('--digest-map-height', Math.ceil(height) + 'px');
+  }
+  const mapObserver = new ResizeObserver(measureMap);
   function readingOpen() {
     return !$('.digest-settings').hidden;
   }
@@ -110,8 +114,9 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       p = data.learningCurrent;
     card.hidden = !playing || !p;
     if (!p) return;
-    const iconForm =
-      run?.absorptionView === 'transport' && !run.absorbed
+    const iconForm = assessment?.character
+      ? initialProduct(assessment.character)
+      : run?.absorptionView === 'transport' && !run.absorbed
         ? run.character === 'trine'
           ? 'chylomicron'
           : run.product
@@ -119,8 +124,8 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
           ? 'emulsified-fat'
           : run?.product || 'polysaccharide';
     card.innerHTML =
-      `${moleculeIcon(iconForm, currentMoleculeLabel() || 'Næringsstof')}` +
-      `<span class="digest-point ${p.error ? 'digest-feedback' : ''}" role="status">${esc(p.short)}</span>`;
+      `${moleculeIcon(iconForm, assessment?.character ? CHARACTERS[assessment.character].name : currentMoleculeLabel() || 'Næringsstof')}` +
+      `<span class="digest-point ${p.error ? 'digest-feedback' : ''}" role="status"><strong class="digest-point-title">${esc(p.title)}</strong><span class="digest-explanation">${esc(p.short)}</span></span>`;
   }
   function learn(point) {
     rememberLearning(data, point);
@@ -146,58 +151,61 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
   };
   root.addEventListener('pointerdown', unlockAudio, true);
   root.addEventListener('keydown', unlockAudio, true);
-  async function store() {
+  function captureCheckpoint() {
     if (run) {
-      clock?.tick(playing && !userPaused && !document.hidden && !readingOpen());
+      clock?.tick(
+        playing && !userPaused && !document.hidden && !lifecycleSuspended && !readingOpen(),
+      );
       const timeline = world?.timeline();
-      const expected =
-        run.phase === 'absorption'
-          ? run.absorptionView
-          : run.phase === 'secretion'
-            ? run.secretionKind || 'secretion'
-            : run.phase;
       if (
         timeline?.stage === ROUTE[run.index]?.id &&
-        timeline.mode === expected &&
-        [
-          'reaction',
-          'swallow',
-          'absorb',
-          'transport',
-          'finale',
-          'secretion',
-          'brush-border',
-          'bile',
-        ].includes(timeline.mode)
+        (sequenceRunner.active || ['travel', 'boss'].includes(timeline.mode))
       )
-        run.animation = { ...timeline, age: Math.min(3600, timeline.age) };
+        run.animation = {
+          ...timeline,
+          age: Math.min(3600, sequenceRunner.active ? sequenceRunner.age : timeline.age),
+        };
       data.active = run;
     }
     record.updatedAt = Date.now();
-    const ok = await save({ retry: true });
-    if (!disposed)
-      $('.digest-save').innerHTML = ok
-        ? 'Gemt'
-        : 'Ikke gemt. <button data-digest="save">Prøv at gemme igen</button>';
-    return ok;
   }
+  const checkpoints = createCheckpointSaver({
+    capture: captureCheckpoint,
+    save: () => save({ retry: true }),
+    onResult(ok) {
+      if (!disposed)
+        $('.digest-save').innerHTML = ok
+          ? 'Gemt'
+          : 'Ikke gemt. <button data-digest="save">Prøv at gemme igen</button>';
+    },
+  });
+  function store() {
+    return checkpoints.request();
+  }
+  const assessment = createExamController({
+    data,
+    panel,
+    learn,
+    store,
+    focusQuestion,
+    stage: () => ROUTE[run?.index || 0].id,
+    information: (visible) => {
+      $('.digest-learning').hidden = !visible;
+    },
+    prepare() {
+      playing = false;
+      clock?.pause();
+      cancel();
+      soundscape.pause(true);
+      world?.pause(true);
+    },
+  });
   function syncPause() {
-    const hold = userPaused || document.hidden || readingOpen();
+    const hold = userPaused || document.hidden || lifecycleSuspended || readingOpen();
     if (hold) {
       clock?.pause();
-      if (sequenceEnd && sequenceAutomatic && !timerPaused) {
-        remaining = Math.max(0, deadline - performance.now());
-        clearTimeout(timer);
-        timerPaused = true;
-      }
-    } else {
-      if (playing) clock?.resume();
-      if (sequenceEnd && sequenceAutomatic && timerPaused) {
-        deadline = performance.now() + remaining;
-        timer = setTimeout(sequenceEnd, remaining);
-        timerPaused = false;
-      }
-    }
+    } else if (playing) clock?.resume();
+    sequenceRunner.pause(hold);
     world?.pause(hold);
     soundscape.pause(hold || !playing);
     panel.inert = hold;
@@ -211,9 +219,21 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     if (document.hidden) void store();
   };
   document.addEventListener('visibilitychange', visibility);
+  const pagehide = () => {
+    lifecycleSuspended = true;
+    syncPause();
+    void store();
+  };
+  const pageshow = () => {
+    lifecycleSuspended = false;
+    syncPause();
+  };
+  window.addEventListener('pagehide', pagehide);
+  window.addEventListener('pageshow', pageshow);
   const checkpoint = setInterval(() => {
-    if (playing && !userPaused && !document.hidden && !readingOpen()) void store();
-  }, 1000);
+    if (playing && !userPaused && !document.hidden && !lifecycleSuspended && !readingOpen())
+      void store();
+  }, CHECKPOINT_INTERVAL);
   function hud() {
     if (!run) {
       $('.digest-hud').innerHTML = '';
@@ -222,6 +242,9 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     const s = ROUTE[run.index];
     $('.digest-map').innerHTML = renderDigestMap(run.index);
     $('.digest-map').style.visibility = playing ? 'visible' : 'hidden';
+    mapObserver.disconnect();
+    mapObserver.observe($('.blood-minimap'));
+    measureMap();
     $('.digest-hud').innerHTML =
       `<div class="blood-location"><strong class="blood3d-eyebrow">${esc(CHARACTERS[run.character].name)}</strong><h1>${esc(run.phase === 'entry' ? 'Uden for ansigtet' : s.danish + ' · ' + s.latin)}</h1><p class="blood-world-caption">${run.absorbed ? 'Du følger nu en ufordøjelig rest.' : s.id === 'epiglottis' ? 'Observationspunkt: føden passerer ikke gennem strubelåget.' : currentMoleculeLabel()}</p></div><div class="blood3d-top-controls"><span class="blood-lives" role="img" aria-label="${run.lives} af 2 liv tilbage">${'♥'.repeat(run.lives)}${'♡'.repeat(2 - run.lives)}</span></div>`;
     $('.digest-product').textContent = PRODUCTS[run.absorbed ? 'residue' : run.product] || '';
@@ -269,12 +292,8 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
   }
   function cancel() {
     $('.digest-route-labels')?.remove();
-    clearTimeout(timer);
-    sequenceToken++;
-    sequenceEnd = null;
-    sequenceAutomatic = false;
-    timerPaused = false;
-    remaining = 0;
+    sequenceRunner.cancel();
+    panel.hidden = false;
   }
   function sequence(title, text, mode, seconds, next) {
     cancel();
@@ -316,9 +335,8 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         key: run.character + ':finale',
         character: run.character,
         stage: 'anus',
-        title: 'Sidste skyl',
-        short:
-          'Næringsstoffet er optaget. Sfinkterne afslappes, og kun den ufordøjelige rest ender i toilettet.',
+        title: 'Afslutning',
+        short: 'Sfinkterne afslappes. Kun den ufordøjelige rest skylles ud.',
         detail: NUTRIENT_ENDINGS[run.character],
       });
     else if (mode === 'residue')
@@ -330,18 +348,40 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         short: 'Næringsstoffet er optaget. Du følger nu en ufordøjelig rest.',
         detail: text,
       });
-    panel.innerHTML = `<h2 tabindex="-1">${esc(title)}</h2><div class="digest-sequence-controls">${mode === 'face-intro' ? '' : '<button data-digest="replay">Se animationen igen</button>'}<button data-digest="skip">Fortsæt →</button></div>`;
-    const token = sequenceToken;
-    sequenceEnd = () => {
-      if (token !== sequenceToken || disposed) return;
-      cancel();
-      next();
-    };
-    remaining = seconds * 1000;
-    deadline = performance.now() + remaining;
-    sequenceAutomatic = mode === 'face-intro';
-    if (sequenceAutomatic) timer = setTimeout(sequenceEnd, remaining);
-    panel.querySelector('h2').focus({ preventScroll: true });
+    else {
+      const short =
+        mode === 'swallow' ? 'Luftvejen lukkes. Bolus føres bag larynx til oesophagus.' : text;
+      learn({
+        key: run.character + ':' + stage + ':' + mode,
+        character: run.character,
+        stage,
+        title: mode === 'swallow' ? 'Synkning' : title,
+        short,
+        detail: text,
+      });
+    }
+    // Keep the complete explanation in the existing learning history.
+    if (data.learningCurrent && text && !data.learningCurrent.detail.includes(text)) {
+      data.learningCurrent.detail += ' ' + text;
+      if (data.learningLog?.at(-1)?.key === data.learningCurrent.key)
+        data.learningLog.at(-1).detail = data.learningCurrent.detail;
+    }
+    panel.replaceChildren();
+    panel.hidden = true;
+    sequenceRunner.start({
+      seconds,
+      initialAge: world?.timeline().age || 0,
+      age: () => world?.timeline().age || 0,
+      animated: () => motion,
+      next: () => {
+        if (disposed) return;
+        cancel();
+        delete run.animation;
+        next();
+      },
+    });
+    syncPause();
+    void store();
   }
   function menu() {
     clock?.pause();
@@ -350,7 +390,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     panel.inert = false;
     world?.pause(document.hidden);
     soundscape.pause(true);
-    exam = null;
+    assessment.cancel();
     cancel();
     run = data.active;
     showScene('menu');
@@ -375,7 +415,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       )
       .join(
         '',
-      )}${data.assessmentDraft ? '<button data-digest="exam">Fortsæt gemt sluttest uden hjælp</button>' : ''}${Object.entries(
+      )}${data.reviewDraft ? '<button data-digest="review-resume">Fortsæt gemt fejlrepetition</button>' : ''}${data.assessmentDraft ? '<button data-digest="exam">Fortsæt gemt sluttest uden hjælp</button>' : ''}${Object.entries(
       data.assessments || {},
     )
       .map(
@@ -424,6 +464,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     panel.classList.add('digest-nav');
     void store();
     bindChoiceFocus('[data-entry]');
+    focusQuestion();
   }
   async function entryAnswer(i) {
     if (busy || userPaused || readingOpen() || run?.phase !== 'entry' || !options[i]) return;
@@ -466,6 +507,13 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       panel.append(retry);
     } else entryChoice();
   }
+  function focusQuestion() {
+    const heading = panel.querySelector('h2');
+    if (heading) {
+      heading.tabIndex = -1;
+      heading.focus({ preventScroll: true });
+    }
+  }
   function bindChoiceFocus(selector = '[data-choice]') {
     root.querySelectorAll(selector).forEach((b) => {
       const i = Number(b.dataset.choice ?? b.dataset.entry);
@@ -504,7 +552,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       (!BOSSES[run.character].jejunum || (run.completed || []).includes('jejunum'))
     ) {
       run.phase = 'absorption';
-      absorption(0);
+      absorption();
       return;
     }
     if (BOSSES[run.character][s.id] && !(run.completed || []).includes(s.id)) {
@@ -536,6 +584,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     world?.learningState(run);
     panel.innerHTML = `<p class="digest-eyebrow">${task ? `MOLEKYLEUDFORDRING · ${run.task + 1}/${BOSSES[run.character][s.id].length}` : 'FIND DEN ANATOMISKE VEJ'}</p><h2 tabindex="-1">${esc(task?.prompt || 'Hvad er næste anatomiske struktur?')}</h2>${task ? `<div class="digest-choices">${options.map((o, i) => `<button data-choice="${i}" class="digest-answer-${task.kind}" data-answer-kind="${task.kind}">${answerIcon(task, o.label)}<span><b>${i + 1}</b> ${esc(o.label)}</span></button>`).join('')}</div>` : `<div class="digest-route-labels blood3d-labels">${routeButtons(options, 'data-choice')}</div>`}`;
     bindChoiceFocus();
+    focusQuestion();
   }
   function continueAfterReaction() {
     const s = ROUTE[run.index];
@@ -658,7 +707,22 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       root.querySelectorAll('[data-choice]').forEach((b) => (b.disabled = false));
     }
   }
-  function absorption(i = 0) {
+  function absorption() {
+    if (run.absorbed && run.absorptionView === 'residue') {
+      sequence(
+        'Nu skifter perspektivet',
+        'Næringsstoffet er optaget. Du følger nu en ufordøjelig rest.',
+        'residue',
+        2,
+        () => {
+          run.phase = 'route';
+          showScene('travel');
+          drawChoices();
+          void store();
+        },
+      );
+      return;
+    }
     run.phase = 'absorption';
     panel.classList.remove('digest-active', 'digest-nav');
     if (run.absorptionPassed) {
@@ -724,90 +788,14 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         short:
           run.character === 'trine'
             ? 'Langkædede lipidprodukter optages gennem tarmvæggen; chylomikroner transporterer fedtet videre til lymfen.'
-            : 'Færdigfordøjede næringsstoffer optages gennem tarmepitelet og føres videre til blodet.',
+            : run.character === 'stanley'
+              ? 'SGLT1 optager glukose apikalt; GLUT2 fører den videre mod kapillærer og portalblod.'
+              : 'PEPT1 optager di-/tripeptider. Intracellulære peptidaser danner aminosyrer, som følger blodet.',
         detail: q.why,
       });
     panel.innerHTML = `<h2>${esc(q.prompt)}</h2><div class="digest-choices">${options.map((o, i) => `<button data-absorb="${i}">${esc(o.label)}</button>`).join('')}</div>`;
+    focusQuestion();
     void store();
-  }
-  function drawExam() {
-    panel.classList.remove('digest-active', 'digest-nav', 'digest-menu', 'digest-result');
-    panel.classList.add('digest-compact');
-    const index = exam.review ? exam.review.indices[exam.review.cursor] : exam.answers.length;
-    const q = FINAL_TESTS[exam.character][index];
-    if (!q) return;
-    const choices = shuffled(q.options.map((text, i) => ({ text, i })));
-    panel.innerHTML = `<h2> ${exam.review ? 'Repetition' : 'Afsluttende test'} · ${exam.review ? exam.review.cursor + 1 : index + 1}/${exam.review ? exam.review.indices.length : 5}</h2><p class="digest-exam-question">${esc(q.prompt)}</p><div class="digest-choices">${choices.map((o) => `<button data-exam-answer="${o.i}">${esc(o.text)}</button>`).join('')}</div>`;
-  }
-  function showAssessmentResult(result) {
-    panel.classList.remove('digest-compact', 'digest-active', 'digest-nav');
-    panel.classList.add('digest-result');
-    panel.innerHTML = `<h2>Testresultat: ${result.correct} af 5</h2><p>Dit første resultat bevares, når du repeterer fejl.</p><ol>${FINAL_TESTS[result.character].map((q, n) => `<li><strong>${result.answers[n] === 0 ? 'Korrekt' : 'Repetér'}: ${esc(q.prompt)}</strong><p>${esc(q.why)}</p></li>`).join('')}</ol>${result.answers.some((a) => a !== 0) ? `<button data-review-character="${result.character}">Repetér forkert besvarede spørgsmål</button>` : ''}<button data-digest="menu">Til karakterer og resultater</button>`;
-    exam = null;
-  }
-  function startReview(character) {
-    const result = data.assessments?.[character]?.at(-1);
-    if (!result) return;
-    const indices = result.answers.map((a, i) => (a !== 0 ? i : -1)).filter((i) => i >= 0);
-    if (!indices.length) return;
-    playing = false;
-    clock?.pause();
-    cancel();
-    soundscape.pause(true);
-    exam = { character, answers: [], review: { indices, cursor: 0, correct: 0 } };
-    drawExam();
-  }
-  async function examAnswer(i) {
-    if (!exam || busy || !Number.isInteger(i) || i < 0 || i > 2) return;
-    busy = true;
-    const index = exam.review ? exam.review.indices[exam.review.cursor] : exam.answers.length,
-      q = FINAL_TESTS[exam.character][index],
-      correct = i === 0;
-    learn({
-      key: exam.character + ':exam:' + index + ':' + i,
-      character: exam.character,
-      stage: ROUTE[run?.index || 0].id,
-      title: exam.review ? 'Repetition' : 'Sluttest',
-      short: q.why,
-      detail: q.prompt + ' ' + q.why,
-      error: !correct,
-    });
-    $('.digest-learning').hidden = false;
-    if (exam.review) {
-      if (correct) exam.review.correct++;
-    } else {
-      exam.answers.push(i);
-      if (exam.answers.length === 5) {
-        delete data.assessmentDraft;
-        exam.result = scoreAssessment(exam.character, exam.answers);
-        data.assessments ??= {};
-        data.assessments[exam.character] = [
-          ...(data.assessments[exam.character] || []),
-          exam.result,
-        ].slice(-20);
-      } else data.assessmentDraft = { character: exam.character, answers: [...exam.answers] };
-    }
-    await store();
-    panel.innerHTML = `<h2>${correct ? 'Korrekt' : 'Læs forklaringen og prøv forståelsen igen'}</h2><button data-digest="exam-next">${exam.result ? 'Se resultat' : exam.review && exam.review.cursor + 1 === exam.review.indices.length ? 'Afslut repetition' : 'Næste spørgsmål'} →</button>`;
-    busy = false;
-  }
-  function examNext() {
-    if (!exam) return;
-    if (exam.result) {
-      showAssessmentResult(exam.result);
-      return;
-    }
-    if (exam.review) {
-      exam.review.cursor++;
-      if (exam.review.cursor === exam.review.indices.length) {
-        const r = exam.review;
-        panel.classList.remove('digest-compact');
-        panel.innerHTML = `<h2>Repetition afsluttet</h2><p>${r.correct} af ${r.indices.length} rigtige i repetitionen. Dit oprindelige testresultat er bevaret.</p><button data-digest="exam">Tag en ny sluttest</button><button data-digest="menu">Til karakterer og resultater</button>`;
-        exam = null;
-        return;
-      }
-    }
-    drawExam();
   }
   async function finish() {
     panel.classList.remove('digest-active', 'digest-nav', 'digest-compact');
@@ -820,6 +808,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     clock?.pause();
     playing = false;
     renderLearning();
+    measureMap();
     $('.digest-compartments').hidden = true;
     $('.digest-map').style.visibility = 'hidden';
     data.results[run.character] = structuredClone(run);
@@ -830,11 +819,11 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     if (disposed) return;
     soundscape.locate('anus', 'won', true);
     soundscape.effect('finish');
-    panel.innerHTML = `<h2>TILLYKKE! Fra første bid til sidste skyl.</h2><p>${esc(CHARACTERS[run.character].name)} · 🏆 Syreoverleveren · Sidste stop: porcelæn</p><p class="digest-nutrient-ending">${esc(NUTRIENT_ENDINGS[run.character])} Kun den ufordøjelige rest skylles ud.</p><dl><dt>Korrekte anatomiske valg</dt><dd>${run.anatomy}</dd><dt>Korrekte enzymdelopgaver</dt><dd>${run.enzyme} / ${enzymeTotal(run.character)}</dd><dt>Fejl · resterende liv</dt><dd>${run.errors} · ${run.lives}</dd><dt>Tid</dt><dd>${Math.round(run.elapsed / 1000)} aktive sekunder${run.timingVersion === 2 ? '' : ' (historisk tid fra før v2)'}</dd></dl><details><summary>Enzymer og transportvej</summary><p>Enzymer: ${esc(CHARACTERS[run.character].enzymes)}</p><p>Absorption i tyndtarmen: ${esc(CHARACTERS[run.character].transport)}</p></details><p>Gennemført aktivitet er ikke dokumentation for klinisk kompetence.</p><p>Porcelænet fik resten – kroppen beholdt næringen. Fra første bid til sidste skyl!</p><button data-digest="exam">Afsluttende test · 5 spørgsmål uden hjælp</button><button data-digest="menu">Skyl ud og prøv et nyt næringsstof!</button>`;
+    panel.innerHTML = `<h2>TILLYKKE! Fra første bid til sidste skyl.</h2><p>${esc(CHARACTERS[run.character].name)} · 🏆 Syreoverleveren · Sidste stop: porcelæn</p><p class="digest-nutrient-ending">${esc(NUTRIENT_ENDINGS[run.character])} Kun den ufordøjelige rest skylles ud.</p><dl><dt>Korrekte anatomiske valg</dt><dd>${run.anatomy}</dd><dt>Korrekte enzymdelopgaver</dt><dd>${run.enzyme} / ${enzymeTotal(run.character)}</dd><dt>Fejl · resterende liv</dt><dd>${run.errors} · ${run.lives}</dd><dt>Tid</dt><dd>${Math.round(run.elapsed / 1000)} aktive sekunder${run.timingVersion === 2 ? '' : ' (historisk tid fra før v2)'}</dd></dl><details><summary>Enzymer og transportvej</summary><p>Enzymer: ${esc(CHARACTERS[run.character].enzymes)}</p><p>Absorption i tyndtarmen: ${esc(CHARACTERS[run.character].transport)}</p><h3>Læringsoversigt</h3><ol>${[...new Map((data.learningLog || []).filter((p) => p.character === run.character).map((p) => [p.key, p])).values()].map((p) => `<li><strong>${esc(p.title)}</strong><p>${esc(p.short)}</p><p>${esc(p.detail)}</p></li>`).join('')}</ol></details><p>Gennemført aktivitet er ikke dokumentation for klinisk kompetence.</p><p>Porcelænet fik resten – kroppen beholdt næringen. Fra første bid til sidste skyl!</p><button data-digest="exam">Afsluttende test · 5 spørgsmål uden hjælp</button><button data-digest="menu">Skyl ud og prøv et nyt næringsstof!</button>`;
   }
   const click = async (e) => {
     const b = e.target.closest('button');
-    if (!b || b.disabled || busy) return;
+    if (!b || b.disabled || busy || assessment.busy) return;
     if (b.dataset.entry !== undefined) {
       await entryAnswer(Number(b.dataset.entry));
       return;
@@ -847,23 +836,15 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         )
       )
         return;
-      playing = false;
-      clock?.pause();
-      cancel();
-      soundscape.pause(true);
-      world?.pause(true);
-      exam = { character: b.dataset.examCharacter, answers: [] };
-      data.assessmentDraft = structuredClone(exam);
-      drawExam();
-      void store();
+      assessment.start(b.dataset.examCharacter, true);
       return;
     }
     if (b.dataset.reviewCharacter) {
-      startReview(b.dataset.reviewCharacter);
+      assessment.review(b.dataset.reviewCharacter);
       return;
     }
     if (b.dataset.examAnswer !== undefined) {
-      await examAnswer(Number(b.dataset.examAnswer));
+      await assessment.answer(Number(b.dataset.examAnswer));
       return;
     }
     if (b.dataset.absorb !== undefined) {
@@ -891,7 +872,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       if (run.phase === 'retry')
         panel.innerHTML = `<h2>Ny chance ved absorptionen</h2><p>${esc(feedback)}</p><button data-digest="retry">Prøv absorptionen igen</button>`;
       else if (correct) {
-        absorption(4);
+        absorption();
       } else absorptionChoice();
       busy = false;
       return;
@@ -907,8 +888,12 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       return;
     }
     const a = b.dataset.digest;
+    if (a === 'review-resume' && data.reviewDraft) {
+      assessment.resumeReview();
+      return;
+    }
     if (a === 'exam-next') {
-      examNext();
+      assessment.next();
       return;
     }
     if (a === 'center') {
@@ -921,6 +906,9 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       mapVisible = !map.hidden;
       persistSettings();
       map.innerHTML = renderDigestMap(run?.index || 0);
+      mapObserver.disconnect();
+      mapObserver.observe($('.blood-minimap'));
+      measureMap();
       b.setAttribute('aria-expanded', String(!map.hidden));
       return;
     }
@@ -937,18 +925,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       return;
     }
     if (a === 'exam') {
-      panel.classList.remove('digest-result');
-      playing = false;
-      clock?.pause();
-      cancel();
-      soundscape.pause(true);
-      world?.pause(true);
-      exam = data.assessmentDraft
-        ? structuredClone(data.assessmentDraft)
-        : { character: run?.character || selected, answers: [] };
-      data.assessmentDraft = structuredClone(exam);
-      void store();
-      drawExam();
+      assessment.start(run?.character || selected);
       return;
     }
     if (a === 'sound') {
@@ -998,16 +975,32 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       )
         learn(learningPoint(run.character, ROUTE[run.index].id));
       onCharacter(selected);
+      if (run.phase === 'entry' && run.animation?.mode === 'face-intro') {
+        sequence(
+          'Maden er på vej',
+          'Vælg den rigtige indgang til fordøjelsen.',
+          'face-intro',
+          3,
+          entryChoice,
+        );
+        return;
+      }
       if (run.phase === 'entry') {
         entryChoice();
         return;
       }
       if (run.phase === 'won') finish();
       else if (run.phase === 'intro')
-        sequence('Den første bid', ROUTE[0].text, 'intro', 12, () => {
-          run.phase = 'arrival';
-          arrival();
-        });
+        sequence(
+          'Den første bid',
+          'Tænderne findeler. Spyttet blander. Tungen fører bolus bagud.',
+          'intro',
+          10,
+          () => {
+            run.phase = 'arrival';
+            arrival();
+          },
+        );
       else if (run.phase === 'finale') arrival();
       else if (run.phase === 'swallow')
         sequence('Synkning – beskyt luftvejen', ROUTE[2].text, 'swallow', 3, () => {
@@ -1037,7 +1030,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       } else if (run.phase === 'absorb-choice') {
         absorptionChoice();
       } else if (run.phase === 'absorption') {
-        absorption(run.absorptionIndex || 0);
+        absorption();
       } else if (run.phase === 'secretion') {
         const kind = run.secretionKind || 'secretion';
         const task = BOSSES[run.character][ROUTE[run.index].id][Math.max(0, run.task - 1)];
@@ -1060,15 +1053,6 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         );
       } else arrival();
     }
-    if (a === 'replay') {
-      const timeline = world?.timeline();
-      if (timeline) {
-        delete run.animation;
-        showScene(timeline.mode);
-        void store();
-      }
-    }
-    if (a === 'skip') sequenceEnd?.();
     if (a === 'retry') {
       retryDigestion(run);
       if (run.phase === 'absorb-choice') {
@@ -1161,16 +1145,20 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       '<h1>3D kunne ikke vises</h1><p>Spillet kræver WebGL 2. Prøv en nyere browser med hardwareacceleration.</p><a href="#/sti/find-vej-kredsloeb/circulation-order">Åbn kredsløbsøvelser uden 3D</a>';
   }
   return () => {
+    void store();
     disposed = true;
+    assessment.dispose();
     cancel();
     clock?.pause();
     playing = false;
-    void save();
     toolbarObserver.disconnect();
     controlsObserver.disconnect();
+    mapObserver.disconnect();
 
     clearInterval(checkpoint);
     document.removeEventListener('visibilitychange', visibility);
+    window.removeEventListener('pagehide', pagehide);
+    window.removeEventListener('pageshow', pageshow);
     world?.dispose();
     soundscape.dispose();
     root.removeEventListener('pointerdown', unlockAudio, true);

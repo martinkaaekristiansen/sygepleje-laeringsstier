@@ -784,7 +784,7 @@
   #digestion-root .digestion-game .digest-map .blood-minimap { width: 78px; }
 }
 
-.digest-sequence-controls{display:flex;gap:.5rem;flex-wrap:wrap;width:100%}.digest-sequence-controls button{flex:1;min-height:44px}.digest-nutrient-ending{max-width:65ch}
+.digest-nutrient-ending{max-width:65ch}
 
 #digestion-root .digest-panel.digest-result {
   top: auto;
@@ -825,7 +825,6 @@
   #digestion-root :is(.digest-absorption, .digest-finale) .digest-learning { font-size: 12px; line-height: 1.35; padding: 8px 10px; }
   #digestion-root .digest-absorption .digest-compartments { display: none; }
   #digestion-root :is(.digest-absorption, .digest-finale) .blood3d-bottom { top: calc(var(--digest-toolbar-height, 66px) + 30px); right: 14px; width: 80px; font-size: 11px; }
-  #digestion-root :is(.digest-absorption, .digest-finale) .digest-sequence-controls button { font-size: 14px; padding: 8px 10px; }
 }
 @media (min-width: 601px) and (max-height: 500px) {
   #digestion-root :is(.digest-absorption, .digest-finale) .digest-learning { width: min(260px, calc(100% - 150px)); }
@@ -834,8 +833,13 @@
 
 /* Leave the measured information field clear when answers wrap on short screens. */
 #digestion-root .digest-panel:is(.digest-compact, .digest-nav) {
-  max-height: min(var(--digest-panel-limit, 38%), max(0px, calc(100% - var(--digest-info-bottom, 0px) - 16px)));
+  max-height: min(var(--digest-panel-limit, 38%), max(0px, calc(100% - var(--digest-info-bottom, 0px) - 16px - var(--digest-map-space, 0px))));
 }
-@media (max-width: 600px) and (max-height: 500px) {
-  #digestion-root .digest-learning { left: 110px; width: calc(100% - 122px); }
+@media (max-width: 600px) and (min-height: 501px) {
+  #digestion-root { --digest-map-space: var(--digest-map-height, 0px); }
 }
+@media (max-height: 500px) {
+  #digestion-root .digest-learning { left: 110px; width: min(540px, calc(100% - 122px)); }
+}
+
+.digest-point-title { display: block; font-size: .9em; margin-bottom: 2px; }

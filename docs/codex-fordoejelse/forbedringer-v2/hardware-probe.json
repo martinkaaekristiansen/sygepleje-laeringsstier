@@ -1,0 +1,7 @@
+{
+  "browser": "155.0.8059.79",
+  "forcedSoftware": false,
+  "driRenderNodesAvailable": false,
+  "webgl2": true,
+  "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+}

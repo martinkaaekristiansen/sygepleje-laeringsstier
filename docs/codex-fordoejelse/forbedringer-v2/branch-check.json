@@ -1,0 +1,12 @@
+{
+  "checkedAtUTC": "2026-11-18T09:45:23.799370+00:00",
+  "localBranch": "forbedringer-fordoejelse-v2",
+  "localHead": "fc1d75442d0368fb97e97bd000ccb8ed8e13bb84",
+  "remoteBranches": {
+    "backup-main-foer-fordoejelse": "e0b3f808725cc6ba5bcf989279c41faa621d13fb",
+    "forbedringer-fordoejelse": "0d79bb46ddb7b25af90b2082cfd9e7686de50e3c",
+    "main": "fc1d75442d0368fb97e97bd000ccb8ed8e13bb84"
+  },
+  "v2Pushed": false,
+  "newCommitsCreated": false
+}

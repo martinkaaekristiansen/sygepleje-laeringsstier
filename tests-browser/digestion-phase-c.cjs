@@ -34,6 +34,18 @@ fs.mkdirSync(output, { recursive: true });
         errors.push(m.text());
     });
     await page.addInitScript(() => {
+      // Only visual model inspection holds progression. The v2 suite separately
+      // tests real automatic transitions without this inspection-only scheduler.
+      window.__inspectSequence = true;
+      const nativeTimeout = window.setTimeout;
+      window.setTimeout = (fn,ms,...args) => {
+        if (typeof fn==='function' && String(fn).includes('pending.elapsed'))
+          return nativeTimeout(function inspect(){
+            if(window.__inspectSequence) nativeTimeout(inspect,50);
+            else fn(...args);
+          },ms);
+        return nativeTimeout(fn,ms,...args);
+      };
       const raf = requestAnimationFrame;
       window.__held = [];
       window.__holdFrames = false;
@@ -57,8 +69,9 @@ fs.mkdirSync(output, { recursive: true });
       await page.locator('#digestion-root').waitFor({ state: 'detached' });
       await page.evaluate(
         async ({ base, character, index, mode, age }) => {
-          const { newDigestion } = await import(base + 'digestion-engine.js');
-          const { ROUTE, BOSSES } = await import(base + 'digestion-data.js');
+          const moduleURL=document.querySelector('script[type=module]').src;
+          const { newDigestion } = await import(new URL('digestion-engine.js',moduleURL));
+          const { ROUTE, BOSSES } = await import(new URL('digestion-data.js',moduleURL));
           const phase = ['absorb', 'transport'].includes(mode)
             ? 'absorption'
             : mode === 'bile'
@@ -341,7 +354,7 @@ fs.mkdirSync(output, { recursive: true });
           'Resten rammer toiletvandet oppefra; næringsstoffet er allerede absorberet.',
         );
         assert.ok(impact.defecation.camera[1] > impact.defecation.waterY);
-        await page.locator('[data-digest=skip]').click();
+        await page.evaluate(()=>window.__inspectSequence=false);
         await page.getByRole('heading', { name: 'TILLYKKE!', exact: false }).waitFor();
         await capture(
           `21-slutskaerm-stanley-${size}.png`,
@@ -349,7 +362,7 @@ fs.mkdirSync(output, { recursive: true });
         );
         for (const character of ['trine', 'poul']) {
           await fixture(character, 14, 'finale', 5.3);
-          await page.locator('[data-digest=skip]').click();
+          await page.evaluate(()=>window.__inspectSequence=false);
           await page.getByRole('heading', { name: 'TILLYKKE!', exact: false }).waitFor();
           const text = await page.locator('.digest-nutrient-ending').textContent();
           assert.match(text, character === 'trine' ? /venstre venevinkel/ : /tripeptider/);
@@ -406,7 +419,7 @@ fs.mkdirSync(output, { recursive: true });
             panel = r('.digest-panel'),
             progress = r('.blood3d-bottom');
           return {
-            separate: info.bottom <= panel.top,
+            separate: document.querySelector('.digest-panel').hidden || info.bottom <= panel.top,
             progress: progress.bottom <= info.top || progress.left >= info.right,
           };
         });
@@ -512,8 +525,11 @@ fs.mkdirSync(output, { recursive: true });
       ['stanley', 14, 'finale'],
     ]) {
       await fixture(character, index, mode);
-      await waitAge(2.5);
-      await page.waitForTimeout(1100);
+      await waitAge(0.45);
+      await page.locator('[data-digest=settings]').click();
+      await page.locator('[data-digest=pause]').click();
+      await page.locator('[data-digest=settings-close]').click();
+      await page.waitForTimeout(300);
       const saved = await page.evaluate(async () => {
         const db = await new Promise((r) => {
           const q = indexedDB.open('laeringsstier-v2');
@@ -526,7 +542,7 @@ fs.mkdirSync(output, { recursive: true });
         db.close();
         return data['fordoejelsens-vilde-rejse'].digestion.active;
       });
-      assert.ok(saved.animation.age >= 1.5, JSON.stringify(saved.animation));
+      assert.ok(saved.animation.age >= 0.3, JSON.stringify(saved.animation));
       await page.reload();
       await page.locator('[data-digest=resume]').click();
       await page.waitForFunction(
@@ -540,22 +556,19 @@ fs.mkdirSync(output, { recursive: true });
       assert.equal(resumed.stage, saved.animation.stage);
       console.log('PASS animation checkpoint', character, mode, saved.animation.age, resumed.age);
     }
-    // Keyboard activation of the replay button preserves the stage and resets age.
+    // Animations have no replay/continue controls; releasing model inspection
+    // lets the real automatic controller advance without any answer being sent.
     await fixture('stanley', 0, 'reaction', 5);
-    await page.locator('[data-digest=replay]').focus();
-    await page.keyboard.press('Enter');
-    await page.waitForFunction(
-      () => Number(document.querySelector('canvas').dataset.sceneAge) < 2,
-      null,
-      { polling: 100 },
-    );
+    assert.equal(await page.locator('[data-digest=replay],[data-digest=skip]').count(),0);
     const stable = await state();
     await page.waitForTimeout(650);
     assert.deepEqual((await state()).camera, stable.camera);
+    await page.evaluate(()=>window.__inspectSequence=false);
+    await page.waitForFunction(()=>document.querySelector('canvas').dataset.digestMode!=='reaction');
     assert.deepEqual(errors, []);
     fs.writeFileSync(path.join(output, 'captures.json'), JSON.stringify(captures, null, 2) + '\n');
     console.log(
-      'PASS phase C: actual desktop/mobile animations, blood/lymph separation, intracellular peptide hydrolysis, above-water finale, all three ending screens, replay and IndexedDB animation checkpoints; no shader/page errors.',
+      'PASS phase C: actual desktop/mobile animations, blood/lymph separation, intracellular peptide hydrolysis, above-water finale, all three ending screens, automatic completion and IndexedDB animation checkpoints; no shader/page errors.',
     );
     await page.close();
   } finally {

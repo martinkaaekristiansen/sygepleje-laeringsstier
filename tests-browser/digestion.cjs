@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringsstier/';
 (async () => {
   const { BOSSES, ROUTE, CHARACTERS } = await import('../public/digestion-data.js');
-  const { ABSORPTION_CHOICES, FINAL_TESTS } = await import('../public/digestion-assessment.js');
+  const { ABSORPTION_CHOICES, QUESTION_POOLS } = await import('../public/digestion-assessment.js');
   const browser = await chromium.launch({
     ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}),
     args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
@@ -21,17 +21,6 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
         console.error(e.stack);
       });
       page.on('dialog', (d) => d.accept());
-      // Hold only cinematic auto-advance, so checks can inspect each brief scene.
-      await page.addInitScript(() => {
-        const timer = window.setTimeout;
-        window.setTimeout = function (fn, ms, ...args) {
-          return timer(
-            fn,
-            typeof fn === 'function' && String(fn).includes('sequenceToken') ? 600000 : ms,
-            ...args,
-          );
-        };
-      });
       await page.goto(base + '#/sti/fordoejelsens-vilde-rejse/digestion-stanley');
       const state = () =>
         page.evaluate(() => ({
@@ -40,7 +29,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           form: document.querySelector('canvas').dataset.molecularForm,
           heading: document.querySelector('.digest-panel h2')?.textContent,
           entry: !!document.querySelector('[data-entry]'),
-          sequence: !!document.querySelector('[data-digest=skip]'),
+          sequence: document.querySelector('.digest-panel').hidden,
           absorb: !!document.querySelector('[data-absorb]'),
           choices: document.querySelectorAll('[data-choice]').length,
           retry: !!document.querySelector('[data-digest=retry]'),
@@ -153,6 +142,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           }
           if (s.mode === 'secretion' && id === 'stanley' && !mobile && !wrong.has('reading-pace')) {
             const point = await page.locator('.digest-point').textContent();
+            await page.locator('[data-digest=settings]').click();
             await page.waitForTimeout(4500);
             assert.equal(
               await page.locator('canvas').getAttribute('data-digest-mode'),
@@ -162,10 +152,11 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
             const fixed = await page.locator('canvas').getAttribute('data-camera');
             await page.waitForTimeout(700);
             assert.equal(await page.locator('canvas').getAttribute('data-camera'), fixed);
+            await page.locator('[data-digest=settings-close]').click();
             wrong.add('reading-pace');
           }
           if (s.sequence) {
-            await page.locator('[data-digest=skip]').evaluate((b) => b.click());
+            assert.equal(await page.locator('[data-digest=skip],[data-digest=replay]').count(),0);
             await changed(s);
             continue;
           }
@@ -312,9 +303,12 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
         for (const form of expected) assert.ok(forms.has(form), 'visible product ' + form);
         await page.locator('[data-digest=exam]').click();
         for (let i = 0; i < 5; i++) {
+          const prompt = await page.locator('.digest-exam-question').textContent();
+          const question = QUESTION_POOLS[id].find(q=>q.prompt===prompt);
+          assert.ok(question);
           await page.locator('[data-exam-answer="0"]').click();
           await page.locator('[data-digest=exam-next]').waitFor();
-          assert.equal(await page.locator('.digest-point').textContent(), FINAL_TESTS[id][i].why);
+          assert.equal(await page.locator('.digest-explanation').textContent(), question.why);
           await page.locator('[data-digest=exam-next]').click();
           await page.waitForFunction(
             (i) =>

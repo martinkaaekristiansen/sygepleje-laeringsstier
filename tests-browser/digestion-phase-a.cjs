@@ -13,9 +13,7 @@ const viewports = [
     const errors=[]; page.on('pageerror',e=>errors.push(e.message));
     await page.goto(base+'#/sti/fordoejelsens-vilde-rejse/digestion-stanley');
     await page.locator('[data-digest=start]').click();
-    await page.locator('[data-digest=skip]').click();
     await page.locator('[data-entry]').filter({hasText:'Cavitas oris'}).click();
-    await page.locator('[data-digest=skip]').click();
     await page.locator('[data-choice]').first().waitFor();
     async function layout(label) {
       const result=await page.evaluate(()=>{
@@ -62,9 +60,8 @@ const viewports = [
     // Complete chemistry to inspect both anatomical choices inside the same compact box.
     await page.locator('[data-choice]').filter({hasText:'Spytamylase'}).click();
     await page.locator('[data-choice]').filter({hasText:'Spytkirtlerne'}).click();
-    await page.locator('[data-digest=skip]').click();
     await page.locator('[data-choice]').filter({hasText:'Den spaltes til kortere kulhydratkæder'}).click();
-    await page.locator('[data-digest=skip]').click();
+    await page.getByRole('heading',{name:'Hvad er næste anatomiske struktur?'}).waitFor();
     assert.equal(await page.locator('.digest-panel h2').textContent(),'Hvad er næste anatomiske struktur?');
     assert.equal(await page.locator('.digest-panel [data-choice]').count(),2);
     for(const v of viewports) {
@@ -100,6 +97,7 @@ const viewports = [
     await page.waitForTimeout(200);
     await layout('long source with taller wrapped answers 844x390');
     await page.screenshot({path:'/tmp/phase-a-long-wrapped-844x390.png'});
+    assert.equal(await page.locator('[data-digest=skip],[data-digest=replay]').count(),0);
     assert.deepEqual(errors,[]);
     console.log('PASS phase A: desktop, tablet, small mobile and landscape layouts; stable enzyme/icon identity; removed controls; canvas clicks do not answer; drag still works; two anatomical buttons in question panel');
   } finally { await browser.close(); }

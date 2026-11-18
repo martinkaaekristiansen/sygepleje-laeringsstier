@@ -1,0 +1,59 @@
+{
+  "baseCommit": "fc1d75442d0368fb97e97bd000ccb8ed8e13bb84",
+  "branch": "forbedringer-fordoejelse-v2",
+  "otherLearningGameSourceFilesChanged": false,
+  "sourceFiles": [
+    {
+      "file": "public/digestion-assessment.js",
+      "sha256": "d7d4ec024ec1cca4f9e299173cb3d014f3b908e6fad05c8c233afc3bdb5cdfa7"
+    },
+    {
+      "file": "public/digestion-engine.js",
+      "sha256": "3a40c3e94e090967002d02df902a74c9c9e0647d057e12ff6b8b118eddc0b837"
+    },
+    {
+      "file": "public/digestion-exam-controller.js",
+      "sha256": "a2e3d0c27240a38336c4f96efab65ad6314bb3204aae6bbad9ce33c1baa550f8"
+    },
+    {
+      "file": "public/digestion-exam.js",
+      "sha256": "b521f72a3773a44eefa4af2665b4a70b7018dabe1eb4363b53b25c6a1c1f9411"
+    },
+    {
+      "file": "public/digestion-flow.js",
+      "sha256": "4283a9e4ede8bab5bbc9e1f31af66fba959b04b3e51f7a92bc86d8e19d6e482a"
+    },
+    {
+      "file": "public/digestion-game.js",
+      "sha256": "9c3f58e615d68b3b5cb6d565f7518cd65c65dc9ed89aec2cc7da05dd85f0211a"
+    },
+    {
+      "file": "public/digestion-gastric.js",
+      "sha256": "f8297595d04b1575e16699167a57eeccae36cb1f878e070c976c971d5804cb95"
+    },
+    {
+      "file": "public/digestion-motility.js",
+      "sha256": "1b4a06ebb373538a11dba1ce1475353750aae8573fceb61ad6cc491251606b9c"
+    },
+    {
+      "file": "public/digestion-question-pools.js",
+      "sha256": "a86c03b28c5e384b0f97acf5a766588719908685cb7e9979c5bfb6b7593c99e5"
+    },
+    {
+      "file": "public/digestion-save.js",
+      "sha256": "00fa6384cbbf832fcd05b9b05675986a46d32ab45d43c277f53ae5847ca25260"
+    },
+    {
+      "file": "public/digestion-sequence.js",
+      "sha256": "4df459c828f0cbec764882140707485623899f9c02377bb9b58e309e4e90ed44"
+    },
+    {
+      "file": "public/digestion-world.js",
+      "sha256": "19ea15d3d2f7cfd368b819bba192f71eb6f653d2dfa1007f4d61426e97f59286"
+    },
+    {
+      "file": "public/digestion.css",
+      "sha256": "097f661a9b627fa0e1e21175128a3860a1846ba3480717d89fd9f33fb2c5c60c"
+    }
+  ]
+}

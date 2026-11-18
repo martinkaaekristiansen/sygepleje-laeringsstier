@@ -1,3 +1,4 @@
+import { ADDITIONAL_QUESTIONS } from './digestion-question-pools.js';
 export const ABSORPTION_CHOICES = {
   stanley: {
     prompt: 'Glukosen er i enterocytten. Hvilken vej fører den videre?',
@@ -132,8 +133,30 @@ export const FINAL_TESTS = {
     ),
   ],
 };
-export function scoreAssessment(character, answers) {
-  const qs = FINAL_TESTS[character];
+// FINAL_TESTS remains the frozen legacy five-question set, so old results and
+// interrupted tests retain their original meaning. New sessions save stable IDs.
+export const QUESTION_POOLS = Object.fromEntries(
+  Object.entries(FINAL_TESTS).map(([id, legacy]) => [
+    id,
+    [
+      ...legacy.map((q, i) => ({ ...q, id: id + '-legacy-' + i })),
+      ...ADDITIONAL_QUESTIONS[id].map((q) => ({ ...q, id: id + '-v2-' + q.id })),
+    ],
+  ]),
+);
+export function assessmentQuestions(character, questionIds) {
+  if (!Object.hasOwn(FINAL_TESTS, character)) throw Error('Ukendt næringsstof.');
+  if (questionIds === undefined) return FINAL_TESTS[character];
+  if (!Array.isArray(questionIds) || questionIds.length !== 5 || new Set(questionIds).size !== 5)
+    throw Error('Ugyldig spørgsmålssamling.');
+  return questionIds.map((id) => {
+    const q = QUESTION_POOLS[character].find((q) => q.id === id);
+    if (!q) throw Error('Ukendt testspørgsmål.');
+    return q;
+  });
+}
+export function scoreAssessment(character, answers, questionIds) {
+  const qs = assessmentQuestions(character, questionIds);
   if (
     !qs ||
     !Array.isArray(answers) ||
@@ -144,6 +167,7 @@ export function scoreAssessment(character, answers) {
   return {
     character,
     answers: [...answers],
+    ...(questionIds ? { questionIds: [...questionIds] } : {}),
     correct: answers.filter((a) => a === 0).length,
     total: qs.length,
     date: new Date().toISOString(),

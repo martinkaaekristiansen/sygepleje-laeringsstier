@@ -91,7 +91,7 @@ async function fixture(page, index, motion) {
   );
   await page.locator('[data-digest=resume]').click();
   await page
-    .locator(mode === 'route' ? '[data-choice]' : '[data-digest=skip]')
+    .locator(mode === 'route' ? '[data-choice]' : 'canvas')
     .first()
     .waitFor();
   await page.waitForFunction(
@@ -128,6 +128,11 @@ async function prepare(page) {
         body: fs.readFileSync(process.env.PERF_MUCOSA, 'utf8'),
       }),
     );
+  if (mode !== 'route') await page.route('**/digestion-sequence.js', async route => {
+    const response=await route.fetch();
+    // Benchmark fixture holds only progression, not physiology, at a fixed scene.
+    await route.fulfill({response,body:(await response.text()).replace('pending.next();','/* fixed-scene measurement */')});
+  });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.route('**/digestion-performance.js', async (route) => {
@@ -159,7 +164,7 @@ async function prepare(page) {
         });
         page.setDefaultTimeout(120000);
         const errors = await prepare(page);
-        const index = { duodenum: 5, jejunum: 6, ileum: 7 }[region];
+        const index = { stomach: 4, duodenum: 5, jejunum: 6, ileum: 7 }[region];
         if (process.env.PERF_CAPTURE_ONLY !== '1') {
           await fixture(page, index, true);
           await page.waitForTimeout(5000);
@@ -210,7 +215,7 @@ async function prepare(page) {
             };
           }, samples);
           assert.equal(result.renderRatio, ratio);
-          assert.equal(result.villi, { duodenum: 2200, jejunum: 3200, ileum: 1500 }[region]);
+          assert.equal(result.villi, { stomach: 0, duodenum: 2200, jejunum: 3200, ileum: 1500 }[region]);
           assert.deepEqual(errors, []);
           results.push({
             label,

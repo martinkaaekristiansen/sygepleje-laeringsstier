@@ -1,0 +1,305 @@
+{
+  "modules": 72,
+  "circularDependencies": [],
+  "dependencies": {
+    "app.js": [
+      "digestion-data.js",
+      "digestion-game.js",
+      "backup.js",
+      "circulation-data.js",
+      "circulation-learning.js",
+      "blood-routes.js",
+      "blood-game.js",
+      "quiz.js",
+      "subjects.js",
+      "data.js",
+      "progress.js",
+      "home.js",
+      "learner.js",
+      "ui.js",
+      "storage.js",
+      "model.js"
+    ],
+    "backup.js": [
+      "model.js"
+    ],
+    "blood-game.js": [
+      "journey-ui.js",
+      "circulation-data.js",
+      "blood-viewport.js",
+      "blood-routes.js",
+      "journey-engine.js",
+      "ui.js",
+      "journey-audio.js",
+      "journey-guide.js"
+    ],
+    "blood-routes.js": [],
+    "blood-viewport.js": [],
+    "builtin-baselines.js": [],
+    "catalog.js": [],
+    "circulation-config.js": [],
+    "circulation-context.js": [
+      "circulation-data.js",
+      "ui.js"
+    ],
+    "circulation-data.js": [
+      "blood-routes.js"
+    ],
+    "circulation-engine.js": [
+      "circulation-data.js",
+      "circulation-config.js"
+    ],
+    "circulation-learning.js": [
+      "circulation-data.js",
+      "circulation-config.js",
+      "circulation-engine.js",
+      "circulation-order.js",
+      "circulation-context.js",
+      "ui.js"
+    ],
+    "circulation-order.js": [
+      "circulation-data.js",
+      "ui.js"
+    ],
+    "content-version.js": [],
+    "data.js": [],
+    "digestion-absorption.js": [],
+    "digestion-anatomy-labels.js": [
+      "three.module.min.js"
+    ],
+    "digestion-anatomy.js": [
+      "digestion-mucosa.js",
+      "three.module.min.js"
+    ],
+    "digestion-assessment.js": [
+      "digestion-question-pools.js"
+    ],
+    "digestion-audio.js": [
+      "journey-audio.js"
+    ],
+    "digestion-caecum.js": [
+      "three.module.min.js"
+    ],
+    "digestion-camera.js": [
+      "three.module.min.js",
+      "digestion-anatomy.js"
+    ],
+    "digestion-data.js": [],
+    "digestion-engine.js": [
+      "digestion-exam.js",
+      "digestion-data.js"
+    ],
+    "digestion-enzyme-identity.js": [],
+    "digestion-enzyme-model.js": [
+      "three.module.min.js",
+      "digestion-enzyme-identity.js"
+    ],
+    "digestion-epithelium.js": [
+      "three.module.min.js",
+      "digestion-data.js",
+      "digestion-camera.js",
+      "digestion-physiology-label.js"
+    ],
+    "digestion-exam-controller.js": [
+      "digestion-assessment.js",
+      "digestion-exam.js",
+      "digestion-engine.js",
+      "ui.js"
+    ],
+    "digestion-exam.js": [
+      "digestion-assessment.js"
+    ],
+    "digestion-finale.js": [
+      "three.module.min.js",
+      "digestion-physiology-label.js"
+    ],
+    "digestion-flow.js": [
+      "digestion-gastric.js",
+      "three.module.min.js",
+      "digestion-motility.js"
+    ],
+    "digestion-game.js": [
+      "digestion-exam-controller.js",
+      "digestion-sequence.js",
+      "digestion-save.js",
+      "digestion-finale.js",
+      "digestion-audio.js",
+      "digestion-presentation.js",
+      "digestion-learning.js",
+      "journey-ui.js",
+      "digestion-navigation.js",
+      "digestion-data.js",
+      "digestion-assessment.js",
+      "digestion-engine.js",
+      "digestion-world.js",
+      "blood-viewport.js",
+      "ui.js"
+    ],
+    "digestion-gastric.js": [
+      "three.module.min.js",
+      "digestion-anatomy.js"
+    ],
+    "digestion-learning.js": [
+      "digestion-data.js"
+    ],
+    "digestion-molecules.js": [
+      "three.module.min.js",
+      "digestion-data.js",
+      "digestion-engine.js"
+    ],
+    "digestion-motility.js": [
+      "digestion-gastric.js",
+      "three.module.min.js"
+    ],
+    "digestion-mucosa.js": [
+      "three.module.min.js"
+    ],
+    "digestion-navigation.js": [
+      "digestion-data.js",
+      "journey-ui.js",
+      "ui.js"
+    ],
+    "digestion-performance.js": [],
+    "digestion-physiology-label.js": [
+      "three.module.min.js"
+    ],
+    "digestion-presentation.js": [
+      "digestion-enzyme-identity.js",
+      "ui.js"
+    ],
+    "digestion-question-pools.js": [],
+    "digestion-save.js": [],
+    "digestion-secretions.js": [
+      "digestion-enzyme-model.js",
+      "digestion-enzyme-identity.js",
+      "digestion-engine.js",
+      "three.module.min.js"
+    ],
+    "digestion-sequence.js": [],
+    "digestion-swallow.js": [
+      "three.module.min.js",
+      "digestion-anatomy-labels.js"
+    ],
+    "digestion-world.js": [
+      "digestion-gastric.js",
+      "digestion-motility.js",
+      "digestion-flow.js",
+      "digestion-epithelium.js",
+      "digestion-finale.js",
+      "digestion-camera.js",
+      "digestion-anatomy-labels.js",
+      "digestion-swallow.js",
+      "digestion-mucosa.js",
+      "digestion-caecum.js",
+      "digestion-enzyme-model.js",
+      "digestion-enzyme-identity.js",
+      "digestion-performance.js",
+      "digestion-audio.js",
+      "digestion-secretions.js",
+      "digestion-molecules.js",
+      "digestion-anatomy.js",
+      "digestion-engine.js",
+      "three.module.min.js",
+      "digestion-data.js"
+    ],
+    "home.js": [
+      "circulation-data.js",
+      "blood-routes.js",
+      "progress.js",
+      "subjects.js",
+      "ui.js"
+    ],
+    "journey-3d-anatomy.js": [
+      "journey-chambers.js",
+      "three.module.min.js",
+      "journey-physiology.js",
+      "journey-3d-geometry.js",
+      "journey-valves.js",
+      "journey-myocardium.js"
+    ],
+    "journey-3d-geometry.js": [
+      "three.module.min.js"
+    ],
+    "journey-3d-world.js": [
+      "journey-geometry-loader.js",
+      "journey-chambers.js",
+      "three.module.min.js",
+      "journey-3d-geometry.js",
+      "journey-3d-anatomy.js",
+      "journey-myocardium.js",
+      "journey-physiology.js"
+    ],
+    "journey-audio.js": [
+      "journey-physiology.js"
+    ],
+    "journey-chambers.js": [
+      "three.module.min.js",
+      "journey-myocardium.js",
+      "journey-valves.js",
+      "journey-physiology.js"
+    ],
+    "journey-engine.js": [],
+    "journey-geometry-loader.js": [
+      "three.module.min.js",
+      "journey-chambers.js"
+    ],
+    "journey-geometry-worker.js": [
+      "journey-chambers.js"
+    ],
+    "journey-guide.js": [
+      "journey-ui.js",
+      "ui.js"
+    ],
+    "journey-myocardium.js": [
+      "three.module.min.js"
+    ],
+    "journey-physiology.js": [],
+    "journey-ui.js": [
+      "ui.js"
+    ],
+    "journey-valves.js": [
+      "three.module.min.js",
+      "journey-myocardium.js"
+    ],
+    "learner.js": [
+      "quiz.js",
+      "subjects.js",
+      "data.js",
+      "ui.js"
+    ],
+    "model.js": [
+      "digestion-data.js",
+      "digestion-engine.js",
+      "catalog.js",
+      "journey-engine.js",
+      "content-version.js",
+      "builtin-baselines.js",
+      "circulation-data.js",
+      "circulation-engine.js",
+      "subjects.js",
+      "data.js",
+      "pharmacology.js",
+      "semester5.js",
+      "blood-routes.js",
+      "ui.js"
+    ],
+    "pharmacology.js": [],
+    "progress.js": [
+      "circulation-engine.js",
+      "circulation-data.js"
+    ],
+    "quiz.js": [
+      "ui.js"
+    ],
+    "semester5.js": [],
+    "storage.js": [
+      "model.js"
+    ],
+    "subjects.js": [
+      "data.js"
+    ],
+    "three.core.min.js": [],
+    "three.module.min.js": [],
+    "ui.js": []
+  }
+}

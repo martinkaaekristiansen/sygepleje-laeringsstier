@@ -1,3 +1,4 @@
+import { validAssessmentDraft, validAssessmentResult, validReviewDraft } from './digestion-exam.js';
 import { ROUTE, CHARACTERS, BOSSES, PRODUCTS } from './digestion-data.js';
 export function newDigestion(character) {
   if (!Object.hasOwn(CHARACTERS, character)) throw Error('Ukendt næringsstof');
@@ -117,6 +118,11 @@ export function validDigestion(data) {
       (r.animation &&
         ROUTE.some((s) => s.id === r.animation.stage) &&
         [
+          'intro',
+          'face-intro',
+          'travel',
+          'boss',
+          'residue',
           'reaction',
           'swallow',
           'absorb',
@@ -162,23 +168,10 @@ export function validDigestion(data) {
             Object.hasOwn(CHARACTERS, k) &&
             Array.isArray(rs) &&
             rs.length <= 20 &&
-            rs.every(
-              (r) =>
-                r.character === k &&
-                Array.isArray(r.answers) &&
-                r.answers.length === 5 &&
-                r.answers.every((a) => Number.isInteger(a) && a >= 0 && a < 3) &&
-                r.total === 5 &&
-                r.correct === r.answers.filter((a) => a === 0).length &&
-                typeof r.date === 'string',
-            ),
+            rs.every((r) => validAssessmentResult(r, k)),
         ))) &&
-    (data.assessmentDraft === undefined ||
-      (data.assessmentDraft &&
-        Object.hasOwn(CHARACTERS, data.assessmentDraft.character) &&
-        Array.isArray(data.assessmentDraft.answers) &&
-        data.assessmentDraft.answers.length < 5 &&
-        data.assessmentDraft.answers.every((a) => Number.isInteger(a) && a >= 0 && a < 3))) &&
+    (data.assessmentDraft === undefined || validAssessmentDraft(data.assessmentDraft)) &&
+    (data.reviewDraft === undefined || validReviewDraft(data.reviewDraft)) &&
     Object.entries(data.results).every(
       ([k, r]) => Object.hasOwn(CHARACTERS, k) && run(r) && r.phase === 'won',
     )
@@ -217,7 +210,7 @@ export function activeClock(run, now = () => performance.now()) {
       last = null;
     },
     resume() {
-      last = now();
+      if (last === null) last = now();
     },
   };
 }

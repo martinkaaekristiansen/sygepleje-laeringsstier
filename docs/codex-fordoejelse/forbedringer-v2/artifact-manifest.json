@@ -1,0 +1,175 @@
+{
+  "images": 16,
+  "comparisonImages": 8,
+  "gastricInspectionPairs": 5,
+  "inGameImages": 3,
+  "videos": 1,
+  "galleryReferencesVerified": 34,
+  "files": [
+    {
+      "file": "forbedringer-v2/branch-check.json",
+      "bytes": 453,
+      "sha256": "f52a46ac00adaac8d539eaaf6a9512d3a63ee40602955638a79e984dc2a1064c"
+    },
+    {
+      "file": "forbedringer-v2/browser-checkpoints.json",
+      "bytes": 4189,
+      "sha256": "b61088edf3e4942910230c51229204809e8bb098330f8b12780211daa4a023e4"
+    },
+    {
+      "file": "forbedringer-v2/build-assets.json",
+      "bytes": 14008,
+      "sha256": "3eb9cd6604bc02a43e35de841bc957843db891d7a511c78931c2a5091e76787e"
+    },
+    {
+      "file": "forbedringer-v2/galleri.html",
+      "bytes": 7156,
+      "sha256": "4c9711ccc49235d7ac8373b251788b4976b7852c897165a54fe0e749b1ef93a4"
+    },
+    {
+      "file": "forbedringer-v2/gastric-poses.json",
+      "bytes": 58064,
+      "sha256": "e82050b0af42ca5931e27e95728ce31a75328f34bd6593339a53fd7ed0bd58a9"
+    },
+    {
+      "file": "forbedringer-v2/hardware-probe.json",
+      "bytes": 224,
+      "sha256": "dc794377fc9a2e192a2a75bbfed65d9d6c7deed8e6d2e78907478c3b05a01f4e"
+    },
+    {
+      "file": "forbedringer-v2/mave-indvendigt-modsat.png",
+      "bytes": 219700,
+      "sha256": "ae1c442cdca470fcd1a403c1d151a5474a38cfadbf526a9a7bd1969440fe4e48"
+    },
+    {
+      "file": "forbedringer-v2/mave-infoboks-desktop.png",
+      "bytes": 683259,
+      "sha256": "6b2d1d16654badb944f61c03781043b1b847d6926a0e3393fc7a913249d3d3e1"
+    },
+    {
+      "file": "forbedringer-v2/mave-infoboks-mobil.png",
+      "bytes": 232890,
+      "sha256": "74fdff53dba32b3daecf0052ab66c8661192a45a395713c6f89668e7a49e1813"
+    },
+    {
+      "file": "forbedringer-v2/mave-kontraktioner-to-sider.mp4",
+      "bytes": 833980,
+      "sha256": "61d44db414b9eeeefe931e237b45e037d9d7ef4afca8d503224feff67fc882af"
+    },
+    {
+      "file": "forbedringer-v2/mave-to-sider-00s.png",
+      "bytes": 462331,
+      "sha256": "939639a76eaeaab1e9b35adbcab35c975645339ae7ca556fc7b95deda721637d"
+    },
+    {
+      "file": "forbedringer-v2/mave-to-sider-05s.png",
+      "bytes": 462865,
+      "sha256": "95dc3b7a30dade04cdeef886af00072b621b2ca6dc62dde84d0bc7c538c8a709"
+    },
+    {
+      "file": "forbedringer-v2/mave-to-sider-10s.png",
+      "bytes": 465780,
+      "sha256": "6d2c6f87bbee35c41376a8b18a5d68dc55fb4aadaf5e5cb2342afdabb420eb0e"
+    },
+    {
+      "file": "forbedringer-v2/mave-to-sider-15s.png",
+      "bytes": 457825,
+      "sha256": "aa5d0e39bdc0d541481b416c8eac5e12dca63a880ec0dcb1c951db78e1f4b87a"
+    },
+    {
+      "file": "forbedringer-v2/mave-to-sider-19s.png",
+      "bytes": 456287,
+      "sha256": "4ab4e8383f45b3f29e456602408eae7730fea1f6c2583a9894aef3382ea0c1bf"
+    },
+    {
+      "file": "forbedringer-v2/module-graph.json",
+      "bytes": 7240,
+      "sha256": "ea7a1e7ded62440c3a44ea6f2263ed4de6fada5afc45cdb15185786ec2281eca"
+    },
+    {
+      "file": "forbedringer-v2/performance/after-1-jejunum-desktop.png",
+      "bytes": 975491,
+      "sha256": "6679af18365ffd6445983f04a8f9c0a1f30e8e5a312d77a3d7f55bdeff0bb8b0"
+    },
+    {
+      "file": "forbedringer-v2/performance/after-1-jejunum-mobile.png",
+      "bytes": 362465,
+      "sha256": "d2dbf6f596fe447eae484291ebd353b1fb6dd5bada0e7a76d3c99987a960bcc8"
+    },
+    {
+      "file": "forbedringer-v2/performance/after-1-stomach-desktop.png",
+      "bytes": 664363,
+      "sha256": "c6bb94d9f0afd34c994e83b906e4184e1547aad35c3542518c13894c8a0ac21a"
+    },
+    {
+      "file": "forbedringer-v2/performance/after-1-stomach-mobile.png",
+      "bytes": 227539,
+      "sha256": "c03fbda196208003ba081998debc37a95a809120f837dddd68d817e67ebfa3fd"
+    },
+    {
+      "file": "forbedringer-v2/performance/after-1.json",
+      "bytes": 10506,
+      "sha256": "af189f0dadbf81f4ab933959e849a25ceaadc86d44b330bd0a9c65239764eb4f"
+    },
+    {
+      "file": "forbedringer-v2/performance/after-2.json",
+      "bytes": 10107,
+      "sha256": "cc36c31dec4131a06f5cb464fa8f41db72780dd413e112fb4faad42d6257a26f"
+    },
+    {
+      "file": "forbedringer-v2/performance/before-1-jejunum-desktop.png",
+      "bytes": 982058,
+      "sha256": "b81dcf70872363e491fb3f8a9996ad3e9c85c0395c7344099bee804b1bf6d8b1"
+    },
+    {
+      "file": "forbedringer-v2/performance/before-1-jejunum-mobile.png",
+      "bytes": 367300,
+      "sha256": "b44e69b95ed54034177ae24c6150a2f4149afbe0cec6d7c46cb3703196f74a25"
+    },
+    {
+      "file": "forbedringer-v2/performance/before-1-stomach-desktop.png",
+      "bytes": 662149,
+      "sha256": "ef9ec8d040c71b8760bf39ccedc847762768fcbcf30e7bc5b02f98ec35085bfe"
+    },
+    {
+      "file": "forbedringer-v2/performance/before-1-stomach-mobile.png",
+      "bytes": 230592,
+      "sha256": "a39ab67087a71473eadd2f13796485a3e1b804416455736e5d258f5714ecd2f3"
+    },
+    {
+      "file": "forbedringer-v2/performance/before-1.json",
+      "bytes": 10311,
+      "sha256": "a0623ac49fb04cf592c5fd7fda6054507c5f8f61f1810b37601cc1310128c91e"
+    },
+    {
+      "file": "forbedringer-v2/performance/before-2.json",
+      "bytes": 10321,
+      "sha256": "fa0232920bc45c1cc4666d05a40b75d649e84f36dc1e2e11707a5eae5fb33946"
+    },
+    {
+      "file": "forbedringer-v2/performance-summary.json",
+      "bytes": 10049,
+      "sha256": "cb53ce544cdc7439d5a6984ade2ef148fce13df97ea17f9a8fd9d5f8c3d800f1"
+    },
+    {
+      "file": "forbedringer-v2/source-audit.json",
+      "bytes": 2008,
+      "sha256": "6f62b72830ddbea04ef5eb542192b242068c872749d0bf8993857ac726440b9b"
+    },
+    {
+      "file": "forbedringer-v2/storage-before.json",
+      "bytes": 204,
+      "sha256": "c699265fd8c92c6c471261776a6b2bb29dab0fac7e9ee48527e8e773daa21a7f"
+    },
+    {
+      "file": "forbedringer-v2/test-results.txt",
+      "bytes": 24148,
+      "sha256": "81f5d817e128e01ff122fbf86820d6a2f7890227c03bfac5bea2679e2b2aa266"
+    },
+    {
+      "file": "forbedringer-v2-rapport.md",
+      "bytes": 15329,
+      "sha256": "e53dc555e7781e423fdff1ffd209d31436f1f7cb5f23cef77d51214d3d88b19d"
+    }
+  ]
+}
