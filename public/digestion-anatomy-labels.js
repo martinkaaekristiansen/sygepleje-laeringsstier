@@ -20,7 +20,7 @@ export function anatomicalLabel(text, position, width = 2) {
     map: texture,
     transparent: true,
     sizeAttenuation: false,
-    depthTest: false,
+    depthTest: true,
     depthWrite: false,
   });
   const sprite = new T.Sprite(material);

@@ -54,7 +54,7 @@ export function epiglottisGeometry() {
   g.userData = { kind: 'curved-leaf', stemWidth: 0.11 };
   return g;
 }
-export function buildSwallowAnatomy({ labels = true } = {}) {
+export function buildSwallowAnatomy({ labels = true, continuous = false } = {}) {
   const group = new T.Group();
   group.name = 'coordinated-swallow';
   const material = (c) =>
@@ -169,7 +169,7 @@ export function buildSwallowAnatomy({ labels = true } = {}) {
       fold.position.x = side * (0.24 + 0.33 * p.ues);
       fold.scale.x = 0.26 - 0.1 * p.ues;
     });
-    bolus.visible = active && seconds < 2.8;
+    bolus.visible = !continuous && active && seconds < 2.8;
     bolus.position.copy(bolusPath.getPointAt(p.bolus));
     wall.scale.x = 1 - p.closure * 0.035;
     return p;
@@ -180,6 +180,10 @@ export function buildSwallowAnatomy({ labels = true } = {}) {
     group.add(anatomicalLabel('Tungerod', [-0.6, 2.25, -2.4], 1.6));
     group.add(anatomicalLabel('Trachea', [0.85, -2.5, -4.1], 1.5));
     group.add(anatomicalLabel('Oesophagus – bag luftvejen', [0.8, -3.8, -6.8], 2.8));
+  }
+  if (continuous) {
+    wall.visible = false;
+    oesophagus.visible = false;
   }
   update(0, false);
   return { group, epiglottis, larynx, trachea, oesophagus, pivot, update };

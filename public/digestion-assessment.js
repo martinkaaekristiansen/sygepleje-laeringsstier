@@ -1,3 +1,4 @@
+import { BASIC_QUESTION_POOLS } from './digestion-basic-questions.js';
 import { ADDITIONAL_QUESTIONS } from './digestion-question-pools.js';
 export const ABSORPTION_CHOICES = {
   stanley: {
@@ -135,7 +136,7 @@ export const FINAL_TESTS = {
 };
 // FINAL_TESTS remains the frozen legacy five-question set, so old results and
 // interrupted tests retain their original meaning. New sessions save stable IDs.
-export const QUESTION_POOLS = Object.fromEntries(
+export const ARCHIVED_QUESTION_POOLS = Object.fromEntries(
   Object.entries(FINAL_TESTS).map(([id, legacy]) => [
     id,
     [
@@ -144,13 +145,16 @@ export const QUESTION_POOLS = Object.fromEntries(
     ],
   ]),
 );
+export const QUESTION_POOLS = BASIC_QUESTION_POOLS;
 export function assessmentQuestions(character, questionIds) {
   if (!Object.hasOwn(FINAL_TESTS, character)) throw Error('Ukendt næringsstof.');
   if (questionIds === undefined) return FINAL_TESTS[character];
   if (!Array.isArray(questionIds) || questionIds.length !== 5 || new Set(questionIds).size !== 5)
     throw Error('Ugyldig spørgsmålssamling.');
   return questionIds.map((id) => {
-    const q = QUESTION_POOLS[character].find((q) => q.id === id);
+    const q = [...QUESTION_POOLS[character], ...ARCHIVED_QUESTION_POOLS[character]].find(
+      (q) => q.id === id,
+    );
     if (!q) throw Error('Ukendt testspørgsmål.');
     return q;
   });

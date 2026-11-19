@@ -1,0 +1,16 @@
+{
+  "conditions": "Local built dist served at /sygepleje-laeringsstier/; all HTTP responses checked for status >=400; this is not a deployment.",
+  "assetDirectory": "assets/9dab1bf3b5e7",
+  "checks": [
+    "real IndexedDB journey resume, camera distance/look, pause and no duplicated points",
+    "automatic residue / exact persistent text / no overlap 1280x800",
+    "automatic residue / exact persistent text / no overlap 390x844",
+    "automatic residue / exact persistent text / no overlap 320x568",
+    "automatic residue / exact persistent text / no overlap 844x390",
+    "exact bile explanation / readable in five desktop/mobile/landscape viewports",
+    "visible explanation that real fat digestion processes overlap",
+    "old advanced review is basic; original 3/5 result remains unchanged",
+    "legacy vascular checkpoint resumes as residue with the exact basic explanation"
+  ],
+  "errors": []
+}

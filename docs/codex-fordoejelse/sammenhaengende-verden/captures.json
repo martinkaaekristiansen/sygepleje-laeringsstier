@@ -1,0 +1,3915 @@
+{
+  "renderer": "Chromium / SwiftShader (software)",
+  "captures": [
+    {
+      "name": "01-mund-svaelg-frem.png",
+      "caption": "mouth → pharynx: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          1.2000097822986495,
+          2.100015025792066,
+          -2.750000000339833
+        ],
+        "look": [
+          0.8633102555012211,
+          1.5123453311370407,
+          -5.097482982847586
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.12084979775416568,
+          0.07064499310950853,
+          0.008624877966261664,
+          0.9901162673198546
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 5.750000000749005,
+        "fromDistance": 5.750000000749005,
+        "targetDistance": 5.750000000749005,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "mund-svaelg",
+        "pharynx",
+        "oevre-oesophaguslukke",
+        "mouth",
+        "oesophagus"
+      ],
+      "triangles": 52088,
+      "drawCalls": 25,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {}
+    },
+    {
+      "name": "01-mund-svaelg-tilbage.png",
+      "caption": "mouth → pharynx: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          1.2000097822986495,
+          2.100015025792066,
+          -2.750000000339833
+        ],
+        "look": [
+          0.8633102555012211,
+          1.5123453311370407,
+          -5.097482982847586
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.008624877966261671,
+          0.9901162673198546,
+          -0.12084979775416568,
+          -0.07064499310950847
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 5.750000000749005,
+        "fromDistance": 5.750000000749005,
+        "targetDistance": 5.750000000749005,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "mund-svaelg",
+        "mouth",
+        "pharynx"
+      ],
+      "triangles": 46280,
+      "drawCalls": 42,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {}
+    },
+    {
+      "name": "02-oevre-oesophaguslukke-frem.png",
+      "caption": "pharynx → oesophagus: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          0.000009763980535121616,
+          -5.004364522270564,
+          -6.813762894762528
+        ],
+        "look": [
+          -0.04326201058839005,
+          -7.470062328589047,
+          -6.432708075715842
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.7443893894344246,
+          0.14912278715912874,
+          0.11663219141770428,
+          0.6403465961277859
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 15.478126094724361,
+        "fromDistance": 15.478126094724361,
+        "targetDistance": 15.478126094724361,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "oevre-oesophaguslukke",
+        "oesophagus",
+        "cardia",
+        "stomach",
+        "pharynx",
+        "pylorus"
+      ],
+      "triangles": 61543,
+      "drawCalls": 20,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "02-oevre-oesophaguslukke-tilbage.png",
+      "caption": "pharynx → oesophagus: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          0.000009763980535121616,
+          -5.004364522270564,
+          -6.813762894762528
+        ],
+        "look": [
+          -0.04326201058839005,
+          -7.470062328589047,
+          -6.432708075715842
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.11663219141770433,
+          0.6403465961277859,
+          -0.7443893894344246,
+          -0.14912278715912872
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 15.478126094724361,
+        "fromDistance": 15.478126094724361,
+        "targetDistance": 15.478126094724361,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "oevre-oesophaguslukke",
+        "pharynx",
+        "mund-svaelg",
+        "mouth",
+        "oesophagus"
+      ],
+      "triangles": 58160,
+      "drawCalls": 43,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "03-cardia-frem.png",
+      "caption": "oesophagus → stomach: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          3.5824841817635225,
+          -17.950766967328335,
+          -0.4709987536344649
+        ],
+        "look": [
+          5.03422911428486,
+          -19.955390329143395,
+          -0.16020433460009098
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.09315688742514157,
+          0.7440544489057053,
+          0.5798937035645633,
+          -0.31847772913511707
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 31.392836377105436,
+        "fromDistance": 31.392836377105436,
+        "targetDistance": 31.392836377105436,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "cardia",
+        "stomach",
+        "oesophagus",
+        "pylorus"
+      ],
+      "triangles": 44789,
+      "drawCalls": 16,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "03-cardia-tilbage.png",
+      "caption": "oesophagus → stomach: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          3.5824841817635225,
+          -17.950766967328335,
+          -0.4709987536344649
+        ],
+        "look": [
+          5.03422911428486,
+          -19.955390329143395,
+          -0.16020433460009098
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.5798937035645633,
+          -0.318477729135117,
+          -0.09315688742514153,
+          -0.7440544489057053
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 31.392836377105436,
+        "fromDistance": 31.392836377105436,
+        "targetDistance": 31.392836377105436,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "cardia",
+        "oesophagus",
+        "oevre-oesophaguslukke",
+        "pharynx",
+        "stomach",
+        "mund-svaelg"
+      ],
+      "triangles": 73907,
+      "drawCalls": 28,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "04-pylorus-frem.png",
+      "caption": "stomach → duodenum: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -3.060284592710273,
+          -25.029561497630432,
+          -0.0001286196549952041
+        ],
+        "look": [
+          -4.7727993767910855,
+          -26.777616085225244,
+          -0.00009879898063767429
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.026822992209292542,
+          0.7066021653664006,
+          0.485971000430071,
+          0.5136400429575657
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 47.323791949118075,
+        "fromDistance": 47.323791949118075,
+        "targetDistance": 47.323791949118075,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "pylorus",
+        "duodenum",
+        "stomach"
+      ],
+      "triangles": 338508,
+      "drawCalls": 17,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "04-pylorus-tilbage.png",
+      "caption": "stomach → duodenum: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -3.060284592710273,
+          -25.029561497630432,
+          -0.0001286196549952041
+        ],
+        "look": [
+          -4.7727993767910855,
+          -26.777616085225244,
+          -0.00009879898063767429
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.485971000430071,
+          0.5136400429575657,
+          -0.02682299220929251,
+          -0.7066021653664006
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 47.323791949118075,
+        "fromDistance": 47.323791949118075,
+        "targetDistance": 47.323791949118075,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "pylorus",
+        "stomach",
+        "duodenum",
+        "cardia"
+      ],
+      "triangles": 33399,
+      "drawCalls": 17,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "05-duodenum-jejunum-frem.png",
+      "caption": "duodenum → jejunum: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -26.55220575107729,
+          -51.6297798613154,
+          8.550692544490367
+        ],
+        "look": [
+          -26.79883160110659,
+          -54.064362967747876,
+          9.047547126273518
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.1901990558800255,
+          0.7505435521462609,
+          0.5946740304963383,
+          0.21649825155705066
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 104.21627420847413,
+        "fromDistance": 104.21627420847413,
+        "targetDistance": 104.21627420847413,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum-jejunum",
+        "jejunum"
+      ],
+      "triangles": 188044,
+      "drawCalls": 12,
+      "epithelium": {},
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "05-duodenum-jejunum-tilbage.png",
+      "caption": "duodenum → jejunum: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -26.55220575107729,
+          -51.6297798613154,
+          8.550692544490367
+        ],
+        "look": [
+          -26.79883160110659,
+          -54.064362967747876,
+          9.047547126273518
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.5946740304963383,
+          0.2164982515570507,
+          -0.19019905588002547,
+          -0.7505435521462609
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 104.21627420847413,
+        "fromDistance": 104.21627420847413,
+        "targetDistance": 104.21627420847413,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum-jejunum",
+        "duodenum"
+      ],
+      "triangles": 155080,
+      "drawCalls": 15,
+      "epithelium": {},
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "06-jejunum-ileum-frem.png",
+      "caption": "jejunum → ileum: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          9.494666858881745,
+          -66.71428020762326,
+          8.711009977517111
+        ],
+        "look": [
+          9.161854261896082,
+          -69.17512541899518,
+          8.949938025970798
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.5609128648022192,
+          0.48297367776444233,
+          0.5030655404302634,
+          -0.44613702684003154
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 153.23220051665587,
+        "fromDistance": 153.23220051665587,
+        "targetDistance": 153.23220051665587,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum-ileum",
+        "ileum"
+      ],
+      "triangles": 130436,
+      "drawCalls": 12,
+      "epithelium": {},
+      "villi": 3200,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "06-jejunum-ileum-tilbage.png",
+      "caption": "jejunum → ileum: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          9.494666858881745,
+          -66.71428020762326,
+          8.711009977517111
+        ],
+        "look": [
+          9.161854261896082,
+          -69.17512541899518,
+          8.949938025970798
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.5030655404302634,
+          -0.4461370268400315,
+          0.5609128648022192,
+          -0.48297367776444233
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 153.23220051665587,
+        "fromDistance": 153.23220051665587,
+        "targetDistance": 153.23220051665587,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum-ileum",
+        "jejunum"
+      ],
+      "triangles": 122760,
+      "drawCalls": 11,
+      "epithelium": {},
+      "villi": 3200,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "07-ileocoekal-frem.png",
+      "caption": "ileum → caecum: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -22.226435848533935,
+          -84.85456330246357,
+          9.26186258174531
+        ],
+        "look": [
+          -23.410475158519755,
+          -87.03791777052248,
+          9.497300414728798
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.35960036081572494,
+          0.6464300550290719,
+          0.36098569018627724,
+          0.5678953212846964
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 195.4017432845652,
+        "fromDistance": 195.4017432845652,
+        "targetDistance": 195.4017432845652,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "ileocoekal",
+        "caecum",
+        "caecum-colon"
+      ],
+      "triangles": 59374,
+      "drawCalls": 16,
+      "epithelium": {},
+      "villi": 1500,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "07-ileocoekal-tilbage.png",
+      "caption": "ileum → caecum: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -22.226435848533935,
+          -84.85456330246357,
+          9.26186258174531
+        ],
+        "look": [
+          -23.410475158519755,
+          -87.03791777052248,
+          9.497300414728798
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.36098569018627724,
+          0.5678953212846964,
+          -0.35960036081572494,
+          -0.6464300550290719
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 195.4017432845652,
+        "fromDistance": 195.4017432845652,
+        "targetDistance": 195.4017432845652,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "ileocoekal",
+        "ileum"
+      ],
+      "triangles": 155816,
+      "drawCalls": 23,
+      "epithelium": {},
+      "villi": 1500,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "08-caecum-colon-frem.png",
+      "caption": "caecum → ascending: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -33.99996867163927,
+          -80.99999999998553,
+          9.000031823722813
+        ],
+        "look": [
+          -34,
+          -78.50260295095441,
+          8.921834928286238
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.4964354173825338,
+          0.487753898683325,
+          -0.503258749191546,
+          0.5122290913737786
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 216.4409887643411,
+        "fromDistance": 216.4409887643411,
+        "targetDistance": 216.4409887643411,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "caecum-colon",
+        "ascending",
+        "hoejre-colonfleksur",
+        "caecum",
+        "transverse"
+      ],
+      "triangles": 53576,
+      "drawCalls": 8,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "08-caecum-colon-tilbage.png",
+      "caption": "caecum → ascending: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -33.99996867163927,
+          -80.99999999998553,
+          9.000031823722813
+        ],
+        "look": [
+          -34,
+          -78.50260295095441,
+          8.921834928286238
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.503258749191546,
+          0.5122290913737786,
+          0.4964354173825337,
+          -0.48775389868332497
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 216.4409887643411,
+        "fromDistance": 216.4409887643411,
+        "targetDistance": 216.4409887643411,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "caecum-colon",
+        "caecum",
+        "ascending",
+        "ileocoekal"
+      ],
+      "triangles": 37232,
+      "drawCalls": 11,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "09-hoejre-colonfleksur-frem.png",
+      "caption": "ascending → transverse: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -30.83812657315952,
+          -35.173288047307715,
+          30.828312323525974
+        ],
+        "look": [
+          -28.967075816897328,
+          -33.550438109167715,
+          30.52224497063064
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.006636759073032845,
+          -0.6622954029087909,
+          0.4965492356022289,
+          0.5610344101191399
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 270.78362066222337,
+        "fromDistance": 270.78362066222337,
+        "targetDistance": 270.78362066222337,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "hoejre-colonfleksur",
+        "transverse",
+        "venstre-colonfleksur",
+        "ascending",
+        "descending"
+      ],
+      "triangles": 35568,
+      "drawCalls": 7,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "09-hoejre-colonfleksur-tilbage.png",
+      "caption": "ascending → transverse: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -30.83812657315952,
+          -35.173288047307715,
+          30.828312323525974
+        ],
+        "look": [
+          -28.967075816897328,
+          -33.550438109167715,
+          30.52224497063064
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.4965492356022289,
+          0.5610344101191399,
+          -0.006636759073032815,
+          0.6622954029087909
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 270.78362066222337,
+        "fromDistance": 270.78362066222337,
+        "targetDistance": 270.78362066222337,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "hoejre-colonfleksur",
+        "ascending",
+        "caecum-colon",
+        "transverse",
+        "caecum"
+      ],
+      "triangles": 41032,
+      "drawCalls": 7,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "10-venstre-colonfleksur-frem.png",
+      "caption": "transverse → descending: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          30.891400656758513,
+          -35.06891473967414,
+          30.366545053219856
+        ],
+        "look": [
+          32.42688012535499,
+          -37.0351074356621,
+          30.43102487074916
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.29847139316229687,
+          -0.6510251823106353,
+          -0.3209901448338952,
+          0.6197147459764668
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 334.51622941289105,
+        "fromDistance": 334.51622941289105,
+        "targetDistance": 334.51622941289105,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "venstre-colonfleksur",
+        "descending",
+        "colon-sigmoideum",
+        "transverse",
+        "sigmoid"
+      ],
+      "triangles": 35568,
+      "drawCalls": 7,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "10-venstre-colonfleksur-tilbage.png",
+      "caption": "transverse → descending: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          30.891400656758513,
+          -35.06891473967414,
+          30.366545053219856
+        ],
+        "look": [
+          32.42688012535499,
+          -37.0351074356621,
+          30.43102487074916
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.3209901448338952,
+          0.6197147459764668,
+          -0.29847139316229687,
+          0.6510251823106353
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 334.51622941289105,
+        "fromDistance": 334.51622941289105,
+        "targetDistance": 334.51622941289105,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "venstre-colonfleksur",
+        "transverse",
+        "descending",
+        "hoejre-colonfleksur"
+      ],
+      "triangles": 18512,
+      "drawCalls": 4,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "11-colon-sigmoideum-frem.png",
+      "caption": "descending → sigmoid: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          29.79611104597719,
+          -91.24156805794368,
+          7.406098942235481
+        ],
+        "look": [
+          28.256750603300382,
+          -93.20798874111208,
+          7.520031991300033
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.48793534504033415,
+          0.5335792005883577,
+          0.11406030539482023,
+          0.6813241390799974
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 399.00105944288083,
+        "fromDistance": 399.00105944288083,
+        "targetDistance": 399.00105944288083,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "colon-sigmoideum",
+        "sigmoid",
+        "sigmoideum-rectum",
+        "rectum",
+        "rectum-analkanal",
+        "anal",
+        "bathroom",
+        "descending"
+      ],
+      "triangles": 56412,
+      "drawCalls": 17,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "11-colon-sigmoideum-tilbage.png",
+      "caption": "descending → sigmoid: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          29.79611104597719,
+          -91.24156805794368,
+          7.406098942235481
+        ],
+        "look": [
+          28.256750603300382,
+          -93.20798874111208,
+          7.520031991300033
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.11406030539482026,
+          0.6813241390799974,
+          -0.48793534504033415,
+          -0.5335792005883577
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 399.00105944288083,
+        "fromDistance": 399.00105944288083,
+        "targetDistance": 399.00105944288083,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "colon-sigmoideum",
+        "descending",
+        "venstre-colonfleksur",
+        "sigmoid",
+        "transverse"
+      ],
+      "triangles": 35568,
+      "drawCalls": 7,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "12-sigmoideum-rectum-frem.png",
+      "caption": "sigmoid → rectum: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          6.552136486621144,
+          -158.6517424299089,
+          9.892294583826208
+        ],
+        "look": [
+          6.014525080972149,
+          -161.09311653489937,
+          9.882555249314821
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.3884766651347939,
+          0.5891841177977319,
+          0.49377393658442287,
+          0.5080701285556747
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 471.56392544534265,
+        "fromDistance": 471.56392544534265,
+        "targetDistance": 471.56392544534265,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "sigmoideum-rectum",
+        "rectum",
+        "rectum-analkanal",
+        "anal",
+        "bathroom",
+        "sigmoid"
+      ],
+      "triangles": 39356,
+      "drawCalls": 14,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "12-sigmoideum-rectum-tilbage.png",
+      "caption": "sigmoid → rectum: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          6.552136486621144,
+          -158.6517424299089,
+          9.892294583826208
+        ],
+        "look": [
+          6.014525080972149,
+          -161.09311653489937,
+          9.882555249314821
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.49377393658442287,
+          0.5080701285556747,
+          -0.38847666513479384,
+          -0.5891841177977319
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 471.56392544534265,
+        "fromDistance": 471.56392544534265,
+        "targetDistance": 471.56392544534265,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "sigmoideum-rectum",
+        "sigmoid",
+        "colon-sigmoideum",
+        "descending",
+        "rectum",
+        "venstre-colonfleksur"
+      ],
+      "triangles": 38624,
+      "drawCalls": 8,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "13-rectum-analkanal-frem.png",
+      "caption": "rectum → anal: fremadblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          2.8962235560704497,
+          -175.25379191204686,
+          9.826064294436886
+        ],
+        "look": [
+          2.35858518188724,
+          -177.69528848520005,
+          9.816324471365228
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.38847666513479534,
+          0.5891841177977316,
+          0.4937739365844236,
+          0.5080701285556734
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 488.56392544534265,
+        "fromDistance": 488.56392544534265,
+        "targetDistance": 488.56392544534265,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "rectum-analkanal",
+        "anal",
+        "bathroom",
+        "rectum"
+      ],
+      "triangles": 22300,
+      "drawCalls": 11,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "13-rectum-analkanal-tilbage.png",
+      "caption": "rectum → anal: tilbageblik fra samme punkt midt i den faktiske samling. En bøjning kan naturligt skjule den fjernere struktur.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          2.8962235560704497,
+          -175.25379191204686,
+          9.826064294436886
+        ],
+        "look": [
+          2.35858518188724,
+          -177.69528848520005,
+          9.816324471365228
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.4937739365844236,
+          0.5080701285556734,
+          -0.3884766651347953,
+          -0.5891841177977316
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 488.56392544534265,
+        "fromDistance": 488.56392544534265,
+        "targetDistance": 488.56392544534265,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "rectum-analkanal",
+        "rectum",
+        "sigmoideum-rectum",
+        "sigmoid",
+        "colon-sigmoideum",
+        "descending",
+        "anal",
+        "venstre-colonfleksur"
+      ],
+      "triangles": 55680,
+      "drawCalls": 11,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-oesophagus-frem.png",
+      "caption": "oesophagus, frem fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -0.009897107966862625,
+          -6.606005334640766,
+          -6.57142696646304
+        ],
+        "look": [
+          -0.0711241331614901,
+          -9.057649118033456,
+          -6.100358628982421
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.7559529300998041,
+          0.1511718672732614,
+          0.10926585132233571,
+          0.6274896076856104
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 17.102332002866156,
+        "fromDistance": 17.102332002866156,
+        "targetDistance": 17.102332002866156,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "oesophagus",
+        "cardia",
+        "stomach",
+        "oevre-oesophaguslukke",
+        "pylorus"
+      ],
+      "triangles": 48999,
+      "drawCalls": 19,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-oesophagus-tilbage.png",
+      "caption": "oesophagus, tilbage fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -0.009897107966862625,
+          -6.606005334640766,
+          -6.57142696646304
+        ],
+        "look": [
+          -0.0711241331614901,
+          -9.057649118033456,
+          -6.100358628982421
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.10926585132233575,
+          0.6274896076856104,
+          -0.7559529300998041,
+          -0.15117186727326137
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 17.102332002866156,
+        "fromDistance": 17.102332002866156,
+        "targetDistance": 17.102332002866156,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "oesophagus",
+        "oevre-oesophaguslukke",
+        "pharynx",
+        "mund-svaelg",
+        "cardia",
+        "mouth"
+      ],
+      "triangles": 80048,
+      "drawCalls": 70,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-stomach-frem.png",
+      "caption": "stomach, frem fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          6.426306556777231,
+          -22.413680635562653,
+          -1.1858603846084348
+        ],
+        "look": [
+          4.317725563020556,
+          -23.278413575809285,
+          -0.233328132959703
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.8095341668148494,
+          0.19357187821670244,
+          0.5476423729118818,
+          -0.08527714884122953
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 37.16895956020478,
+        "fromDistance": 37.16895956020478,
+        "targetDistance": 37.16895956020478,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "stomach",
+        "pylorus",
+        "duodenum",
+        "cardia"
+      ],
+      "triangles": 192039,
+      "drawCalls": 21,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-stomach-tilbage.png",
+      "caption": "stomach, tilbage fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          6.426306556777231,
+          -22.413680635562653,
+          -1.1858603846084348
+        ],
+        "look": [
+          4.317725563020556,
+          -23.278413575809285,
+          -0.233328132959703
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.5476423729118818,
+          -0.08527714884122951,
+          0.8095341668148494,
+          -0.19357187821670244
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 37.16895956020478,
+        "fromDistance": 37.16895956020478,
+        "targetDistance": 37.16895956020478,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "stomach",
+        "cardia",
+        "pylorus"
+      ],
+      "triangles": 22453,
+      "drawCalls": 7,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-duodenum-frem.png",
+      "caption": "duodenum, frem fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -4.977618230627218,
+          -29.901172598442916,
+          0.06341501322288018
+        ],
+        "look": [
+          -4.923544888686361,
+          -32.39587075397466,
+          0.21662281538864536
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.3792877397951587,
+          0.6219184658378866,
+          0.5924972118032413,
+          0.3439553550917829
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 52.977588015820515,
+        "fromDistance": 52.977588015820515,
+        "targetDistance": 52.977588015820515,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum",
+        "pylorus"
+      ],
+      "triangles": 366752,
+      "drawCalls": 16,
+      "epithelium": {},
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-duodenum-tilbage.png",
+      "caption": "duodenum, tilbage fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -4.977618230627218,
+          -29.901172598442916,
+          0.06341501322288018
+        ],
+        "look": [
+          -4.923544888686361,
+          -32.39587075397466,
+          0.21662281538864536
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.5924972118032413,
+          0.34395535509178293,
+          -0.3792877397951586,
+          -0.6219184658378866
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 52.977588015820515,
+        "fromDistance": 52.977588015820515,
+        "targetDistance": 52.977588015820515,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum",
+        "pylorus",
+        "stomach",
+        "cardia",
+        "oesophagus"
+      ],
+      "triangles": 180075,
+      "drawCalls": 18,
+      "epithelium": {},
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-jejunum-frem.png",
+      "caption": "jejunum, frem fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 369176,
+      "drawCalls": 27,
+      "epithelium": {},
+      "villi": 3200,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-jejunum-tilbage.png",
+      "caption": "jejunum, tilbage fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.3231745923325861,
+          0.6818019997020672,
+          0.2980412913348056,
+          0.5847012953059115
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 184324,
+      "drawCalls": 11,
+      "epithelium": {},
+      "villi": 3200,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-ileum-frem.png",
+      "caption": "ileum, frem fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          3.207467957523172,
+          -74.09937767020641,
+          8.839410476606938
+        ],
+        "look": [
+          0.7385552337538259,
+          -74.30512039718718,
+          8.504538689924184
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.3204633407250875,
+          0.5747424516597976,
+          0.4200421751462495,
+          0.6249311422947406
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 164.21421813707354,
+        "fromDistance": 164.21421813707354,
+        "targetDistance": 164.21421813707354,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "ileum",
+        "ileocoekal",
+        "jejunum-ileum"
+      ],
+      "triangles": 196092,
+      "drawCalls": 25,
+      "epithelium": {},
+      "villi": 1500,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-ileum-tilbage.png",
+      "caption": "ileum, tilbage fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          3.207467957523172,
+          -74.09937767020641,
+          8.839410476606938
+        ],
+        "look": [
+          0.7385552337538259,
+          -74.30512039718718,
+          8.504538689924184
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.4200421751462495,
+          0.6249311422947406,
+          0.3204633407250875,
+          -0.5747424516597976
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 164.21421813707354,
+        "fromDistance": 164.21421813707354,
+        "targetDistance": 164.21421813707354,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "ileum",
+        "jejunum-ileum"
+      ],
+      "triangles": 131592,
+      "drawCalls": 12,
+      "epithelium": {},
+      "villi": 1500,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-caecum-frem.png",
+      "caption": "caecum, frem fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -34.019162927180176,
+          -86.34204042957572,
+          8.999999998061895
+        ],
+        "look": [
+          -34.01452876716215,
+          -83.842520793792,
+          9.000000008555771
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.5048557213437549,
+          0.4950966599823227,
+          -0.4960318181031603,
+          0.5039369338817093
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 211.09840293928812,
+        "fromDistance": 211.09840293928812,
+        "targetDistance": 211.09840293928812,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "caecum",
+        "caecum-colon",
+        "ascending",
+        "hoejre-colonfleksur",
+        "ileocoekal",
+        "transverse"
+      ],
+      "triangles": 53578,
+      "drawCalls": 9,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-caecum-tilbage.png",
+      "caption": "caecum, tilbage fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -34.019162927180176,
+          -86.34204042957572,
+          8.999999998061895
+        ],
+        "look": [
+          -34.01452876716215,
+          -83.842520793792,
+          9.000000008555771
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.4960318181031604,
+          0.5039369338817093,
+          0.5048557213437549,
+          -0.49509665998232266
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 211.09840293928812,
+        "fromDistance": 211.09840293928812,
+        "targetDistance": 211.09840293928812,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "caecum",
+        "ileocoekal",
+        "caecum-colon"
+      ],
+      "triangles": 19432,
+      "drawCalls": 6,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-rectum-frem.png",
+      "caption": "rectum, frem fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          5.575798974609353,
+          -163.08543765011908,
+          9.874607314684257
+        ],
+        "look": [
+          5.038162983321063,
+          -165.5269234021887,
+          9.864867534780972
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.38847666513479506,
+          0.5891841177977316,
+          0.49377393658442353,
+          0.5080701285556736
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 476.10392544534267,
+        "fromDistance": 476.10392544534267,
+        "targetDistance": 476.10392544534267,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "rectum",
+        "rectum-analkanal",
+        "anal",
+        "bathroom",
+        "sigmoideum-rectum"
+      ],
+      "triangles": 37900,
+      "drawCalls": 13,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-rectum-tilbage.png",
+      "caption": "rectum, tilbage fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          5.575798974609353,
+          -163.08543765011908,
+          9.874607314684257
+        ],
+        "look": [
+          5.038162983321063,
+          -165.5269234021887,
+          9.864867534780972
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.49377393658442353,
+          0.5080701285556736,
+          -0.388476665134795,
+          -0.5891841177977316
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 476.10392544534267,
+        "fromDistance": 476.10392544534267,
+        "targetDistance": 476.10392544534267,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "rectum",
+        "sigmoideum-rectum",
+        "sigmoid",
+        "colon-sigmoideum",
+        "descending",
+        "rectum-analkanal",
+        "venstre-colonfleksur"
+      ],
+      "triangles": 51168,
+      "drawCalls": 9,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-anus-frem.png",
+      "caption": "anus, frem fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          1.9736378325056814,
+          -179.44339219112936,
+          9.809350789323693
+        ],
+        "look": [
+          1.436001841689497,
+          -181.88487794105504,
+          9.79961100942896
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.3884766651347941,
+          0.589184117797732,
+          0.4937739365844231,
+          0.5080701285556743
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 492.85392544534267,
+        "fromDistance": 492.85392544534267,
+        "targetDistance": 492.85392544534267,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "anal",
+        "bathroom",
+        "rectum-analkanal"
+      ],
+      "triangles": 15484,
+      "drawCalls": 7,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "station-anus-tilbage.png",
+      "caption": "anus, tilbage fra samme station; væggene skjuler anatomien, hvor sigtelinjen brydes.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          1.9736378325056814,
+          -179.44339219112936,
+          9.809350789323693
+        ],
+        "look": [
+          1.436001841689497,
+          -181.88487794105504,
+          9.79961100942896
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.4937739365844231,
+          0.5080701285556743,
+          -0.38847666513479406,
+          -0.589184117797732
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 492.85392544534267,
+        "fromDistance": 492.85392544534267,
+        "targetDistance": 492.85392544534267,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "anal",
+        "rectum-analkanal",
+        "rectum",
+        "sigmoideum-rectum",
+        "sigmoid",
+        "colon-sigmoideum",
+        "descending",
+        "bathroom",
+        "venstre-colonfleksur"
+      ],
+      "triangles": 70528,
+      "drawCalls": 14,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "ventrikel-cardia.png",
+      "caption": "Cardia og indgangen fra oesophagus. Samme kamerasted i mavesækken; kun blikket drejes. Væggen er solid.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          6.426306556777231,
+          -22.413680635562653,
+          -1.1858603846084348
+        ],
+        "look": [
+          4.317725563020556,
+          -23.278413575809285,
+          -0.233328132959703
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.7775006370130065,
+          0.036715352874670565,
+          0.3100289727403599,
+          0.5459182890957354
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 37.16895956020478,
+        "fromDistance": 37.16895956020478,
+        "targetDistance": 37.16895956020478,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "stomach",
+        "cardia",
+        "oesophagus",
+        "pylorus",
+        "oevre-oesophaguslukke"
+      ],
+      "triangles": 47629,
+      "drawCalls": 16,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "ventrikel-pylorus.png",
+      "caption": "Pylorus og fortsættelsen mod duodenum. Samme kamerasted i mavesækken; kun blikket drejes. Væggen er solid.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          6.426306556777231,
+          -22.413680635562653,
+          -1.1858603846084348
+        ],
+        "look": [
+          4.317725563020556,
+          -23.278413575809285,
+          -0.233328132959703
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.7573095211887417,
+          0.14718936965352472,
+          0.6335086545190206,
+          -0.05902849504584359
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 37.16895956020478,
+        "fromDistance": 37.16895956020478,
+        "targetDistance": 37.16895956020478,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "stomach",
+        "pylorus",
+        "duodenum",
+        "cardia"
+      ],
+      "triangles": 190919,
+      "drawCalls": 20,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "synkning-hvile.png",
+      "caption": "Førsteperson fra bolus: epiglottis ved siden af den genkendelige larynxindgang.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          1.1984691949419246,
+          2.0976339171810814,
+          -3.3240629221743148
+        ],
+        "look": [
+          0,
+          1.15,
+          -4.3
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.25214764639188125,
+          0.40897986390906704,
+          0.10199590819472495,
+          0.8710647909584505
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 6.32410439311598,
+        "fromDistance": 6.32410439311598,
+        "targetDistance": 6.32410439311598,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "pharynx",
+        "mund-svaelg",
+        "oevre-oesophaguslukke",
+        "oesophagus",
+        "mouth",
+        "cardia"
+      ],
+      "triangles": 70176,
+      "drawCalls": 39,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "synkning-0.5.png",
+      "caption": "Indvendig synkning: larynxløft, epiglottis og stemmelæber koordineres, mens kameraet føres bag luftvejen.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          1.1208423432532413,
+          1.972042924804149,
+          -4.1060857371979536
+        ],
+        "look": [
+          0.40467632821412897,
+          0.6794294853583559,
+          -5.866588318833979
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.2961319512606763,
+          0.17128493415389573,
+          0.01733378086704576,
+          0.9395035278354698
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 7.122491623467845,
+        "fromDistance": 7.122491623467845,
+        "targetDistance": 7.122491623467845,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "pharynx",
+        "oevre-oesophaguslukke",
+        "oesophagus",
+        "mund-svaelg",
+        "cardia"
+      ],
+      "triangles": 45184,
+      "drawCalls": 16,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0.2160355555555555,
+        "anterior": 0.1350222222222222,
+        "epiglottisAngle": -0.6976148148148148,
+        "vocalGap": 0.1524814814814815,
+        "ues": 0,
+        "bolus": 0.0553935860058309,
+        "closure": 0.450074074074074
+      }
+    },
+    {
+      "name": "synkning-1.2.png",
+      "caption": "Indvendig synkning: larynxløft, epiglottis og stemmelæber koordineres, mens kameraet føres bag luftvejen.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          0.3072369237177639,
+          0.2324579294328451,
+          -6.317882155101046
+        ],
+        "look": [
+          0,
+          -2.144414402385304,
+          -6.8
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.6147748027579538,
+          0.1531194143718692,
+          0.08920263501105156,
+          0.768537101735121
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 10.118040511748042,
+        "fromDistance": 10.118040511748042,
+        "targetDistance": 10.118040511748042,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "pharynx",
+        "oevre-oesophaguslukke",
+        "oesophagus",
+        "mund-svaelg",
+        "cardia"
+      ],
+      "triangles": 40670,
+      "drawCalls": 15,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0.48,
+        "anterior": 0.3,
+        "epiglottisAngle": -1.55,
+        "vocalGap": 0.015,
+        "ues": 0.8959999999999998,
+        "bolus": 0.39358600583090375,
+        "closure": 1
+      }
+    },
+    {
+      "name": "synkning-2.2.png",
+      "caption": "Indvendig synkning: larynxløft, epiglottis og stemmelæber koordineres, mens kameraet føres bag luftvejen.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          0.000006582866333885472,
+          -4.737999068010261,
+          -6.812829392134342
+        ],
+        "look": [
+          -0.032195062076981106,
+          -7.206961161476728,
+          -6.472844936775824
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.7393678494042264,
+          0.1467567219229235,
+          0.11951757168354553,
+          0.6461526119243621
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 15.21175104139294,
+        "fromDistance": 15.21175104139294,
+        "targetDistance": 15.21175104139294,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "oevre-oesophaguslukke",
+        "oesophagus",
+        "cardia",
+        "stomach",
+        "pharynx",
+        "pylorus"
+      ],
+      "triangles": 61543,
+      "drawCalls": 20,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "fedt-bile-0.png",
+      "caption": "Emulgering: én stor dråbe bliver til mange mindre. Triglyceridernes bindinger bevares.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -4.977618230627218,
+          -29.901172598442916,
+          0.06341501322288018
+        ],
+        "look": [
+          -4.923544888686361,
+          -32.39587075397466,
+          0.21662281538864536
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.3792877397951587,
+          0.6219184658378866,
+          0.5924972118032413,
+          0.3439553550917829
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 52.977588015820515,
+        "fromDistance": 52.977588015820515,
+        "targetDistance": 52.977588015820515,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum",
+        "pylorus"
+      ],
+      "triangles": 368552,
+      "drawCalls": 18,
+      "epithelium": {
+        "progress": 0,
+        "droplets": 1,
+        "chemicalBondsCleaved": 0,
+        "largeRadius": 0.68,
+        "smallRadius": 0,
+        "kind": "emulsification",
+        "bileIsEnzyme": false
+      },
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "fedt-bile-3.6.png",
+      "caption": "Emulgering: én stor dråbe bliver til mange mindre. Triglyceridernes bindinger bevares.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -4.977618230627218,
+          -29.901172598442916,
+          0.06341501322288018
+        ],
+        "look": [
+          -4.923544888686361,
+          -32.39587075397466,
+          0.21662281538864536
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.3792877397951587,
+          0.6219184658378866,
+          0.5924972118032413,
+          0.3439553550917829
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 52.977588015820515,
+        "fromDistance": 52.977588015820515,
+        "targetDistance": 52.977588015820515,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum",
+        "pylorus"
+      ],
+      "triangles": 369872,
+      "drawCalls": 29,
+      "epithelium": {
+        "progress": 1,
+        "droplets": 12,
+        "chemicalBondsCleaved": 0,
+        "largeRadius": 0,
+        "smallRadius": 0.2970173580103416,
+        "kind": "emulsification",
+        "bileIsEnzyme": false
+      },
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "fedt-reaction-2.5.png",
+      "caption": "Lipase møder fedt-vand-grænsefladen og spalter triglyceridet til to frie fedtsyrer og et monoglycerid.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -4.977618230627218,
+          -29.901172598442916,
+          0.06341501322288018
+        ],
+        "look": [
+          -4.923544888686361,
+          -32.39587075397466,
+          0.21662281538864536
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.3792877397951587,
+          0.6219184658378866,
+          0.5924972118032413,
+          0.3439553550917829
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 52.977588015820515,
+        "fromDistance": 52.977588015820515,
+        "targetDistance": 52.977588015820515,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum",
+        "pylorus"
+      ],
+      "triangles": 395776,
+      "drawCalls": 102,
+      "epithelium": {},
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "fedt-reaction-5.5.png",
+      "caption": "Lipase møder fedt-vand-grænsefladen og spalter triglyceridet til to frie fedtsyrer og et monoglycerid.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -4.977618230627218,
+          -29.901172598442916,
+          0.06341501322288018
+        ],
+        "look": [
+          -4.923544888686361,
+          -32.39587075397466,
+          0.21662281538864536
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.3792877397951587,
+          0.6219184658378866,
+          0.5924972118032413,
+          0.3439553550917829
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 52.977588015820515,
+        "fromDistance": 52.977588015820515,
+        "targetDistance": 52.977588015820515,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum",
+        "pylorus"
+      ],
+      "triangles": 395720,
+      "drawCalls": 100,
+      "epithelium": {},
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "fedt-micelle-0.png",
+      "caption": "Galdesalte samles omkring fedtsyrer og monoglycerider. Der er ingen intakte triglycerider i micellen.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -4.977618230627218,
+          -29.901172598442916,
+          0.06341501322288018
+        ],
+        "look": [
+          -4.923544888686361,
+          -32.39587075397466,
+          0.21662281538864536
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.3792877397951587,
+          0.6219184658378866,
+          0.5924972118032413,
+          0.3439553550917829
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 52.977588015820515,
+        "fromDistance": 52.977588015820515,
+        "targetDistance": 52.977588015820515,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum",
+        "pylorus"
+      ],
+      "triangles": 391112,
+      "drawCalls": 26,
+      "epithelium": {
+        "assembly": 0,
+        "cargo": "fatty-acids-and-monoglycerides",
+        "intactTriglycerides": 0
+      },
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "fedt-micelle-5.png",
+      "caption": "Galdesalte samles omkring fedtsyrer og monoglycerider. Der er ingen intakte triglycerider i micellen.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -4.977618230627218,
+          -29.901172598442916,
+          0.06341501322288018
+        ],
+        "look": [
+          -4.923544888686361,
+          -32.39587075397466,
+          0.21662281538864536
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.3792877397951587,
+          0.6219184658378866,
+          0.5924972118032413,
+          0.3439553550917829
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 52.977588015820515,
+        "fromDistance": 52.977588015820515,
+        "targetDistance": 52.977588015820515,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "duodenum",
+        "pylorus"
+      ],
+      "triangles": 391112,
+      "drawCalls": 26,
+      "epithelium": {
+        "assembly": 1,
+        "cargo": "fatty-acids-and-monoglycerides",
+        "intactTriglycerides": 0
+      },
+      "villi": 4840,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "optagelse-stanley-1.5.png",
+      "caption": "stanley: optagelse ved den faktiske, solide tarmvæg. Produkterne bevæger sig til væggen og forsvinder, når de er optaget.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 368152,
+      "drawCalls": 32,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 0,
+        "bileInLumen": false,
+        "cargo": "glucose",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 61.88824670278621,
+          "y": 60.31381204644637,
+          "visible": true
+        },
+        {
+          "x": 68.00383735980773,
+          "y": 61.033732458194464,
+          "visible": true
+        },
+        {
+          "x": 73.78609897175436,
+          "y": 64.39857018327821,
+          "visible": true
+        },
+        {
+          "x": 58.99251460311942,
+          "y": 53.18529304065075,
+          "visible": true
+        },
+        {
+          "x": 85.36723011725415,
+          "y": 62.38025275437923,
+          "visible": true
+        },
+        {
+          "x": 73.4808802836481,
+          "y": 56.99311373472994,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "optagelse-stanley-4.5.png",
+      "caption": "stanley: optagelse ved den faktiske, solide tarmvæg. Produkterne bevæger sig til væggen og forsvinder, når de er optaget.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 368152,
+      "drawCalls": 32,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 0,
+        "bileInLumen": false,
+        "cargo": "glucose",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 65.96976712507643,
+          "y": 64.40173300498803,
+          "visible": true
+        },
+        {
+          "x": 71.36768931774368,
+          "y": 64.7201715821478,
+          "visible": true
+        },
+        {
+          "x": 76.61642464839295,
+          "y": 65.54803106960063,
+          "visible": true
+        },
+        {
+          "x": 65.3706515843582,
+          "y": 56.27191026694939,
+          "visible": true
+        },
+        {
+          "x": 75.39006185213665,
+          "y": 58.44509154851379,
+          "visible": true
+        },
+        {
+          "x": 76.69701386468469,
+          "y": 57.22069502905851,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "optagelse-stanley-8.8.png",
+      "caption": "stanley: optagelse ved den faktiske, solide tarmvæg. Produkterne bevæger sig til væggen og forsvinder, når de er optaget.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 367792,
+      "drawCalls": 27,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 5,
+        "bileInLumen": false,
+        "cargo": "glucose",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 69.2622934447398,
+          "y": 67.6994225804697,
+          "visible": true
+        },
+        {
+          "x": 73.41690768900663,
+          "y": 66.96590619586193,
+          "visible": true
+        },
+        {
+          "x": 78.07355076538003,
+          "y": 66.13980377326503,
+          "visible": true
+        },
+        {
+          "x": 69.28354311194902,
+          "y": 58.16550371425626,
+          "visible": true
+        },
+        {
+          "x": 69.65298443633584,
+          "y": 56.18229273809002,
+          "visible": true
+        },
+        {
+          "x": 77.95192831890832,
+          "y": 57.30949577335848,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "optagelse-poul-1.5.png",
+      "caption": "poul: optagelse ved den faktiske, solide tarmvæg. Produkterne bevæger sig til væggen og forsvinder, når de er optaget.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 368800,
+      "drawCalls": 35,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 0,
+        "bileInLumen": false,
+        "cargo": "amino-acids-and-small-peptides",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 61.88824670278621,
+          "y": 60.31381204644637,
+          "visible": true
+        },
+        {
+          "x": 68.00383735980773,
+          "y": 61.033732458194464,
+          "visible": true
+        },
+        {
+          "x": 73.78609897175436,
+          "y": 64.39857018327821,
+          "visible": true
+        },
+        {
+          "x": 58.99251460311942,
+          "y": 53.18529304065075,
+          "visible": true
+        },
+        {
+          "x": 85.36723011725415,
+          "y": 62.38025275437923,
+          "visible": true
+        },
+        {
+          "x": 73.4808802836481,
+          "y": 56.99311373472994,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "optagelse-poul-4.5.png",
+      "caption": "poul: optagelse ved den faktiske, solide tarmvæg. Produkterne bevæger sig til væggen og forsvinder, når de er optaget.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 368800,
+      "drawCalls": 35,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 0,
+        "bileInLumen": false,
+        "cargo": "amino-acids-and-small-peptides",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 65.96976712507643,
+          "y": 64.40173300498803,
+          "visible": true
+        },
+        {
+          "x": 71.36768931774368,
+          "y": 64.7201715821478,
+          "visible": true
+        },
+        {
+          "x": 76.61642464839295,
+          "y": 65.54803106960063,
+          "visible": true
+        },
+        {
+          "x": 65.3706515843582,
+          "y": 56.27191026694939,
+          "visible": true
+        },
+        {
+          "x": 75.39006185213665,
+          "y": 58.44509154851379,
+          "visible": true
+        },
+        {
+          "x": 76.69701386468469,
+          "y": 57.22069502905851,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "optagelse-poul-8.8.png",
+      "caption": "poul: optagelse ved den faktiske, solide tarmvæg. Produkterne bevæger sig til væggen og forsvinder, når de er optaget.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 367960,
+      "drawCalls": 28,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 5,
+        "bileInLumen": false,
+        "cargo": "amino-acids-and-small-peptides",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 69.2622934447398,
+          "y": 67.6994225804697,
+          "visible": true
+        },
+        {
+          "x": 73.41690768900663,
+          "y": 66.96590619586193,
+          "visible": true
+        },
+        {
+          "x": 78.07355076538003,
+          "y": 66.13980377326503,
+          "visible": true
+        },
+        {
+          "x": 69.28354311194902,
+          "y": 58.16550371425626,
+          "visible": true
+        },
+        {
+          "x": 69.65298443633584,
+          "y": 56.18229273809002,
+          "visible": true
+        },
+        {
+          "x": 77.95192831890832,
+          "y": 57.30949577335848,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "optagelse-trine-1.5.png",
+      "caption": "trine: optagelse ved den faktiske, solide tarmvæg. Galdesaltene bliver på lumensiden, mens fedtsyrer og monoglycerider optages.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 380320,
+      "drawCalls": 32,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 0,
+        "bileInLumen": true,
+        "cargo": "fatty-acids-and-monoglycerides",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 61.06131097267069,
+          "y": 59.48557953680492,
+          "visible": true
+        },
+        {
+          "x": 67.22402780056274,
+          "y": 60.17914060802349,
+          "visible": true
+        },
+        {
+          "x": 73.09536549570421,
+          "y": 64.11804730206121,
+          "visible": true
+        },
+        {
+          "x": 57.75138593434084,
+          "y": 52.584664810123,
+          "visible": true
+        },
+        {
+          "x": 87.24459585208056,
+          "y": 63.12071704370466,
+          "visible": true
+        },
+        {
+          "x": 72.67701138227396,
+          "y": 56.936230051127865,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "optagelse-trine-4.5.png",
+      "caption": "trine: optagelse ved den faktiske, solide tarmvæg. Galdesaltene bliver på lumensiden, mens fedtsyrer og monoglycerider optages.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 380320,
+      "drawCalls": 32,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 0,
+        "bileInLumen": true,
+        "cargo": "fatty-acids-and-monoglycerides",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 64.97984384690797,
+          "y": 63.41025735437687,
+          "visible": true
+        },
+        {
+          "x": 70.9329137074989,
+          "y": 64.24370179697611,
+          "visible": true
+        },
+        {
+          "x": 76.40937809625947,
+          "y": 65.463944663824,
+          "visible": true
+        },
+        {
+          "x": 64.99201293267454,
+          "y": 56.08867296924514,
+          "visible": true
+        },
+        {
+          "x": 75.92973007118586,
+          "y": 58.65794567537711,
+          "visible": true
+        },
+        {
+          "x": 76.56256713281626,
+          "y": 57.21118125716886,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "optagelse-trine-8.8.png",
+      "caption": "trine: optagelse ved den faktiske, solide tarmvæg. Galdesaltene bliver på lumensiden, mens fedtsyrer og monoglycerider optages.",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 371920,
+      "drawCalls": 27,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 5,
+        "bileInLumen": true,
+        "cargo": "fatty-acids-and-monoglycerides",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 64.97984384690797,
+          "y": 63.41025735437687,
+          "visible": true
+        },
+        {
+          "x": 70.9329137074989,
+          "y": 64.24370179697611,
+          "visible": true
+        },
+        {
+          "x": 76.40937809625947,
+          "y": 65.463944663824,
+          "visible": true
+        },
+        {
+          "x": 64.99201293267454,
+          "y": 56.08867296924514,
+          "visible": true
+        },
+        {
+          "x": 75.92973007118586,
+          "y": 58.65794567537711,
+          "visible": true
+        },
+        {
+          "x": 76.56256713281626,
+          "y": 57.21118125716886,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0.3763199999999998,
+        "anterior": 0.2351999999999999,
+        "epiglottisAngle": -1.2151999999999996,
+        "vocalGap": 0.06900000000000008,
+        "ues": 0.9259259259259258,
+        "bolus": 0.9287371758365988,
+        "closure": 0.7839999999999997
+      }
+    },
+    {
+      "name": "mobil-synkning-hvile.png",
+      "caption": "Samme indvendige synkeoplevelse på emuleret mobil.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "camera": {
+        "position": [
+          1.1984691949419246,
+          2.0976339171810814,
+          -3.3240629221743148
+        ],
+        "look": [
+          0,
+          1.15,
+          -4.3
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.25214764639188125,
+          0.40897986390906704,
+          0.10199590819472495,
+          0.8710647909584505
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 6.32410439311598,
+        "fromDistance": 6.32410439311598,
+        "targetDistance": 6.32410439311598,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "pharynx",
+        "mund-svaelg",
+        "oevre-oesophaguslukke",
+        "oesophagus",
+        "mouth",
+        "cardia"
+      ],
+      "triangles": 65304,
+      "drawCalls": 29,
+      "epithelium": {},
+      "villi": 0,
+      "uptakeTargets": [],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    },
+    {
+      "name": "mobil-micelle-ved-vaeg.png",
+      "caption": "Miceller afleverer deres indhold ved den solide tarmvæg på mobil.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "visibleCells": [
+        "jejunum",
+        "jejunum-ileum",
+        "duodenum-jejunum"
+      ],
+      "triangles": 380320,
+      "drawCalls": 32,
+      "epithelium": {
+        "kind": "automatic-wall-uptake",
+        "wallOpaque": true,
+        "packets": 6,
+        "absorbed": 0,
+        "bileInLumen": true,
+        "cargo": "fatty-acids-and-monoglycerides",
+        "bloodOrLymphScene": false
+      },
+      "villi": 3200,
+      "uptakeTargets": [
+        {
+          "x": 61.20510541793388,
+          "y": 61.6896011180995,
+          "visible": true
+        },
+        {
+          "x": 64.64967346205462,
+          "y": 61.72129588066615,
+          "visible": true
+        },
+        {
+          "x": 71.31316193413252,
+          "y": 63.246047790080404,
+          "visible": true
+        },
+        {
+          "x": 65.00394248505694,
+          "y": 55.54338509977541,
+          "visible": true
+        },
+        {
+          "x": 68.4849876696594,
+          "y": 54.99047104609871,
+          "visible": true
+        },
+        {
+          "x": 70.80939103073656,
+          "y": 56.59739186066961,
+          "visible": true
+        }
+      ],
+      "swallow": {
+        "lift": 0,
+        "anterior": 0,
+        "epiglottisAngle": 0,
+        "vocalGap": 0.265,
+        "ues": 0,
+        "bolus": 0,
+        "closure": 0
+      }
+    }
+  ],
+  "errors": []
+}

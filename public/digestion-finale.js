@@ -3,10 +3,10 @@ import { physiologyLabel as anatomicalLabel } from './digestion-physiology-label
 
 export const NUTRIENT_ENDINGS = {
   stanley:
-    'Stivelsen blev til glukose. Glukosen er optaget gennem enterocytterne og ført med kapillærblod via vena portae til leveren.',
-  poul: 'Proteinet blev til aminosyrer og små peptider. Di- og tripeptider blev overvejende hydrolyseret i enterocytterne; aminosyrerne er ført med blodet via vena portae til leveren.',
+    'Stivelsen blev nedbrudt til glukose, som er optaget gennem tyndtarmens slimhinde til blodet.',
+  poul: 'Proteinet blev nedbrudt til aminosyrer og små peptider, som er optaget gennem tyndtarmens slimhinde.',
   trine:
-    'Langkædede fedtsyrer og monoglycerider blev optaget i enterocytterne. Gendannede triglycerider blev pakket i chylomikroner og ført via lymfen, ductus thoracicus og venstre venevinkel til det systemiske blod.',
+    'Galde emulgerede fedtet. Lipase dannede frie fedtsyrer og monoglycerider, som miceller afleverede ved tarmvæggen. Produkterne er optaget; galdesaltene blev i tarmen.',
 };
 export function defecationPose(age) {
   const t = Math.max(0, age),
@@ -24,7 +24,7 @@ export function defecationPose(age) {
     waterY: -3.35,
   };
 }
-export function buildFinale() {
+export function buildFinale({ continuous = false } = {}) {
   const group = new T.Group(),
     mat = new Map();
   function add(geometry, color, position, opacity = 1) {
@@ -97,14 +97,28 @@ export function buildFinale() {
   group.add(anatomicalLabel('Rectum', [1.9, 1, -6.3], 1.4));
   group.add(anatomicalLabel('Indre og ydre analsfinkter', [0.7, 0.5, -6.3], 2.2));
   group.add(anatomicalLabel('Kun den ufordøjelige rest skylles ud', [0, -4, -5.6], 3, true));
+  if (continuous) {
+    rectum.visible = false;
+    sphincters.forEach((m) => (m.visible = false));
+    group.children.filter((o) => o.isSprite).forEach((o) => (o.visible = false));
+  }
   return {
     group,
+    idle() {
+      residue.visible = false;
+      ripples.forEach((m) => (m.visible = false));
+      splashes.visible = false;
+    },
     complete() {
       group.children.filter((o) => o.isSprite).forEach((o) => (o.visible = false));
     },
     update(age) {
       const pose = defecationPose(age);
       residue.position.y = pose.residueY;
+      if (continuous) {
+        residue.position.x = 0;
+        ripples.forEach((m) => (m.position.x = 0));
+      }
       residue.visible = age < 5.25;
       sphincters[0].scale.setScalar(pose.internalSphincter / 0.5);
       sphincters[1].scale.setScalar(pose.externalSphincter / 0.5);
@@ -118,7 +132,7 @@ export function buildFinale() {
         const t = Math.max(0, age - 4.8),
           a = (i * Math.PI) / 6;
         dummy.position.set(
-          -0.8 + Math.cos(a) * t * 0.6,
+          (continuous ? 0 : -0.8) + Math.cos(a) * t * 0.6,
           -3.3 + 1.8 * t - 1.5 * t * t,
           -6.3 + Math.sin(a) * t * 0.6,
         );

@@ -1,5 +1,6 @@
 // Run one variant at a time: APP_URL, PERF_LABEL, PERF_OUTPUT, PERF_SAMPLES.
 // Lock only the adaptive resolution during measurement, never the animation.
+// PERF_EXPECT_VILLI can select an archived model count (old duodenum: 2200).
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -215,7 +216,7 @@ async function prepare(page) {
             };
           }, samples);
           assert.equal(result.renderRatio, ratio);
-          assert.equal(result.villi, { stomach: 0, duodenum: 2200, jejunum: 3200, ileum: 1500 }[region]);
+          assert.equal(result.villi, Number(process.env.PERF_EXPECT_VILLI || { stomach: 0, duodenum: 4840, jejunum: 3200, ileum: 1500 }[region]));
           assert.deepEqual(errors, []);
           results.push({
             label,

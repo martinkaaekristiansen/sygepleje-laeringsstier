@@ -164,6 +164,7 @@ export function buildCaecumGeometry() {
       radius: h.radius,
       length: path.getLength(),
       boundary,
+      path: Array.from({ length: 33 }, (_, i) => path.getPointAt(i / 32).toArray()),
     };
   }
   const geometry = new T.BufferGeometry();
@@ -199,4 +200,12 @@ export function buildIleocaecalLips() {
     group.add(lip);
   }
   return group;
+}
+
+// The lips retract for a passing bolus; the fixed camera route must never cut
+// through a closed mucosal fold. Between passages the original slow pulse stays.
+export function ileocaecalGap(phase, distance = Infinity, moving = true) {
+  const pulse = phase < 0.14 ? Math.sin((phase / 0.14) * Math.PI) : 0;
+  const passage = 1 - T.MathUtils.smoothstep(Math.abs(distance), 0.5, 2);
+  return Math.max(moving ? 0.1 + pulse * 0.17 : 0.27, 0.38 * passage);
 }

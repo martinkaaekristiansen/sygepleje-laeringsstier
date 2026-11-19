@@ -1,0 +1,155 @@
+{
+  "dateUtc": "2026-11-19T11:58:05.928913+00:00",
+  "branch": "fordoejelse-sammenhaengende-verden",
+  "baseAndUnchangedMain": "d7130f8d0298ad6b6c3db9f3e49991c6279b53a6",
+  "commitOrPushPerformed": false,
+  "buildAssetDirectory": "assets/9dab1bf3b5e7",
+  "buildMatchesAllCurrentPublicFiles": true,
+  "gitDiffCheck": "passed",
+  "node": {
+    "version": "24.22.1",
+    "tests": 179,
+    "passed": 179,
+    "failed": 0
+  },
+  "browser": {
+    "playwright": "1.56.1",
+    "chromium": "141.0.7390.37",
+    "renderer": "ANGLE / Vulkan SwiftShader, CPU software; no real iPhone/Safari or hardware acceleration verified",
+    "existingScripts": [
+      {
+        "script": "digestion-phase-a",
+        "status": "passed"
+      },
+      {
+        "script": "digestion",
+        "status": "passed",
+        "coverage": "Three complete journeys on desktop and three on touch-emulated mobile, run as two size-specific invocations."
+      },
+      {
+        "script": "digestion-audio",
+        "status": "passed",
+        "seconds": 445.54
+      },
+      {
+        "script": "digestion-v2",
+        "status": "passed",
+        "seconds": 1063.76
+      },
+      {
+        "script": "review",
+        "status": "passed",
+        "seconds": 2.44
+      },
+      {
+        "script": "acceptance",
+        "status": "passed",
+        "seconds": 7.97
+      },
+      {
+        "script": "blood-game",
+        "status": "passed",
+        "seconds": 178.12
+      },
+      {
+        "script": "journey-audio",
+        "status": "passed",
+        "seconds": 16.79
+      },
+      {
+        "script": "journey-anatomy",
+        "status": "passed",
+        "seconds": 286.83
+      },
+      {
+        "script": "journey-guide",
+        "status": "passed",
+        "seconds": 7.52
+      },
+      {
+        "script": "journey-3d",
+        "status": "passed",
+        "seconds": 27.61
+      },
+      {
+        "script": "circulation",
+        "status": "passed",
+        "seconds": 23.42
+      },
+      {
+        "script": "quality-fixes",
+        "status": "passed",
+        "seconds": 5.1
+      },
+      {
+        "script": "game-viewport",
+        "status": "passed",
+        "seconds": 29.28
+      },
+      {
+        "script": "digestion-phase-b",
+        "status": "passed"
+      },
+      {
+        "script": "digestion-phase-c",
+        "status": "passed"
+      },
+      {
+        "script": "digestion-performance",
+        "status": "passed",
+        "seconds": 144.32
+      },
+      {
+        "script": "digestion-v2-visuals",
+        "status": "passed",
+        "seconds": 142.83
+      }
+    ],
+    "continuousGallery": {
+      "captures": 65,
+      "errors": []
+    },
+    "continuousState": {
+      "checks": [
+        "real IndexedDB journey resume, camera distance/look, pause and no duplicated points",
+        "automatic residue / exact persistent text / no overlap 1280x800",
+        "automatic residue / exact persistent text / no overlap 390x844",
+        "automatic residue / exact persistent text / no overlap 320x568",
+        "automatic residue / exact persistent text / no overlap 844x390",
+        "exact bile explanation / readable in five desktop/mobile/landscape viewports",
+        "visible explanation that real fat digestion processes overlap",
+        "old advanced review is basic; original 3/5 result remains unchanged",
+        "legacy vascular checkpoint resumes as residue with the exact basic explanation"
+      ],
+      "errors": []
+    },
+    "pagesPrefix": {
+      "checks": [
+        "real IndexedDB journey resume, camera distance/look, pause and no duplicated points",
+        "automatic residue / exact persistent text / no overlap 1280x800",
+        "automatic residue / exact persistent text / no overlap 390x844",
+        "automatic residue / exact persistent text / no overlap 320x568",
+        "automatic residue / exact persistent text / no overlap 844x390",
+        "exact bile explanation / readable in five desktop/mobile/landscape viewports",
+        "visible explanation that real fat digestion processes overlap",
+        "old advanced review is basic; original 3/5 result remains unchanged",
+        "legacy vascular checkpoint resumes as residue with the exact basic explanation"
+      ],
+      "errors": []
+    },
+    "pixelChecks": {
+      "pairs": 28,
+      "allByteIdentical": true
+    },
+    "comparablePerformance": {
+      "pairs": 6,
+      "images": 12,
+      "conditionsFile": "performance/results.json"
+    }
+  },
+  "notes": [
+    "Full browser assertions for removed interactive absorption/vascular scenes were replaced with assertions for automatic opaque-wall uptake and retained bile salts.",
+    "The independent blood anatomy test uses a 120 s software-GPU timeout and keyboard activation of moving buttons. Route, valve-opening, timing, sound and touch assertions remain. No blood-game production code changed.",
+    "Legacy model/video inspection output is temporary and is not part of the new in-game gallery."
+  ]
+}

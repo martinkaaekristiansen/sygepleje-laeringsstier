@@ -16,7 +16,9 @@
     "format": "prettier --write \"public/*.js\" \"test/*.test.js\" \"tests-browser/*.cjs\"",
     "test:browser:digestion-performance": "node tests-browser/digestion-performance.cjs",
     "test:browser:digestion-c": "node tests-browser/digestion-phase-c.cjs",
-    "test:browser:digestion-v2": "node tests-browser/digestion-v2.cjs"
+    "test:browser:digestion-v2": "node tests-browser/digestion-v2.cjs",
+    "test:browser:digestion-continuous": "node tests-browser/digestion-continuous.cjs && node tests-browser/digestion-continuous-state.cjs",
+    "test:browser:digestion-continuous-performance": "node tests-browser/digestion-continuous-performance.cjs"
   },
   "engines": {
     "node": ">=22"

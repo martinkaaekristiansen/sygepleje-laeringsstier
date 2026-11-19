@@ -2,7 +2,6 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringsstier/';
 (async () => {
   const { BOSSES, ROUTE } = await import('../public/digestion-data.js');
-  const { ABSORPTION_CHOICES } = await import('../public/digestion-assessment.js');
   const { ORGAN_SOUND } = await import('../public/digestion-audio.js');
   const assert = require('node:assert/strict');
   const b = await chromium.launch({
@@ -16,6 +15,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
         hasTouch: mobile,
         reducedMotion: 'reduce',
       });
+      p.setDefaultTimeout(120000);
       await p.addInitScript(() => {
         const Original = window.AudioContext;
         window.__contexts = [];
@@ -43,7 +43,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       await p.locator('[data-entry]').filter({ hasText: 'Cavitas oris' }).click();
       await p.locator('[data-entry]').first().waitFor({ state: 'detached' });
       if (!mobile) {
-        await p.waitForTimeout(11000);
+        await p.locator('[data-choice]').first().waitFor();
         const fixed = await p.locator('canvas').getAttribute('data-camera');
         await p.waitForTimeout(800);
         assert.equal(
@@ -109,15 +109,13 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           await p.waitForFunction(
             () =>
               JSON.parse(document.querySelector('.digestion-game').dataset.audio).lastEvent ===
-              'splash' || JSON.parse(document.querySelector('.digestion-game').dataset.audio).lastEvent === 'finish',
+                'splash' ||
+              JSON.parse(document.querySelector('.digestion-game').dataset.audio).lastEvent ===
+                'finish',
           );
         const before = JSON.stringify([s.stage, s.mode, s.title]);
-        if (await p.locator('[data-absorb]').count())
-          await p
-            .locator('[data-absorb]')
-            .filter({ hasText: ABSORPTION_CHOICES.stanley.options[0] })
-            .click();
-        else if (await p.locator('[data-choice]').count()) {
+        assert.equal(await p.locator('[data-absorb]').count(), 0);
+        if (await p.locator('[data-choice]').count()) {
           if (s.stage === 'epiglottis' && !wrongTrachea) {
             await p.locator('[data-choice]').filter({ hasText: 'Trachea' }).click();
             await p.waitForFunction(
@@ -135,7 +133,15 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
             .filter({ hasText: q?.options[0] || ROUTE[next].danish + ' · ' + ROUTE[next].latin })
             .click();
         } else {
-          await p.waitForFunction(before=>JSON.stringify([document.querySelector('canvas').dataset.digestStage,document.querySelector('canvas').dataset.digestMode,document.querySelector('.digest-panel h2')?.textContent])!==before,before);
+          await p.waitForFunction(
+            (before) =>
+              JSON.stringify([
+                document.querySelector('canvas').dataset.digestStage,
+                document.querySelector('canvas').dataset.digestMode,
+                document.querySelector('.digest-panel h2')?.textContent,
+              ]) !== before,
+            before,
+          );
           continue;
         }
         await p.waitForFunction(

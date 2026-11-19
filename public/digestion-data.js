@@ -7,8 +7,7 @@ export const CHARACTERS = {
     description:
       'En lang kæde af glukose med store ambitioner. Desværre er fordøjelsessystemet ved at skille dig ad.',
     enzymes: 'Spytamylase · bugspytamylase · maltase',
-    transport:
-      'Glukose + Na⁺ via SGLT1 ind i enterocytten; GLUT2 ud til interstitset, blodkapillærer og portåresystemet mod leveren.',
+    transport: 'Glukose optages gennem tyndtarmens slimhinde til blodet.',
   },
   trine: {
     name: 'Triglyceridet Trine',
@@ -17,15 +16,14 @@ export const CHARACTERS = {
       'Tre fedtsyrer og ét glycerol. Et stærkt forhold – indtil lipaserne begynder at blande sig.',
     enzymes: 'Galde og galdesalte (ikke enzymer) · bugspytlipase',
     transport:
-      'Især langkædede fedtsyrer og 2-monoglycerider: optagelse, reesterificering til triglycerider, chylomikroner og centralt lymfekar. Kortere fedtsyrer kan gå mere direkte til portalblodet.',
+      'Miceller afleverer fedtsyrer og monoglycerider ved tarmvæggen. Produkterne optages, mens galdesalte bliver i lumen.',
   },
   poul: {
     name: 'Proteinet Poul',
     color: 11967728,
     description: 'Du har brugt hele dit liv på at folde dig perfekt. Nu kommer mavesyren.',
     enzymes: 'Pepsin · trypsin · peptidaser',
-    transport:
-      'Aminosyrer via bl.a. Na⁺-koblede transportere; di-/tripeptider via H⁺-koblede PEPT1. Intracellulære peptidaser hydrolyserer mange små peptider. Aminosyrer videre til blodkapillærer og portåresystem.',
+    transport: 'Aminosyrer og små peptider optages gennem tyndtarmens slimhinde.',
   },
 };
 export const ROUTE = [
@@ -349,20 +347,20 @@ export const BOSSES = {
       {
         prompt: 'Hvilke enzymer færdiggør nedbrydningen af små peptider?',
         options: ['Peptidaser', 'Amylase', 'Lipase'],
-        why: 'Peptidaser ved børstesømmen og inde i enterocytterne færdiggør nedbrydningen.',
+        why: 'Peptidaser ved tarmoverfladen færdiggør dele af nedbrydningen til aminosyrer.',
         kind: 'enzyme',
       },
       {
         prompt: 'Hvor findes de relevante peptidaser?',
-        options: ['Ved børstesømmen og inde i tarmcellerne', 'I galdeblæren', 'I spytkirtlerne'],
-        why: 'Børstesømspeptidaser arbejder apikalt. Nogle di- og tripeptider optages først og spaltes af intracellulære peptidaser.',
+        options: ['Ved tarmcellernes børstesøm', 'I galdeblæren', 'I spytkirtlerne'],
+        why: 'Børstesømmen er tarmcellernes overflade mod tarmlumen. Her virker en række peptidaser.',
         kind: 'source',
         visual: 'brush-border',
       },
       {
         prompt: 'Hvad er det endelige produkt, vi følger?',
         options: ['Aminosyrer', 'Glukose', 'Fedtsyrer'],
-        why: 'Små peptider bliver til aminosyrer. Vi følger aminosyrerne gennem enterocytten til blodkapillærerne.',
+        why: 'Små peptider bliver til aminosyrer, som optages gennem tyndtarmens slimhinde.',
         kind: 'reaction',
         output: 'amino-acid',
       },
@@ -372,11 +370,7 @@ export const BOSSES = {
 export const ABSORPTION = {
   stanley: [
     ['lumen', 'Jejunums lumen', 'Maltase danner to glukosemolekyler.'],
-    [
-      'epithelium',
-      'Tarmepitel',
-      'Glukose optages sammen med natrium via SGLT1; GLUT2 fører den videre.',
-    ],
+    ['epithelium', 'Tarmepitel', 'Glukose optages gennem tyndtarmens slimhinde til blodet.'],
     ['transport', 'Blodkapillærer', 'Glukosen følger blodet og portåren.'],
     [
       'residue',
@@ -390,12 +384,8 @@ export const ABSORPTION = {
       'Jejunums lumen',
       'Miceller afleverer langkædede fedtsyrer og 2-monoglycerider ved epitelet.',
     ],
-    [
-      'epithelium',
-      'Tarmepitel',
-      'Lipidprodukter optages, triglycerider gendannes og chylomikroner dannes.',
-    ],
-    ['transport', 'Lymfekar', 'Chylomikroner transporteres til de centrale lymfekar.'],
+    ['epithelium', 'Tarmepitel', 'Fedtsyrer og monoglycerider optages ved tarmvæggen.'],
+    ['transport', 'Lymfekar', 'Galdesaltene bliver tilbage i tarmlumen.'],
     [
       'residue',
       'Perspektivskift',

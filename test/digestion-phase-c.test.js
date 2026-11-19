@@ -151,8 +151,8 @@ test('defecation relaxes both sphincters before the residue falls, with the came
   assert.ok(Math.abs(impact.residueY - impact.waterY) < 0.1);
   assert.ok(impact.camera[1] > impact.waterY && impact.look[1] < impact.camera[1]);
   assert.match(NUTRIENT_ENDINGS.stanley, /glukose/i);
-  assert.match(NUTRIENT_ENDINGS.poul, /tripeptider/);
-  assert.match(NUTRIENT_ENDINGS.trine, /venstre venevinkel/);
+  assert.match(NUTRIENT_ENDINGS.poul, /aminosyrer og små peptider/);
+  assert.match(NUTRIENT_ENDINGS.trine, /miceller.*tarmvæggen.*galdesaltene/i);
 });
 
 test('animation checkpoints validate without invalidating older progress records', () => {

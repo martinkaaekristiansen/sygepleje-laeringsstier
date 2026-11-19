@@ -1,3 +1,4 @@
+import { BASIC_TEXT } from './digestion-uptake.js';
 import { ROUTE, BOSSES } from './digestion-data.js';
 export const STATION_POINTS = {
   mouth: 'Tænderne findeler føden, mens spyt blander og fugter den.',
@@ -39,11 +40,11 @@ const points = {
   },
   trine: {
     duodenum: [
-      'Galde findeler fedtdråber; galde er ikke et enzym.',
+      BASIC_TEXT.bile,
       'Leveren danner galde; galdeblæren kan lagre den. Galdesalte emulgerer uden at klippe esterbindinger.',
-      'Bugspytlipase spalter triglyceridets esterbindinger ved fedtdråbens overflade.',
+      BASIC_TEXT.lipase,
       'Bugspytkirtlen udskiller lipase; colipase hjælper lipasen ved fedtdråbernes overflade.',
-      'Lipase danner et 2-monoglycerid og to frie fedtsyrer fra triglyceridet.',
+      BASIC_TEXT.lipase,
     ],
   },
   poul: {
@@ -59,7 +60,7 @@ const points = {
     ],
     jejunum: [
       'Peptidaser færdiggør nedbrydningen af små peptider.',
-      'Peptidaser findes ved børstesømmen og inde i tarmcellerne.',
+      'Peptidaser virker blandt andet ved tarmcellernes børstesøm.',
       'Peptidaser danner aminosyrer, som kan optages gennem tarmvæggen.',
     ],
   },
@@ -100,8 +101,7 @@ const nutrientPoints = {
       'Mavesækken blander fedtet med resten af føden og doserer indholdet videre til duodenum.',
     duodenum:
       'Galde emulgerer fedt; bugspytlipase spalter triglycerider til 2-monoglycerid og frie fedtsyrer.',
-    jejunum:
-      'Lipidprodukter optages i tarmcellerne; gendannede triglycerider pakkes i chylomikroner, som følger lymfen.',
+    jejunum: BASIC_TEXT.trine,
   },
   poul: {
     jejunum:

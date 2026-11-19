@@ -1,0 +1,170 @@
+{
+  "conditions": "Sequential runs, same Chromium / SwiftShader, 5 s warmup + 60 RAF intervals, DPR 1, fixed ratio 0.8, identical organ-local camera poses. No other browser tests during measurement.",
+  "baseline": "Same working tree with coarse organ portals",
+  "results": [
+    {
+      "variant": "before",
+      "id": "jejunum",
+      "size": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "dpr": 1,
+      "samples": 60,
+      "drawingBuffer": [
+        1024,
+        640
+      ],
+      "medianFps": 1.7649135192375505,
+      "medianFrameMs": 566.6000000000022,
+      "meanFrameMs": 568.3099999999998,
+      "p95FrameMs": 683.2999999999993,
+      "triangles": 347028,
+      "drawCalls": 31,
+      "renderRatio": 0.8,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "reference": {
+        "position": [
+          -0.17700015054247284,
+          0.03637770781779192,
+          1.735713210410908
+        ],
+        "look": [
+          -1.2613044222156828,
+          1.0091852809290351,
+          -7.569790782074129
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "screenshotPhaseSeconds": 5
+    },
+    {
+      "variant": "after",
+      "id": "jejunum",
+      "size": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "dpr": 1,
+      "samples": 60,
+      "drawingBuffer": [
+        1024,
+        640
+      ],
+      "medianFps": 1.8747656542932083,
+      "medianFrameMs": 533.4000000000015,
+      "meanFrameMs": 552.755,
+      "p95FrameMs": 650,
+      "triangles": 313140,
+      "drawCalls": 28,
+      "renderRatio": 0.8,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "reference": {
+        "position": [
+          -0.17700015054247284,
+          0.03637770781779192,
+          1.735713210410908
+        ],
+        "look": [
+          -1.2613044222156828,
+          1.0091852809290351,
+          -7.569790782074129
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "screenshotPhaseSeconds": 5
+    },
+    {
+      "variant": "before",
+      "id": "duodenum",
+      "size": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "dpr": 1,
+      "samples": 60,
+      "drawingBuffer": [
+        312,
+        675
+      ],
+      "medianFps": 3.3333333333333335,
+      "medianFrameMs": 300,
+      "meanFrameMs": 314.98833333333334,
+      "p95FrameMs": 583.2999999999993,
+      "triangles": 346636,
+      "drawCalls": 49,
+      "renderRatio": 0.8,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "reference": {
+        "position": [
+          -0.01017341301875535,
+          0.028824670219806836,
+          2.135836486265302
+        ],
+        "look": [
+          0.2044660698720409,
+          -1.207838523400835,
+          -4.040618425777769
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "screenshotPhaseSeconds": 5
+    },
+    {
+      "variant": "after",
+      "id": "duodenum",
+      "size": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "dpr": 1,
+      "samples": 60,
+      "drawingBuffer": [
+        312,
+        675
+      ],
+      "medianFps": 3.1585596967782474,
+      "medianFrameMs": 316.6000000000022,
+      "meanFrameMs": 323.32,
+      "p95FrameMs": 416.7000000000007,
+      "triangles": 309784,
+      "drawCalls": 49,
+      "renderRatio": 0.8,
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "reference": {
+        "position": [
+          -0.01017341301875535,
+          0.028824670219806836,
+          2.135836486265302
+        ],
+        "look": [
+          0.2044660698720409,
+          -1.207838523400835,
+          -4.040618425777769
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ]
+      },
+      "screenshotPhaseSeconds": 5
+    }
+  ]
+}

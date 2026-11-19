@@ -1,4 +1,10 @@
-import { validAssessmentDraft, validAssessmentResult, validReviewDraft } from './digestion-exam.js';
+import { BASIC_QUESTION_POOLS } from './digestion-basic-questions.js';
+import {
+  validAssessmentDraft,
+  validAssessmentResult,
+  validReviewDraft,
+  adaptReviewQuestions,
+} from './digestion-exam.js';
 import { ROUTE, CHARACTERS, BOSSES, PRODUCTS } from './digestion-data.js';
 export function newDigestion(character) {
   if (!Object.hasOwn(CHARACTERS, character)) throw Error('Ukendt næringsstof');
@@ -91,6 +97,7 @@ export function validDigestion(data) {
       'entry',
       'swallow',
       'secretion',
+      'micelle',
       'intro',
       'arrival',
       'route',
@@ -131,10 +138,25 @@ export function validDigestion(data) {
           'secretion',
           'brush-border',
           'bile',
+          'journey',
+          'micelle',
         ].includes(r.animation.mode) &&
         Number.isFinite(r.animation.age) &&
         r.animation.age >= 0 &&
-        r.animation.age <= 3600)) &&
+        r.animation.age <= 3600 &&
+        [
+          'cameraDistance',
+          'fromDistance',
+          'targetDistance',
+          'travelDuration',
+          'worldTime',
+          'yaw',
+          'pitch',
+        ].every(
+          (k) =>
+            r.animation[k] === undefined ||
+            (Number.isFinite(r.animation[k]) && Math.abs(r.animation[k]) <= 1000000),
+        ))) &&
     ['errors', 'anatomy', 'enzyme', 'started', 'elapsed'].every((k) => finite(r[k]));
   return (
     data &&
@@ -229,7 +251,7 @@ export function reactionState(seconds, character, organ) {
     character === 'poul' && organ === 'stomach'
       ? 'denaturation'
       : character === 'trine' && organ === 'duodenum'
-        ? 'emulsification'
+        ? 'approach'
         : 'approach';
   return {
     phase:
@@ -267,8 +289,55 @@ export function enzymeTotal(id) {
 // Old trophies remain byte-for-byte intact. An interrupted old run resumes at
 // the corresponding anatomical checkpoint, with its current challenge restarted.
 export function migrateDigestion(data) {
+  if (data.curriculumVersion !== 1) {
+    data.archivedLearningLog = [
+      ...(data.archivedLearningLog || []),
+      ...(data.learningLog || []),
+    ].slice(-200);
+    data.learningLog = [];
+    delete data.learningCurrent;
+    data.curriculumVersion = 1;
+  }
+  if (data.reviewDraft) data.reviewDraft = adaptReviewQuestions(data.reviewDraft);
+  if (data.assessmentDraft) {
+    const draft = data.assessmentDraft,
+      pool = BASIC_QUESTION_POOLS[draft.character];
+    if (pool) {
+      const ids =
+        draft.questionIds || Array.from({ length: 5 }, (_, i) => `${draft.character}-legacy-${i}`);
+      const taken = new Set(ids);
+      draft.questionIds = ids.map((id, i) => {
+        if (i < draft.answers.length || pool.some((q) => q.id === id)) return id;
+        const next = pool.find((q) => !taken.has(q.id)).id;
+        taken.add(next);
+        return next;
+      });
+    }
+  }
   const r = structuredClone(data.active);
-  if (!r || r.routeVersion === 3) return data;
+  if (!r) return data;
+  if (r.routeVersion === 3) {
+    data.active = r;
+    if (r.phase === 'absorb-choice' || (r.phase === 'retry' && r.retryFrom === 'absorb-choice')) {
+      if (r.phase === 'retry') r.lives = 2;
+      r.phase = 'absorption';
+      delete r.animation;
+      delete r.retryFrom;
+    }
+    if (
+      (['absorption', 'absorb-choice'].includes(r.phase) &&
+        ['transport', 'residue'].includes(r.absorptionView)) ||
+      ['transport', 'residue'].includes(r.animation?.mode)
+    ) {
+      r.absorbed = true;
+      r.product = 'residue';
+      r.absorptionPassed = true;
+      r.absorptionView = 'residue';
+      r.phase = 'route';
+      delete r.animation;
+    }
+    return data;
+  }
   data.active = r;
   const old = [
     'mouth',

@@ -1,0 +1,18 @@
+[
+  {
+    "name": "peristaltik-oesophagus.mp4",
+    "frames": 7,
+    "duration": 4.130678176879883,
+    "source": "Actual Chromium Page.screencastFrame; variable frame timestamps retained."
+  },
+  {
+    "name": "miceller-og-optagelse",
+    "error": "too few real browser frames"
+  },
+  {
+    "name": "toiletfinale.mp4",
+    "frames": 12,
+    "duration": 3.3595170974731445,
+    "source": "Actual Chromium Page.screencastFrame; variable frame timestamps retained."
+  }
+]

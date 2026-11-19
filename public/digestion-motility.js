@@ -102,6 +102,16 @@ vec3 digestDeform(vec3 p) {
   return digestAxis+(p-digestAxis)*digestScale(digestParams);
 }
 `;
+export function gastricPortMask(p, ports = []) {
+  return ports.reduce(
+    (mask, port) =>
+      Math.min(
+        mask,
+        T.MathUtils.smoothstep(p.distanceTo(port.center), port.radius + 0.45, port.radius + 1.45),
+      ),
+    1,
+  );
+}
 export function createMotility(id, built) {
   if (!MOTILITY[id]) return null;
   const clock = { value: new T.Vector4(0, 0, 0, 0) };
@@ -110,7 +120,8 @@ export function createMotility(id, built) {
     const parameters = [],
       axes = [],
       gradients = [],
-      derivatives = [];
+      derivatives = [],
+      masks = [];
     for (let i = 0; i < vertices.count; i++) {
       const p = new T.Vector3().fromBufferAttribute(vertices, i);
       const gastric = id === 'stomach' ? gastricFrame(p, true) : null;
@@ -119,7 +130,7 @@ export function createMotility(id, built) {
           ? gastric.u
           : id === 'caecum'
             ? clamp((p.y + 4.2) / 9, 0, 1)
-            : Math.floor(i / (geometry.userData.around + 1)) / geometry.userData.along;
+            : geometry.attributes.uv.getY(i);
       const axis =
         id === 'stomach'
           ? gastric.axis
@@ -133,11 +144,25 @@ export function createMotility(id, built) {
       if (gastric) {
         gradients.push(...gastric.gradient.toArray());
         derivatives.push(...gastric.derivative.toArray());
+        const mask = gastricPortMask(p, built.stomachPorts),
+          d = 0.001;
+        const grad = [0, 1, 2].map((k) => {
+          const a = p.clone(),
+            b = p.clone();
+          a.setComponent(k, a.getComponent(k) + d);
+          b.setComponent(k, b.getComponent(k) - d);
+          return (
+            (gastricPortMask(a, built.stomachPorts) - gastricPortMask(b, built.stomachPorts)) /
+            (2 * d)
+          );
+        });
+        masks.push(mask, ...grad);
       }
     }
     geometry.setAttribute('digestParams', new T.Float32BufferAttribute(parameters, 4));
     geometry.setAttribute('digestAxis', new T.Float32BufferAttribute(axes, 3));
     if (id === 'stomach') {
+      geometry.setAttribute('digestPortMask', new T.Float32BufferAttribute(masks, 4));
       geometry.setAttribute('digestGradient', new T.Float32BufferAttribute(gradients, 3));
       geometry.setAttribute('digestDerivative', new T.Float32BufferAttribute(derivatives, 3));
       geometry.computeBoundingSphere();
@@ -158,7 +183,9 @@ export function createMotility(id, built) {
         .clone()
         .sub(axis)
         .multiplyScalar(
-          motionScale(motionParameters(id, u), clock.value.toArray(), MOTILITY[id].width),
+          1 -
+            (1 - motionScale(motionParameters(id, u), clock.value.toArray(), MOTILITY[id].width)) *
+              (id === 'stomach' ? gastricPortMask(p, built.stomachPorts) : 1),
         )
         .add(axis);
     },
@@ -189,7 +216,7 @@ export function createMotility(id, built) {
           ) + shader.vertexShader;
         if (id === 'stomach') {
           shader.vertexShader =
-            `attribute vec3 digestGradient; attribute vec3 digestDerivative;
+            `attribute vec3 digestGradient; attribute vec3 digestDerivative; attribute vec4 digestPortMask;
           vec4 gastricParams(float u) { float d=smoothstep(0.2,0.85,u); float e=0.08+0.92*d; return vec4(u,-0.6*(1.0-d)/e,-0.4*(1.0-d)/e,e); }
 ` + shader.vertexShader;
           // Inverse-transpose of the deformation Jacobian. The continuous field
@@ -197,13 +224,20 @@ export function createMotility(id, built) {
           shader.vertexShader = shader.vertexShader.replace(
             '#include <beginnormal_vertex>',
             `#include <beginnormal_vertex>
-            float s=digestScale(digestParams);
+            float baseScale=digestScale(digestParams); float s=1.0-(1.0-baseScale)*digestPortMask.x;
             float slope=(digestScale(gastricParams(digestParams.x+0.001))-digestScale(gastricParams(digestParams.x-0.001)))/0.002;
-            vec3 v=(1.0-s)*digestDerivative+(position-digestAxis)*slope;
-            objectNormal=normalize(objectNormal-digestGradient*dot(v,objectNormal)/max(0.1,s+dot(digestGradient,v)));
+            vec3 radial=position-digestAxis;
+            vec3 gradS=digestGradient*slope*digestPortMask.x-(1.0-baseScale)*digestPortMask.yzw;
+            mat3 J=mat3(s)+outerProduct((1.0-s)*digestDerivative,digestGradient)+outerProduct(radial,gradS);
+            objectNormal=normalize(cross(J[1],J[2])*objectNormal.x+cross(J[2],J[0])*objectNormal.y+cross(J[0],J[1])*objectNormal.z);
           `,
           );
         }
+        if (id === 'stomach')
+          shader.vertexShader = shader.vertexShader.replace(
+            'return digestAxis+(p-digestAxis)*digestScale(digestParams);',
+            'return digestAxis+(p-digestAxis)*(1.0-(1.0-digestScale(digestParams))*digestPortMask.x);',
+          );
         shader.vertexShader = instanced
           ? shader.vertexShader.replace(
               '#include <project_vertex>',

@@ -1,0 +1,397 @@
+{
+  "captures": [
+    {
+      "variant": "coarse",
+      "name": "desktop-duodenum-forward",
+      "triangles": 212048,
+      "drawCalls": 7,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-duodenum-back",
+      "triangles": 246420,
+      "drawCalls": 10,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-jejunum-forward",
+      "triangles": 246012,
+      "drawCalls": 19,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-jejunum-back",
+      "triangles": 316444,
+      "drawCalls": 27,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-ileum-forward",
+      "triangles": 120060,
+      "drawCalls": 15,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-ileum-back",
+      "triangles": 164232,
+      "drawCalls": 21,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-pylorus-forward",
+      "triangles": 458808,
+      "drawCalls": 28,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-pylorus-back",
+      "triangles": 28889,
+      "drawCalls": 15,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-duodenum-jejunum-forward",
+      "triangles": 181904,
+      "drawCalls": 13,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-duodenum-jejunum-back",
+      "triangles": 265920,
+      "drawCalls": 20,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-jejunum-ileum-forward",
+      "triangles": 125652,
+      "drawCalls": 13,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-jejunum-ileum-back",
+      "triangles": 69064,
+      "drawCalls": 9,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-ileocoekal-forward",
+      "triangles": 52354,
+      "drawCalls": 16,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "desktop-ileocoekal-back",
+      "triangles": 173692,
+      "drawCalls": 27,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-duodenum-forward",
+      "triangles": 212048,
+      "drawCalls": 7,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-duodenum-back",
+      "triangles": 246420,
+      "drawCalls": 10,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-jejunum-forward",
+      "triangles": 246012,
+      "drawCalls": 19,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-jejunum-back",
+      "triangles": 312364,
+      "drawCalls": 23,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-ileum-forward",
+      "triangles": 119772,
+      "drawCalls": 14,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-ileum-back",
+      "triangles": 163944,
+      "drawCalls": 20,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-pylorus-forward",
+      "triangles": 458808,
+      "drawCalls": 28,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-pylorus-back",
+      "triangles": 28673,
+      "drawCalls": 14,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-duodenum-jejunum-forward",
+      "triangles": 151784,
+      "drawCalls": 11,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-duodenum-jejunum-back",
+      "triangles": 128500,
+      "drawCalls": 11,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-jejunum-ileum-forward",
+      "triangles": 125652,
+      "drawCalls": 13,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-jejunum-ileum-back",
+      "triangles": 69064,
+      "drawCalls": 9,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-ileocoekal-forward",
+      "triangles": 52354,
+      "drawCalls": 16,
+      "ratio": 0.8
+    },
+    {
+      "variant": "coarse",
+      "name": "mobile-ileocoekal-back",
+      "triangles": 173692,
+      "drawCalls": 27,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-duodenum-forward",
+      "triangles": 212048,
+      "drawCalls": 7,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-duodenum-back",
+      "triangles": 249468,
+      "drawCalls": 11,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-jejunum-forward",
+      "triangles": 209052,
+      "drawCalls": 15,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-jejunum-back",
+      "triangles": 255284,
+      "drawCalls": 21,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-ileum-forward",
+      "triangles": 110780,
+      "drawCalls": 13,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-ileum-back",
+      "triangles": 154632,
+      "drawCalls": 20,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-pylorus-forward",
+      "triangles": 291752,
+      "drawCalls": 16,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-pylorus-back",
+      "triangles": 33399,
+      "drawCalls": 17,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-duodenum-jejunum-forward",
+      "triangles": 155504,
+      "drawCalls": 12,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-duodenum-jejunum-back",
+      "triangles": 131220,
+      "drawCalls": 15,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-jejunum-ileum-forward",
+      "triangles": 113292,
+      "drawCalls": 12,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-jejunum-ileum-back",
+      "triangles": 99192,
+      "drawCalls": 11,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-ileocoekal-forward",
+      "triangles": 52354,
+      "drawCalls": 16,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "desktop-ileocoekal-back",
+      "triangles": 140160,
+      "drawCalls": 23,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-duodenum-forward",
+      "triangles": 212048,
+      "drawCalls": 7,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-duodenum-back",
+      "triangles": 249468,
+      "drawCalls": 11,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-jejunum-forward",
+      "triangles": 209052,
+      "drawCalls": 15,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-jejunum-back",
+      "triangles": 251204,
+      "drawCalls": 17,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-ileum-forward",
+      "triangles": 110492,
+      "drawCalls": 12,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-ileum-back",
+      "triangles": 154344,
+      "drawCalls": 19,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-pylorus-forward",
+      "triangles": 291752,
+      "drawCalls": 16,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-pylorus-back",
+      "triangles": 33183,
+      "drawCalls": 16,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-duodenum-jejunum-forward",
+      "triangles": 151784,
+      "drawCalls": 11,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-duodenum-jejunum-back",
+      "triangles": 128500,
+      "drawCalls": 11,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-jejunum-ileum-forward",
+      "triangles": 113292,
+      "drawCalls": 12,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-jejunum-ileum-back",
+      "triangles": 99192,
+      "drawCalls": 11,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-ileocoekal-forward",
+      "triangles": 52354,
+      "drawCalls": 16,
+      "ratio": 0.8
+    },
+    {
+      "variant": "fine",
+      "name": "mobile-ileocoekal-back",
+      "triangles": 140160,
+      "drawCalls": 23,
+      "ratio": 0.8
+    }
+  ],
+  "errors": []
+}

@@ -5,8 +5,9 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
  const {BLOOD_LEVELS}=await import('../public/blood-routes.js');
  const browser=await chromium.launch({...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox','--enable-unsafe-swiftshader','--use-angle=swiftshader']});
  try{
+  // Software WebGL can exceed 30 s for a transit. Keep every valve/route assertion.
   // Full detailed route with sound and real animation, including valve transit.
-  const page=await browser.newPage({viewport:{width:1280,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const page=await browser.newPage({viewport:{width:1280,height:1000}}),errors=[];page.setDefaultTimeout(120000);page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(()=>{
    window.audioStarts=[];window.audioSources=[];window.valveCrossings=[];
    let previousStage='',previousU=0;
@@ -45,9 +46,10 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
     await page.locator('.blood-play').screenshot({path:'/tmp/blood-anatomy-lung-desktop.png'});
     assert.match(await page.locator('.blood-world-caption').textContent(),/alveoler/);
    }
-   // Valve labels move with the animation; Playwright's stability wait cannot settle on slow software GPUs.
-   // Keep all passage, timing and valve-opening assertions below.
-   const started=Date.now();await page.locator('[data-passage]').filter({hasText:route.steps[i+1].name}).click({force:true});
+   // Animated valve labels move between pointer measurements on slow software GPUs.
+   // Activate the same button by keyboard; touch targets are checked below.
+   // Keep all passage, timing and valve-opening assertions.
+   const started=Date.now();await page.locator('[data-passage]').filter({hasText:route.steps[i+1].name}).press('Enter');
    if(i===route.choices.length-1)await page.locator('.blood-result').waitFor();
    else {
     await page.waitForFunction(expected=>document.querySelector('[role=progressbar]')?.getAttribute('aria-valuenow')===String(expected),i+1);
@@ -67,6 +69,7 @@ const base=process.env.APP_URL||'http://127.0.0.1:3001/sygepleje-laeringsstier/'
   assert.match(await page.locator('.blood-result').textContent(),/Tillykke/);
   // Reduced motion stops ambient repainting, and touch controls remain visible.
   const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+  mobile.setDefaultTimeout(120000);
   await mobile.goto(base+'#/sti/blodcellens-rejse/blood-hard');await mobile.locator('[data-blood=start]').tap();await mobile.locator('[data-passage]:enabled').first().waitFor();
   const hard=BLOOD_LEVELS.hard;
   for(let i=0;i<hard.choices.length;i++){

@@ -1,5 +1,5 @@
 import { assessmentQuestions, scoreAssessment } from './digestion-assessment.js';
-import { createAssessment, createReview } from './digestion-exam.js';
+import { createAssessment, createReview, advancedArchiveQuestion } from './digestion-exam.js';
 import { shuffled } from './digestion-engine.js';
 import { esc } from './ui.js';
 
@@ -26,7 +26,7 @@ export function createExamController({
     const q = assessmentQuestions(exam.character, exam.questionIds)[index];
     if (!q) return;
     const choices = shuffled(q.options.map((text, i) => ({ text, i })));
-    panel.innerHTML = `<h2> ${exam.review ? 'Repetition' : 'Afsluttende test'} · ${exam.review ? exam.review.cursor + 1 : index + 1}/${exam.review ? exam.review.indices.length : 5}</h2><p class="digest-exam-question">${esc(q.prompt)}</p><div class="digest-choices">${choices.map((o) => `<button data-exam-answer="${o.i}">${esc(o.text)}</button>`).join('')}</div>`;
+    panel.innerHTML = `<h2> ${exam.review ? 'Repetition' : 'Afsluttende test'} · ${exam.review ? exam.review.cursor + 1 : index + 1}/${exam.review ? exam.review.indices.length : 5}</h2>${exam.curriculumAdapted ? '<p>Opdaterede grundspørgsmål. Dit tidligere testresultat er bevaret.</p>' : ''}<p class="digest-exam-question">${esc(q.prompt)}</p><div class="digest-choices">${choices.map((o) => `<button data-exam-answer="${o.i}">${esc(o.text)}</button>`).join('')}</div>`;
     focusQuestion();
   }
   function showAssessmentResult(result) {
@@ -36,9 +36,10 @@ export function createExamController({
       result.character,
       result.questionIds,
     )
-      .map(
-        (q, n) =>
-          `<li><strong>${result.answers[n] === 0 ? 'Korrekt' : 'Repetér'}: ${esc(q.prompt)}</strong><p>${esc(q.why)}</p></li>`,
+      .map((q, n) =>
+        advancedArchiveQuestion(q)
+          ? `<li><strong>${result.answers[n] === 0 ? 'Korrekt' : 'Repetér'} · arkiveret spørgsmål fra en tidligere testversion</strong><p>Dit oprindelige svar og resultat er bevaret. Repetition bruger opdaterede grundspørgsmål.</p></li>`
+          : `<li><strong>${result.answers[n] === 0 ? 'Korrekt' : 'Repetér'}: ${esc(q.prompt)}</strong><p>${esc(q.why)}</p></li>`,
       )
       .join(
         '',

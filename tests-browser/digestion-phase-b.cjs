@@ -18,7 +18,7 @@ fs.mkdirSync(output, { recursive: true });
       hasTouch: true,
     });
     page.setDefaultTimeout(60000);
-    page.on('dialog',dialog=>dialog.accept());
+    page.on('dialog', (dialog) => dialog.accept());
     const errors = [];
     page.on('pageerror', (e) => errors.push(e.message));
     page.on('console', (m) => {
@@ -37,7 +37,7 @@ fs.mkdirSync(output, { recursive: true });
     );
     await page.locator('[data-digest=start]').waitFor();
     async function fixture(index, phase = 'route', character = 'stanley') {
-      await page.mouse.click(5,5);
+      await page.mouse.click(5, 5);
       await page.goto('about:blank');
       await page.goto(base + '#/');
       await page.locator('#digestion-root').waitFor({ state: 'detached' });
@@ -235,7 +235,7 @@ fs.mkdirSync(output, { recursive: true });
     await page.screenshot({ timeout: 120000, path: output + '/13-tilbageblik-mobil.png' });
     assert.deepEqual(errors, []);
     console.log(
-      'PASS phase B: actual scene screenshots, rest/swallow coordination, 1500–3200 rooted villi, stable camera and unrestricted backward mouse/touch look, desktop/mobile, no page errors',
+      'PASS phase B: actual scene screenshots, rest/swallow coordination, 1500–4840 rooted villi (3200 in jejunum), stable camera and unrestricted backward mouse/touch look, desktop/mobile, no page errors',
     );
   } finally {
     await browser.close();

@@ -38,13 +38,13 @@ fs.mkdirSync(output, { recursive: true });
       // tests real automatic transitions without this inspection-only scheduler.
       window.__inspectSequence = true;
       const nativeTimeout = window.setTimeout;
-      window.setTimeout = (fn,ms,...args) => {
-        if (typeof fn==='function' && String(fn).includes('pending.elapsed'))
-          return nativeTimeout(function inspect(){
-            if(window.__inspectSequence) nativeTimeout(inspect,50);
+      window.setTimeout = (fn, ms, ...args) => {
+        if (typeof fn === 'function' && String(fn).includes('pending.elapsed'))
+          return nativeTimeout(function inspect() {
+            if (window.__inspectSequence) nativeTimeout(inspect, 50);
             else fn(...args);
-          },ms);
-        return nativeTimeout(fn,ms,...args);
+          }, ms);
+        return nativeTimeout(fn, ms, ...args);
       };
       const raf = requestAnimationFrame;
       window.__held = [];
@@ -69,9 +69,9 @@ fs.mkdirSync(output, { recursive: true });
       await page.locator('#digestion-root').waitFor({ state: 'detached' });
       await page.evaluate(
         async ({ base, character, index, mode, age }) => {
-          const moduleURL=document.querySelector('script[type=module]').src;
-          const { newDigestion } = await import(new URL('digestion-engine.js',moduleURL));
-          const { ROUTE, BOSSES } = await import(new URL('digestion-data.js',moduleURL));
+          const moduleURL = document.querySelector('script[type=module]').src;
+          const { newDigestion } = await import(new URL('digestion-engine.js', moduleURL));
+          const { ROUTE, BOSSES } = await import(new URL('digestion-data.js', moduleURL));
           const phase = ['absorb', 'transport'].includes(mode)
             ? 'absorption'
             : mode === 'bile'
@@ -289,7 +289,8 @@ fs.mkdirSync(output, { recursive: true });
           `09-micelle-${size}.png`,
           'Micellen leverer lipidprodukter ved børstesømmen og bliver i lumen.',
         );
-        assert.equal(micelle.epithelium.micelleCrosses, false);
+        assert.equal(micelle.epithelium.bileInLumen, true);
+        assert.equal(micelle.epithelium.wallOpaque, true);
         await fixture('poul', 4, 'reaction');
         await waitAge(1);
         await capture(`10-protein-${size}-a.png`, 'Proteinet udfoldes i det sure ventrikelmiljø.');
@@ -307,41 +308,42 @@ fs.mkdirSync(output, { recursive: true });
         await waitAge(5.5);
         const hydrolysis = await capture(
           `13-peptidoptagelse-${size}-b.png`,
-          'De optagne små peptider hydrolyseres inde i epitelet.',
+          'Små peptider og aminosyrer optages ved den solide tarmvæg.',
         );
-        assert.equal(hydrolysis.epithelium.hydrolysed, true);
-        assert.equal(hydrolysis.epithelium.enterocytes, 18);
+        assert.equal(hydrolysis.epithelium.wallOpaque, true);
+        assert.equal(hydrolysis.epithelium.bloodOrLymphScene, false);
         await fixture('stanley', 6, 'absorb');
         await waitAge(3.5);
         await capture(
           `14-glukoseoptagelse-${size}.png`,
           'Glukose passerer børstesømmen og enterocytterne i det lokale vævsudsnit.',
         );
-        await fixture('stanley', 6, 'transport');
-        await waitAge(6);
-        const blood = await capture(
-          `15-blodtransport-${size}.png`,
-          'Glukose følger kapillærblod og portal transport mod leveren.',
-        );
-        assert.equal(blood.epithelium.destination, 'liver-via-portal-blood');
-        await fixture('trine', 6, 'transport');
-        await waitAge(1.1);
+        await fixture('trine', 5, 'micelle');
+        await waitAge(1);
         await capture(
-          `16-reesterificering-${size}.png`,
-          'Triglycerider gendannes inde i enterocytterne før chylomikrontransport.',
+          `15-micelledannelse-${size}-a.png`,
+          'Galdesalte samles omkring allerede spaltede fedtprodukter.',
         );
         await waitAge(5.3);
-        const lymph = await capture(
-          `17-lymfetransport-${size}.png`,
-          'Chylomikronerne passerer til lactealet og følger lymfevejen.',
+        const assembly = await capture(
+          `16-micelledannelse-${size}-b.png`,
+          'Blandede miceller med fedtsyrer og monoglycerider.',
         );
-        assert.ok(lymph.epithelium.chylomicrons >= 2);
-        assert.equal(lymph.epithelium.compartment, 'lymph');
-        await waitAge(10);
-        await capture(
-          `18-lymfe-til-blod-${size}.png`,
-          'Lymfen føres til ductus thoracicus og venstre venevinkel, videre til systemisk blod.',
+        assert.equal(assembly.epithelium.intactTriglycerides, 0);
+        await fixture('trine', 6, 'absorb');
+        await waitAge(4.5);
+        const delivery = await capture(
+          `17-aflevering-${size}.png`,
+          'Produkterne afleveres ved den virkelige, solide tarmvæg; galdesaltene bliver i lumen.',
         );
+        assert.equal(delivery.epithelium.bileInLumen, true);
+        await waitAge(9.5);
+        const absorbed = await capture(
+          `18-optaget-${size}.png`,
+          'Alle seks produktpakker er optaget ved væggen. Ingen særskilt blod- eller lymfescene.',
+        );
+        assert.equal(absorbed.epithelium.absorbed, 6);
+        assert.equal(await page.locator('[data-absorb],.digest-compartments').count(), 0);
         await fixture('stanley', 14, 'finale');
         await waitAge(1.5);
         await capture(
@@ -354,22 +356,25 @@ fs.mkdirSync(output, { recursive: true });
           'Resten rammer toiletvandet oppefra; næringsstoffet er allerede absorberet.',
         );
         assert.ok(impact.defecation.camera[1] > impact.defecation.waterY);
-        await page.evaluate(()=>window.__inspectSequence=false);
+        await page.evaluate(() => (window.__inspectSequence = false));
         await page.getByRole('heading', { name: 'TILLYKKE!', exact: false }).waitFor();
         await capture(
           `21-slutskaerm-stanley-${size}.png`,
-          'Stanleys afslutning: glukose til portalblod og lever.',
+          'Stanleys afslutning: glukose optaget gennem tyndtarmens slimhinde til blodet.',
         );
         for (const character of ['trine', 'poul']) {
           await fixture(character, 14, 'finale', 5.3);
-          await page.evaluate(()=>window.__inspectSequence=false);
+          await page.evaluate(() => (window.__inspectSequence = false));
           await page.getByRole('heading', { name: 'TILLYKKE!', exact: false }).waitFor();
           const text = await page.locator('.digest-nutrient-ending').textContent();
-          assert.match(text, character === 'trine' ? /venstre venevinkel/ : /tripeptider/);
+          assert.match(
+            text,
+            character === 'trine' ? /galdesaltene.*tarmen/i : /aminosyrer og små peptider/,
+          );
           await capture(
             `22-slutskaerm-${character}-${size}.png`,
             character === 'trine'
-              ? 'Trines afslutning: chylomikroner via lymfe til systemisk blod.'
+              ? 'Trines afslutning: fedtnedbrydningsprodukter optaget; galdesalte bliver i tarmen.'
               : 'Pouls afslutning: optagelse af aminosyrer/små peptider og portal transport.',
           );
         }
@@ -396,10 +401,10 @@ fs.mkdirSync(output, { recursive: true });
         [
           'trine',
           6,
-          'transport',
+          'absorb',
           7.6,
-          '31-lymfe',
-          'Lymfekar og transportvej på lille eller roteret skærm.',
+          '31-fedtoptaegelse',
+          'Automatisk fedtoptagelse ved den solide tarmvæg på lille eller roteret skærm.',
         ],
         [
           'stanley',
@@ -434,7 +439,7 @@ fs.mkdirSync(output, { recursive: true });
       await page.setViewportSize({ width: 1280, height: 800 });
       for (const [character, index, mode, seconds, name] of [
         ['stanley', 3, 'route', 9, 'peristaltik-oesophagus'],
-        ['trine', 6, 'transport', 12.5, 'chylomikroner-lymfe'],
+        ['trine', 6, 'absorb', 9.5, 'miceller-og-optagelse'],
         ['stanley', 14, 'finale', 6, 'toiletfinale'],
       ]) {
         try {
@@ -521,7 +526,7 @@ fs.mkdirSync(output, { recursive: true });
       ['stanley', 2, 'swallow'],
       ['trine', 5, 'bile'],
       ['poul', 6, 'absorb'],
-      ['trine', 6, 'transport'],
+      ['trine', 5, 'micelle'],
       ['stanley', 14, 'finale'],
     ]) {
       await fixture(character, index, mode);
@@ -559,16 +564,18 @@ fs.mkdirSync(output, { recursive: true });
     // Animations have no replay/continue controls; releasing model inspection
     // lets the real automatic controller advance without any answer being sent.
     await fixture('stanley', 0, 'reaction', 5);
-    assert.equal(await page.locator('[data-digest=replay],[data-digest=skip]').count(),0);
+    assert.equal(await page.locator('[data-digest=replay],[data-digest=skip]').count(), 0);
     const stable = await state();
     await page.waitForTimeout(650);
     assert.deepEqual((await state()).camera, stable.camera);
-    await page.evaluate(()=>window.__inspectSequence=false);
-    await page.waitForFunction(()=>document.querySelector('canvas').dataset.digestMode!=='reaction');
+    await page.evaluate(() => (window.__inspectSequence = false));
+    await page.waitForFunction(
+      () => document.querySelector('canvas').dataset.digestMode !== 'reaction',
+    );
     assert.deepEqual(errors, []);
     fs.writeFileSync(path.join(output, 'captures.json'), JSON.stringify(captures, null, 2) + '\n');
     console.log(
-      'PASS phase C: actual desktop/mobile animations, blood/lymph separation, intracellular peptide hydrolysis, above-water finale, all three ending screens, automatic completion and IndexedDB animation checkpoints; no shader/page errors.',
+      'PASS phase C: actual desktop/mobile animations, automatic uptake at opaque wall, micelles retain bile salts, above-water finale, all three ending screens, automatic completion and IndexedDB animation checkpoints; no shader/page errors.',
     );
     await page.close();
   } finally {

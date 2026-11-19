@@ -1,3 +1,6 @@
+// Legacy local inspection poses for geometry regressions and comparable benchmarks.
+// Gameplay follows the persistent, continuous route camera.
+export { createRouteCamera } from './digestion-route-camera.js';
 import * as T from './three.module.min.js';
 import { organCurve } from './digestion-anatomy.js';
 export function viewPose(id) {

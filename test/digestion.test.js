@@ -74,12 +74,12 @@ for (const id of Object.keys(CHARACTERS))
     r.index = 99;
     assert.equal(validDigestion({ active: r, results: {} }), false);
   });
-test('nutrient-specific mechanisms distinguish blood, lymph, denaturation, emulsification and hydrolysis', () => {
-  assert.match(CHARACTERS.stanley.transport, /SGLT1/);
-  assert.match(CHARACTERS.stanley.transport, /GLUT2/);
-  assert.match(CHARACTERS.trine.transport, /2-monoglycerider/);
-  assert.match(CHARACTERS.trine.transport, /lymfekar/);
-  assert.match(CHARACTERS.poul.transport, /PEPT1/);
+test('basic nutrient explanations distinguish uptake, emulsification and hydrolysis', () => {
+  assert.match(CHARACTERS.stanley.transport, /slimhinde/);
+  assert.match(CHARACTERS.stanley.transport, /blodet/);
+  assert.match(CHARACTERS.trine.transport, /monoglycerider/);
+  assert.match(CHARACTERS.trine.transport, /galdesalte bliver i lumen/);
+  assert.match(CHARACTERS.poul.transport, /Aminosyrer og små peptider/);
   assert.equal(BOSSES.trine.mouth, undefined);
   assert.equal(BOSSES.trine.stomach, undefined);
   assert.equal(BOSSES.stanley.stomach, undefined);
@@ -159,7 +159,7 @@ test('assessment is separately scored and all nutrients have five explanatory qu
 });
 test('chemical animation separates denaturation, emulsification, hydrolysis and reuse', () => {
   assert.equal(reactionState(1, 'poul', 'stomach').phase, 'denaturation');
-  assert.equal(reactionState(1, 'trine', 'duodenum').phase, 'emulsification');
+  assert.equal(reactionState(1, 'trine', 'duodenum').phase, 'approach');
   assert.equal(reactionState(2.5, 'stanley', 'mouth').phase, 'binding');
   assert.equal(reactionState(3.5, 'stanley', 'mouth').cut, true);
   assert.equal(reactionState(7, 'stanley', 'mouth').phase, 'release');

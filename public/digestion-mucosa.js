@@ -48,7 +48,7 @@ export function villusSway(y, height, time, phase) {
   return 0.022 * Math.sin(time * 0.6 + phase) * Math.pow(Math.max(0, y) / height, 2);
 }
 export function buildVilli(id, built, texture, motility = null) {
-  const region = MUCOSA_REGIONS[id],
+  const region = built.mucosaRegion || MUCOSA_REGIONS[id],
     camera = built.path.getPointAt(0.045);
   const group = new T.Group();
   group.name = 'rooted-villi-' + id;
@@ -59,7 +59,7 @@ export function buildVilli(id, built, texture, motility = null) {
   for (let i = 0; i < region.count; i++) {
     const u = 0.035 + ((i + 0.5) / region.count) * 0.91,
       a = i * 2.3999632297;
-    const frame = mucosaFrame(id, built, u, a);
+    const frame = built.surfaceFrame ? built.surfaceFrame(u, a) : mucosaFrame(id, built, u, a);
     object.position.copy(frame.point).addScaledVector(frame.inward, -0.035);
     object.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), frame.inward);
     const variation = 0.8 + 0.2 * (0.5 + 0.5 * Math.sin(i * 7.1));
@@ -74,7 +74,7 @@ export function buildVilli(id, built, texture, motility = null) {
     // Eight longitudinal sections keep draw overhead low while allowing
     // offscreen bends/sections to be culled when looking around. Never drop roots.
     const key = `${Math.floor(u * 8)}:${lod}`;
-    if (!entries.has(key)) entries.set(key, { lod, instances: [] });
+    if (!entries.has(key)) entries.set(key, { lod, section: Math.floor(u * 8), instances: [] });
     entries.get(key).instances.push({
       u,
       axis: built.path.getPointAt(u).toArray(),
@@ -85,7 +85,7 @@ export function buildVilli(id, built, texture, motility = null) {
     if (i % 97 === 0)
       anchors.push({ u, a, point: frame.point.toArray(), inward: frame.inward.toArray() });
   }
-  const meshes = [...entries.values()].map(({ instances, lod }) => {
+  const meshes = [...entries.values()].map(({ instances, lod, section }) => {
     // Keep rounded caps at every LOD; only their tessellation changes.
     const detail = [
       [4, 10],
@@ -140,6 +140,7 @@ export function buildVilli(id, built, texture, motility = null) {
     // Shader displacement is not included in the CPU geometry bounds.
     mesh.boundingSphere.radius += motility ? 0.65 : 0.06;
     mesh.userData.distanceLod = lod;
+    mesh.userData.section = section;
     group.add(mesh);
     return mesh;
   });

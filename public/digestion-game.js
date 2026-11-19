@@ -13,7 +13,6 @@ import {
   renderDigestMap,
 } from './digestion-navigation.js';
 import { CHARACTERS, ROUTE, BOSSES, PRODUCTS } from './digestion-data.js';
-import { ABSORPTION_CHOICES } from './digestion-assessment.js';
 import {
   newDigestion,
   chooseDigestion,
@@ -27,9 +26,7 @@ import {
 import { createDigestionWorld } from './digestion-world.js';
 import { lockGameViewport } from './blood-viewport.js';
 import { esc } from './ui.js';
-const RESIDUE_MESSAGE =
-  'Næringsstoffet er nu optaget gennem tyndtarmsslimhinden, godt arbejde! Du følger nu et ufordøjeligt affaldsstof resten af vejen.';
-const RESIDUE_READING_SECONDS = 10;
+import { BASIC_TEXT, UPTAKE_SECONDS } from './digestion-uptake.js';
 export function mountDigestion(root, { record, initialCharacter = 'stanley', save, onCharacter }) {
   const data = migrateDigestion((record.digestion ??= { results: {} }));
   let run = data.active,
@@ -68,15 +65,10 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         '<button data-digest="settings" aria-controls="digestion-settings" aria-expanded="false" aria-label="Spilindstillinger">⚙</button>',
       menu: '<button data-digest="menu" aria-label="Vælg karakter">☰</button>',
     },
-  )}${settingsDrawer('digestion-settings', `<button data-digest="settings-close" class="secondary">Luk indstillinger</button><button data-digest="pause" aria-pressed="false">Pause</button><section class="blood-audio" aria-label="Lydindstillinger"><label><input type="checkbox" data-setting="sound" ${sound ? 'checked' : ''}>Lyd</label><label class="blood-volume">Lydstyrke <output data-volume>${Math.round(volume * 100)}%</output><input type="range" min="0" max="1" step=".05" value="${volume}" data-setting="volume"></label><p>Originale, dæmpede miljø- og effektlyde. Ingen lydfiler hentes under spillet.</p><label><input type="checkbox" data-setting="ambient" ${ambientSounds ? 'checked' : ''}>Miljølyde</label><label><input type="checkbox" data-setting="effects" ${effectSounds ? 'checked' : ''}>Effektlyde</label><p data-digest-audio-status>Lyd starter efter dit klik.</p></section><label><input type="checkbox" data-setting="motion" ${motion ? 'checked' : ''}>Bevægelse</label><button data-digest="map" aria-expanded="${mapVisible}">Vis / skjul kropskort</button><button data-digest="center">◎ Centrér kamera</button><p>Træk eller swipe for at kigge rundt. Venstre/højre pil flytter fokus mellem svar; Enter vælger. Tasterne 1–3 kan også bruges.</p><p>Stiliseret undervisningsmodel. Molekyler og organer vises i forskellige skalaer.</p>`)}<div class="digest-hud blood3d-hud"></div><div class="digest-learning" hidden></div><div class="digest-compartments" hidden></div><aside class="digest-map" data-body-map ${mapVisible ? '' : 'hidden'}></aside><div class="blood3d-bottom"><p class="digest-product"></p><div class="blood-progress" role="progressbar" aria-label="Fremdrift gennem fordøjelseskanalen" aria-valuemin="1" aria-valuemax="15" aria-valuenow="1"><span></span></div><span data-progress-copy></span></div><div class="digest-panel"></div><p class="digest-save" role="status"></p></section>`;
+  )}${settingsDrawer('digestion-settings', `<button data-digest="settings-close" class="secondary">Luk indstillinger</button><button data-digest="pause" aria-pressed="false">Pause</button><section class="blood-audio" aria-label="Lydindstillinger"><label><input type="checkbox" data-setting="sound" ${sound ? 'checked' : ''}>Lyd</label><label class="blood-volume">Lydstyrke <output data-volume>${Math.round(volume * 100)}%</output><input type="range" min="0" max="1" step=".05" value="${volume}" data-setting="volume"></label><p>Originale, dæmpede miljø- og effektlyde. Ingen lydfiler hentes under spillet.</p><label><input type="checkbox" data-setting="ambient" ${ambientSounds ? 'checked' : ''}>Miljølyde</label><label><input type="checkbox" data-setting="effects" ${effectSounds ? 'checked' : ''}>Effektlyde</label><p data-digest-audio-status>Lyd starter efter dit klik.</p></section><label><input type="checkbox" data-setting="motion" ${motion ? 'checked' : ''}>Bevægelse</label><button data-digest="map" aria-expanded="${mapVisible}">Vis / skjul kropskort</button><button data-digest="center">◎ Centrér kamera</button><p>Træk eller swipe for at kigge rundt. Venstre/højre pil flytter fokus mellem svar; Enter vælger. Tasterne 1–3 kan også bruges.</p><p>Stiliseret undervisningsmodel. Molekyler og organer vises i forskellige skalaer.</p>`)}<div class="digest-hud blood3d-hud"></div><div class="digest-learning" hidden></div><aside class="digest-map" data-body-map ${mapVisible ? '' : 'hidden'}></aside><div class="blood3d-bottom"><p class="digest-product"></p><div class="blood-progress" role="progressbar" aria-label="Fremdrift gennem fordøjelseskanalen" aria-valuemin="1" aria-valuemax="15" aria-valuenow="1"><span></span></div><span data-progress-copy></span></div><div class="digest-panel"></div><p class="digest-save" role="status"></p></section>`;
   root.querySelector('#digestion-settings').classList.add('digest-settings');
-  root.querySelector('.digestion-game').insertAdjacentHTML(
-    'beforeend',
-    '<div class="digest-perspective-shift" role="status" aria-live="polite" aria-atomic="true" hidden></div>',
-  );
   const $ = (s) => root.querySelector(s),
-    panel = $('.digest-panel'),
-    perspectiveNotice = $('.digest-perspective-shift');
+    panel = $('.digest-panel');
   const toolbarObserver = new ResizeObserver(() => {
     root.style.setProperty('--digest-toolbar-height', $('.blood-game-bar').offsetHeight + 'px');
     root.style.setProperty('--toolbar-end', $('.blood-game-bar').offsetHeight + 8 + 'px');
@@ -111,11 +103,9 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
   function currentMoleculeLabel() {
     return run?.absorbed
       ? PRODUCTS.residue
-      : run?.absorptionView === 'transport' && run.character === 'trine'
-        ? 'Chylomikron → lymfe'
-        : run?.emulsified && run.product === 'triglyceride'
-          ? 'Emulgerede fedtdråber'
-          : PRODUCTS[run?.product] || '';
+      : run?.emulsified && run.product === 'triglyceride'
+        ? 'Emulgerede fedtdråber'
+        : PRODUCTS[run?.product] || '';
   }
   function renderLearning() {
     const card = $('.digest-learning'),
@@ -124,16 +114,22 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     if (!p) return;
     const iconForm = assessment?.character
       ? initialProduct(assessment.character)
-      : run?.absorptionView === 'transport' && !run.absorbed
-        ? run.character === 'trine'
-          ? 'chylomicron'
-          : run.product
-        : run?.emulsified && run.product === 'triglyceride'
-          ? 'emulsified-fat'
-          : run?.product || 'polysaccharide';
+      : run?.emulsified && run.product === 'triglyceride'
+        ? 'emulsified-fat'
+        : run?.product || 'polysaccharide';
     card.innerHTML =
       `${moleculeIcon(iconForm, assessment?.character ? CHARACTERS[assessment.character].name : currentMoleculeLabel() || 'Næringsstof')}` +
       `<span class="digest-point ${p.error ? 'digest-feedback' : ''}" role="status"><strong class="digest-point-title">${esc(p.title)}</strong><span class="digest-explanation">${esc(p.short)}</span></span>`;
+  }
+  function residuePoint() {
+    return {
+      key: run.character + ':residue',
+      character: run.character,
+      stage: 'jejunum',
+      title: 'En ufordøjelig rest',
+      short: BASIC_TEXT.residue,
+      detail: BASIC_TEXT.residue,
+    };
   }
   function learn(point) {
     rememberLearning(data, point);
@@ -254,7 +250,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     mapObserver.observe($('.blood-minimap'));
     measureMap();
     $('.digest-hud').innerHTML =
-      `<div class="blood-location"><strong class="blood3d-eyebrow">${esc(CHARACTERS[run.character].name)}</strong><h1>${esc(run.phase === 'entry' ? 'Uden for ansigtet' : s.danish + ' · ' + s.latin)}</h1><p class="blood-world-caption">${run.absorbed ? 'Du følger nu en ufordøjelig rest.' : s.id === 'epiglottis' ? 'Observationspunkt: føden passerer ikke gennem strubelåget.' : currentMoleculeLabel()}</p></div><div class="blood3d-top-controls"><span class="blood-lives" role="img" aria-label="${run.lives} af 2 liv tilbage">${'♥'.repeat(run.lives)}${'♡'.repeat(2 - run.lives)}</span></div>`;
+      `<div class="blood-location"><strong class="blood3d-eyebrow">${esc(CHARACTERS[run.character].name)}</strong><h1>${esc(run.phase === 'entry' ? 'Ved mundhulens indgang' : (run.phase === 'arrival' ? 'På vej til ' : '') + s.danish + ' · ' + s.latin)}</h1><p class="blood-world-caption">${run.absorbed ? 'Du følger nu en ufordøjelig rest.' : s.id === 'epiglottis' ? 'Observationspunkt: føden passerer ikke gennem strubelåget.' : currentMoleculeLabel()}</p></div><div class="blood3d-top-controls"><span class="blood-lives" role="img" aria-label="${run.lives} af 2 liv tilbage">${'♥'.repeat(run.lives)}${'♡'.repeat(2 - run.lives)}</span></div>`;
     $('.digest-product').textContent = PRODUCTS[run.absorbed ? 'residue' : run.product] || '';
     $('.blood-progress').setAttribute('aria-valuenow', String(run.index + 1));
     $('.blood-progress>span').style.width = ((run.index + 1) / ROUTE.length) * 100 + '%';
@@ -270,19 +266,11 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     );
     const micro = false;
     $('.digestion-game').classList.toggle('digest-micro', micro);
-    $('.digest-compartments').hidden = !['absorb', 'transport'].includes(mode);
-    $('.digest-compartments').innerHTML =
-      '<span>Tarmlumen</span><span>Tarmepitel</span><span class=\"blood-compartment\">Blodkapillær' +
-      (run?.character !== 'trine' ? ' ← herhen' : '') +
-      '</span><span class=\"lymph-compartment\">Lymfekar' +
-      (run?.character === 'trine' ? ' ← herhen' : '') +
-      '</span>';
-
     const checkpoint =
       restoringAnimation &&
       run?.animation?.stage === ROUTE[run?.index || 0].id &&
       run.animation.mode === mode
-        ? run.animation.age
+        ? run.animation
         : 0;
     restoringAnimation = false;
     world?.setScene(
@@ -301,8 +289,6 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
   function cancel() {
     $('.digest-route-labels')?.remove();
     sequenceRunner.cancel();
-    perspectiveNotice.hidden = true;
-    perspectiveNotice.replaceChildren();
     panel.hidden = false;
   }
   function sequence(title, text, mode, seconds, next) {
@@ -317,28 +303,27 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         : ['secretion', 'brush-border', 'bile'].includes(mode)
           ? run.task - 1
           : undefined;
-    if (taskIndex !== undefined) learn(learningPoint(run.character, stage, taskIndex));
-    else if (['absorb', 'transport'].includes(mode))
+    if (mode === 'bile')
+      learn({
+        key: run.character + ':bile',
+        character: run.character,
+        stage,
+        title: 'Galde emulgerer',
+        short: BASIC_TEXT.bile,
+        detail: BASIC_TEXT.bile,
+      });
+    else if (taskIndex !== undefined) learn(learningPoint(run.character, stage, taskIndex));
+    else if (mode === 'absorb' || mode === 'micelle')
       learn({
         key: run.character + ':' + mode,
         character: run.character,
-        stage: 'jejunum',
-        title: 'Absorption i tarmmiljøet',
-        short:
-          mode === 'transport'
-            ? run.character === 'trine'
-              ? 'Triglycerider gendannes og pakkes i chylomikroner i enterocytten. De følger lymfen via venstre venevinkel til systemisk blod.'
-              : run.character === 'stanley'
-                ? 'Glukose føres med kapillærblod via vena portae til leveren.'
-                : 'Aminosyrer forlader enterocytterne til kapillærer og føres via vena portae til leveren.'
-            : run.character === 'trine'
-              ? 'Miceller afleverer lipidprodukter ved tarmvæggen; micellen bliver i lumen.'
-              : run.character === 'poul'
-                ? 'Aminosyrer og di-/tripeptider optages; små peptider hydrolyseres overvejende inde i enterocytterne.'
-                : 'Glukose optages via SGLT1 ved børstesømmen og føres videre gennem enterocytten.',
-        detail:
-          ABSORPTION_CHOICES[run.character].why +
-          ' Tarmvæggen vises som en gennemsigtig gennemskæring, så transporten kan ses fra lumen.',
+        stage: ROUTE[run.index].id,
+        title:
+          mode === 'micelle'
+            ? 'Miceller · processerne overlapper i kroppen'
+            : 'Optagelse ved tarmvæggen',
+        short: mode === 'micelle' ? BASIC_TEXT.micelle : BASIC_TEXT[run.character],
+        detail: mode === 'micelle' ? BASIC_TEXT.overlap : BASIC_TEXT[run.character],
       });
     else if (mode === 'finale')
       learn({
@@ -348,15 +333,6 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         title: 'Afslutning',
         short: 'Sfinkterne afslappes. Kun den ufordøjelige rest skylles ud.',
         detail: NUTRIENT_ENDINGS[run.character],
-      });
-    else if (mode === 'residue')
-      learn({
-        key: run.character + ':residue',
-        character: run.character,
-        stage: 'jejunum',
-        title: 'Perspektivskift',
-        short: 'Næringsstoffet er optaget. Du følger nu en ufordøjelig rest.',
-        detail: text,
       });
     else {
       const short =
@@ -378,15 +354,11 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     }
     panel.replaceChildren();
     panel.hidden = true;
-    if (mode === 'residue') {
-      perspectiveNotice.innerHTML = `<div class="digest-perspective-card"><h2>Perspektivskift</h2><p>${esc(RESIDUE_MESSAGE)}</p></div>`;
-      perspectiveNotice.hidden = false;
-    }
     sequenceRunner.start({
       seconds,
       initialAge: world?.timeline().age || 0,
       age: () => world?.timeline().age || 0,
-      animated: () => motion,
+      animated: () => motion || ['journey', 'swallow', 'intro', 'finale'].includes(mode),
       next: () => {
         if (disposed) return;
         cancel();
@@ -536,7 +508,18 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       b.addEventListener('pointerleave', () => world?.highlightChoice(-1));
     });
   }
-  function arrival() {
+  function arrival(landed = false) {
+    if (!landed && world?.travelNeeded(ROUTE[run.index].id)) {
+      run.phase = 'arrival';
+      sequence(
+        'Videre gennem fordøjelseskanalen',
+        'Du følger den sammenhængende fødevej.',
+        'journey',
+        world.travelDuration(ROUTE[run.index].id),
+        () => arrival(true),
+      );
+      return;
+    }
     cancel();
     panel.classList.remove('digest-menu');
     const s = ROUTE[run.index];
@@ -605,6 +588,10 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     run.product = BOSSES[run.character][s.id].at(-1).output;
     if (s.id === 'jejunum') {
       absorption();
+      return;
+    }
+    if (run.character === 'trine' && s.id === 'duodenum' && !run.micellesFormed) {
+      micelleFormation();
       return;
     }
     run.phase = 'route';
@@ -689,7 +676,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
               : 'Sekretet ankommer',
           task.why,
           task.visual,
-          4,
+          task.visual === 'bile' ? 12 : 4,
           () => {
             if (task.visual === 'bile') run.emulsified = true;
             run.phase = 'boss';
@@ -721,95 +708,36 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       root.querySelectorAll('[data-choice]').forEach((b) => (b.disabled = false));
     }
   }
-  function absorption() {
-    if (run.absorbed && run.absorptionView === 'residue') {
-      sequence(
-        'Nu skifter perspektivet',
-        RESIDUE_MESSAGE,
-        'residue',
-        RESIDUE_READING_SECONDS,
-        () => {
-          run.phase = 'route';
-          showScene('travel');
-          drawChoices();
-          void store();
-        },
-      );
-      return;
-    }
-    run.phase = 'absorption';
-    panel.classList.remove('digest-active', 'digest-nav');
-    if (run.absorptionPassed) {
-      run.absorptionView = 'transport';
+  function micelleFormation() {
+    run.phase = 'micelle';
+    sequence('Miceller dannes', BASIC_TEXT.micelle, 'micelle', 8, () => {
+      run.micellesFormed = true;
+      run.phase = 'route';
+      showScene('travel');
+      drawChoices();
       void store();
-      sequence(
-        'Følg transporten',
-        run.character === 'trine'
-          ? 'Triglycerider gendannes → chylomikron → lymfe. Micellen bliver i lumen.'
-          : run.character === 'stanley'
-            ? 'Glukose → enterocyt → blod.'
-            : 'Aminosyrer → enterocyt → blod.',
-        'transport',
-        11,
-        () => {
-          run.absorbed = true;
-          run.product = 'residue';
-          run.absorptionView = 'residue';
-          void store();
-          sequence(
-            'Nu skifter perspektivet',
-            RESIDUE_MESSAGE,
-            'residue',
-            RESIDUE_READING_SECONDS,
-            () => {
-              run.phase = 'route';
-              showScene('travel');
-              drawChoices();
-              void store();
-            },
-          );
-        },
-      );
-      return;
-    }
-    run.absorptionView = 'absorb';
-    void store();
-    sequence(
-      'Absorption gennem tarmvæggen',
-      run.character === 'stanley'
-        ? 'Glukose optages ved koblet transport gennem enterocytten – videre til blodet.'
-        : run.character === 'trine'
-          ? 'Miceller afleverer fedtsyrer og monoglycerider ved enterocytten.'
-          : 'Aminosyrer og små peptider optages i enterocytten.',
-      'absorb',
-      7,
-      absorptionChoice,
-    );
+    });
   }
-  function absorptionChoice() {
-    panel.classList.remove('digest-active', 'digest-nav');
-    run.phase = 'absorb-choice';
-    showScene('absorb');
-    const q = ABSORPTION_CHOICES[run.character];
-    options = shuffled(q.options.map((label, i) => ({ label, correct: i === 0 })));
-    panel.classList.add('digest-compact');
-    if (!feedback)
-      learn({
-        key: run.character + ':uptake',
-        character: run.character,
-        stage: 'jejunum',
-        title: 'Absorption i jejunum',
-        short:
-          run.character === 'trine'
-            ? 'Langkædede lipidprodukter optages gennem tarmvæggen; chylomikroner transporterer fedtet videre til lymfen.'
-            : run.character === 'stanley'
-              ? 'SGLT1 optager glukose apikalt; GLUT2 fører den videre mod kapillærer og portalblod.'
-              : 'PEPT1 optager di-/tripeptider. Intracellulære peptidaser danner aminosyrer, som følger blodet.',
-        detail: q.why,
-      });
-    panel.innerHTML = `<h2>${esc(q.prompt)}</h2><div class="digest-choices">${options.map((o, i) => `<button data-absorb="${i}">${esc(o.label)}</button>`).join('')}</div>`;
-    focusQuestion();
-    void store();
+  function absorption() {
+    run.phase = 'absorption';
+    run.absorptionView = 'absorb';
+    sequence(
+      'Optagelse ved tarmvæggen',
+      BASIC_TEXT[run.character],
+      'absorb',
+      UPTAKE_SECONDS,
+      () => {
+        run.absorbed = true;
+        run.absorptionPassed = true;
+        run.product = 'residue';
+        run.absorptionView = 'residue';
+        run.phase = 'route';
+        showScene('travel');
+        learn(residuePoint());
+        drawChoices();
+        void store();
+      },
+    );
   }
   async function finish() {
     panel.classList.remove('digest-active', 'digest-nav', 'digest-compact');
@@ -823,7 +751,6 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     playing = false;
     renderLearning();
     measureMap();
-    $('.digest-compartments').hidden = true;
     $('.digest-map').style.visibility = 'hidden';
     data.results[run.character] = structuredClone(run);
     if (!record.done.includes('digestion-' + run.character))
@@ -833,7 +760,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     if (disposed) return;
     soundscape.locate('anus', 'won', true);
     soundscape.effect('finish');
-    panel.innerHTML = `<h2>TILLYKKE! Fra første bid til sidste skyl.</h2><p>${esc(CHARACTERS[run.character].name)} · 🏆 Syreoverleveren · Sidste stop: porcelæn</p><p class="digest-nutrient-ending">${esc(NUTRIENT_ENDINGS[run.character])} Kun den ufordøjelige rest skylles ud.</p><dl><dt>Korrekte anatomiske valg</dt><dd>${run.anatomy}</dd><dt>Korrekte enzymdelopgaver</dt><dd>${run.enzyme} / ${enzymeTotal(run.character)}</dd><dt>Fejl · resterende liv</dt><dd>${run.errors} · ${run.lives}</dd><dt>Tid</dt><dd>${Math.round(run.elapsed / 1000)} aktive sekunder${run.timingVersion === 2 ? '' : ' (historisk tid fra før v2)'}</dd></dl><details><summary>Enzymer og transportvej</summary><p>Enzymer: ${esc(CHARACTERS[run.character].enzymes)}</p><p>Absorption i tyndtarmen: ${esc(CHARACTERS[run.character].transport)}</p><h3>Læringsoversigt</h3><ol>${[...new Map((data.learningLog || []).filter((p) => p.character === run.character).map((p) => [p.key, p])).values()].map((p) => `<li><strong>${esc(p.title)}</strong><p>${esc(p.short)}</p><p>${esc(p.detail)}</p></li>`).join('')}</ol></details><p>Gennemført aktivitet er ikke dokumentation for klinisk kompetence.</p><p>Porcelænet fik resten – kroppen beholdt næringen. Fra første bid til sidste skyl!</p><button data-digest="exam">Afsluttende test · 5 spørgsmål uden hjælp</button><button data-digest="menu">Skyl ud og prøv et nyt næringsstof!</button>`;
+    panel.innerHTML = `<h2>TILLYKKE! Fra første bid til sidste skyl.</h2><p>${esc(CHARACTERS[run.character].name)} · 🏆 Syreoverleveren · Sidste stop: porcelæn</p><p class="digest-nutrient-ending">${esc(NUTRIENT_ENDINGS[run.character])} Kun den ufordøjelige rest skylles ud.</p><dl><dt>Korrekte anatomiske valg</dt><dd>${run.anatomy}</dd><dt>Korrekte enzymdelopgaver</dt><dd>${run.enzyme} / ${enzymeTotal(run.character)}</dd><dt>Fejl · resterende liv</dt><dd>${run.errors} · ${run.lives}</dd><dt>Tid</dt><dd>${Math.round(run.elapsed / 1000)} aktive sekunder${run.timingVersion === 2 ? '' : ' (historisk tid fra før v2)'}</dd></dl><details><summary>Enzymer og optagelse</summary><p>Enzymer: ${esc(CHARACTERS[run.character].enzymes)}</p><p>Absorption i tyndtarmen: ${esc(CHARACTERS[run.character].transport)}</p><h3>Læringsoversigt</h3><ol>${[...new Map((data.learningLog || []).filter((p) => p.character === run.character).map((p) => [p.key, p])).values()].map((p) => `<li><strong>${esc(p.title)}</strong><p>${esc(p.short)}</p><p>${esc(p.detail)}</p></li>`).join('')}</ol></details><p>Gennemført aktivitet er ikke dokumentation for klinisk kompetence.</p><p>Porcelænet fik resten – kroppen beholdt næringen. Fra første bid til sidste skyl!</p><button data-digest="exam">Afsluttende test · 5 spørgsmål uden hjælp</button><button data-digest="menu">Skyl ud og prøv et nyt næringsstof!</button>`;
   }
   const click = async (e) => {
     const b = e.target.closest('button');
@@ -859,36 +786,6 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     }
     if (b.dataset.examAnswer !== undefined) {
       await assessment.answer(Number(b.dataset.examAnswer));
-      return;
-    }
-    if (b.dataset.absorb !== undefined) {
-      if (busy || userPaused || readingOpen()) return;
-      busy = true;
-      const correct = options[Number(b.dataset.absorb)]?.correct === true;
-      chooseDigestion(run, correct);
-      feedback = correct ? '' : ABSORPTION_CHOICES[run.character].why.split('. ')[0] + '.';
-      if (!correct)
-        learn({
-          key: run.character + ':uptake:wrong',
-          character: run.character,
-          stage: 'jejunum',
-          title: 'Vælg transportvejen',
-          short:
-            run.character === 'trine'
-              ? 'Chylomikroner med langkædet fedt følger lymfen; hele micellen optages ikke.'
-              : run.character === 'stanley'
-                ? 'Glukose følger blodet, ikke chylomikronernes lymfevej.'
-                : 'Aminosyrer følger blodet, ikke chylomikronernes lymfevej.',
-          detail: ABSORPTION_CHOICES[run.character].why,
-          error: true,
-        });
-      await store();
-      if (run.phase === 'retry')
-        panel.innerHTML = `<h2>Ny chance ved absorptionen</h2><p>${esc(feedback)}</p><button data-digest="retry">Prøv absorptionen igen</button>`;
-      else if (correct) {
-        absorption();
-      } else absorptionChoice();
-      busy = false;
       return;
     }
     if (b.dataset.character) {
@@ -987,7 +884,11 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         data.learningCurrent.stage !== ROUTE[run.index].id ||
         data.learningCurrent.key.includes(':exam:')
       )
-        learn(learningPoint(run.character, ROUTE[run.index].id));
+        learn(
+          run.absorbed && ROUTE[run.index].id === 'jejunum'
+            ? residuePoint()
+            : learningPoint(run.character, ROUTE[run.index].id),
+        );
       onCharacter(selected);
       if (run.phase === 'entry' && run.animation?.mode === 'face-intro') {
         sequence(
@@ -1022,6 +923,15 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
           chooseDigestion(run, true);
           arrival();
         });
+      else if (run.phase === 'micelle') micelleFormation();
+      else if (run.phase === 'arrival' && run.animation?.mode === 'journey')
+        sequence(
+          'Videre gennem fordøjelseskanalen',
+          'Du følger den sammenhængende fødevej.',
+          'journey',
+          run.animation.travelDuration || 3,
+          () => arrival(true),
+        );
       else if (run.phase === 'reaction')
         sequence(
           'Enzymreaktion',
@@ -1036,13 +946,13 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       } else if (run.phase === 'retry') {
         retryDigestion(run);
         if (run.phase === 'absorb-choice') {
-          absorptionChoice();
+          absorption();
           return;
         }
         showScene(run.phase === 'boss' ? 'boss' : 'travel');
         drawChoices();
       } else if (run.phase === 'absorb-choice') {
-        absorptionChoice();
+        absorption();
       } else if (run.phase === 'absorption') {
         absorption();
       } else if (run.phase === 'secretion') {
@@ -1056,7 +966,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
               : 'Sekretet ankommer',
           task.why,
           kind,
-          4,
+          kind === 'bile' ? 12 : 4,
           () => {
             if (kind === 'bile') run.emulsified = true;
             run.phase = 'boss';
@@ -1070,7 +980,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     if (a === 'retry') {
       retryDigestion(run);
       if (run.phase === 'absorb-choice') {
-        absorptionChoice();
+        absorption();
         return;
       }
       if (run.phase === 'entry') {

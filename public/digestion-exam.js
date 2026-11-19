@@ -44,12 +44,12 @@ export function createReview(result) {
   if (!validAssessmentResult(result)) throw Error('Ugyldigt testresultat.');
   const indices = result.answers.map((answer, i) => (answer !== 0 ? i : -1)).filter((i) => i >= 0);
   if (!indices.length) return null;
-  return {
+  return adaptReviewQuestions({
     character: result.character,
     questionIds: result.questionIds,
     answers: [],
     review: { indices, cursor: 0, correct: 0, pending: false },
-  };
+  });
 }
 export function validReviewDraft(value) {
   if (!value || !validQuestions(value) || !value.review) return false;
@@ -69,4 +69,34 @@ export function validReviewDraft(value) {
     r.correct <= r.cursor + (r.pending ? 1 : 0) &&
     (!r.pending || (Number.isInteger(r.lastAnswer) && r.lastAnswer >= 0 && r.lastAnswer < 3))
   );
+}
+
+export function advancedArchiveQuestion(question) {
+  return /SGLT1|GLUT2|PEPT1|chylom|intracellul|reesterific/i.test(JSON.stringify(question));
+}
+// Keep the original result and its answer identities intact. A subsequent
+// review uses basic equivalents for retired advanced questions, at the same
+// review indices; source identities remain available for historical audit.
+export function adaptReviewQuestions(review) {
+  const questions = assessmentQuestions(review.character, review.questionIds);
+  if (!questions.some(advancedArchiveQuestion)) return review;
+  const original = review.questionIds || questions.map((_, i) => `${review.character}-legacy-${i}`),
+    taken = new Set(original);
+  const priorities = {
+    stanley: ['uptake', 'product', 'maltase', 'pancreas', 'acid', 'saliva'],
+    poul: ['uptake', 'products', 'peptidase', 'trypsin', 'pepsin', 'acid'],
+    trine: ['delivery', 'micelles', 'products', 'bile', 'lipase', 'overlap'],
+  }[review.character];
+  const basic = priorities.map((id) => `${review.character}-basic-${id}`);
+  return {
+    ...review,
+    curriculumAdapted: true,
+    originalQuestionIds: review.originalQuestionIds || [...original],
+    questionIds: original.map((id, i) => {
+      if (!advancedArchiveQuestion(questions[i])) return id;
+      const replacement = basic.find((id) => !taken.has(id));
+      taken.add(replacement);
+      return replacement;
+    }),
+  };
 }

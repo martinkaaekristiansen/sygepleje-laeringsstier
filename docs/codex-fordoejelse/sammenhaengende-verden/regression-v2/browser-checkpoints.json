@@ -1,0 +1,204 @@
+{
+  "results": [
+    {
+      "mobile": false,
+      "character": "stanley",
+      "index": 0,
+      "mode": "face-intro",
+      "savedAge": 0.49999999999999994,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "stanley",
+      "index": 0,
+      "mode": "intro",
+      "savedAge": 0.4831999999999998,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "stanley",
+      "index": 2,
+      "mode": "swallow",
+      "savedAge": 0.46669999999999984,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "poul",
+      "index": 4,
+      "mode": "reaction",
+      "savedAge": 0.9515999999996276,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "poul",
+      "index": 4,
+      "mode": "secretion",
+      "savedAge": 0.5835999999998139,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "trine",
+      "index": 5,
+      "mode": "bile",
+      "savedAge": 0.4832999999999997,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "stanley",
+      "index": 6,
+      "mode": "brush-border",
+      "savedAge": 0.35,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "poul",
+      "index": 6,
+      "mode": "absorb",
+      "savedAge": 0.35,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "trine",
+      "index": 5,
+      "mode": "micelle",
+      "savedAge": 0.44989999999999974,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "stanley",
+      "index": 6,
+      "mode": "absorb",
+      "savedAge": 1.7843999999999998,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": false,
+      "character": "stanley",
+      "index": 14,
+      "mode": "finale",
+      "savedAge": 0.5256000000001864,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "stanley",
+      "index": 0,
+      "mode": "face-intro",
+      "savedAge": 0.4833000000000002,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "stanley",
+      "index": 0,
+      "mode": "intro",
+      "savedAge": 0.3531999999999998,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "stanley",
+      "index": 2,
+      "mode": "swallow",
+      "savedAge": 0.49049999999999994,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "poul",
+      "index": 4,
+      "mode": "reaction",
+      "savedAge": 0.4500999999999999,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "poul",
+      "index": 4,
+      "mode": "secretion",
+      "savedAge": 0.6333000000000003,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "trine",
+      "index": 5,
+      "mode": "bile",
+      "savedAge": 0.41659999999999986,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "stanley",
+      "index": 6,
+      "mode": "brush-border",
+      "savedAge": 1.9067000000007452,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "poul",
+      "index": 6,
+      "mode": "absorb",
+      "savedAge": 1.3834,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "trine",
+      "index": 5,
+      "mode": "micelle",
+      "savedAge": 0.8165999999999999,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "stanley",
+      "index": 6,
+      "mode": "absorb",
+      "savedAge": 0.8332999999999999,
+      "resumed": true,
+      "automatic": true
+    },
+    {
+      "mobile": true,
+      "character": "stanley",
+      "index": 14,
+      "mode": "finale",
+      "savedAge": 0.47740000000074495,
+      "resumed": true,
+      "automatic": true
+    }
+  ],
+  "writesPer31Seconds": 2,
+  "errors": []
+}

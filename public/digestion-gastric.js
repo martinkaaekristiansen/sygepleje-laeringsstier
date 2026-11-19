@@ -42,7 +42,7 @@ export function gastricFrame(p, derivatives = false) {
 
 // Same sixteen rounded rugae, combined into one draw call. Both folds and wall
 // use exactly the same spatial deformation field; inset follows the radial direction; the .075-radius ridge overlaps the wall.
-export function buildGastricFolds() {
+export function buildGastricFolds({ ports = [] } = {}) {
   const positions = [],
     normals = [],
     uvs = [],
@@ -58,7 +58,21 @@ export function buildGastricFolds() {
     positions.push(...g.attributes.position.array);
     normals.push(...g.attributes.normal.array);
     uvs.push(...g.attributes.uv.array);
-    for (const k of g.index.array) indices.push(k + offset);
+    for (let j = 0; j < g.index.count; j += 3) {
+      const triangle = Array.from(g.index.array.slice(j, j + 3));
+      if (
+        !triangle.some((k) =>
+          ports.some(
+            (port) =>
+              new T.Vector3()
+                .fromBufferAttribute(g.attributes.position, k)
+                .distanceTo(port.center) <
+              port.radius + 0.22,
+          ),
+        )
+      )
+        indices.push(...triangle.map((k) => k + offset));
+    }
     offset += g.attributes.position.count;
     g.dispose();
   }

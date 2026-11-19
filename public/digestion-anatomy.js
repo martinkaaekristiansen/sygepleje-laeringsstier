@@ -119,11 +119,11 @@ export function peristalsis(u, t) {
   const d = Math.min(Math.abs(u - center), 1 - Math.abs(u - center));
   return 1 - 0.38 * Math.exp((-d * d) / 0.002);
 }
-export function buildOrganSurface(stage, low = false) {
+export function buildOrganSurface(stage, low = false, options = {}) {
   const sack = stage.id === 'stomach',
     along = MUCOSA_REGIONS[stage.id] ? 224 : low ? 64 : 112,
     around = MUCOSA_REGIONS[stage.id] ? 64 : low ? 32 : 56;
-  const path = organCurve(stage.id),
+  const path = options.path || organCurve(stage.id),
     frames = path.computeFrenetFrames(along, false),
     positions = [],
     uvs = [],
@@ -136,20 +136,28 @@ export function buildOrganSurface(stage, low = false) {
       if (sack) p = stomachPoint(u, i / around);
       else {
         const c = path.getPointAt(u),
-          r = lumenRadius(stage.id, u, a);
+          r = options.radius ? options.radius(u, a) : lumenRadius(stage.id, u, a);
         p = c
           .clone()
           .addScaledVector(frames.normals[j], Math.cos(a) * r)
-          .addScaledVector(frames.binormals[j], Math.sin(a) * r * (stage.id === 'mouth' ? 0.8 : 1));
+          .addScaledVector(
+            frames.binormals[j],
+            Math.sin(a) *
+              r *
+              (options.verticalScale ? options.verticalScale(u) : stage.id === 'mouth' ? 0.8 : 1),
+          );
       }
       positions.push(p.x, p.y, p.z);
       uvs.push(i / around, j / along);
       if (j < along && i < around) {
         const k = j * (around + 1) + i;
         // Distinct cardia and pyloric openings, rather than an open tube through the stomach.
-        const cardia = sack && p.distanceTo(new T.Vector3(-1.6, 2.5, -3.8)) < 1;
-        const pylorus = sack && p.distanceTo(new T.Vector3(4.7, -2, -6.8)) < 0.85;
-        if (!cardia && !pylorus)
+        const openings = options.stomachPorts;
+        const cardia = sack && !openings && p.distanceTo(new T.Vector3(-1.6, 2.5, -3.8)) < 1;
+        const pylorus = sack && !openings && p.distanceTo(new T.Vector3(4.7, -2, -6.8)) < 0.85;
+        const opening =
+          sack && openings && openings.some((port) => p.distanceTo(port.center) < port.radius);
+        if (!cardia && !pylorus && !opening)
           indices.push(k, k + around + 1, k + 1, k + 1, k + around + 1, k + around + 2);
       }
     }

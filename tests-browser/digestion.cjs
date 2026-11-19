@@ -3,19 +3,23 @@ const assert = require('node:assert/strict');
 const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringsstier/';
 (async () => {
   const { BOSSES, ROUTE, CHARACTERS } = await import('../public/digestion-data.js');
-  const { ABSORPTION_CHOICES, QUESTION_POOLS } = await import('../public/digestion-assessment.js');
+  const { QUESTION_POOLS } = await import('../public/digestion-assessment.js');
   const browser = await chromium.launch({
     ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}),
     args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
   });
   const errors = [];
   try {
-    for (const mobile of [false, true]) {
+    const requestedSize = process.env.DIGEST_SIZES;
+    for (const mobile of [false, true].filter(
+      (m) => !requestedSize || requestedSize === (m ? 'mobile' : 'desktop'),
+    )) {
       const page = await browser.newPage({
         viewport: mobile ? { width: 390, height: 844 } : { width: 1280, height: 800 },
         hasTouch: mobile,
         reducedMotion: 'reduce',
       });
+      page.setDefaultTimeout(120000);
       page.on('pageerror', (e) => {
         errors.push(e.message);
         console.error(e.stack);
@@ -75,6 +79,15 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
           if (!['face-intro', 'entry', 'menu'].includes(s.mode) && visited.at(-1) !== s.stage)
             visited.push(s.stage);
           if (s.form) forms.add(s.form);
+          if (s.stage === 'mouth' && ['face-intro', 'entry', 'intro'].includes(s.mode)) {
+            const camera = JSON.parse(
+              await page.locator('canvas').getAttribute('data-route-camera'),
+            );
+            assert(
+              camera.cameraDistance < 10,
+              'each new nutrient starts at the mouth, including after a completed journey',
+            );
+          }
           if (s.stage === 'jejunum' && s.mode === 'boss')
             jejunumCamera = JSON.parse(
               (await page.locator('canvas').getAttribute('data-camera')) || 'null',
@@ -104,46 +117,26 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
             );
             assert.equal(
               await page.locator('canvas').getAttribute('data-absorption-destination'),
-              id === 'trine' ? 'lymph' : 'blood',
+              'intestinal-wall',
             );
             if (s.sequence)
               await page.screenshot({
                 path: `/tmp/digest-v4-${id}-${mobile ? 'mobile' : 'desktop'}-absorption.png`,
               });
           }
-          if (s.mode === 'residue') {
+          assert.equal(s.absorb, false, 'no interactive absorption question');
+          assert.notEqual(s.mode, 'transport', 'no separate vascular scene');
+          assert.notEqual(s.mode, 'residue', 'no separate perspective dialog');
+          assert.equal(
+            await page.locator('.digest-perspective-shift,.digest-compartments').count(),
+            0,
+          );
+          if (s.form === 'residue' && s.stage === 'jejunum' && !s.sequence) {
             assert.ok(absorbed);
-            assert.match(await page.locator('.digest-hud').textContent(), /ufordøjelig rest/);
-            assert.ok(await page.locator('.digest-perspective-shift').isVisible());
-            assert.equal(
-              await page.locator('.digest-perspective-card p').textContent(),
-              'Næringsstoffet er nu optaget gennem tyndtarmsslimhinden, godt arbejde! Du følger nu et ufordøjeligt affaldsstof resten af vejen.',
+            assert.match(
+              await page.locator('.digest-learning').textContent(),
+              /Næringsstoffet er nu optaget gennem tarmvæggen/,
             );
-          }
-          if (s.mode === 'transport') {
-            assert.equal(
-              await page.locator('canvas').getAttribute('data-environment-builds'),
-              absorptionEnvironment,
-            );
-            assert.equal(await page.locator('canvas').getAttribute('data-scale'), 'centimeter');
-          }
-          if (s.mode === 'transport' && id === 'trine' && mobile && !wrong.has('lymph-animation')) {
-            await page.locator('[data-digest=settings]').click();
-            await page.locator('[data-setting=motion]').check();
-            await page.locator('[data-digest=settings-close]').click();
-            await page.waitForFunction(
-              () =>
-                document.querySelector('canvas').dataset.transportProgress === '1.00' &&
-                Number(document.querySelector('canvas').dataset.chylomicrons) >= 2,
-            );
-            const fixed = await page.locator('canvas').getAttribute('data-camera');
-            await page.waitForTimeout(700);
-            assert.equal(await page.locator('canvas').getAttribute('data-camera'), fixed);
-            await page.screenshot({ path: '/tmp/digest-v4-lymph-animation-mobile.png' });
-            await page.locator('[data-digest=settings]').click();
-            await page.locator('[data-setting=motion]').uncheck();
-            await page.locator('[data-digest=settings-close]').click();
-            wrong.add('lymph-animation');
           }
           if (s.mode === 'secretion' && id === 'stanley' && !mobile && !wrong.has('reading-pace')) {
             const point = await page.locator('.digest-point').textContent();
@@ -161,7 +154,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
             wrong.add('reading-pace');
           }
           if (s.sequence) {
-            assert.equal(await page.locator('[data-digest=skip],[data-digest=replay]').count(),0);
+            assert.equal(await page.locator('[data-digest=skip],[data-digest=replay]').count(), 0);
             await changed(s);
             continue;
           }
@@ -177,15 +170,6 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
               wrong.add('entry');
             }
             await page.locator('[data-entry]').filter({ hasText: 'Cavitas oris' }).click();
-            await changed(s);
-            continue;
-          }
-          if (s.absorb) {
-            assert.equal(await page.locator('[data-absorb]').count(), 3);
-            await page
-              .locator('[data-absorb]')
-              .filter({ hasText: ABSORPTION_CHOICES[id].options[0] })
-              .click();
             await changed(s);
             continue;
           }
@@ -246,7 +230,14 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
             assert.ok(point.split(/\s+/).length <= 20);
             await page.waitForTimeout(800);
             assert.equal(await page.locator('.digest-point').textContent(), point);
-            assert.equal(await page.locator('[data-digest=learning-info],[data-digest=learning-log],[data-digest=clinical],.digest-reader,[data-setting=quality]').count(), 0);
+            assert.equal(
+              await page
+                .locator(
+                  '[data-digest=learning-info],[data-digest=learning-log],[data-digest=clinical],.digest-reader,[data-setting=quality]',
+                )
+                .count(),
+              0,
+            );
             wrong.add('layout');
           }
           if (task && id === 'stanley' && s.stage === 'mouth' && !wrong.has('camera')) {
@@ -309,7 +300,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
         await page.locator('[data-digest=exam]').click();
         for (let i = 0; i < 5; i++) {
           const prompt = await page.locator('.digest-exam-question').textContent();
-          const question = QUESTION_POOLS[id].find(q=>q.prompt===prompt);
+          const question = QUESTION_POOLS[id].find((q) => q.prompt === prompt);
           assert.ok(question);
           await page.locator('[data-exam-answer="0"]').click();
           await page.locator('[data-digest=exam-next]').waitFor();
@@ -389,6 +380,9 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       assert.equal(await page.locator('canvas').getAttribute('data-molecular-form'), 'maltose');
       assert.match(await page.locator('.digest-hud').textContent(), /Tomtarmen/);
       assert.match(await page.locator('.digest-point').textContent(), /glukose/);
+      await page.waitForFunction(
+        () => document.querySelector('.digest-save')?.textContent === 'Gemt',
+      );
       await page.reload();
       await page.locator('[data-digest=resume]').click();
       await page.waitForFunction(
