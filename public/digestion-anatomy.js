@@ -1,5 +1,6 @@
 import { MUCOSA_REGIONS, mucosaRadius } from './digestion-mucosa.js';
 import * as T from './three.module.min.js';
+export const ORAL_CENTER = Object.freeze([1.2, 2.1, 0]);
 export const ORGAN_LABELS = {
   mouth: ['Tandbuer', 'Hård og blød gane', 'Tunge'],
   pharynx: ['Svælg', 'Larynxindgang', 'Epiglottis'],

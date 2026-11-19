@@ -277,3 +277,101 @@ test('mucosal culling sections use the actual joined surface and retain a full v
       }
   }
 });
+test('entry and old entry checkpoints remain outside the actual mouth opening', async () => {
+  const { createRouteCamera, EXTERNAL_ENTRY } = await import('../public/digestion-route-camera.js');
+  const rig = createRouteCamera(tract);
+  rig.begin('anus', 'travel');
+  rig.begin('mouth', 'face-intro');
+  assert.equal(
+    rig.distance,
+    EXTERNAL_ENTRY.start,
+    'a new journey resets an existing camera outside the face',
+  );
+  rig.update(3);
+  assert.equal(rig.distance, EXTERNAL_ENTRY.choice);
+  rig.begin('mouth', 'entry', 0, { physicalRouteVersion: 1, cameraDistance: 0 });
+  const p = rig.pose('mouth').position,
+    inlet = tract.byId.mouth.inlet;
+  assert.equal(rig.distance, EXTERNAL_ENTRY.choice);
+  assert(p.clone().sub(inlet.center).dot(inlet.outward) > 15);
+  assert.equal(p.x, inlet.center.x);
+  assert.equal(p.y, inlet.center.y);
+});
+test('outside-to-mouth flight and its negative-distance checkpoint are continuous', async () => {
+  const { createRouteCamera } = await import('../public/digestion-route-camera.js');
+  const rig = createRouteCamera(tract);
+  rig.begin('mouth', 'entry');
+  rig.begin('mouth', 'intro');
+  const restored = createRouteCamera(tract);
+  rig.update(4);
+  assert(rig.distance < 0);
+  restored.begin('mouth', 'intro', 4, JSON.parse(JSON.stringify(rig.checkpoint())));
+  assert.equal(restored.distance, rig.distance);
+  let prior = rig.pose('mouth').position;
+  for (let t = 4; t <= 10; t += 0.01) {
+    rig.update(t);
+    restored.update(t);
+    const p = rig.pose('mouth').position;
+    assert(p.distanceTo(prior) < 0.04);
+    assert(p.distanceTo(restored.pose('mouth').position) < 1e-10);
+    prior = p;
+  }
+  rig.update(10);
+  assert(rig.pose('mouth').position.distanceTo(tract.stations.mouth.position) < 1e-8);
+});
+test('external head has an opaque cheek and a genuine open route into the mouth', async () => {
+  const { buildExternalFace } = await import('../public/digestion-face.js');
+  const { ORAL_CENTER } = await import('../public/digestion-anatomy.js');
+  const face = buildExternalFace();
+  face.group.position.fromArray(ORAL_CENTER);
+  face.group.updateMatrixWorld();
+  const ray = new T.Raycaster(
+    new T.Vector3(ORAL_CENTER[0], ORAL_CENTER[1], 22),
+    new T.Vector3(0, 0, -1),
+    0,
+    24,
+  );
+  assert.equal(
+    ray.intersectObject(face.group, true).length,
+    0,
+    'mouth has no head surface or black disc across it',
+  );
+  ray.ray.origin.x += 5;
+  ray.ray.origin.y += 3;
+  assert(
+    ray.intersectObject(face.skin).length > 0,
+    'face skin is still visible around the opening',
+  );
+  assert.equal(face.skin.material.transparent, false);
+});
+test('posterior tongue shares the oral midline through the coordinated swallowing cycle', async () => {
+  const { buildSwallowAnatomy } = await import('../public/digestion-swallow.js');
+  const model = buildSwallowAnatomy({ labels: false, continuous: true });
+  for (const t of [0, 0.5, 1.2, 2.2, 3]) {
+    model.update(t, true);
+    assert.equal(model.tongue.position.x, tract.byId.mouth.inlet.center.x);
+    assert(model.tongue.position.y + model.tongue.scale.y < tract.byId.mouth.inlet.center.y - 0.3);
+  }
+});
+test('portrait camera widens anatomical context without moving the eye or changing desktop optics', async () => {
+  const { digestionFieldOfView } = await import('../public/digestion-route-camera.js');
+  assert.equal(digestionFieldOfView(1280 / 800), 74);
+  assert.equal(digestionFieldOfView(844 / 390), 74);
+  for (const aspect of [390 / 844, 375 / 667, 320 / 568, 768 / 1024]) {
+    const fov = digestionFieldOfView(aspect);
+    const horizontal = T.MathUtils.radToDeg(
+      2 * Math.atan(Math.tan(T.MathUtils.degToRad(fov / 2)) * aspect),
+    );
+    assert(Math.abs(horizontal - 74) < 1e-8);
+  }
+  assert(digestionFieldOfView(0.1) <= 120);
+  const aspect = 390 / 844,
+    old = new T.PerspectiveCamera(74, aspect, 0.03, 180),
+    next = new T.PerspectiveCamera(digestionFieldOfView(aspect), aspect, 0.03, 180);
+  const sample = new T.Vector3(1, 0, -3);
+  assert(
+    sample.clone().project(next).x < sample.clone().project(old).x * 0.65,
+    'nearby anatomy occupies substantially less of the phone width',
+  );
+  assert(next.position.equals(old.position));
+});

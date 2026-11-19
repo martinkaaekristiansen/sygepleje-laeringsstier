@@ -1,4 +1,5 @@
 import * as T from './three.module.min.js';
+import { ORAL_CENTER } from './digestion-anatomy.js';
 import { anatomicalLabel } from './digestion-anatomy-labels.js';
 // Local axes: +y superior; +z anterior. Oesophagus is posterior to the airway.
 export const SWALLOW_LANDMARKS = {
@@ -89,6 +90,8 @@ export function buildSwallowAnatomy({ labels = true, continuous = false } = {}) 
   );
   wall.position.set(0, 0, -5.5);
   const tongue = ellipsoid(SWALLOW_LANDMARKS.tongue, [0.95, 0.4, 1], 0xd98994);
+  if (continuous) tongue.position.set(ORAL_CENTER[0], ORAL_CENTER[1] - 1.05, -2.5);
+  tongue.name = 'posterior-tongue';
   const larynx = new T.Group();
   larynx.position.set(0, 0, -4.7);
   group.add(larynx);
@@ -186,5 +189,5 @@ export function buildSwallowAnatomy({ labels = true, continuous = false } = {}) 
     oesophagus.visible = false;
   }
   update(0, false);
-  return { group, epiglottis, larynx, trachea, oesophagus, pivot, update };
+  return { group, tongue, epiglottis, larynx, trachea, oesophagus, pivot, update };
 }

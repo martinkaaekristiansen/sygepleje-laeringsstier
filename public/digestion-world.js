@@ -1,3 +1,4 @@
+import { buildExternalFace } from './digestion-face.js';
 import { buildPyloricGate, pyloricAperture } from './digestion-pylorus.js';
 import {
   buildSurfaceUptake,
@@ -6,7 +7,7 @@ import {
 } from './digestion-uptake.js';
 import { createTractVisibility } from './digestion-visibility.js';
 import { buildDigestiveTract } from './digestion-tract.js';
-import { createRouteCamera, sceneStep } from './digestion-route-camera.js';
+import { createRouteCamera, sceneStep, digestionFieldOfView } from './digestion-route-camera.js';
 import { buildGastricFolds } from './digestion-gastric.js';
 import { createMotility } from './digestion-motility.js';
 import { lumenFlow } from './digestion-flow.js';
@@ -21,7 +22,13 @@ import { renderBudget } from './digestion-performance.js';
 import { chewingPose, chewBeat } from './digestion-audio.js';
 import { addSecretions, mucosaTexture } from './digestion-secretions.js';
 import { nutrientModel } from './digestion-molecules.js';
-import { buildOrganSurface, organCurve, lumenRadius, toothPose } from './digestion-anatomy.js';
+import {
+  buildOrganSurface,
+  organCurve,
+  lumenRadius,
+  toothPose,
+  ORAL_CENTER,
+} from './digestion-anatomy.js';
 import { reactionState, relativeActivity } from './digestion-engine.js';
 import * as T from './three.module.min.js';
 import { CHARACTERS, ROUTE, PRODUCTS } from './digestion-data.js';
@@ -112,6 +119,7 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     cores.forEach((c) => c.mucosa?.setBudget(budget.ratio));
     tract?.connections.forEach((c) => c.mucosa?.setBudget(budget.ratio));
     camera.aspect = b.width / Math.max(1, b.height);
+    camera.fov = digestionFieldOfView(camera.aspect);
     camera.updateProjectionMatrix();
     finaleViewportLook(b.width, b.height);
     epithelium?.layout?.(b.width, b.height);
@@ -296,11 +304,15 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     if (mouth) {
       const oralRoot = root,
         oralStructures = new T.Group();
-      oralStructures.position.set(1.2, 2.1, 0);
+      oralStructures.position.fromArray(ORAL_CENTER);
       oralRoot.add(oralStructures);
       root = oralStructures;
-      const tongue = sphere(0, -2, -2, 1.4, 0xd46b80);
-      tongue.scale.set(1.8, 0.35, 2.8);
+      const face = buildExternalFace();
+      oralStructures.add(face.group);
+      tag(face.nose, 'nose');
+      const tongue = sphere(0, -1.5, -0.2, 1.4, 0xd98994);
+      tongue.name = 'oral-tongue';
+      tongue.scale.set(1.55, 0.35, 1.55);
       actors.push({ object: tongue, type: 'tongue' });
       for (let i = 0; i < 32; i++) {
         const j = i % 16,
@@ -339,6 +351,7 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       const lips = mesh(new T.TorusGeometry(3.15, 0.4, 12, 48), 0x933858);
       lips.position.z = 3;
       lips.scale.y = 0.7;
+      tag(lips, 'mouth');
       root = oralRoot;
     }
     if (s.id === 'anal') {
@@ -385,7 +398,7 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     }
     // No artificial exit marker: the continuous lumen/folds are the anatomical route.
     secretions = addSecretions(root, s, character);
-    if (mouth) secretions.group.position.set(1.2, 2.1, 0);
+    if (mouth) secretions.group.position.fromArray(ORAL_CENTER);
     if (!['mouth', 'pharynx', 'epiglottis'].includes(s.id)) {
       flow = lumenFlow(s.id, built);
       root.add(flow.mesh);
@@ -491,7 +504,7 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       free(activeCore.secretions.group);
       activeCore.secretions = addSecretions(activeCore.group, stage, character);
       activeCore.secretionCharacter = character;
-      if (stage.id === 'mouth') activeCore.secretions.group.position.set(1.2, 2.1, 0);
+      if (stage.id === 'mouth') activeCore.secretions.group.position.fromArray(ORAL_CENTER);
       freezeStatic(activeCore.secretions.group);
     }
     ({ wall, motility, mucosa, flow, swallow, secretions } = activeCore);
@@ -588,6 +601,13 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
     canvas.dataset.absorptionSpace = absorbing ? 'intestinal-lumen' : '';
     canvas.dataset.epithelialBarrier = String(absorbing);
     ensureTract();
+    if (
+      mode === 'face-intro' &&
+      !(checkpoint?.physicalRouteVersion === tract.version && checkpoint.cameraDistance < 0)
+    ) {
+      yaw = 0;
+      pitch = 0;
+    }
     coreRoot.visible = mode !== 'menu';
     if (mode === 'menu') {
       routeCamera.reset();
@@ -618,6 +638,11 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       actors.push({ object: m, type: 'molecule', i: 0 });
       cameraTarget.set(0, 0, 2);
       lookTarget.set(0, 0, -8);
+    } else if (['entry', 'face-intro'].includes(mode)) {
+      for (let i = 0; i < 5; i++) {
+        const food = sphere(0, 0, 0, 0.15, 0xc7a46a);
+        actors.push({ object: food, type: 'face-food', i });
+      }
     } else if (mode === 'finale') {
       finale = bathroom;
       scene.background.set(0x29313d);
@@ -897,18 +922,21 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
         m.rotation.y = time * 0.3 * activity;
       }
       if (a.type === 'face-food') {
-        m.position.z = mode === 'face-intro' ? 2 - Math.min(1, age / 3) * 2.4 : 1.2;
-        m.position.x = (a.i - 2) * 0.16;
+        m.position.set(
+          ORAL_CENTER[0] + (a.i - 2) * 0.16,
+          ORAL_CENTER[1] - 0.15,
+          3.6 + (mode === 'face-intro' ? 8 * (1 - Math.min(1, age / 3)) : 0),
+        );
       }
       if (a.type === 'tongue' && moving)
         m.position.z =
-          mode === 'intro' ? -2 - Math.min(1, age / 10) * 0.45 : -2 + Math.sin(time * 1.2) * 0.15;
+          mode === 'intro' ? -0.2 - Math.min(1, age / 10) * 0.2 : -0.2 + Math.sin(time * 1.2) * 0.1;
       if (a.type === 'food') {
         const f = moving ? Math.min(1, age / 10) : 1;
         m.position.set(
-          Math.sin(a.i) * (0.4 + f),
-          Math.cos(a.i) * (0.3 + f * 0.3),
-          -3 - f * a.i * 0.12,
+          ORAL_CENTER[0] + Math.sin(a.i) * (0.4 + f),
+          ORAL_CENTER[1] - 0.5 + Math.cos(a.i) * (0.3 + f * 0.3),
+          3 - 6 * f - f * a.i * 0.06,
         );
         m.scale.setScalar(1 - f * 0.5);
       }
@@ -1008,6 +1036,16 @@ export function createDigestionWorld(canvas, onPhysiology = () => {}) {
       canvas.dataset.look = JSON.stringify({ yaw, pitch });
       canvas.dataset.routeCamera = JSON.stringify(routeCamera?.checkpoint() || {});
       canvas.dataset.worldTime = String(physiologyTime);
+      const oral = cores.get('mouth')?.group.getObjectByName('oral-tongue'),
+        tongueBase = cores.get('pharynx')?.swallow?.tongue;
+      canvas.dataset.oralState = JSON.stringify({
+        face: Boolean(cores.get('mouth')?.group.getObjectByName('external-face-with-open-mouth')),
+        tongue: oral?.getWorldPosition(new T.Vector3()).toArray(),
+        tongueBase: tongueBase?.getWorldPosition(new T.Vector3()).toArray(),
+        horizontalFov: T.MathUtils.radToDeg(
+          2 * Math.atan(Math.tan(T.MathUtils.degToRad(camera.fov / 2)) * camera.aspect),
+        ),
+      });
       canvas.dataset.camera = JSON.stringify({
         position: camera.position.toArray(),
         look: cameraLook.toArray(),
