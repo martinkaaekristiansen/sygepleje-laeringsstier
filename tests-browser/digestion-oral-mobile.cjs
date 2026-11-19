@@ -3,7 +3,7 @@ const assert = require('node:assert/strict'),
   fs = require('node:fs'),
   path = require('node:path');
 const { seed } = require('./digestion-fixtures.cjs');
-const base = process.env.APP_URL || 'http://127.0.0.1:3030/';
+const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringsstier/';
 const before = process.env.ORAL_BEFORE_URL;
 const output = process.env.ORAL_OUTPUT || path.resolve('docs/codex-fordoejelse/mund-mobilkamera');
 fs.mkdirSync(output, { recursive: true });
