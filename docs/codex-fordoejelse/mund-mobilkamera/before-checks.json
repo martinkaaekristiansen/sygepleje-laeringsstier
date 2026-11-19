@@ -1,0 +1,309 @@
+{
+  "baseline": "1c7eb85ffaef550e35fe2d1f47d2b9e3e1686f43",
+  "results": [
+    {
+      "variant": "before",
+      "size": "desktop",
+      "name": "indgang",
+      "file": "before-indgang-desktop.png",
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          3
+        ],
+        "look": [
+          1.2,
+          2.1,
+          0.5000030360532152
+        ],
+        "fov": 74,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 0,
+        "fromDistance": 0,
+        "targetDistance": 0,
+        "travelDuration": 0
+      },
+      "oral": {},
+      "bounds": {
+        "width": 1280,
+        "height": 800
+      },
+      "stage": "mouth"
+    },
+    {
+      "variant": "before",
+      "size": "desktop",
+      "name": "mund",
+      "file": "before-mund-desktop.png",
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          1.1449999992529547
+        ],
+        "look": [
+          1.2,
+          2.1,
+          -1.3550051144771973
+        ],
+        "fov": 74,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 1.8550000000000002,
+        "fromDistance": 1.8550000000000002,
+        "targetDistance": 1.8550000000000002,
+        "travelDuration": 0
+      },
+      "oral": {},
+      "bounds": {
+        "width": 1280,
+        "height": 800
+      },
+      "stage": "mouth"
+    },
+    {
+      "variant": "before",
+      "size": "desktop",
+      "name": "synkning",
+      "file": "before-synkning-desktop.png",
+      "camera": {
+        "position": [
+          1.1984691949419246,
+          2.0976339171810814,
+          -3.3240629221743148
+        ],
+        "look": [
+          0,
+          1.15,
+          -4.3
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.25214764639188125,
+          0.40897986390906704,
+          0.10199590819472495,
+          0.8710647909584505
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 6.32410439311598,
+        "fromDistance": 6.32410439311598,
+        "targetDistance": 6.32410439311598,
+        "travelDuration": 0
+      },
+      "oral": {},
+      "bounds": {
+        "width": 1280,
+        "height": 800
+      },
+      "stage": "epiglottis"
+    },
+    {
+      "variant": "before",
+      "size": "desktop",
+      "name": "jejunum",
+      "file": "before-jejunum-desktop.png",
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "oral": {},
+      "bounds": {
+        "width": 1280,
+        "height": 800
+      },
+      "stage": "jejunum"
+    },
+    {
+      "variant": "before",
+      "size": "mobil",
+      "name": "indgang",
+      "file": "before-indgang-mobil.png",
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          3
+        ],
+        "look": [
+          1.2,
+          2.1,
+          0.5000030360532152
+        ],
+        "fov": 74,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 0,
+        "fromDistance": 0,
+        "targetDistance": 0,
+        "travelDuration": 0
+      },
+      "oral": {},
+      "bounds": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "mouth"
+    },
+    {
+      "variant": "before",
+      "size": "mobil",
+      "name": "mund",
+      "file": "before-mund-mobil.png",
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          1.1449999992529547
+        ],
+        "look": [
+          1.2,
+          2.1,
+          -1.3550051144771973
+        ],
+        "fov": 74,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 1.8550000000000002,
+        "fromDistance": 1.8550000000000002,
+        "targetDistance": 1.8550000000000002,
+        "travelDuration": 0
+      },
+      "oral": {},
+      "bounds": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "mouth"
+    },
+    {
+      "variant": "before",
+      "size": "mobil",
+      "name": "synkning",
+      "file": "before-synkning-mobil.png",
+      "camera": {
+        "position": [
+          1.1984691949419246,
+          2.0976339171810814,
+          -3.3240629221743148
+        ],
+        "look": [
+          0,
+          1.15,
+          -4.3
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.25214764639188125,
+          0.40897986390906704,
+          0.10199590819472495,
+          0.8710647909584505
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 6.32410439311598,
+        "fromDistance": 6.32410439311598,
+        "targetDistance": 6.32410439311598,
+        "travelDuration": 0
+      },
+      "oral": {},
+      "bounds": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "epiglottis"
+    },
+    {
+      "variant": "before",
+      "size": "mobil",
+      "name": "jejunum",
+      "file": "before-jejunum-mobil.png",
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "oral": {},
+      "bounds": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "jejunum"
+    }
+  ]
+}

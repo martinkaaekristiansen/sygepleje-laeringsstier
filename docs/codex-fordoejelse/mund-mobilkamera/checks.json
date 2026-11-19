@@ -1,0 +1,1119 @@
+{
+  "results": [
+    {
+      "variant": "after",
+      "size": "desktop",
+      "name": "indgang",
+      "file": "after-indgang-desktop.png",
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          19
+        ],
+        "look": [
+          1.2,
+          5.6,
+          2.5
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.10432131828528346,
+          0,
+          0,
+          0.994543645372701
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": -16,
+        "fromDistance": -16,
+        "targetDistance": -16,
+        "travelDuration": 0
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 100.65517100917104
+      },
+      "bounds": {
+        "width": 1280,
+        "height": 800
+      },
+      "stage": "mouth"
+    },
+    {
+      "variant": "after",
+      "size": "desktop",
+      "name": "mund",
+      "file": "after-mund-desktop.png",
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          1.1449999992529547
+        ],
+        "look": [
+          1.2,
+          2.1,
+          -1.3550051144771973
+        ],
+        "fov": 74,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 1.8550000000000002,
+        "fromDistance": 1.8550000000000002,
+        "targetDistance": 1.8550000000000002,
+        "travelDuration": 0
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 100.65517100917104
+      },
+      "bounds": {
+        "width": 1280,
+        "height": 800
+      },
+      "stage": "mouth"
+    },
+    {
+      "variant": "after",
+      "size": "desktop",
+      "name": "synkning",
+      "file": "after-synkning-desktop.png",
+      "camera": {
+        "position": [
+          1.1984691949419246,
+          2.0976339171810814,
+          -3.3240629221743148
+        ],
+        "look": [
+          0,
+          1.15,
+          -4.3
+        ],
+        "fov": 74,
+        "quaternion": [
+          -0.25214764639188125,
+          0.40897986390906704,
+          0.10199590819472495,
+          0.8710647909584505
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 6.32410439311598,
+        "fromDistance": 6.32410439311598,
+        "targetDistance": 6.32410439311598,
+        "travelDuration": 0
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 100.65517100917104
+      },
+      "bounds": {
+        "width": 1280,
+        "height": 800
+      },
+      "stage": "epiglottis"
+    },
+    {
+      "variant": "after",
+      "size": "desktop",
+      "name": "jejunum",
+      "file": "after-jejunum-desktop.png",
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 100.65517100917104
+      },
+      "bounds": {
+        "width": 1280,
+        "height": 800
+      },
+      "stage": "jejunum"
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 106.43414992228418,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74.00000000000003
+      },
+      "width": 320,
+      "height": 568
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 375,
+        "height": 667
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 106.54752170479308,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "width": 375,
+      "height": 667
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 116.96608940593329,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "width": 390,
+      "height": 844
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 90.2708671388278,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74.00000000000003
+      },
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 116.96608940593329
+      },
+      "width": 844,
+      "height": 390
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 116.96608940593329
+      },
+      "width": 1024,
+      "height": 390
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 100.65517100917104
+      },
+      "width": 1280,
+      "height": 800
+    },
+    {
+      "variant": "after",
+      "size": "mobil",
+      "name": "indgang",
+      "file": "after-indgang-mobil.png",
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          19
+        ],
+        "look": [
+          1.2,
+          5.6,
+          2.5
+        ],
+        "fov": 116.96608940593329,
+        "quaternion": [
+          0.10432131828528346,
+          0,
+          0,
+          0.994543645372701
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": -16,
+        "fromDistance": -16,
+        "targetDistance": -16,
+        "travelDuration": 0
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "bounds": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "mouth"
+    },
+    {
+      "variant": "after",
+      "size": "mobil",
+      "name": "mund",
+      "file": "after-mund-mobil.png",
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          1.1449999992529547
+        ],
+        "look": [
+          1.2,
+          2.1,
+          -1.3550051144771973
+        ],
+        "fov": 116.96608940593329,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 1.8550000000000002,
+        "fromDistance": 1.8550000000000002,
+        "targetDistance": 1.8550000000000002,
+        "travelDuration": 0
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "bounds": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "mouth"
+    },
+    {
+      "variant": "after",
+      "size": "mobil",
+      "name": "synkning",
+      "file": "after-synkning-mobil.png",
+      "camera": {
+        "position": [
+          1.1984691949419246,
+          2.0976339171810814,
+          -3.3240629221743148
+        ],
+        "look": [
+          0,
+          1.15,
+          -4.3
+        ],
+        "fov": 116.96608940593329,
+        "quaternion": [
+          -0.25214764639188125,
+          0.40897986390906704,
+          0.10199590819472495,
+          0.8710647909584505
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 6.32410439311598,
+        "fromDistance": 6.32410439311598,
+        "targetDistance": 6.32410439311598,
+        "travelDuration": 0
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "bounds": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "epiglottis"
+    },
+    {
+      "variant": "after",
+      "size": "mobil",
+      "name": "jejunum",
+      "file": "after-jejunum-mobil.png",
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 116.96608940593329,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 116.35355118050754,
+        "fromDistance": 116.35355118050754,
+        "targetDistance": 116.35355118050754,
+        "travelDuration": 0
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "bounds": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "jejunum"
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 320,
+        "height": 568
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 106.43414992228418,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74.00000000000003
+      },
+      "width": 320,
+      "height": 568
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 375,
+        "height": 667
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 106.54752170479308,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "width": 375,
+      "height": 667
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 116.96608940593329,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "width": 390,
+      "height": 844
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 90.2708671388278,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74.00000000000003
+      },
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 116.96608940593329
+      },
+      "width": 844,
+      "height": 390
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 90.27086713882778
+      },
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "type": "resize",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "camera": {
+        "position": [
+          -21.335713391368728,
+          -59.96362229604566,
+          8.822999874791622
+        ],
+        "look": [
+          -18.860963489022907,
+          -59.89240243180205,
+          8.476534888463206
+        ],
+        "fov": 74,
+        "quaternion": [
+          0.2980412913348056,
+          -0.5847012953059115,
+          -0.3231745923325861,
+          0.6818019997020672
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 100.65517100917104
+      },
+      "width": 1280,
+      "height": 800
+    },
+    {
+      "type": "natural-start",
+      "character": "stanley",
+      "outsideDistance": -16,
+      "enteredMouth": true
+    },
+    {
+      "type": "natural-start",
+      "character": "poul",
+      "outsideDistance": -16,
+      "enteredMouth": true
+    },
+    {
+      "type": "natural-start",
+      "character": "trine",
+      "outsideDistance": -16,
+      "enteredMouth": true
+    },
+    {
+      "type": "retina-mobile",
+      "name": "indgang",
+      "file": "retina-indgang-390x664.png",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "deviceScaleFactor": 3,
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          19
+        ],
+        "look": [
+          1.2,
+          5.6,
+          2.5
+        ],
+        "fov": 104.1315196253146,
+        "quaternion": [
+          0.10432131828528346,
+          0,
+          0,
+          0.994543645372701
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": -16,
+        "fromDistance": -16,
+        "targetDistance": -16,
+        "travelDuration": 0
+      }
+    },
+    {
+      "type": "retina-mobile",
+      "name": "mund",
+      "file": "retina-mund-390x664.png",
+      "viewport": {
+        "width": 390,
+        "height": 664
+      },
+      "deviceScaleFactor": 3,
+      "camera": {
+        "position": [
+          1.2,
+          2.1,
+          1.1449999992529547
+        ],
+        "look": [
+          1.2,
+          2.1,
+          -1.3550051144771973
+        ],
+        "fov": 104.1315196253146,
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "oral": {
+        "face": true,
+        "tongue": [
+          1.2,
+          0.6000000000000001,
+          -0.2
+        ],
+        "tongueBase": [
+          1.2,
+          1.05,
+          -2.5
+        ],
+        "horizontalFov": 74
+      },
+      "route": {
+        "physicalRouteVersion": 1,
+        "cameraDistance": 1.8550000000000002,
+        "fromDistance": 1.8550000000000002,
+        "targetDistance": 1.8550000000000002,
+        "travelDuration": 0
+      }
+    }
+  ],
+  "errors": []
+}
