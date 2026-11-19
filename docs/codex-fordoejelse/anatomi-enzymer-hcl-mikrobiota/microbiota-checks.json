@@ -1,0 +1,165 @@
+{
+  "results": [
+    {
+      "id": "caecum",
+      "size": "desktop",
+      "region": "caecum",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 1.301200000005961,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Caecum har en blind bund; appendix er et blindt vedhæng. Tyktarmens bakterier kaldes mikrobiota.",
+      "automaticProgressionPreserved": true
+    },
+    {
+      "id": "ascending",
+      "size": "desktop",
+      "region": "ascending",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 0.8229059999999999,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Tyktarmen optager vand. Bakterier omsætter kostfibre, som vores egne enzymer ikke kan spalte.",
+      "automaticProgressionPreserved": true
+    },
+    {
+      "id": "transverse",
+      "size": "desktop",
+      "region": "transverse",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 0.7688719999955298,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Bakterier fermenterer kostfibre til kortkædede fedtsyrer, som tarmens celler kan udnytte.",
+      "automaticProgressionPreserved": true
+    },
+    {
+      "id": "descending",
+      "size": "desktop",
+      "region": "descending",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 0.8076359999955296,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Indholdet føres ned i venstre side. Nogle tarmbakterier danner K-vitamin og visse B-vitaminer.",
+      "automaticProgressionPreserved": true
+    },
+    {
+      "id": "sigmoid",
+      "size": "desktop",
+      "region": "sigmoid",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 0.8666720000000001,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Det S-formede colon sigmoideum fører tarmindholdet videre mod rectum.",
+      "automaticProgressionPreserved": true
+    },
+    {
+      "id": "caecum",
+      "size": "mobil",
+      "region": "caecum",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 0.6333739999999998,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Caecum har en blind bund; appendix er et blindt vedhæng. Tyktarmens bakterier kaldes mikrobiota.",
+      "automaticProgressionPreserved": true
+    },
+    {
+      "id": "ascending",
+      "size": "mobil",
+      "region": "ascending",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 0.27376999999850987,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Tyktarmen optager vand. Bakterier omsætter kostfibre, som vores egne enzymer ikke kan spalte.",
+      "automaticProgressionPreserved": true
+    },
+    {
+      "id": "transverse",
+      "size": "mobil",
+      "region": "transverse",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 0.27523400000000003,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Bakterier fermenterer kostfibre til kortkædede fedtsyrer, som tarmens celler kan udnytte.",
+      "automaticProgressionPreserved": true
+    },
+    {
+      "id": "descending",
+      "size": "mobil",
+      "region": "descending",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 0.2893980000029803,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Indholdet føres ned i venstre side. Nogle tarmbakterier danner K-vitamin og visse B-vitaminer.",
+      "automaticProgressionPreserved": true
+    },
+    {
+      "id": "sigmoid",
+      "size": "mobil",
+      "region": "sigmoid",
+      "count": 96,
+      "shapes": [
+        "rod",
+        "coccus",
+        "curved-rod"
+      ],
+      "time": 0.2750300000014902,
+      "normalMicrobiota": true,
+      "drawCalls": 3,
+      "information": "Det S-formede colon sigmoideum fører tarmindholdet videre mod rectum.",
+      "automaticProgressionPreserved": true
+    }
+  ],
+  "errors": []
+}

@@ -1,5 +1,7 @@
 import { MUCOSA_REGIONS, mucosaRadius } from './digestion-mucosa.js';
 import * as T from './three.module.min.js';
+// Mouth, tongue base and larynx share the anatomical midsagittal plane.
+export const ORAL_CENTER = Object.freeze([0, 2.1, 0]);
 export const ORGAN_LABELS = {
   mouth: ['Tandbuer', 'Hård og blød gane', 'Tunge'],
   pharynx: ['Svælg', 'Larynxindgang', 'Epiglottis'],
@@ -184,11 +186,18 @@ export function buildOrganSurface(stage, low = false, options = {}) {
 
 export function toothPose(i) {
   const j = i % 16,
-    a = (j / 15) * Math.PI;
+    a = (j / 15) * Math.PI,
+    type = j < 4 || j > 11 ? 'molar' : j === 4 || j === 11 ? 'canine' : 'incisor',
+    extent = type === 'molar' ? 0.416 : type === 'canine' ? 0.5 : 0.37;
   return {
-    position: [Math.cos(a) * 2.35, (i < 16 ? 1 : -1) * 1.75, -2.8 + Math.sin(a) * 3.3],
+    position: [
+      Math.cos(a) * 2.35,
+      i < 16 ? 0.55 + extent : 0.55 - 1.2 - extent,
+      -2.8 + Math.sin(a) * 3.3,
+    ],
     rotation: i < 16 ? Math.PI : 0,
     crownDirection: i < 16 ? -1 : 1,
-    type: j < 4 || j > 11 ? 'molar' : j === 4 || j === 11 ? 'canine' : 'incisor',
+    type,
+    crownExtent: extent,
   };
 }

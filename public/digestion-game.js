@@ -101,6 +101,16 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     return !$('.digest-settings').hidden;
   }
   function currentMoleculeLabel() {
+    if (
+      run?.character === 'poul' &&
+      run.product === 'protein' &&
+      ROUTE[run.index]?.id === 'stomach'
+    ) {
+      if (run.phase === 'secretion' && run.secretionKind === 'denaturation')
+        return 'Protein · foldningen ændres';
+      if (run.proteinDenatured || run.task >= 2 || run.phase === 'reaction')
+        return 'Delvist udfoldet protein';
+    }
     return run?.absorbed
       ? PRODUCTS.residue
       : run?.emulsified && run.product === 'triglyceride'
@@ -251,7 +261,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     measureMap();
     $('.digest-hud').innerHTML =
       `<div class="blood-location"><strong class="blood3d-eyebrow">${esc(CHARACTERS[run.character].name)}</strong><h1>${esc(run.phase === 'entry' ? 'Ved mundhulens indgang' : (run.phase === 'arrival' ? 'På vej til ' : '') + s.danish + ' · ' + s.latin)}</h1><p class="blood-world-caption">${run.absorbed ? 'Du følger nu en ufordøjelig rest.' : s.id === 'epiglottis' ? 'Observationspunkt: føden passerer ikke gennem strubelåget.' : currentMoleculeLabel()}</p></div><div class="blood3d-top-controls"><span class="blood-lives" role="img" aria-label="${run.lives} af 2 liv tilbage">${'♥'.repeat(run.lives)}${'♡'.repeat(2 - run.lives)}</span></div>`;
-    $('.digest-product').textContent = PRODUCTS[run.absorbed ? 'residue' : run.product] || '';
+    $('.digest-product').textContent = currentMoleculeLabel();
     $('.blood-progress').setAttribute('aria-valuenow', String(run.index + 1));
     $('.blood-progress>span').style.width = ((run.index + 1) / ROUTE.length) * 100 + '%';
     $('[data-progress-copy]').textContent = `${run.index + 1} / ${ROUTE.length}`;
@@ -300,7 +310,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     const taskIndex =
       mode === 'reaction'
         ? BOSSES[run.character][stage]?.length - 1
-        : ['secretion', 'brush-border', 'bile'].includes(mode)
+        : ['secretion', 'brush-border', 'bile', 'hcl', 'denaturation'].includes(mode)
           ? run.task - 1
           : undefined;
     if (mode === 'bile')
@@ -600,6 +610,26 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     drawChoices();
     void store();
   }
+  function secretionSequence(task, kind = task.visual) {
+    run.phase = 'secretion';
+    run.secretionKind = kind;
+    const presentation = {
+      bile: ['Galde emulgerer – bindingerne bevares', 12],
+      'brush-border': ['Enzymer ved børstesømmen', 4],
+      hcl: ['Parietalcellerne udskiller saltsyre', 6],
+      denaturation: ['Proteinets foldning ændres – kæden bevares', 7],
+      secretion: ['Sekretet ankommer', 4],
+    }[kind] || ['Sekretet ankommer', 4];
+    sequence(presentation[0], task.why, kind, presentation[1], () => {
+      if (kind === 'bile') run.emulsified = true;
+      if (kind === 'hcl') run.acidSecreted = true;
+      if (kind === 'denaturation') run.proteinDenatured = true;
+      run.phase = 'boss';
+      showScene('boss');
+      drawChoices();
+      void store();
+    });
+  }
   async function answer(i) {
     if (
       busy ||
@@ -632,6 +662,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       void store();
       return;
     }
+    if (correct && task?.kind === 'enzyme') world?.selectEnzyme(task.options[0]);
     chooseDigestion(run, correct);
     feedback = correct ? '' : task ? task.why : anatomicalFeedback(options[i].target, s.index);
     if (!correct) {
@@ -666,25 +697,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
         panel.innerHTML = `<h2>To liv brugt – ny chance</h2><p>${esc(feedback)}</p><button data-digest="retry">Genstart aktuelle udfordring</button>`;
         panel.classList.remove('digest-nav');
       } else if (correct && task?.visual) {
-        run.phase = 'secretion';
-        run.secretionKind = task.visual;
-        sequence(
-          task.visual === 'bile'
-            ? 'Galde emulgerer – bindingerne bevares'
-            : task.visual === 'brush-border'
-              ? 'Enzymer ved børstesømmen'
-              : 'Sekretet ankommer',
-          task.why,
-          task.visual,
-          task.visual === 'bile' ? 12 : 4,
-          () => {
-            if (task.visual === 'bile') run.emulsified = true;
-            run.phase = 'boss';
-            showScene('boss');
-            drawChoices();
-            void store();
-          },
-        );
+        secretionSequence(task);
       } else if (!correct || run.phase === 'boss') {
         if (!correct) {
           world?.feedback();
@@ -760,7 +773,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
     if (disposed) return;
     soundscape.locate('anus', 'won', true);
     soundscape.effect('finish');
-    panel.innerHTML = `<h2>TILLYKKE! Fra første bid til sidste skyl.</h2><p>${esc(CHARACTERS[run.character].name)} · 🏆 Syreoverleveren · Sidste stop: porcelæn</p><p class="digest-nutrient-ending">${esc(NUTRIENT_ENDINGS[run.character])} Kun den ufordøjelige rest skylles ud.</p><dl><dt>Korrekte anatomiske valg</dt><dd>${run.anatomy}</dd><dt>Korrekte enzymdelopgaver</dt><dd>${run.enzyme} / ${enzymeTotal(run.character)}</dd><dt>Fejl · resterende liv</dt><dd>${run.errors} · ${run.lives}</dd><dt>Tid</dt><dd>${Math.round(run.elapsed / 1000)} aktive sekunder${run.timingVersion === 2 ? '' : ' (historisk tid fra før v2)'}</dd></dl><details><summary>Enzymer og optagelse</summary><p>Enzymer: ${esc(CHARACTERS[run.character].enzymes)}</p><p>Absorption i tyndtarmen: ${esc(CHARACTERS[run.character].transport)}</p><h3>Læringsoversigt</h3><ol>${[...new Map((data.learningLog || []).filter((p) => p.character === run.character).map((p) => [p.key, p])).values()].map((p) => `<li><strong>${esc(p.title)}</strong><p>${esc(p.short)}</p><p>${esc(p.detail)}</p></li>`).join('')}</ol></details><p>Gennemført aktivitet er ikke dokumentation for klinisk kompetence.</p><p>Porcelænet fik resten – kroppen beholdt næringen. Fra første bid til sidste skyl!</p><button data-digest="exam">Afsluttende test · 5 spørgsmål uden hjælp</button><button data-digest="menu">Skyl ud og prøv et nyt næringsstof!</button>`;
+    panel.innerHTML = `<h2>TILLYKKE! Fra første bid til sidste skyl.</h2><p>${esc(CHARACTERS[run.character].name)} · 🏆 Syreoverleveren · Sidste stop: porcelæn</p><p class="digest-nutrient-ending">${esc(NUTRIENT_ENDINGS[run.character])} Kun den ufordøjelige rest skylles ud.</p><dl><dt>Korrekte anatomiske valg</dt><dd>${run.anatomy}</dd><dt>Korrekte molekyleopgaver</dt><dd>${run.enzyme} / ${enzymeTotal(run.character, run)}</dd><dt>Fejl · resterende liv</dt><dd>${run.errors} · ${run.lives}</dd><dt>Tid</dt><dd>${Math.round(run.elapsed / 1000)} aktive sekunder${run.timingVersion === 2 ? '' : ' (historisk tid fra før v2)'}</dd></dl><details><summary>Enzymer og optagelse</summary><p>Enzymer: ${esc(CHARACTERS[run.character].enzymes)}</p><p>Absorption i tyndtarmen: ${esc(CHARACTERS[run.character].transport)}</p><h3>Læringsoversigt</h3><ol>${[...new Map((data.learningLog || []).filter((p) => p.character === run.character).map((p) => [p.key, p])).values()].map((p) => `<li><strong>${esc(p.title)}</strong><p>${esc(p.short)}</p><p>${esc(p.detail)}</p></li>`).join('')}</ol></details><p>Gennemført aktivitet er ikke dokumentation for klinisk kompetence.</p><p>Porcelænet fik resten – kroppen beholdt næringen. Fra første bid til sidste skyl!</p><button data-digest="exam">Afsluttende test · 5 spørgsmål uden hjælp</button><button data-digest="menu">Skyl ud og prøv et nyt næringsstof!</button>`;
   }
   const click = async (e) => {
     const b = e.target.closest('button');
@@ -958,23 +971,7 @@ export function mountDigestion(root, { record, initialCharacter = 'stanley', sav
       } else if (run.phase === 'secretion') {
         const kind = run.secretionKind || 'secretion';
         const task = BOSSES[run.character][ROUTE[run.index].id][Math.max(0, run.task - 1)];
-        sequence(
-          kind === 'bile'
-            ? 'Galde emulgerer – bindingerne bevares'
-            : kind === 'brush-border'
-              ? 'Enzymer ved børstesømmen'
-              : 'Sekretet ankommer',
-          task.why,
-          kind,
-          kind === 'bile' ? 12 : 4,
-          () => {
-            if (kind === 'bile') run.emulsified = true;
-            run.phase = 'boss';
-            showScene('boss');
-            drawChoices();
-            void store();
-          },
-        );
+        secretionSequence(task, kind);
       } else arrival();
     }
     if (a === 'retry') {

@@ -1,5 +1,6 @@
 import { BASIC_TEXT } from './digestion-uptake.js';
 import { ROUTE, BOSSES } from './digestion-data.js';
+import { MICROBIOTA_INFORMATION } from './digestion-microbiota.js';
 export const STATION_POINTS = {
   mouth: 'Tænderne findeler føden, mens spyt blander og fugter den.',
   pharynx: 'Svælget fører fødebolus mod spiserøret under koordineret synkning.',
@@ -11,11 +12,10 @@ export const STATION_POINTS = {
     'Bugspyt og galde tilføres duodenum; bikarbonat neutraliserer gradvist det sure maveindhold.',
   jejunum: 'Tarmvæggen optager færdigfordøjede næringsstoffer til blod eller lymfe.',
   ileum: 'Det absorberede næringsstof er inde i kroppen; du følger nu en ufordøjelig rest.',
-  caecum: 'Caecum er tyktarmens første afsnit. Appendix er et smalt, blindt endende vedhæng.',
-  ascending:
-    'Vand og elektrolytter absorberes, mens bakterier omsætter dele af det resterende indhold.',
-  transverse: 'Tarmindholdet bliver fastere, efterhånden som vand og elektrolytter optages.',
-  descending: 'Tarmindholdet føres ned gennem patientens venstre side af tyktarmen.',
+  caecum: MICROBIOTA_INFORMATION.caecum,
+  ascending: MICROBIOTA_INFORMATION.ascending,
+  transverse: MICROBIOTA_INFORMATION.transverse,
+  descending: MICROBIOTA_INFORMATION.descending,
   sigmoid: 'Det S-formede colon sigmoideum fører tarmindholdet videre mod rectum.',
   rectum: 'Rectum opbevarer fæces; udspiling kan udløse defækationstrang.',
   anus: 'Sfinkterne afslappes koordineret, så en ufordøjelig rest kan forlade kroppen.',
@@ -49,6 +49,8 @@ const points = {
   },
   poul: {
     stomach: [
+      'Parietalcellerne udskiller saltsyre (HCl), som bidrager til mavesækkens lave pH.',
+      'Saltsyren får proteiner til at miste deres tredimensionelle struktur. Det kaldes denaturering og gør dem lettere tilgængelige for pepsin.',
       'Pepsin starter den væsentlige enzymatiske proteinnedbrydning i mavesækken.',
       'Hovedceller udskiller pepsinogen; saltsyre fra parietalceller fremmer aktiveringen til pepsin.',
       'Pepsin spalter peptidbindinger i det denaturerede protein og danner kortere peptider.',

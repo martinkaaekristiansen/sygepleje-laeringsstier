@@ -7,10 +7,20 @@ export function addSecretions(parent, stage, character) {
   group.name = 'secretions';
   parent.add(group);
   const systems = [];
-  const enzymeLabel = character === 'stanley'
-    ? stage.id === 'mouth' ? 'Spytamylase' : stage.id === 'jejunum' ? 'Maltase' : 'Bugspytamylase'
-    : character === 'trine' ? 'Bugspytlipase'
-    : stage.id === 'stomach' ? 'Pepsin' : stage.id === 'jejunum' ? 'Peptidaser' : 'Trypsin';
+  const enzymeLabel =
+    character === 'stanley'
+      ? stage.id === 'mouth'
+        ? 'Spytamylase'
+        : stage.id === 'jejunum'
+          ? 'Maltase'
+          : 'Bugspytamylase'
+      : character === 'trine'
+        ? 'Bugspytlipase'
+        : stage.id === 'stomach'
+          ? 'Pepsin'
+          : stage.id === 'jejunum'
+            ? 'Peptidaser'
+            : 'Trypsin';
   function tube(points, color, r = 0.08) {
     const c = new T.CatmullRomCurve3(points.map((p) => new T.Vector3(...p)));
     const m = new T.Mesh(
@@ -142,6 +152,9 @@ export function addSecretions(parent, stage, character) {
   const dummy = new T.Object3D();
   return {
     count: systems.length,
+    get proteinVisible() {
+      return systems.some((s) => s.protein && s.m.visible);
+    },
     setProgress({ enzyme, bile }) {
       for (const s of systems) {
         s.m.visible = s.protein ? enzyme : s.bile ? bile : true;

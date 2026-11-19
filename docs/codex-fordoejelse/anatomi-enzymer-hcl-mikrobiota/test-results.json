@@ -1,0 +1,26 @@
+{
+  "baseCommit": "1c7eb85ffaef550e35fe2d1f47d2b9e3e1686f43",
+  "preservedMain": "f93bb976e1dc3c8c86210146e2fee9219f980d8d",
+  "node": {
+    "passed": 203,
+    "failed": 0,
+    "skipped": 0
+  },
+  "build": {
+    "passed": true,
+    "assets": "assets/c93f26c73189"
+  },
+  "diffCheck": true,
+  "browser": {
+    "labels": 8,
+    "acidProfiles": 2,
+    "acidLayouts": 18,
+    "enzymeTasks": 7,
+    "microbiotaRegionsAndProfiles": 10,
+    "continuousCaptures": 65,
+    "continuousStateChecks": 9,
+    "phaseAAndOralPassed": true
+  },
+  "fullBrowserSuite": "19 scripts gate GitHub Pages, including six full nutrient journeys; see Actions for release result",
+  "conditions": "Chromium / SwiftShader, desktop and emulated touch mobile; no physical iPhone/Safari"
+}

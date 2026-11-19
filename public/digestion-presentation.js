@@ -79,6 +79,17 @@ export function originIcon(text) {
   return `<svg viewBox="0 0 50 44" class="digest-origin-icon" role="img" aria-label="${esc(text)}"><g fill="#d19b9b33" stroke="#dfa6b3" stroke-width="2">${path}</g></svg>`;
 }
 export function answerIcon(task, label) {
+  if (task.kind === 'substance' && label.includes('HCl'))
+    return '<svg viewBox="0 0 50 44" class="digest-molecule-icon" aria-hidden="true"><text x="25" y="28" text-anchor="middle" fill="#f4cd62" font-size="19" font-family="system-ui">HCl</text></svg>';
+  if (task.kind === 'conformation')
+    return moleculeIcon(
+      label.includes('aminosyrer')
+        ? 'amino-acid'
+        : label.includes('fedt')
+          ? 'triglyceride'
+          : 'protein',
+      label,
+    );
   return task.kind === 'reaction'
     ? moleculeIcon(productForm(label), label)
     : task.kind === 'source'

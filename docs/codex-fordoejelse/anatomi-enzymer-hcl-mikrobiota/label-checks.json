@@ -1,0 +1,437 @@
+{
+  "results": [
+    {
+      "stage": "epiglottis",
+      "size": "desktop",
+      "labels": [
+        {
+          "text": "Epiglottis",
+          "fontSize": 18,
+          "x": 668,
+          "y": 536.201416015625,
+          "width": 103.0625,
+          "height": 31.59375
+        },
+        {
+          "text": "Indgang til larynx",
+          "fontSize": 18,
+          "x": 290,
+          "y": 353.16705322265625,
+          "width": 150,
+          "height": 53.1875
+        }
+      ],
+      "ui": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 103.375
+        },
+        {
+          "x": 14,
+          "y": 115,
+          "width": 1252,
+          "height": 98.71875
+        },
+        {
+          "x": 16,
+          "y": 226,
+          "width": 540,
+          "height": 72.8125
+        },
+        {
+          "x": 0,
+          "y": 800,
+          "width": 1280,
+          "height": 0
+        },
+        {
+          "x": 130,
+          "y": 687.0625,
+          "width": 1134,
+          "height": 96.9375
+        }
+      ],
+      "width": 1280,
+      "height": 800,
+      "manualLookUpright": true
+    },
+    {
+      "stage": "stomach",
+      "size": "desktop",
+      "labels": [
+        {
+          "text": "Pylorus · til duodenum",
+          "fontSize": 18,
+          "x": 779.6364135742188,
+          "y": 320.1971435546875,
+          "width": 220.8125,
+          "height": 31.59375
+        },
+        {
+          "text": "Antrum pyloricum",
+          "fontSize": 18,
+          "x": 918.8250732421875,
+          "y": 446.9290771484375,
+          "width": 182.75,
+          "height": 31.59375
+        }
+      ],
+      "ui": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 103.375
+        },
+        {
+          "x": 14,
+          "y": 115,
+          "width": 1252,
+          "height": 98.71875
+        },
+        {
+          "x": 16,
+          "y": 226,
+          "width": 540,
+          "height": 72.8125
+        },
+        {
+          "x": 0,
+          "y": 800,
+          "width": 1280,
+          "height": 0
+        },
+        {
+          "x": 130,
+          "y": 659.125,
+          "width": 1134,
+          "height": 124.875
+        }
+      ],
+      "width": 1280,
+      "height": 800,
+      "manualLookUpright": true
+    },
+    {
+      "stage": "caecum",
+      "size": "desktop",
+      "labels": [
+        {
+          "text": "Haustra",
+          "fontSize": 18,
+          "x": 543.1918334960938,
+          "y": 320.631591796875,
+          "width": 89.921875,
+          "height": 31.59375
+        },
+        {
+          "text": "Semilunære folder",
+          "fontSize": 18,
+          "x": 653.1317749023438,
+          "y": 250.1056671142578,
+          "width": 184.3125,
+          "height": 31.593734741210938
+        }
+      ],
+      "ui": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 103.375
+        },
+        {
+          "x": 14,
+          "y": 115,
+          "width": 1252,
+          "height": 98.71875
+        },
+        {
+          "x": 16,
+          "y": 226,
+          "width": 540,
+          "height": 72.8125
+        },
+        {
+          "x": 0,
+          "y": 800,
+          "width": 1280,
+          "height": 0
+        },
+        {
+          "x": 130,
+          "y": 687.0625,
+          "width": 1134,
+          "height": 96.9375
+        }
+      ],
+      "width": 1280,
+      "height": 800,
+      "manualLookUpright": true
+    },
+    {
+      "stage": "ascending",
+      "size": "desktop",
+      "labels": [
+        {
+          "text": "Haustra",
+          "fontSize": 18,
+          "x": 741.310791015625,
+          "y": 472.0185546875,
+          "width": 89.921875,
+          "height": 31.59375
+        },
+        {
+          "text": "Semilunære folder",
+          "fontSize": 18,
+          "x": 583.2879028320312,
+          "y": 262.7344055175781,
+          "width": 184.3125,
+          "height": 31.59375
+        }
+      ],
+      "ui": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 103.375
+        },
+        {
+          "x": 14,
+          "y": 115,
+          "width": 1252,
+          "height": 98.71875
+        },
+        {
+          "x": 16,
+          "y": 226,
+          "width": 540,
+          "height": 72.8125
+        },
+        {
+          "x": 0,
+          "y": 800,
+          "width": 1280,
+          "height": 0
+        },
+        {
+          "x": 130,
+          "y": 687.0625,
+          "width": 1134,
+          "height": 96.9375
+        }
+      ],
+      "width": 1280,
+      "height": 800,
+      "manualLookUpright": true
+    },
+    {
+      "stage": "epiglottis",
+      "size": "mobil",
+      "labels": [
+        {
+          "text": "Epiglottis",
+          "fontSize": 20,
+          "x": 223,
+          "y": 479.19818115234375,
+          "width": 112.5,
+          "height": 34
+        },
+        {
+          "text": "Indgang til larynx",
+          "fontSize": 20,
+          "x": 120,
+          "y": 612.0877075195312,
+          "width": 150,
+          "height": 58
+        }
+      ],
+      "ui": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 103.375
+        },
+        {
+          "x": 14,
+          "y": 115,
+          "width": 362,
+          "height": 107.171875
+        },
+        {
+          "x": 12,
+          "y": 234,
+          "width": 366,
+          "height": 66.75
+        },
+        {
+          "x": 0,
+          "y": 844,
+          "width": 390,
+          "height": 0
+        },
+        {
+          "x": 10,
+          "y": 725.21875,
+          "width": 370,
+          "height": 106.78125
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "manualLookUpright": true
+    },
+    {
+      "stage": "stomach",
+      "size": "mobil",
+      "labels": [
+        {
+          "text": "Antrum pyloricum",
+          "fontSize": 20,
+          "x": 146.53347778320312,
+          "y": 457.1279296875,
+          "width": 201.046875,
+          "height": 34
+        }
+      ],
+      "ui": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 103.375
+        },
+        {
+          "x": 14,
+          "y": 115,
+          "width": 362,
+          "height": 116.375
+        },
+        {
+          "x": 12,
+          "y": 243,
+          "width": 366,
+          "height": 66.75
+        },
+        {
+          "x": 0,
+          "y": 844,
+          "width": 390,
+          "height": 0
+        },
+        {
+          "x": 10,
+          "y": 680.6875,
+          "width": 370,
+          "height": 151.3125
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "manualLookUpright": true
+    },
+    {
+      "stage": "caecum",
+      "size": "mobil",
+      "labels": [
+        {
+          "text": "Haustra",
+          "fontSize": 20,
+          "x": 197.74351501464844,
+          "y": 395.5578918457031,
+          "width": 97.90626525878906,
+          "height": 34
+        }
+      ],
+      "ui": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 103.375
+        },
+        {
+          "x": 14,
+          "y": 115,
+          "width": 362,
+          "height": 87.578125
+        },
+        {
+          "x": 12,
+          "y": 215,
+          "width": 366,
+          "height": 66.75
+        },
+        {
+          "x": 0,
+          "y": 844,
+          "width": 390,
+          "height": 0
+        },
+        {
+          "x": 10,
+          "y": 705.625,
+          "width": 370,
+          "height": 126.375
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "manualLookUpright": true
+    },
+    {
+      "stage": "ascending",
+      "size": "mobil",
+      "labels": [
+        {
+          "text": "Haustra",
+          "fontSize": 20,
+          "x": 140.32650756835938,
+          "y": 469.3590393066406,
+          "width": 97.90625,
+          "height": 34
+        }
+      ],
+      "ui": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 103.375
+        },
+        {
+          "x": 14,
+          "y": 115,
+          "width": 362,
+          "height": 116.375
+        },
+        {
+          "x": 12,
+          "y": 243,
+          "width": 366,
+          "height": 66.75
+        },
+        {
+          "x": 0,
+          "y": 844,
+          "width": 390,
+          "height": 0
+        },
+        {
+          "x": 10,
+          "y": 705.625,
+          "width": 370,
+          "height": 126.375
+        }
+      ],
+      "width": 390,
+      "height": 844,
+      "manualLookUpright": true
+    }
+  ],
+  "errors": []
+}

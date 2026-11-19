@@ -293,6 +293,26 @@ export const BOSSES = {
   poul: {
     stomach: [
       {
+        id: 'gastric-acid',
+        prompt: 'Hvilket stof udskiller parietalcellerne, som gør mavesækkens indhold surt?',
+        options: ['Saltsyre (HCl)', 'Galde', 'Pepsin'],
+        why: 'Parietalcellerne udskiller saltsyre (HCl), som bidrager til mavesækkens lave pH. I væsken findes syren som H⁺ og Cl⁻. Saltsyre er ikke et enzym.',
+        kind: 'substance',
+        visual: 'hcl',
+      },
+      {
+        id: 'protein-denaturation',
+        prompt: 'Hvad sker der med proteiner, når de udsættes for mavesækkens saltsyre?',
+        options: [
+          'De mister en del af deres tredimensionelle struktur',
+          'De omdannes direkte til frie aminosyrer',
+          'De bliver omdannet til fedt',
+        ],
+        why: 'Saltsyren får proteiner til at miste deres tredimensionelle struktur. Det kaldes denaturering og gør dem lettere tilgængelige for pepsin. Denaturering spalter ikke i sig selv peptidbindinger.',
+        kind: 'conformation',
+        visual: 'denaturation',
+      },
+      {
         prompt: 'Hvilket enzym starter den væsentlige nedbrydning af proteiner?',
         options: ['Pepsin', 'Spytamylase', 'Lipase'],
         why: 'Pepsin hydrolyserer proteinets peptidbindinger i mavesækken.',

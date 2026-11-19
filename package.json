@@ -8,7 +8,7 @@
     "start": "node server.js",
     "test": "node --test test/*.test.js",
     "build": "node scripts/build.js",
-    "test:browser": "node tests-browser/digestion-phase-a.cjs && node tests-browser/digestion.cjs && node tests-browser/digestion-audio.cjs && node tests-browser/digestion-v2.cjs && node tests-browser/review.cjs && node tests-browser/acceptance.cjs && node tests-browser/blood-game.cjs && node tests-browser/journey-audio.cjs && node tests-browser/journey-anatomy.cjs && node tests-browser/journey-guide.cjs && node tests-browser/journey-3d.cjs && node tests-browser/circulation.cjs && node tests-browser/quality-fixes.cjs && node tests-browser/game-viewport.cjs",
+    "test:browser": "node tests-browser/digestion-phase-a.cjs && node tests-browser/digestion-oral-mobile.cjs && node tests-browser/digestion-labels.cjs && node tests-browser/digestion-hcl.cjs && node tests-browser/digestion-enzyme-continuity.cjs && node tests-browser/digestion-microbiota.cjs && node tests-browser/digestion.cjs && node tests-browser/digestion-audio.cjs && node tests-browser/digestion-v2.cjs && node tests-browser/review.cjs && node tests-browser/acceptance.cjs && node tests-browser/blood-game.cjs && node tests-browser/journey-audio.cjs && node tests-browser/journey-anatomy.cjs && node tests-browser/journey-guide.cjs && node tests-browser/journey-3d.cjs && node tests-browser/circulation.cjs && node tests-browser/quality-fixes.cjs && node tests-browser/game-viewport.cjs",
     "build:preview": "node scripts/build-preview.js",
     "build:preview:3d": "node scripts/build-3d-preview.js",
     "test:browser:digestion-b": "node tests-browser/digestion-phase-b.cjs",
@@ -18,7 +18,11 @@
     "test:browser:digestion-c": "node tests-browser/digestion-phase-c.cjs",
     "test:browser:digestion-v2": "node tests-browser/digestion-v2.cjs",
     "test:browser:digestion-continuous": "node tests-browser/digestion-continuous.cjs && node tests-browser/digestion-continuous-state.cjs",
-    "test:browser:digestion-continuous-performance": "node tests-browser/digestion-continuous-performance.cjs"
+    "test:browser:digestion-continuous-performance": "node tests-browser/digestion-continuous-performance.cjs",
+    "test:browser:digestion-oral": "node tests-browser/digestion-oral-mobile.cjs",
+    "test:browser:digestion-anatomy": "node tests-browser/digestion-labels.cjs && node tests-browser/digestion-hcl.cjs && node tests-browser/digestion-enzyme-continuity.cjs && node tests-browser/digestion-microbiota.cjs",
+    "test:browser:digestion-anatomy-performance": "node tests-browser/digestion-anatomy-performance.cjs",
+    "test:browser:digestion-anatomy-visual": "node tests-browser/digestion-anatomy-visual.cjs"
   },
   "engines": {
     "node": ">=22"

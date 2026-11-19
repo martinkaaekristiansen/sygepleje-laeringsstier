@@ -1,4 +1,5 @@
 import * as T from './three.module.min.js';
+import { ORAL_CENTER } from './digestion-anatomy.js';
 import { anatomicalLabel } from './digestion-anatomy-labels.js';
 // Local axes: +y superior; +z anterior. Oesophagus is posterior to the airway.
 export const SWALLOW_LANDMARKS = {
@@ -89,6 +90,8 @@ export function buildSwallowAnatomy({ labels = true, continuous = false } = {}) 
   );
   wall.position.set(0, 0, -5.5);
   const tongue = ellipsoid(SWALLOW_LANDMARKS.tongue, [0.95, 0.4, 1], 0xd98994);
+  if (continuous) tongue.position.set(ORAL_CENTER[0], ORAL_CENTER[1] - 1.05, -2.5);
+  tongue.name = 'posterior-tongue';
   const larynx = new T.Group();
   larynx.position.set(0, 0, -4.7);
   group.add(larynx);
@@ -149,19 +152,16 @@ export function buildSwallowAnatomy({ labels = true, continuous = false } = {}) 
       [0, -2.4, -6.7],
     ].map((p) => new T.Vector3(...p)),
   );
-  let epiglottisLabel;
+  let larynxLabel;
   function update(seconds, active) {
     const p = swallowingPose(seconds, active);
     larynx.position.set(0, p.lift, -4.7 + p.anterior);
-    pivot.rotation.x = p.epiglottisAngle;
+    // In the shared sagittal view the resting leaf leans towards the tongue
+    // base; its free edge is anterior to the open laryngeal inlet. Closure
+    // still carries the blade backwards over the airway, never over the food path.
+    pivot.rotation.x = p.epiglottisAngle + (continuous ? 0.4 * (1 - p.closure) : 0);
     trachealAssembly.position.set(0, p.lift, p.anterior);
-    if (epiglottisLabel)
-      epiglottisLabel.position.copy(
-        new T.Vector3(1.2, 1.1, 0.06)
-          .applyEuler(pivot.rotation)
-          .add(pivot.position)
-          .add(larynx.position),
-      );
+    if (larynxLabel) larynxLabel.visible = p.closure < 0.55;
     folds.forEach(({ fold, side }) => (fold.position.x = side * p.vocalGap));
     funnel.scale.x = 1 - p.closure * 0.12;
     tongue.position.z = -2.5 - p.closure * 0.32;
@@ -175,16 +175,43 @@ export function buildSwallowAnatomy({ labels = true, continuous = false } = {}) 
     return p;
   }
   if (labels) {
-    epiglottisLabel = anatomicalLabel('Epiglottis', [1.2, 1.5, -4.2], 1.6);
-    group.add(epiglottisLabel);
-    group.add(anatomicalLabel('Tungerod', [-0.6, 2.25, -2.4], 1.6));
-    group.add(anatomicalLabel('Trachea', [0.85, -2.5, -4.1], 1.5));
-    group.add(anatomicalLabel('Oesophagus – bag luftvejen', [0.8, -3.8, -6.8], 2.8));
+    epiglottis.add(
+      anatomicalLabel('Epiglottis', [0, 0.55, 0.15], 1.6, {
+        target: epiglottis,
+        priority: 100,
+        side: 1,
+      }),
+    );
+    tongue.add(anatomicalLabel('Tungerod', [0, 1, 0], 1.6, { target: tongue, priority: 70 }));
+    larynxLabel = anatomicalLabel('Indgang til larynx', [0, -0.15, 0], 1.8, {
+      target: funnel,
+      priority: 95,
+      side: 2,
+      maxWidth: 150,
+      labelGap: 200,
+    });
+    larynx.add(larynxLabel);
+    group.add(
+      anatomicalLabel('Trachea', [0.55, -2.5, -4.1], 1.5, { target: trachea, priority: 40 }),
+    );
+    group.add(
+      anatomicalLabel('Oesophagus · bag luftvejen', [0, -0.35, -6.6], 2.8, { priority: 85 }),
+    );
   }
   if (continuous) {
     wall.visible = false;
     oesophagus.visible = false;
   }
   update(0, false);
-  return { group, epiglottis, larynx, trachea, oesophagus, pivot, update };
+  return {
+    group,
+    tongue,
+    epiglottis,
+    larynx,
+    trachea,
+    oesophagus,
+    pivot,
+    vocalFolds: folds.map((f) => f.fold),
+    update,
+  };
 }

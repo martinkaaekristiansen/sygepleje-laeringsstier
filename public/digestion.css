@@ -23,6 +23,52 @@
   cursor: grab;
   touch-action: none;
 }
+.digest-anatomy-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+  contain: layout paint;
+}
+.digest-anatomy-labels[hidden] {
+  display: none;
+}
+.digest-anatomy-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  box-sizing: border-box;
+  max-width: min(290px, calc(100vw - 24px));
+  padding: 4px 8px;
+  border: 1px solid #f2d4ba9e;
+  border-radius: 7px;
+  background: #27121bf5;
+  color: #fff1df;
+  font:
+    600 var(--anatomy-label-font, 18px) / 1.2 system-ui,
+    sans-serif;
+  text-align: center;
+  overflow-wrap: normal;
+  text-wrap: balance;
+}
+.digest-anatomy-leaders {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.digest-anatomy-leaders line {
+  stroke: #f2d4bacc;
+  stroke-width: 1.2;
+}
+@media (max-width: 600px) {
+  .digest-anatomy-label {
+    max-width: min(230px, calc(100vw - 24px));
+  }
+}
 .digestion-game [hidden] {
   display: none !important;
 }
@@ -705,8 +751,13 @@
   align-items: stretch;
   gap: 8px;
 }
-#digestion-root .digest-nav .digest-eyebrow { display: none; }
-#digestion-root .digest-nav h2 { font: 600 17px/1.35 system-ui; margin: 0; }
+#digestion-root .digest-nav .digest-eyebrow {
+  display: none;
+}
+#digestion-root .digest-nav h2 {
+  font: 600 17px/1.35 system-ui;
+  margin: 0;
+}
 #digestion-root .digest-route-labels {
   position: static;
   inset: auto;
@@ -728,9 +779,15 @@
   overflow-wrap: anywhere;
   font-size: 15px;
 }
-#digestion-root .digest-route-labels button strong { min-width: 0; }
-#digestion-root .digest-panel.digest-compact { max-height: 38%; }
-#digestion-root .digest-choices button span { min-width: 0; }
+#digestion-root .digest-route-labels button strong {
+  min-width: 0;
+}
+#digestion-root .digest-panel.digest-compact {
+  max-height: 38%;
+}
+#digestion-root .digest-choices button span {
+  min-width: 0;
+}
 #digestion-root .digest-learning {
   width: min(540px, calc(100% - 150px));
   max-height: 15%;
@@ -738,26 +795,66 @@
   align-items: flex-start;
 }
 @media (max-width: 600px) {
-  #digestion-root .digest-panel.digest-nav { left: 10px; right: 10px; bottom: 12px; max-height: 38%; }
-  #digestion-root .digest-nav h2 { font-size: 16px; }
-  #digestion-root .digest-route-labels button { font-size: 14px; text-align: left; }
-  #digestion-root .digest-learning { width: calc(100% - 24px); max-height: 14%; }
-  #digestion-root .digest-panel.digest-compact { max-height: 38%; }
+  #digestion-root .digest-panel.digest-nav {
+    left: 10px;
+    right: 10px;
+    bottom: 12px;
+    max-height: 38%;
+  }
+  #digestion-root .digest-nav h2 {
+    font-size: 16px;
+  }
+  #digestion-root .digest-route-labels button {
+    font-size: 14px;
+    text-align: left;
+  }
+  #digestion-root .digest-learning {
+    width: calc(100% - 24px);
+    max-height: 14%;
+  }
+  #digestion-root .digest-panel.digest-compact {
+    max-height: 38%;
+  }
 }
 @media (max-height: 500px) {
-  #digestion-root .digest-hud h1 { font-size: 20px; margin: 2px 0; }
-  #digestion-root .digest-learning { width: min(540px, calc(100% - 150px)); max-height: 17%; font-size: 12px; }
+  #digestion-root .digest-hud h1 {
+    font-size: 20px;
+    margin: 2px 0;
+  }
+  #digestion-root .digest-learning {
+    width: min(540px, calc(100% - 150px));
+    max-height: 17%;
+    font-size: 12px;
+  }
   #digestion-root .digest-panel.digest-compact,
-  #digestion-root .digest-panel.digest-nav { left: 110px; right: 12px; bottom: 8px; max-height: 38%; }
-  #digestion-root .digest-choices { flex-direction: row; }
-  #digestion-root .digest-map .blood-minimap { bottom: 12px; }
+  #digestion-root .digest-panel.digest-nav {
+    left: 110px;
+    right: 12px;
+    bottom: 8px;
+    max-height: 38%;
+  }
+  #digestion-root .digest-choices {
+    flex-direction: row;
+  }
+  #digestion-root .digest-map .blood-minimap {
+    bottom: 12px;
+  }
 }
 @media (max-width: 600px) and (min-height: 501px) {
-  #digestion-root .digest-hud .blood-location { max-width: calc(100% - 110px); }
-  #digestion-root .digest-map .blood-minimap { width: 64px; padding: 5px; }
-  #digestion-root .digest-map .blood-minimap svg { height: 42px; }
+  #digestion-root .digest-hud .blood-location {
+    max-width: calc(100% - 110px);
+  }
+  #digestion-root .digest-map .blood-minimap {
+    width: 64px;
+    padding: 5px;
+  }
+  #digestion-root .digest-map .blood-minimap svg {
+    height: 42px;
+  }
   #digestion-root .digest-map .blood-minimap figcaption,
-  #digestion-root .digest-map .blood-minimap > span { font-size: 10px; }
+  #digestion-root .digest-map .blood-minimap > span {
+    font-size: 10px;
+  }
 }
 @media (max-width: 600px) and (min-height: 501px) {
   #digestion-root .digestion-game .digest-map .blood-minimap {
@@ -766,13 +863,21 @@
   }
 }
 @media (max-width: 360px) and (min-height: 501px) {
-  #digestion-root .digest-map .blood-minimap svg { height: 24px; }
+  #digestion-root .digest-map .blood-minimap svg {
+    height: 24px;
+  }
 }
 @media (max-width: 360px) and (min-height: 501px) {
-  #digestion-root .digest-panel.digest-compact { --digest-panel-limit: 33%; max-height: 33%; }
+  #digestion-root .digest-panel.digest-compact {
+    --digest-panel-limit: 33%;
+    max-height: 33%;
+  }
 }
 @media (max-width: 360px) {
-  #digestion-root .digest-compact .digest-choices { flex-direction: column; flex-wrap: nowrap; }
+  #digestion-root .digest-compact .digest-choices {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
   #digestion-root .digest-compact .digest-choices button[data-answer-kind] {
     flex: 0 0 auto;
     flex-direction: row;
@@ -781,10 +886,14 @@
   }
 }
 @media (max-width: 600px) and (min-height: 501px) {
-  #digestion-root .digestion-game .digest-map .blood-minimap { width: 78px; }
+  #digestion-root .digestion-game .digest-map .blood-minimap {
+    width: 78px;
+  }
 }
 
-.digest-nutrient-ending{max-width:65ch}
+.digest-nutrient-ending {
+  max-width: 65ch;
+}
 
 #digestion-root .digest-panel.digest-result {
   top: auto;
@@ -797,12 +906,26 @@
   overflow-y: auto;
   display: block;
 }
-.digest-result .digest-nutrient-ending { color: #ffe5b5; }
-.digest-result details { margin: 12px 0; }
-.digest-result summary { cursor: pointer; }
+.digest-result .digest-nutrient-ending {
+  color: #ffe5b5;
+}
+.digest-result details {
+  margin: 12px 0;
+}
+.digest-result summary {
+  cursor: pointer;
+}
 @media (max-width: 600px) {
-  #digestion-root .digest-panel.digest-result { left: 10px; right: 10px; bottom: 12px; max-height: 72%; padding: 14px; }
-  .digest-result h2 { font-size: 22px; }
+  #digestion-root .digest-panel.digest-result {
+    left: 10px;
+    right: 10px;
+    bottom: 12px;
+    max-height: 72%;
+    padding: 14px;
+  }
+  .digest-result h2 {
+    font-size: 22px;
+  }
 }
 
 #digestion-root .digest-absorption .digest-compartments {
@@ -820,29 +943,64 @@
 
 /* Keep the C teaching section clear on short portrait screens. */
 @media (max-width: 600px) and (max-height: 650px) {
-  #digestion-root :is(.digest-absorption, .digest-finale) .digest-hud h1 { font-size: 18px; line-height: 1.15; margin: 4px 0; }
-  #digestion-root :is(.digest-absorption, .digest-finale) .digest-hud p { display: none; }
-  #digestion-root :is(.digest-absorption, .digest-finale) .digest-learning { font-size: 12px; line-height: 1.35; padding: 8px 10px; }
-  #digestion-root .digest-absorption .digest-compartments { display: none; }
-  #digestion-root :is(.digest-absorption, .digest-finale) .blood3d-bottom { top: calc(var(--digest-toolbar-height, 66px) + 30px); right: 14px; width: 80px; font-size: 11px; }
+  #digestion-root :is(.digest-absorption, .digest-finale) .digest-hud h1 {
+    font-size: 18px;
+    line-height: 1.15;
+    margin: 4px 0;
+  }
+  #digestion-root :is(.digest-absorption, .digest-finale) .digest-hud p {
+    display: none;
+  }
+  #digestion-root :is(.digest-absorption, .digest-finale) .digest-learning {
+    font-size: 12px;
+    line-height: 1.35;
+    padding: 8px 10px;
+  }
+  #digestion-root .digest-absorption .digest-compartments {
+    display: none;
+  }
+  #digestion-root :is(.digest-absorption, .digest-finale) .blood3d-bottom {
+    top: calc(var(--digest-toolbar-height, 66px) + 30px);
+    right: 14px;
+    width: 80px;
+    font-size: 11px;
+  }
 }
 @media (min-width: 601px) and (max-height: 500px) {
-  #digestion-root :is(.digest-absorption, .digest-finale) .digest-learning { width: min(260px, calc(100% - 150px)); }
-  #digestion-root .digest-absorption .digest-compartments { display: none; }
+  #digestion-root :is(.digest-absorption, .digest-finale) .digest-learning {
+    width: min(260px, calc(100% - 150px));
+  }
+  #digestion-root .digest-absorption .digest-compartments {
+    display: none;
+  }
 }
 
 /* Leave the measured information field clear when answers wrap on short screens. */
 #digestion-root .digest-panel:is(.digest-compact, .digest-nav) {
-  max-height: min(var(--digest-panel-limit, 38%), max(0px, calc(100% - var(--digest-info-bottom, 0px) - 16px - var(--digest-map-space, 0px))));
+  max-height: min(
+    var(--digest-panel-limit, 38%),
+    max(0px, calc(100% - var(--digest-info-bottom, 0px) - 16px - var(--digest-map-space, 0px)))
+  );
 }
 @media (max-width: 600px) and (min-height: 501px) {
-  #digestion-root { --digest-map-space: var(--digest-map-height, 0px); }
+  #digestion-root {
+    --digest-map-space: var(--digest-map-height, 0px);
+  }
 }
 @media (max-height: 500px) {
-  #digestion-root .digest-learning { left: 110px; width: min(540px, calc(100% - 122px)); }
+  #digestion-root .digest-learning {
+    left: 110px;
+    width: min(540px, calc(100% - 122px));
+  }
 }
 
-.digest-point-title { display: block; font-size: .9em; margin-bottom: 2px; }
+.digest-point-title {
+  display: block;
+  font-size: 0.9em;
+  margin-bottom: 2px;
+}
 
 /* Exact basic explanations stay readable; measured controls reserve their height. */
-#digestion-root .digest-learning { max-height: min(160px, 30%); }
+#digestion-root .digest-learning {
+  max-height: min(160px, 30%);
+}

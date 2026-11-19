@@ -1,0 +1,96 @@
+{
+  "results": [
+    {
+      "character": "stanley",
+      "stage": "mouth",
+      "index": 0,
+      "task": 0,
+      "label": "Spytamylase",
+      "id": "salivary-amylase",
+      "instance": "e96b30e6-dbeb-4cbe-8679-e7fb48d6cd61",
+      "mesh": "3723f14a-a991-45bb-9682-4a64c4a2ed30",
+      "oneVisibleModel": true,
+      "wrongAnswerRetainsEnzyme": true,
+      "intactAfterHydrolysis": true
+    },
+    {
+      "character": "stanley",
+      "stage": "duodenum",
+      "index": 5,
+      "task": 0,
+      "label": "Bugspytamylase",
+      "id": "pancreatic-amylase",
+      "instance": "f3709afc-77ec-44b9-9602-d92e99f67bda",
+      "mesh": "ead7ff04-b342-47f4-9637-683b6bf6d8f9",
+      "oneVisibleModel": true,
+      "wrongAnswerRetainsEnzyme": true,
+      "intactAfterHydrolysis": true
+    },
+    {
+      "character": "stanley",
+      "stage": "jejunum",
+      "index": 6,
+      "task": 0,
+      "label": "Maltase",
+      "id": "maltase",
+      "instance": "ea779cba-689a-4502-9ce6-08b64d000d92",
+      "mesh": "e443192c-4c00-432d-ae28-6c166dd0e70d",
+      "oneVisibleModel": true,
+      "wrongAnswerRetainsEnzyme": true,
+      "intactAfterHydrolysis": true
+    },
+    {
+      "character": "trine",
+      "stage": "duodenum",
+      "index": 5,
+      "task": 2,
+      "label": "Bugspytlipase",
+      "id": "lipase",
+      "instance": "c98867ad-6e8b-4167-8379-142b415e346c",
+      "mesh": "20327e3d-5d41-4170-81d7-14aca8b91c08",
+      "oneVisibleModel": true,
+      "wrongAnswerRetainsEnzyme": true,
+      "intactAfterHydrolysis": true
+    },
+    {
+      "character": "poul",
+      "stage": "stomach",
+      "index": 4,
+      "task": 2,
+      "label": "Pepsin",
+      "id": "pepsin",
+      "instance": "24782f5d-0854-402e-b90a-3a0fe4b26353",
+      "mesh": "be7153c5-591c-4b74-9334-b8fb4457602d",
+      "oneVisibleModel": true,
+      "wrongAnswerRetainsEnzyme": true,
+      "intactAfterHydrolysis": true
+    },
+    {
+      "character": "poul",
+      "stage": "duodenum",
+      "index": 5,
+      "task": 0,
+      "label": "Trypsin",
+      "id": "trypsin",
+      "instance": "465deccc-992e-4556-bb91-67276a7ba0c4",
+      "mesh": "7f629926-33a3-42b8-805e-8ebed8dbd0ea",
+      "oneVisibleModel": true,
+      "wrongAnswerRetainsEnzyme": true,
+      "intactAfterHydrolysis": true
+    },
+    {
+      "character": "poul",
+      "stage": "jejunum",
+      "index": 6,
+      "task": 0,
+      "label": "Peptidaser",
+      "id": "peptidase",
+      "instance": "0f3dbe97-01b4-4244-9ca2-dafd6e6d240e",
+      "mesh": "2bdf6b00-6c3e-4bef-bdb9-2111ad7841a8",
+      "oneVisibleModel": true,
+      "wrongAnswerRetainsEnzyme": true,
+      "intactAfterHydrolysis": true
+    }
+  ],
+  "errors": []
+}

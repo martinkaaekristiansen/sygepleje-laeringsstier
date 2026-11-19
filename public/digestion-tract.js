@@ -1,6 +1,6 @@
 import { MUCOSA_REGIONS } from './digestion-mucosa.js';
 import * as T from './three.module.min.js';
-import { buildOrganSurface, organCurve, stomachPoint } from './digestion-anatomy.js';
+import { buildOrganSurface, organCurve, stomachPoint, ORAL_CENTER } from './digestion-anatomy.js';
 import { buildCaecumGeometry } from './digestion-caecum.js';
 import {
   surfacePorts,
@@ -121,8 +121,8 @@ export function buildDigestiveTract() {
   const pharynxPath = new T.CurvePath();
   pharynxPath.add(
     new T.CubicBezierCurve3(
-      V([1.2, 2.1, -3.2]),
-      V([1.2, 2.1, -5.2]),
+      V([ORAL_CENTER[0], ORAL_CENTER[1], -3.2]),
+      V([ORAL_CENTER[0], ORAL_CENTER[1], -5.2]),
       V([0, 0.256854, -6.8]),
       V([0, -1.4, -6.8]),
     ),
@@ -131,10 +131,10 @@ export function buildDigestiveTract() {
   const definitions = {
     mouth: {
       path: curve([
-        [1.2, 2.1, 3],
-        [1.2, 2.1, 1],
-        [1.2, 2.1, -1.2],
-        [1.2, 2.1, -2.3],
+        [ORAL_CENTER[0], ORAL_CENTER[1], 3],
+        [ORAL_CENTER[0], ORAL_CENTER[1], 1],
+        [ORAL_CENTER[0], ORAL_CENTER[1], -1.2],
+        [ORAL_CENTER[0], ORAL_CENTER[1], -2.3],
       ]),
       radius: (u, a) => (3.5 * (1 - u) + 1.7 * u) * (1 + 0.025 * Math.cos(a * 2)),
       verticalScale: () => 0.8,
@@ -435,9 +435,9 @@ export function buildDigestiveTract() {
     localPosition: route.getPointAt(epiDistance / route.length),
     localLook: V([0, 0.2, -5]),
   };
-  stations.pharynx.look = V([0, 1.15, -4.3]);
+  stations.pharynx.look = V([0, 0, -4.5]);
   stations.pharynx.localLook = stations.pharynx.look.clone();
-  stations.epiglottis.look = V([0, 1.15, -4.3]);
+  stations.epiglottis.look = V([0, 0, -4.5]);
   stations.epiglottis.localLook = stations.epiglottis.look.clone();
   stations.anus = stations.anal;
   return { segments, connections, route, stations, byId, parts, version: PHYSICAL_ROUTE_VERSION };

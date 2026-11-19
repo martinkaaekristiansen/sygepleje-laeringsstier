@@ -1,0 +1,352 @@
+[
+  {
+    "name": "before-epiglottis-travel-desktop.png",
+    "id": "epiglottis",
+    "mode": "travel",
+    "age": 0,
+    "size": "desktop",
+    "camera": {
+      "position": [
+        1.1984691949419246,
+        2.0976339171810814,
+        -3.3240629221743148
+      ],
+      "look": [
+        0,
+        1.15,
+        -4.3
+      ],
+      "fov": 74,
+      "quaternion": [
+        -0.25214764639188125,
+        0.40897986390906704,
+        0.10199590819472495,
+        0.8710647909584505
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 6.32410439311598,
+      "fromDistance": 6.32410439311598,
+      "targetDistance": 6.32410439311598,
+      "travelDuration": 0
+    },
+    "triangles": 72960,
+    "drawCalls": 39
+  },
+  {
+    "name": "before-epiglottis-swallow-desktop.png",
+    "id": "epiglottis",
+    "mode": "swallow",
+    "age": 1.1,
+    "size": "desktop",
+    "camera": {
+      "position": [
+        0.4566074646606936,
+        0.6343176406138449,
+        -6.043388718317205
+      ],
+      "look": [
+        0,
+        -1.6350433494208163,
+        -6.8
+      ],
+      "fov": 74,
+      "quaternion": [
+        -0.5637514786043635,
+        0.1638450788368875,
+        0.06815248033688338,
+        0.8066562464496625
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 9.608669458783552,
+      "fromDistance": 6.32410439311598,
+      "targetDistance": 17.102332002866156,
+      "travelDuration": 3
+    },
+    "triangles": 43486,
+    "drawCalls": 17
+  },
+  {
+    "name": "before-mouth-intro-desktop.png",
+    "id": "mouth",
+    "mode": "intro",
+    "age": 8,
+    "size": "desktop",
+    "camera": {
+      "position": [
+        1.2,
+        2.1,
+        1.1449999992529547
+      ],
+      "look": [
+        1.2,
+        2.1,
+        -1.3550051144771973
+      ],
+      "fov": 74,
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 1.8550000000000002,
+      "fromDistance": 1.8550000000000002,
+      "targetDistance": 1.8550000000000002,
+      "travelDuration": 0
+    },
+    "triangles": 86108,
+    "drawCalls": 141
+  },
+  {
+    "name": "before-stomach-boss-desktop.png",
+    "id": "stomach",
+    "mode": "boss",
+    "age": 0,
+    "size": "desktop",
+    "camera": {
+      "position": [
+        6.426306556777231,
+        -22.413680635562653,
+        -1.1858603846084348
+      ],
+      "look": [
+        4.317725563020556,
+        -23.278413575809285,
+        -0.233328132959703
+      ],
+      "fov": 74,
+      "quaternion": [
+        0.8095341668148494,
+        0.19357187821670244,
+        0.5476423729118818,
+        -0.08527714884122953
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 37.16895956020478,
+      "fromDistance": 37.16895956020478,
+      "targetDistance": 37.16895956020478,
+      "travelDuration": 0
+    },
+    "triangles": 217091,
+    "drawCalls": 47
+  },
+  {
+    "name": "before-caecum-travel-desktop.png",
+    "id": "caecum",
+    "mode": "travel",
+    "age": 0,
+    "size": "desktop",
+    "camera": {
+      "position": [
+        -34.019162927180176,
+        -86.34204042957572,
+        8.999999998061895
+      ],
+      "look": [
+        -34.01452876716215,
+        -83.842520793792,
+        9.000000008555771
+      ],
+      "fov": 74,
+      "quaternion": [
+        0.5048557213437549,
+        0.4950966599823227,
+        -0.4960318181031603,
+        0.5039369338817093
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 211.09840293928812,
+      "fromDistance": 211.09840293928812,
+      "targetDistance": 211.09840293928812,
+      "travelDuration": 0
+    },
+    "triangles": 53578,
+    "drawCalls": 9
+  },
+  {
+    "name": "before-epiglottis-travel-mobil.png",
+    "id": "epiglottis",
+    "mode": "travel",
+    "age": 0,
+    "size": "mobil",
+    "camera": {
+      "position": [
+        1.1984691949419246,
+        2.0976339171810814,
+        -3.3240629221743148
+      ],
+      "look": [
+        0,
+        1.15,
+        -4.3
+      ],
+      "fov": 116.96608940593329,
+      "quaternion": [
+        -0.25214764639188125,
+        0.40897986390906704,
+        0.10199590819472495,
+        0.8710647909584505
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 6.32410439311598,
+      "fromDistance": 6.32410439311598,
+      "targetDistance": 6.32410439311598,
+      "travelDuration": 0
+    },
+    "triangles": 72768,
+    "drawCalls": 37
+  },
+  {
+    "name": "before-epiglottis-swallow-mobil.png",
+    "id": "epiglottis",
+    "mode": "swallow",
+    "age": 1.1,
+    "size": "mobil",
+    "camera": {
+      "position": [
+        0.4566074646606936,
+        0.6343176406138449,
+        -6.043388718317205
+      ],
+      "look": [
+        0,
+        -1.6350433494208163,
+        -6.8
+      ],
+      "fov": 116.96608940593329,
+      "quaternion": [
+        -0.5637514786043635,
+        0.1638450788368875,
+        0.06815248033688338,
+        0.8066562464496625
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 9.608669458783552,
+      "fromDistance": 6.32410439311598,
+      "targetDistance": 17.102332002866156,
+      "travelDuration": 3
+    },
+    "triangles": 44510,
+    "drawCalls": 19
+  },
+  {
+    "name": "before-mouth-intro-mobil.png",
+    "id": "mouth",
+    "mode": "intro",
+    "age": 8,
+    "size": "mobil",
+    "camera": {
+      "position": [
+        1.2,
+        2.1,
+        1.1449999992529547
+      ],
+      "look": [
+        1.2,
+        2.1,
+        -1.3550051144771973
+      ],
+      "fov": 116.96608940593329,
+      "quaternion": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 1.8550000000000002,
+      "fromDistance": 1.8550000000000002,
+      "targetDistance": 1.8550000000000002,
+      "travelDuration": 0
+    },
+    "triangles": 86412,
+    "drawCalls": 136
+  },
+  {
+    "name": "before-stomach-boss-mobil.png",
+    "id": "stomach",
+    "mode": "boss",
+    "age": 0,
+    "size": "mobil",
+    "camera": {
+      "position": [
+        6.426306556777231,
+        -22.413680635562653,
+        -1.1858603846084348
+      ],
+      "look": [
+        4.317725563020556,
+        -23.278413575809285,
+        -0.233328132959703
+      ],
+      "fov": 116.96608940593329,
+      "quaternion": [
+        0.8095341668148494,
+        0.19357187821670244,
+        0.5476423729118818,
+        -0.08527714884122953
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 37.16895956020478,
+      "fromDistance": 37.16895956020478,
+      "targetDistance": 37.16895956020478,
+      "travelDuration": 0
+    },
+    "triangles": 217091,
+    "drawCalls": 47
+  },
+  {
+    "name": "before-caecum-travel-mobil.png",
+    "id": "caecum",
+    "mode": "travel",
+    "age": 0,
+    "size": "mobil",
+    "camera": {
+      "position": [
+        -34.019162927180176,
+        -86.34204042957572,
+        8.999999998061895
+      ],
+      "look": [
+        -34.01452876716215,
+        -83.842520793792,
+        9.000000008555771
+      ],
+      "fov": 116.96608940593329,
+      "quaternion": [
+        0.5048557213437549,
+        0.4950966599823227,
+        -0.4960318181031603,
+        0.5039369338817093
+      ]
+    },
+    "route": {
+      "physicalRouteVersion": 1,
+      "cameraDistance": 211.09840293928812,
+      "fromDistance": 211.09840293928812,
+      "targetDistance": 211.09840293928812,
+      "travelDuration": 0
+    },
+    "triangles": 56612,
+    "drawCalls": 9
+  }
+]

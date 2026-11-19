@@ -85,14 +85,30 @@ export function nutrientModel(
       link(12, 13, 'alpha-1,4');
     }
   }
-  function update(t, organ) {
-    const state = reactionState(t, id, organ),
+  function update(t, organ, options = {}) {
+    const conformationOnly = options.denaturation !== undefined;
+    const state = conformationOnly
+        ? {
+            phase: 'denaturation',
+            progress: T.MathUtils.clamp(options.denaturation, 0, 1),
+            cut: false,
+          }
+        : reactionState(t, id, organ, options),
       p = state.progress;
     units.forEach((u, i) => {
       u.position.copy(u.userData.home);
-      if (id === 'poul' && form === 'protein' && organ === 'stomach' && t > 0) {
-        const f = Math.min(1, t / 2);
-        u.position.lerp(new T.Vector3((i - 6) * 0.24, Math.sin(i * 0.4) * 0.1, 0), f);
+      if (
+        id === 'poul' &&
+        form === 'protein' &&
+        organ === 'stomach' &&
+        (t > 0 || conformationOnly || options.denatured)
+      ) {
+        const f = conformationOnly ? state.progress : options.denatured ? 1 : Math.min(1, t / 2);
+        group.userData.denaturationProgress = f;
+        u.position.lerp(
+          new T.Vector3((i - 5.5) * 0.24, Math.sin(i * 0.7) * 0.13, Math.cos(i * 0.55) * 0.15),
+          f,
+        );
       }
       if (state.cut || form === 'lipid-products') {
         if (id === 'trine') {
@@ -148,6 +164,12 @@ export function nutrientModel(
     return state;
   }
   update(-1, 'mouth');
-  group.userData = { units, links, update, form };
+  group.userData = {
+    units,
+    links,
+    update,
+    form,
+    denature: (progress) => update(-1, 'stomach', { denaturation: progress }),
+  };
   return group;
 }

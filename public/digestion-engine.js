@@ -11,6 +11,7 @@ export function newDigestion(character) {
   return {
     character,
     routeVersion: 3,
+    gastricCurriculumVersion: 1,
     completed: [],
     product: initialProduct(character),
     index: 0,
@@ -69,6 +70,11 @@ export function retryDigestion(run) {
   if (run.phase !== 'retry') return;
   run.lives = 2;
   run.task = 0;
+  if (run.retryFrom === 'boss' && run.character === 'poul' && ROUTE[run.index]?.id === 'stomach') {
+    delete run.acidSecreted;
+    delete run.proteinDenatured;
+    delete run.gastricAcidExempt;
+  }
   if (run.retryFrom === 'entry') {
     run.phase = 'entry';
     return;
@@ -140,6 +146,8 @@ export function validDigestion(data) {
           'bile',
           'journey',
           'micelle',
+          'hcl',
+          'denaturation',
         ].includes(r.animation.mode) &&
         Number.isFinite(r.animation.age) &&
         r.animation.age >= 0 &&
@@ -157,6 +165,9 @@ export function validDigestion(data) {
             r.animation[k] === undefined ||
             (Number.isFinite(r.animation[k]) && Math.abs(r.animation[k]) <= 1000000),
         ))) &&
+    ['acidSecreted', 'proteinDenatured', 'gastricAcidExempt'].every(
+      (k) => r[k] === undefined || typeof r[k] === 'boolean',
+    ) &&
     ['errors', 'anatomy', 'enzyme', 'started', 'elapsed'].every((k) => finite(r[k]));
   return (
     data &&
@@ -236,7 +247,7 @@ export function activeClock(run, now = () => performance.now()) {
     },
   };
 }
-export function reactionState(seconds, character, organ) {
+export function reactionState(seconds, character, organ, { denatured = false } = {}) {
   const chemical = !(
     (organ === 'mouth' && character !== 'stanley') ||
     (organ === 'stomach' && character === 'stanley')
@@ -248,7 +259,7 @@ export function reactionState(seconds, character, organ) {
       cut: false,
     };
   const lead =
-    character === 'poul' && organ === 'stomach'
+    character === 'poul' && organ === 'stomach' && !denatured
       ? 'denaturation'
       : character === 'trine' && organ === 'duodenum'
         ? 'approach'
@@ -283,8 +294,12 @@ export function relativeActivity(ph, enzyme) {
 export function initialProduct(id) {
   return { stanley: 'polysaccharide', trine: 'triglyceride', poul: 'protein' }[id];
 }
-export function enzymeTotal(id) {
-  return Object.values(BOSSES[id]).reduce((n, qs) => n + qs.length, 0);
+export function enzymeTotal(id, run = null) {
+  const total = Object.values(BOSSES[id]).reduce((n, qs) => n + qs.length, 0);
+  return (
+    total -
+    (id === 'poul' && run && (run.gastricAcidExempt || run.gastricCurriculumVersion !== 1) ? 2 : 0)
+  );
 }
 // Old trophies remain byte-for-byte intact. An interrupted old run resumes at
 // the corresponding anatomical checkpoint, with its current challenge restarted.
@@ -317,6 +332,26 @@ export function migrateDigestion(data) {
   const r = structuredClone(data.active);
   if (!r) return data;
   if (r.routeVersion === 3) {
+    if (r.gastricCurriculumVersion !== 1) {
+      if (r.character === 'poul') {
+        const stomach = ROUTE.findIndex((s) => s.id === 'stomach');
+        r.answered = (r.answered || []).map((key) =>
+          key.startsWith(stomach + ':') ? stomach + ':' + (Number(key.split(':')[1]) + 2) : key,
+        );
+        if (r.index === stomach && ['boss', 'secretion', 'retry'].includes(r.phase) && r.task > 0)
+          r.task += 2;
+        if (
+          r.index > stomach ||
+          r.completed?.includes('stomach') ||
+          (r.index === stomach && r.task >= 2)
+        ) {
+          r.acidSecreted = true;
+          r.proteinDenatured = true;
+          r.gastricAcidExempt = true;
+        }
+      }
+      r.gastricCurriculumVersion = 1;
+    }
     data.active = r;
     if (r.phase === 'absorb-choice' || (r.phase === 'retry' && r.retryFrom === 'absorb-choice')) {
       if (r.phase === 'retry') r.lives = 2;
@@ -380,9 +415,17 @@ export function migrateDigestion(data) {
     .map((s) => s.id);
   if (r.absorbed && id === 'jejunum' && BOSSES[r.character].jejunum) r.completed.push('jejunum');
   r.answered = ROUTE.filter((s) => r.completed.includes(s.id)).flatMap((s) =>
-    BOSSES[r.character][s.id].map((_, i) => s.index + ':' + i),
+    BOSSES[r.character][s.id].flatMap((_, i) =>
+      r.character === 'poul' && s.id === 'stomach' && i < 2 ? [] : [s.index + ':' + i],
+    ),
   );
   r.enzyme = r.answered.length;
+  r.gastricCurriculumVersion = 1;
+  if (r.character === 'poul' && r.completed.includes('stomach')) {
+    r.acidSecreted = true;
+    r.proteinDenatured = true;
+    r.gastricAcidExempt = true;
+  }
   r.product = initialProduct(r.character);
   for (const s of ROUTE.filter((s) => r.completed.includes(s.id)))
     r.product = BOSSES[r.character][s.id].at(-1).output;
