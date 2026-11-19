@@ -35,6 +35,27 @@ jobs:
         timeout-minutes: 15
         run: |
           set -euo pipefail
+          # Undgå fejlende HTTP-spejle på runneren; behold alle browserafhængigheder.
+          sudo python3 - <<'PYAPT'
+          from pathlib import Path
+          sources = [Path('/etc/apt/sources.list'),
+                     Path('/etc/apt/apt-mirrors.txt'),
+                     Path('/etc/apt/apt-mirrors-security.txt'),
+                     *Path('/etc/apt/sources.list.d').glob('ubuntu.sources')]
+          replacements = {
+              'http://azure.archive.ubuntu.com/ubuntu': 'https://archive.ubuntu.com/ubuntu',
+              'http://archive.ubuntu.com/ubuntu': 'https://archive.ubuntu.com/ubuntu',
+              'http://security.ubuntu.com/ubuntu': 'https://security.ubuntu.com/ubuntu',
+          }
+          for source in sources:
+              if source.is_file():
+                  original = source.read_text()
+                  updated = original
+                  for old, new in replacements.items():
+                      updated = updated.replace(old, new)
+                  if updated != original:
+                      source.write_text(updated)
+          PYAPT
           npm ci --ignore-scripts 2>&1 | tee /tmp/pages-browser-setup.log
           npx playwright install --with-deps chromium 2>&1 | tee -a /tmp/pages-browser-setup.log
       - name: Test browser og Pages-undermappe
