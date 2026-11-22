@@ -1,4 +1,6 @@
 import { DIGESTION_ID } from './digestion-data.js';
+import { OXYGEN_ID } from './oxygen-data.js';
+import { mountOxygen } from './oxygen-game.js';
 import { mountDigestion } from './digestion-game.js';
 import { backupFile, restoreFile } from './backup.js';
 import { CIRCULATION_ID } from './circulation-data.js';
@@ -92,6 +94,7 @@ function header() {
   return `<a class="skip-link" href="#main-content">Spring til indhold</a><header><a href="#/" class="brand"><span class="logo" aria-hidden="true">⌁</span>Læringsstier<span class="beta">PROTOTYPE</span></a><nav aria-label="Hovednavigation"><a href="#/" class="${view === 'home' ? 'active' : ''}" ${view === 'home' ? 'aria-current="page"' : ''}>Udforsk</a></nav></header>`;
 }
 function learningView(path, stepIndex) {
+  if (path.id === OXYGEN_ID) return '<div id="oxygen-root"></div>';
   if (path.id === DIGESTION_ID) return '<div id="digestion-root"></div>';
   if (path.id === CIRCULATION_ID) return '<div id="circulation-root"></div>';
   if (path.id === BLOOD_PATH_ID) return '<div id="blood-root"></div>';
@@ -175,6 +178,13 @@ function render(focus) {
         recordFor(path).last = path.steps[index].id;
         history.replaceState(null, '', pathRoute(path, path.steps[index]));
       },
+    });
+  }
+  if (view === 'learn' && current === OXYGEN_ID) {
+    const path = state.paths.find(p => p.id === current);
+    disposeGame = mountOxygen($('#oxygen-root'), {
+      record: recordFor(path), initialLevel: path.steps[index].id.replace('oxygen-', ''), save: () => persist(),
+      onLevel: level => { index = path.steps.findIndex(s => s.id === 'oxygen-' + level); recordFor(path).last = path.steps[index].id; history.replaceState(null, '', pathRoute(path, path.steps[index])); },
     });
   }
   displayStorage();

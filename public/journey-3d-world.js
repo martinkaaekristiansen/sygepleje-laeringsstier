@@ -12,7 +12,7 @@ import {
   addAnatomy,
 } from './journey-3d-anatomy.js';
 import { myocardiumMaterial } from './journey-myocardium.js';
-import { cardiacCycle, valveOpening, valveTransit } from './journey-physiology.js';
+import { cardiacCycle, valveOpening, valveTransit, bloodFlowParameter } from './journey-physiology.js';
 const forward = new T.Vector3(0, 0, -1),
   up = new T.Vector3(0, 1, 0),
   ease = (t) => t * t * (3 - 2 * t);
@@ -226,7 +226,7 @@ export async function createBloodWorld(
       const seed = seeds[i],
         branch = stage.branch && i % 3 === 0,
         curve = branch ? curves.branches[i % 2] : curves.parent;
-      let u = (seed.u + elapsed * (cap ? 0.022 : stage.kind === 'vein' ? 0.035 : 0.055)) % 1;
+      let u = bloodFlowParameter(seed.u, elapsed, {capillary:cap, venous:stage.kind === 'vein'});
       // Erythrocytes remain upstream of a closed valve instead of crossing its cusps.
       const exitValve = stage.valve || (stage.chamber ? chamberPlan(stage).exitValve : null),
         inletValve = stage.chamber ? chamberPlan(stage).inletValve : null;

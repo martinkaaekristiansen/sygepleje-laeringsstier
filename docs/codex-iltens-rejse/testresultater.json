@@ -1,0 +1,280 @@
+{
+  "date": "2026-11-22",
+  "branch": "iltens-rejse-3d",
+  "baseCommit": "75d143d5239abc75992243bdb80bfbe19b9ba8c0",
+  "sourceSha256": "947336d329ab6c05ba20100bba29d3bb708a60a1b0edcd3858661865f46d8263",
+  "builtAssets": "assets/947336d329ab",
+  "node": {
+    "passed": 233,
+    "existing": 203,
+    "new": 30,
+    "failed": 0
+  },
+  "existingBrowserScripts": [
+    {
+      "script": "tests-browser/digestion-phase-a.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/digestion-oral-mobile.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/digestion-labels.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/digestion-hcl.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/digestion-enzyme-continuity.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/digestion-microbiota.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/digestion.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/digestion-audio.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/digestion-v2.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/review.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/acceptance.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/blood-game.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/journey-audio.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/journey-anatomy.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/journey-guide.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/journey-3d.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/circulation.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/quality-fixes.cjs",
+      "passed": true
+    },
+    {
+      "script": "tests-browser/game-viewport.cjs",
+      "passed": true
+    }
+  ],
+  "newBrowser": {
+    "fullJourneys": [
+      {
+        "mobile": false,
+        "level": "easy",
+        "clockScale": 4,
+        "stages": 58,
+        "exam": "5/5",
+        "sameOxygen": true,
+        "sameErythrocyte": true,
+        "newCarbon": true
+      },
+      {
+        "mobile": false,
+        "level": "medium",
+        "clockScale": 4,
+        "stages": 58,
+        "exam": "5/5",
+        "sameOxygen": true,
+        "sameErythrocyte": true,
+        "newCarbon": true
+      },
+      {
+        "mobile": false,
+        "level": "hard",
+        "clockScale": 4,
+        "stages": 58,
+        "exam": "5/5",
+        "sameOxygen": true,
+        "sameErythrocyte": true,
+        "newCarbon": true
+      },
+      {
+        "mobile": true,
+        "level": "easy",
+        "clockScale": 4,
+        "stages": 58,
+        "exam": "5/5",
+        "sameOxygen": true,
+        "sameErythrocyte": true,
+        "newCarbon": true
+      },
+      {
+        "mobile": true,
+        "level": "medium",
+        "clockScale": 4,
+        "stages": 58,
+        "exam": "5/5",
+        "sameOxygen": true,
+        "sameErythrocyte": true,
+        "newCarbon": true
+      },
+      {
+        "mobile": true,
+        "level": "hard",
+        "clockScale": 4,
+        "stages": 58,
+        "exam": "5/5",
+        "sameOxygen": true,
+        "sameErythrocyte": true,
+        "newCarbon": true
+      }
+    ],
+    "physiology": true,
+    "visibilityCases": 64,
+    "questionsAtViewports": 27,
+    "mapViewports": 9,
+    "audioAndFallback": true,
+    "saveRetryReviewAndOldRecords": true,
+    "builtPagesSubpathAndWorker": true,
+    "gallery": {
+      "imagesLoaded": 32,
+      "players": 14,
+      "formatsPerPlayer": [
+        "MP4/H.264",
+        "WebM/VP8"
+      ],
+      "automaticFallbackAndPlayback": true
+    }
+  },
+  "build": true,
+  "diffCheck": true,
+  "performance": [
+    {
+      "stage": "trachea",
+      "label": "Trachea og cilier",
+      "before": {
+        "fps": 1.0009706488211876,
+        "frameMs": 999.0344444444447,
+        "p95FrameMs": 1916.550000000003,
+        "cpuMs": 38.59333333339956,
+        "triangles": 902339,
+        "drawCalls": 254
+      },
+      "after": {
+        "fps": 2.6587156530469898,
+        "frameMs": 376.28222222222234,
+        "p95FrameMs": 683.3000000000029,
+        "cpuMs": 3.2177777777322465,
+        "triangles": 65780,
+        "drawCalls": 31
+      },
+      "fpsChangePercent": 165.61374763366717
+    },
+    {
+      "stage": "hb-binding",
+      "label": "Hæmoglobin",
+      "before": {
+        "fps": 1.0772310006656638,
+        "frameMs": 929.9633333333334,
+        "p95FrameMs": 1716.6000000000204,
+        "cpuMs": 21.03777777776122,
+        "triangles": 581936,
+        "drawCalls": 105
+      },
+      "after": {
+        "fps": 1.280945928025948,
+        "frameMs": 780.8944444444437,
+        "p95FrameMs": 1558.2500000000146,
+        "cpuMs": 3.6366666666335528,
+        "triangles": 132568,
+        "drawCalls": 65
+      },
+      "fpsChangePercent": 18.91097891115283
+    },
+    {
+      "stage": "lv",
+      "label": "Venstre ventrikel",
+      "before": {
+        "fps": 1.2466328183073694,
+        "frameMs": 802.7455555555553,
+        "p95FrameMs": 1466.6500000000233,
+        "cpuMs": 133.7999999999379,
+        "triangles": 857548,
+        "drawCalls": 291
+      },
+      "after": {
+        "fps": 1.8618115322715807,
+        "frameMs": 537.5722222222223,
+        "p95FrameMs": 1058.25,
+        "cpuMs": 31.56555555543552,
+        "triangles": 125990,
+        "drawCalls": 53
+      },
+      "fpsChangePercent": 49.34722597785268
+    },
+    {
+      "stage": "tissue-oxygen",
+      "label": "Vævets O₂-udveksling",
+      "before": {
+        "fps": 3.0214808173633756,
+        "frameMs": 331.09777777777833,
+        "p95FrameMs": 608.3499999999767,
+        "cpuMs": 22.106666666662527,
+        "triangles": 466864,
+        "drawCalls": 74
+      },
+      "after": {
+        "fps": 3.9961122101262436,
+        "frameMs": 250.5455555555553,
+        "p95FrameMs": 383.3499999999767,
+        "cpuMs": 2.3300000000538095,
+        "triangles": 44192,
+        "drawCalls": 24
+      },
+      "fpsChangePercent": 32.25674600222541
+    }
+  ],
+  "artifacts": {
+    "png": 32,
+    "h264Videos": 14,
+    "vp8Fallbacks": 14
+  },
+  "limitations": [
+    "Chromium/SwiftShader; emuleret mobil, ingen fysisk iPhone/Safari eller hardware-GPU-måling.",
+    "Kontrolleret optimeringsforsøg i samme komplette verden; ikke en historisk versionssammenligning."
+  ],
+  "stateAtVisualReview": {
+    "committed": false,
+    "pushed": false,
+    "published": false
+  },
+  "publicationApproval": {
+    "date": "2026-11-22",
+    "approvedByUser": true,
+    "target": "main",
+    "backupBranch": "backup-main-foer-iltens-rejse",
+    "deploymentStatusSource": "https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/workflows/pages.yml"
+  }
+}

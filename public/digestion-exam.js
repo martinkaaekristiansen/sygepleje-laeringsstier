@@ -1,17 +1,8 @@
 import { QUESTION_POOLS, assessmentQuestions } from './digestion-assessment.js';
+import { selectAssessmentIds, reviewFromResult } from './learning-assessment.js';
 export function createAssessment(character, previous, random = Math.random) {
   if (!Object.hasOwn(QUESTION_POOLS, character)) throw Error('Ukendt næringsstof.');
-  const pool = QUESTION_POOLS[character].map((q) => q.id);
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-    [pool[i], pool[j]] = [pool[j], pool[i]];
-  }
-  const questionIds = pool.slice(0, 5);
-  if (
-    previous?.questionIds?.length === 5 &&
-    previous.questionIds.every((id) => questionIds.includes(id))
-  )
-    questionIds[4] = pool.find((id) => !previous.questionIds.includes(id));
+  const questionIds = selectAssessmentIds(QUESTION_POOLS[character], previous, random);
   return { character, questionIds, answers: [] };
 }
 function validQuestions(value) {
@@ -42,14 +33,8 @@ export function validAssessmentResult(value, character = value?.character) {
 
 export function createReview(result) {
   if (!validAssessmentResult(result)) throw Error('Ugyldigt testresultat.');
-  const indices = result.answers.map((answer, i) => (answer !== 0 ? i : -1)).filter((i) => i >= 0);
-  if (!indices.length) return null;
-  return adaptReviewQuestions({
-    character: result.character,
-    questionIds: result.questionIds,
-    answers: [],
-    review: { indices, cursor: 0, correct: 0, pending: false },
-  });
+  const review = reviewFromResult(result);
+  return review ? adaptReviewQuestions(review) : null;
 }
 export function validReviewDraft(value) {
   if (!value || !validQuestions(value) || !value.review) return false;

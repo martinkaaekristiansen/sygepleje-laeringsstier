@@ -1,0 +1,66 @@
+{
+  "conditions": "Seks komplette UI-gennemspilninger med 4× testur, uændret produktionskode. Suppleret med gennemspilninger ved normal tid. Videoerne anvender ikke testuret.",
+  "results": [
+    {
+      "mobile": false,
+      "level": "easy",
+      "clockScale": 4,
+      "stages": 58,
+      "exam": "5/5",
+      "sameOxygen": true,
+      "sameErythrocyte": true,
+      "newCarbon": true
+    },
+    {
+      "mobile": false,
+      "level": "medium",
+      "clockScale": 4,
+      "stages": 58,
+      "exam": "5/5",
+      "sameOxygen": true,
+      "sameErythrocyte": true,
+      "newCarbon": true
+    },
+    {
+      "mobile": false,
+      "level": "hard",
+      "clockScale": 4,
+      "stages": 58,
+      "exam": "5/5",
+      "sameOxygen": true,
+      "sameErythrocyte": true,
+      "newCarbon": true
+    },
+    {
+      "mobile": true,
+      "level": "easy",
+      "clockScale": 4,
+      "stages": 58,
+      "exam": "5/5",
+      "sameOxygen": true,
+      "sameErythrocyte": true,
+      "newCarbon": true
+    },
+    {
+      "mobile": true,
+      "level": "medium",
+      "clockScale": 4,
+      "stages": 58,
+      "exam": "5/5",
+      "sameOxygen": true,
+      "sameErythrocyte": true,
+      "newCarbon": true
+    },
+    {
+      "mobile": true,
+      "level": "hard",
+      "clockScale": 4,
+      "stages": 58,
+      "exam": "5/5",
+      "sameOxygen": true,
+      "sameErythrocyte": true,
+      "newCarbon": true
+    }
+  ],
+  "errors": []
+}

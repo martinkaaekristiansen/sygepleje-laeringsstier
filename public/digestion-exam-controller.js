@@ -14,7 +14,14 @@ export function createExamController({
   stage,
   store,
   focusQuestion,
+  assessment = {},
+  menuLabel = 'Til karakterer og resultater',
 }) {
+  const questions = assessment.questions || assessmentQuestions,
+    makeAssessment = assessment.create || createAssessment,
+    makeReview = assessment.review || createReview,
+    score = assessment.score || scoreAssessment,
+    archived = assessment.archived || advancedArchiveQuestion;
   let exam = null,
     busy = false,
     disposed = false;
@@ -23,7 +30,7 @@ export function createExamController({
     panel.classList.remove('digest-active', 'digest-nav', 'digest-menu', 'digest-result');
     panel.classList.add('digest-compact');
     const index = exam.review ? exam.review.indices[exam.review.cursor] : exam.answers.length;
-    const q = assessmentQuestions(exam.character, exam.questionIds)[index];
+    const q = questions(exam.character, exam.questionIds)[index];
     if (!q) return;
     const choices = shuffled(q.options.map((text, i) => ({ text, i })));
     panel.innerHTML = `<h2> ${exam.review ? 'Repetition' : 'Afsluttende test'} · ${exam.review ? exam.review.cursor + 1 : index + 1}/${exam.review ? exam.review.indices.length : 5}</h2>${exam.curriculumAdapted ? '<p>Opdaterede grundspørgsmål. Dit tidligere testresultat er bevaret.</p>' : ''}<p class="digest-exam-question">${esc(q.prompt)}</p><div class="digest-choices">${choices.map((o) => `<button data-exam-answer="${o.i}">${esc(o.text)}</button>`).join('')}</div>`;
@@ -32,24 +39,24 @@ export function createExamController({
   function showAssessmentResult(result) {
     panel.classList.remove('digest-compact', 'digest-active', 'digest-nav');
     panel.classList.add('digest-result');
-    panel.innerHTML = `<h2>Testresultat: ${result.correct} af 5</h2><p>Dit første resultat bevares, når du repeterer fejl.</p><ol>${assessmentQuestions(
+    panel.innerHTML = `<h2>Testresultat: ${result.correct} af 5</h2><p>Dit første resultat bevares, når du repeterer fejl.</p><ol>${questions(
       result.character,
       result.questionIds,
     )
       .map((q, n) =>
-        advancedArchiveQuestion(q)
+        archived(q)
           ? `<li><strong>${result.answers[n] === 0 ? 'Korrekt' : 'Repetér'} · arkiveret spørgsmål fra en tidligere testversion</strong><p>Dit oprindelige svar og resultat er bevaret. Repetition bruger opdaterede grundspørgsmål.</p></li>`
           : `<li><strong>${result.answers[n] === 0 ? 'Korrekt' : 'Repetér'}: ${esc(q.prompt)}</strong><p>${esc(q.why)}</p></li>`,
       )
       .join(
         '',
-      )}</ol>${result.answers.some((a) => a !== 0) ? `<button data-review-character="${result.character}">Repetér forkert besvarede spørgsmål</button>` : ''}<button data-digest="menu">Til karakterer og resultater</button>`;
+      )}</ol>${result.answers.some((a) => a !== 0) ? `<button data-review-character="${result.character}">Repetér forkert besvarede spørgsmål</button>` : ''}<button data-digest="menu">${esc(menuLabel)}</button>`;
     exam = null;
   }
   function startReview(character) {
     const result = data.assessments?.[character]?.at(-1);
     if (!result) return;
-    const review = createReview(result);
+    const review = makeReview(result);
     if (!review) return;
     prepare();
     exam = review;
@@ -61,7 +68,7 @@ export function createExamController({
     if (!exam || exam.review?.pending || busy || !Number.isInteger(i) || i < 0 || i > 2) return;
     busy = true;
     const index = exam.review ? exam.review.indices[exam.review.cursor] : exam.answers.length,
-      q = assessmentQuestions(exam.character, exam.questionIds)[index],
+      q = questions(exam.character, exam.questionIds)[index],
       correct = i === 0;
     learn({
       key: exam.character + ':exam:' + index + ':' + i,
@@ -82,7 +89,7 @@ export function createExamController({
       exam.answers.push(i);
       if (exam.answers.length === 5) {
         delete data.assessmentDraft;
-        exam.result = scoreAssessment(exam.character, exam.answers, exam.questionIds);
+        exam.result = score(exam.character, exam.answers, exam.questionIds);
         data.assessments ??= {};
         data.assessments[exam.character] = [
           ...(data.assessments[exam.character] || []),
@@ -114,7 +121,7 @@ export function createExamController({
     prepare();
     if (exam.review.pending) {
       const index = exam.review.indices[exam.review.cursor],
-        q = assessmentQuestions(exam.character, exam.questionIds)[index];
+        q = questions(exam.character, exam.questionIds)[index];
       learn({
         key: exam.character + ':exam:' + index + ':' + exam.review.lastAnswer,
         character: exam.character,
@@ -143,7 +150,7 @@ export function createExamController({
         delete data.reviewDraft;
         void store();
         panel.classList.remove('digest-compact');
-        panel.innerHTML = `<h2>Repetition afsluttet</h2><p>${r.correct} af ${r.indices.length} rigtige i repetitionen. Dit oprindelige testresultat er bevaret.</p><button data-digest="exam">Tag en ny sluttest</button><button data-digest="menu">Til karakterer og resultater</button>`;
+        panel.innerHTML = `<h2>Repetition afsluttet</h2><p>${r.correct} af ${r.indices.length} rigtige i repetitionen. Dit oprindelige testresultat er bevaret.</p><button data-digest="exam">Tag en ny sluttest</button><button data-digest="menu">${esc(menuLabel)}</button>`;
         exam = null;
         return;
       }
@@ -164,7 +171,7 @@ export function createExamController({
       exam =
         !replace && data.assessmentDraft
           ? structuredClone(data.assessmentDraft)
-          : createAssessment(character, data.assessments?.[character]?.at(-1));
+          : makeAssessment(character, data.assessments?.[character]?.at(-1));
       data.assessmentDraft = structuredClone(exam);
       void store();
       drawExam();

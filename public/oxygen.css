@@ -1,0 +1,575 @@
+#oxygen-root {
+  position: fixed;
+  inset: var(--game-top, 0) 0 auto;
+  height: var(--game-height, 100dvh);
+  z-index: 100;
+  background: #26111c;
+  color: #faeadb;
+  isolation: isolate;
+}
+.oxygen-game {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: system-ui, sans-serif;
+}
+.oxygen-game > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+.oxygen-game .blood-game-bar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: #21111bf2;
+  min-height: 60px;
+}
+.oxygen-game .blood-game-bar .back {
+  max-width: 190px;
+  margin: 0 auto 0 0;
+}
+.oxygen-game button,
+.oxygen-game select,
+.oxygen-game .back {
+  border: 1px solid #92747c;
+  border-radius: 10px;
+  background: #35202e;
+  color: #fff0df;
+  min-height: 44px;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.3;
+}
+.oxygen-game button:not(:disabled),
+.oxygen-game select {
+  cursor: pointer;
+}
+.oxygen-game button:hover {
+  background: #493341;
+}
+.oxygen-game button[aria-pressed='true'] {
+  border-color: #f7d596;
+  box-shadow: inset 0 0 0 1px #f7d596;
+}
+.oxygen-game button:focus-visible,
+.oxygen-game canvas:focus-visible {
+  outline: 3px solid #f7d596;
+  outline-offset: 3px;
+}
+.oxygen-game .blood-foot {
+  position: static;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+.oxygen-game .digest-hud {
+  position: absolute;
+  top: calc(var(--oxygen-toolbar, 70px) + 10px);
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  pointer-events: none;
+}
+.oxygen-game .digest-hud > div:first-child {
+  min-width: 0;
+}
+.oxygen-game .digest-hud strong {
+  font-size: 13px;
+  letter-spacing: 0.25px;
+  color: #e7c8bc;
+}
+.oxygen-game .digest-hud h1 {
+  font:
+    500 clamp(19px, 2.4vw, 30px) / 1.2 Georgia,
+    serif;
+  margin: 4px 0 5px;
+  color: #fff1df;
+}
+.oxygen-game .digest-hud span:not(.oxygen-lives) {
+  font-size: 12px;
+  color: #f0d8cc;
+}
+.oxygen-game .oxygen-progress {
+  flex: 0 0 110px;
+  text-align: right;
+}
+.oxygen-game .oxygen-lives {
+  font-size: 23px;
+  color: #f1b3ab;
+  letter-spacing: 4px;
+}
+.oxygen-game .blood-progress {
+  position: static;
+  width: 100%;
+  height: 4px;
+  margin: 10px 0 4px;
+  background: #ad7e8366;
+  border-radius: 6px;
+}
+.oxygen-game .blood-progress > span {
+  display: block;
+  height: 100%;
+  background: #f0d29d;
+  border-radius: 6px;
+}
+.oxygen-game .digest-learning {
+  position: absolute;
+  top: var(--oxygen-hud-end, 160px);
+  left: 14px;
+  width: min(540px, calc(100% - 28px));
+  max-height: min(160px, 28%);
+  overflow: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #25151fee;
+  border: 1px solid #8d68758c;
+  z-index: 4;
+  color: #fff0df;
+  font-size: 14px;
+  line-height: 1.42;
+}
+.oxygen-game .digest-learning[hidden] {
+  display: none;
+}
+.oxygen-game .digest-point-title {
+  display: block;
+  margin: 0 0 3px;
+  font-size: 13px;
+  color: #f5dac1;
+}
+.oxygen-game .oxygen-gas-icon {
+  font-size: 18px;
+  color: #f2c88e;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+.oxygen-game .oxygen-feedback {
+  border-color: #eea99b;
+}
+.oxygen-game .digest-panel {
+  position: absolute;
+  inset: auto 12px 12px 130px;
+  transform: none;
+  width: auto;
+  max-width: none;
+  max-height: min(37%, max(0px, calc(100% - var(--oxygen-info-end, 240px) - 28px)));
+  overflow: auto;
+  z-index: 5;
+  background: #26151fed;
+  border: 1px solid #9d7681;
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 8px 30px #1d0e1633;
+}
+.oxygen-game .digest-panel[hidden] {
+  display: none;
+}
+.oxygen-game .digest-panel h1 {
+  font:
+    500 clamp(25px, 3vw, 36px) / 1.2 Georgia,
+    serif;
+  margin: 5px 0 12px;
+}
+.oxygen-game .digest-panel h2 {
+  font:
+    600 17px/1.3 system-ui,
+    sans-serif;
+  margin: 0 0 9px;
+}
+.oxygen-game .digest-panel p {
+  margin: 4px 0 10px;
+  line-height: 1.45;
+}
+.oxygen-game .digest-choices,
+.oxygen-game .digest-route-labels {
+  position: static;
+  display: flex;
+  gap: 7px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  transform: none;
+}
+.oxygen-game .digest-choices > button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 10px;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.oxygen-game .digest-choices > button > strong {
+  min-width: 0;
+  font-weight: 500;
+}
+.oxygen-game .digest-choices button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.oxygen-game .oxygen-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #e8c3b6;
+  margin: 0 0 4px !important;
+}
+.oxygen-game .digest-panel.oxygen-menu {
+  inset: calc(var(--oxygen-toolbar, 70px) + 20px) auto auto 50%;
+  transform: translateX(-50%);
+  width: min(720px, calc(100% - 24px));
+  max-height: calc(100% - var(--oxygen-toolbar, 70px) - 40px);
+  padding: 22px;
+}
+.oxygen-game .oxygen-menu > button {
+  margin: 7px 7px 0 0;
+}
+.oxygen-game .oxygen-levels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin: 15px 0;
+}
+.oxygen-game .oxygen-levels button {
+  padding: 12px;
+  text-align: left;
+}
+.oxygen-game .oxygen-levels strong,
+.oxygen-game .oxygen-levels span {
+  display: block;
+}
+.oxygen-game .oxygen-levels span {
+  font-size: 12px;
+  margin-top: 7px;
+  color: #e0c7bf;
+}
+.oxygen-game .digest-map {
+  position: absolute;
+  left: 10px;
+  bottom: calc(var(--oxygen-controls-height, 0px) + 22px);
+  width: 102px;
+  margin: 0;
+  padding: 7px;
+  border-radius: 11px;
+  border: 1px solid #7aa5a3;
+  background: #203a43e8;
+  color: #f5ede0;
+  z-index: 3;
+  text-align: center;
+  overflow: hidden;
+  font-size: 11px;
+}
+.oxygen-game .digest-map[hidden] {
+  display: none;
+}
+.oxygen-game .digest-map strong,
+.oxygen-game .digest-map small {
+  display: block;
+  font-size: 10px;
+  line-height: 1.2;
+}
+.oxygen-game .digest-map svg {
+  display: block;
+  max-height: 105px;
+  width: 100%;
+  margin: 3px 0;
+}
+.oxygen-game .digest-map.oxygen-map-compact svg {
+  max-height: 55px;
+}
+.oxygen-game .digest-save {
+  position: absolute;
+  bottom: 1px;
+  left: 13px;
+  font-size: 10px;
+  z-index: 6;
+  color: #edcdb9;
+  margin: 0;
+  pointer-events: none;
+}
+.oxygen-game .digest-settings {
+  position: absolute;
+  inset: 8px 8px 8px auto;
+  width: min(370px, calc(100% - 16px));
+  max-height: none;
+  overflow: auto;
+  z-index: 20;
+  background: #261722fa;
+  border: 1px solid #b48f98;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 0 0 100vmax #14091299;
+}
+.oxygen-game .digest-settings[hidden] {
+  display: none;
+}
+.oxygen-game .digest-settings label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 15px 0;
+  font-size: 15px;
+}
+.oxygen-game .digest-settings input[type='range'] {
+  width: 100%;
+  min-height: 32px;
+}
+.oxygen-game .digest-settings select {
+  margin-left: auto;
+}
+.oxygen-game .digest-settings input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+}
+.oxygen-game .digest-settings p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ebd5c8;
+}
+.oxygen-game .oxygen-loading {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #25151fee;
+  padding: 7px 12px;
+  max-width: 80%;
+  z-index: 8;
+  font-size: 13px;
+  border-radius: 9px;
+  color: #f5d7af;
+  pointer-events: none;
+}
+.oxygen-game .oxygen-loading[hidden] {
+  display: none;
+}
+.oxygen-game .oxygen-announcement {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(660px, calc(100% - 30px));
+  background: #25151ff2;
+  border: 1px solid #e8c99a;
+  border-radius: 15px;
+  padding: 22px;
+  z-index: 6;
+  pointer-events: none;
+  box-shadow: 0 10px 50px #14091380;
+}
+.oxygen-game .oxygen-announcement[hidden] {
+  display: none;
+}
+.oxygen-game .oxygen-announcement h2 {
+  font: 600 25px/1.2 system-ui;
+  margin: 0 0 10px;
+}
+.oxygen-game .oxygen-announcement p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0;
+}
+.oxygen-game .digest-result {
+  max-height: min(60%, max(0px, calc(100% - var(--oxygen-info-end, 240px) - 24px)));
+}
+@media (max-width: 600px) {
+  .oxygen-game .blood-game-bar {
+    gap: 5px;
+    padding: 7px;
+    min-height: 58px;
+  }
+  .oxygen-game .blood-game-bar .back {
+    max-width: 140px;
+    font-size: 12px;
+  }
+  .oxygen-game .blood-game-bar button {
+    font-size: 13px;
+    padding: 7px;
+    min-width: 40px;
+  }
+  .oxygen-game .oxygen-progress {
+    flex-basis: 70px;
+  }
+  .oxygen-game .digest-hud {
+    left: 10px;
+    right: 10px;
+  }
+  .oxygen-game .digest-hud h1 {
+    font-size: 21px;
+  }
+  .oxygen-game .digest-hud strong {
+    font-size: 11px;
+  }
+  .oxygen-game .digest-learning {
+    left: 10px;
+    width: calc(100% - 20px);
+    font-size: 13px;
+    padding: 9px;
+    max-height: min(160px, 25%);
+  }
+  .oxygen-game .digest-panel {
+    left: 10px;
+    right: 10px;
+    bottom: 12px;
+    padding: 9px;
+    max-height: min(36%, max(0px, calc(100% - var(--oxygen-info-end, 240px) - 24px)));
+  }
+  .oxygen-game .digest-panel h2 {
+    font-size: 16px;
+  }
+  .oxygen-game .digest-choices > button {
+    font-size: 13px;
+    padding: 7px;
+  }
+  .oxygen-game .oxygen-menu {
+    font-size: 14px;
+  }
+  .oxygen-game .digest-panel.oxygen-menu {
+    padding: 15px;
+    top: calc(var(--oxygen-toolbar, 70px) + 10px);
+    max-height: calc(100% - var(--oxygen-toolbar, 70px) - 20px);
+  }
+  .oxygen-game .oxygen-levels {
+    gap: 6px;
+  }
+  .oxygen-game .oxygen-levels button {
+    padding: 9px 7px;
+  }
+  .oxygen-game .oxygen-levels span {
+    font-size: 11px;
+  }
+  .oxygen-game .digest-map {
+    width: 82px;
+  }
+  .oxygen-game .oxygen-announcement {
+    padding: 15px;
+  }
+  .oxygen-game .oxygen-announcement h2 {
+    font-size: 21px;
+  }
+  .oxygen-game .oxygen-announcement p {
+    font-size: 16px;
+  }
+}
+@media (max-height: 500px) {
+  .oxygen-game .blood-game-bar {
+    min-height: 48px;
+    padding: 5px;
+  }
+  .oxygen-game .blood-game-bar .back {
+    max-width: 190px;
+    font-size: 12px;
+    padding: 6px;
+  }
+  .oxygen-game .blood-game-bar button {
+    font-size: 12px;
+    padding: 6px;
+    min-height: 40px;
+  }
+  .oxygen-game .digest-hud {
+    left: 105px;
+    top: calc(var(--oxygen-toolbar, 58px) + 5px);
+  }
+  .oxygen-game .digest-hud h1 {
+    font-size: 18px;
+    margin: 2px 0;
+  }
+  .oxygen-game .digest-learning {
+    left: 105px;
+    width: min(560px, calc(100% - 117px));
+    font-size: 12px;
+    padding: 7px;
+    max-height: 25%;
+  }
+  .oxygen-game .digest-panel {
+    left: 105px;
+    right: 10px;
+    bottom: 8px;
+    max-height: min(36%, max(0px, calc(100% - var(--oxygen-info-end, 160px) - 18px)));
+    padding: 7px 9px;
+  }
+  .oxygen-game .digest-panel h2 {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  .oxygen-game .digest-choices > button {
+    font-size: 12px;
+    padding: 5px;
+    min-height: 44px;
+  }
+  .oxygen-game .digest-map {
+    bottom: 12px;
+    max-height: 140px !important;
+    width: 85px;
+  }
+  .oxygen-game .digest-map svg {
+    max-height: 95px;
+  }
+  .oxygen-game .digest-hud > div:first-child > span {
+    display: none;
+  }
+  .oxygen-game .oxygen-announcement {
+    max-height: calc(100% - var(--oxygen-toolbar, 58px) - 20px);
+    overflow: auto;
+    top: calc(50% + 20px);
+  }
+}
+
+/* Keep the complete silhouette and caption within the measured map space. */
+.oxygen-game .digest-map:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+}
+.oxygen-game .digest-map svg {
+  flex: 1 1 0;
+  min-height: 0;
+  height: 0;
+  object-fit: contain;
+}
+
+@media (max-height: 500px) and (min-width: 500px) {
+  .oxygen-game .digest-choices {
+    flex-direction: row;
+  }
+  .oxygen-game .digest-learning {
+    width: min(300px, calc((100% - 117px) * 0.46));
+  }
+  .oxygen-game .digest-learning .digest-point-title,
+  .oxygen-game .digest-learning .oxygen-gas-icon {
+    display: none;
+  }
+  .oxygen-game .oxygen-progress {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px 6px;
+    flex-wrap: wrap;
+  }
+  .oxygen-game .oxygen-lives {
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+  .oxygen-game .blood-progress {
+    order: 3;
+    flex-basis: 100%;
+    margin: 0;
+    height: 3px;
+  }
+}

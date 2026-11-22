@@ -317,7 +317,7 @@ export function chamberAnimator(mesh, s) {
     smoothChamberNormals(geometry);
   };
 }
-export function chamberFeatures(root, s, curves, geometry) {
+export function chamberFeatures(root, s, curves, geometry, { inletValve = true, outletValve = true } = {}) {
   const plan = chamberPlan(s),
     group = new T.Group();
   root.add(group);
@@ -372,8 +372,8 @@ export function chamberFeatures(root, s, curves, geometry) {
   };
   // Previously crossed AV valve remains visible at the inlet; the camera starts
   // downstream of it. Its papillary apparatus belongs to this chamber's wall.
-  if (plan.inletValve) placeValve(plan.inletValve, 0.1, { support: true });
-  const outlet = placeValve(plan.exitValve, s.valve ? 0.73 : 0.73, { support: false });
+  if (plan.inletValve && inletValve) placeValve(plan.inletValve, 0.1, { support: true });
+  const outlet = outletValve ? placeValve(plan.exitValve, s.valve ? 0.73 : 0.73, { support: false }) : null;
   if (!plan.atrium) {
     const mat = myocardiumMaterial(),
       surfaceMesh = new T.Mesh(geometry, new T.MeshBasicMaterial({ side: T.DoubleSide })),

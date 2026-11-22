@@ -8,7 +8,7 @@ export function makeCurves(radius,capillary=false){
  return {parent:capillary?cap:parent,branches:capillary?[]:branches};
 }
 export function cellGeometry(quality='high'){
- const radial=quality==='low'?32:48,rings=quality==='low'?16:24,positions=[],indices=[];
+ const radial=quality==='distant'?12:quality==='low'?32:48,rings=quality==='distant'?6:quality==='low'?16:24,positions=[],indices=[];
  for(const side of [1,-1])for(let j=0;j<=rings;j++)for(let i=0;i<=radial;i++){
   const r=j/rings,a=i/radial*Math.PI*2;
   const h=.5*Math.sqrt(Math.max(0,1-r*r))*(.207+2.003*r*r-1.123*r**4);
@@ -30,8 +30,9 @@ function segments(curve,n,fromRadius,toRadius){
 // Unlike overlapping TubeGeometry objects it has open, connected branch lumens.
 export async function vesselGeometry(stage,curves,quality='high'){
  const r=stage.radius,cap=stage.kind.includes('capillary');
- const seg=[...segments(curves.parent,cap?26:18,stage.entry,r*.88),...curves.branches.flatMap(c=>segments(c,20,r*.88,r*.6))];
- const step=r*(quality==='low'?.18:.12),min=V(cap?-2*r:-7*r,-2*r,cap?-21*r:-16.8*r),max=V(cap?2*r:7*r,2*r,2*r);
+ const radii=stage.radii||[[stage.entry,r*.88],...curves.branches.map(()=>[r*.88,r*.6])];
+ const seg=[...segments(curves.parent,cap?26:18,...radii[0]),...curves.branches.flatMap((c,i)=>segments(c,20,...radii[i+1]))];
+ const step=r*(quality==='low'?.18:.12),min=stage.bounds?V(...stage.bounds.min):V(cap?-2*r:-7*r,-2*r,cap?-21*r:-16.8*r),max=stage.bounds?V(...stage.bounds.max):V(cap?2*r:7*r,2*r,2*r);
  const nx=Math.ceil((max.x-min.x)/step)+1,ny=Math.ceil((max.y-min.y)/step)+1,nz=Math.ceil((max.z-min.z)/step)+1,count=nx*ny*nz;
  const values=new Float32Array(count),gradient=new Float32Array(count*3),idx=(x,y,z)=>x+nx*(y+ny*z);
  const smooth=r*.22;

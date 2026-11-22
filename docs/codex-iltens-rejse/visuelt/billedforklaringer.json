@@ -1,0 +1,143 @@
+{
+  "conditions": "Faktiske skærmoptagelser i Chromium/SwiftShader, 1280×800. Ingen ændring af simulationshastighed. Mobil emuleret 390×844.",
+  "results": [
+    {
+      "id": "01-ansigt-naese",
+      "stage": "outside",
+      "seconds": 8,
+      "choice": true,
+      "caption": "O₂ starter uden for det genbrugte ansigt. Begge indgange er korrekte; her vælges næsen med septum og conchae.",
+      "endStage": "nose",
+      "video": "01-ansigt-naese.mp4",
+      "image": "01-ansigt-naese.png"
+    },
+    {
+      "id": "02-larynx",
+      "stage": "pharynx",
+      "seconds": 7,
+      "choice": true,
+      "caption": "Epiglottis er et blad ved indgangen, og luften fortsætter rundt om det gennem den åbne glottis. Oesophagus vælges ikke.",
+      "endStage": "larynx",
+      "video": "02-larynx.mp4",
+      "image": "02-larynx.png"
+    },
+    {
+      "id": "03-cilier-slim",
+      "stage": "trachea",
+      "seconds": 6,
+      "caption": "Cilierne slår i bølger under et særskilt væske- og slimlag. Bruskringene er C-formede og åbne bagtil.",
+      "endStage": "trachea",
+      "video": "03-cilier-slim.mp4",
+      "image": "03-cilier-slim.png"
+    },
+    {
+      "id": "04-bakterie-modsat",
+      "stage": "trachea",
+      "seconds": 13,
+      "lookBack": true,
+      "caption": "Spilleren bevæger sig nedad, mens den markerede bakterie bliver i slimlaget og passerer op mod svælget. Kameraet drejes tilbage efter passagen.",
+      "endStage": "trachea",
+      "video": "04-bakterie-modsat.mp4",
+      "image": "04-bakterie-modsat.png"
+    },
+    {
+      "id": "05-alveole",
+      "stage": "alveolus",
+      "seconds": 5,
+      "caption": "Den tynde alveole vises som undervisningssnit med type I/II-celler, surfaktant, kapillærnet og erytrocytter. Ingen almindelige cilier.",
+      "endStage": "oxygen-diffusion",
+      "video": "05-alveole.mp4",
+      "image": "05-alveole.png"
+    },
+    {
+      "id": "06-ilt-diffusion",
+      "stage": "oxygen-diffusion",
+      "animation": true,
+      "seconds": 10,
+      "caption": "Det samme O₂ passerer alveoleepitel, basalregion, endotel, plasma og erytrocyt. Små CO₂-molekyler diffunderer modsat.",
+      "endStage": "oxygen-diffusion",
+      "video": "06-ilt-diffusion.mp4",
+      "image": "06-ilt-diffusion.png"
+    },
+    {
+      "id": "07-haemoglobin",
+      "stage": "hb-binding",
+      "animation": true,
+      "seconds": 8,
+      "caption": "Hæmoglobin har fire underenheder, fire hæmgrupper og fire Fe²⁺-centre. Det primære O₂ bevares som samme model og binder reversibelt.",
+      "endStage": "hb-binding",
+      "video": "07-haemoglobin.mp4",
+      "image": "07-haemoglobin.png"
+    },
+    {
+      "id": "08-hjerte",
+      "stage": "mitral",
+      "seconds": 8,
+      "choice": true,
+      "caption": "Genbrugte kamre, klapsejl, chordae og papillærmuskler. Passagen afventer en åben klap ved den fælles hjerterytme.",
+      "endStage": "lv",
+      "video": "08-hjerte.mp4",
+      "image": "08-hjerte.png"
+    },
+    {
+      "id": "09-vaev-ilt-atp",
+      "stage": "tissue-oxygen",
+      "animation": true,
+      "age": 0,
+      "seconds": 20,
+      "caption": "O₂ frigives fra intakt hæmoglobin, forlader kapillæren og når vævets mitokondrie. Den genbrugte glukosemodel og ATP illustrerer energiomsætningen.",
+      "endStage": "metabolism",
+      "video": "09-vaev-ilt-atp.mp4",
+      "image": "09-vaev-ilt-atp.png"
+    },
+    {
+      "id": "10-nyt-co2",
+      "stage": "perspective",
+      "seconds": 11,
+      "caption": "Et tydeligt perspektivskift til et NYT metabolisk CO₂. Carbon kommer fra næringsstoffer; O₂ omdannes ikke direkte til CO₂.",
+      "endStage": "perspective",
+      "video": "10-nyt-co2.mp4",
+      "image": "10-nyt-co2.png"
+    },
+    {
+      "id": "11-co2-transport",
+      "stage": "tissue-carbon",
+      "animation": true,
+      "age": 0,
+      "seconds": 20,
+      "caption": "CO₂ diffunderer til blodet og omdannes især i erytrocytten. Hovedparten følges som HCO₃⁻ i plasma; mindre mængder vises opløst eller bundet til globin, aldrig hæmjern.",
+      "endStage": "bicarbonate",
+      "video": "11-co2-transport.mp4",
+      "image": "11-co2-transport.png"
+    },
+    {
+      "id": "12-co2-alveole",
+      "stage": "co2-diffusion",
+      "animation": true,
+      "seconds": 10,
+      "caption": "Samme metaboliske carbon er blevet CO₂ igen og passerer barrieren til alveolen. O₂ diffunderer samtidig mod blodet.",
+      "endStage": "co2-diffusion",
+      "video": "12-co2-alveole.mp4",
+      "image": "12-co2-alveole.png"
+    },
+    {
+      "id": "13-udaanding",
+      "stage": "exterior",
+      "seconds": 5,
+      "caption": "CO₂ forlader kroppen. Thorax og lunger bliver mindre, og diaphragma går op. De samme luftveje er fulgt tilbage.",
+      "endStage": "exterior",
+      "video": "13-udaanding.mp4",
+      "image": "13-udaanding.png"
+    },
+    {
+      "id": "14-slim-udaanding",
+      "stage": "out_trachea",
+      "seconds": 7,
+      "caption": "Under udånding følger CO₂ luftvejen opad; ciliernes transport er stadig rettet mod svælget.",
+      "endStage": "out_trachea",
+      "video": "14-slim-udaanding.mp4",
+      "image": "14-slim-udaanding.png"
+    }
+  ],
+  "errors": []
+}

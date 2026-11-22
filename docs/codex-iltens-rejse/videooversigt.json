@@ -1,0 +1,147 @@
+{
+  "description": "Faktiske skærmoptagelser i normal tid, H.264/yuv420p, MP4 faststart. Ikke en måling af hardware-FPS.",
+  "videos": [
+    {
+      "file": "01-ansigt-naese.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 8.0
+    },
+    {
+      "file": "02-larynx.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 7.0
+    },
+    {
+      "file": "03-cilier-slim.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 6.0
+    },
+    {
+      "file": "04-bakterie-modsat.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 13.0
+    },
+    {
+      "file": "05-alveole.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 5.0
+    },
+    {
+      "file": "06-ilt-diffusion.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 10.0
+    },
+    {
+      "file": "07-haemoglobin.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 8.0
+    },
+    {
+      "file": "08-hjerte.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 8.0
+    },
+    {
+      "file": "09-vaev-ilt-atp.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 20.0
+    },
+    {
+      "file": "10-nyt-co2.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 11.0
+    },
+    {
+      "file": "11-co2-transport.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 20.0
+    },
+    {
+      "file": "12-co2-alveole.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 10.0
+    },
+    {
+      "file": "13-udaanding.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 5.0
+    },
+    {
+      "file": "14-slim-udaanding.mp4",
+      "width": 1280,
+      "height": 800,
+      "duration": 7.0
+    }
+  ],
+  "vp8Fallbacks": [
+    {
+      "file": "01-ansigt-naese.webm",
+      "duration": 8.0
+    },
+    {
+      "file": "02-larynx.webm",
+      "duration": 7.0
+    },
+    {
+      "file": "03-cilier-slim.webm",
+      "duration": 6.0
+    },
+    {
+      "file": "04-bakterie-modsat.webm",
+      "duration": 13.0
+    },
+    {
+      "file": "05-alveole.webm",
+      "duration": 5.0
+    },
+    {
+      "file": "06-ilt-diffusion.webm",
+      "duration": 10.0
+    },
+    {
+      "file": "07-haemoglobin.webm",
+      "duration": 8.0
+    },
+    {
+      "file": "08-hjerte.webm",
+      "duration": 8.0
+    },
+    {
+      "file": "09-vaev-ilt-atp.webm",
+      "duration": 20.0
+    },
+    {
+      "file": "10-nyt-co2.webm",
+      "duration": 11.0
+    },
+    {
+      "file": "11-co2-transport.webm",
+      "duration": 20.0
+    },
+    {
+      "file": "12-co2-alveole.webm",
+      "duration": 10.0
+    },
+    {
+      "file": "13-udaanding.webm",
+      "duration": 5.0
+    },
+    {
+      "file": "14-slim-udaanding.webm",
+      "duration": 7.0
+    }
+  ]
+}

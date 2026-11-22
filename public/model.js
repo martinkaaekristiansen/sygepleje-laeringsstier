@@ -1,4 +1,6 @@
 import { digestionPath } from './digestion-data.js';
+import { oxygenPath } from './oxygen-data.js';
+import { validOxygenProgress } from './oxygen-engine.js';
 import { validDigestion } from './digestion-engine.js';
 import { addBuiltinPaths } from './catalog.js';
 import { validJourney, validBloodProgress } from './journey-engine.js';
@@ -106,6 +108,7 @@ export const builtins = [
   bloodPath,
   circulationPath,
   digestionPath,
+  oxygenPath,
 ].map((p) => normalizePath({ ...p, builtinId: p.id, builtinVersion: p.contentVersion || 1 }));
 export function emptyState() {
   return {
@@ -230,6 +233,7 @@ function validStateShape(state) {
   for (const [key, p] of Object.entries(state.progress)) {
     if (!object(p)) return false;
     if (p.digestion !== undefined && !validDigestion(p.digestion)) return false;
+    if (p.oxygenJourney !== undefined && !validOxygenProgress(p.oxygenJourney)) return false;
     if (p.bloodJourney !== undefined && !validBloodProgress(p.bloodJourney)) return false;
     if (
       p.bloodJourney?.active &&

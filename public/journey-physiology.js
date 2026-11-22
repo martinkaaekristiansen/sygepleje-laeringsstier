@@ -149,3 +149,8 @@ export function respiratoryCycle(seconds) {
         : 0;
   return { t, volume, sound, inspiration: t < 1.7 };
 }
+
+// Shared advection phase for the original blood world and oxygen journey.
+export function bloodFlowParameter(seed, elapsed, {capillary=false, venous=false}={}) {
+ return (seed + elapsed * (capillary ? 0.022 : venous ? 0.035 : 0.055)) % 1;
+}

@@ -61,12 +61,20 @@ fs.mkdirSync(output, { recursive: true });
           ({ mode, age }) => {
             const canvas = document.querySelector('canvas');
             if (canvas.dataset.digestMode !== mode || +canvas.dataset.sceneAge < age) return false;
+            // setScene publishes the new mode before the first rendered diagnostic.
+            // Wait for the actual intermediate protein pose, not stale prior age.
+            const protein = JSON.parse(canvas.dataset.proteinState || 'null');
+            if (mode === 'denaturation' && !(protein?.denaturation > 0 && protein.denaturation < 1))
+              return false;
+            if (mode === 'reaction' && !(protein?.visibleLinks > 0 && protein.visibleLinks < 11))
+              return false;
             document.querySelector('[data-digest=settings]').click();
             document.querySelector('[data-digest=pause]').click();
             document.querySelector('[data-digest=settings-close]').click();
             return true;
           },
           { mode, age },
+          { polling: 20 },
         );
       }
       async function checkLayouts(question) {
@@ -241,10 +249,11 @@ fs.mkdirSync(output, { recursive: true });
       const pepsin = await page
         .locator('canvas')
         .evaluate((c) => JSON.parse(c.dataset.selectedEnzyme));
-      await page.locator('[data-choice]').filter({ hasText: 'Mavesækken' }).click();
+      await choosePaused('Mavesækken');
       await page.waitForFunction(
         () => document.querySelector('canvas').dataset.digestMode === 'secretion',
       );
+      await setPaused(false);
       await page.waitForFunction(
         () => document.querySelector('canvas').dataset.digestMode === 'boss',
       );

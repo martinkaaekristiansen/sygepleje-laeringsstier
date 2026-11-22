@@ -139,19 +139,26 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
             );
           }
           if (s.mode === 'secretion' && id === 'stanley' && !mobile && !wrong.has('reading-pace')) {
-            const point = await page.locator('.digest-point').textContent();
-            await page.locator('[data-digest=settings]').click();
-            await page.waitForTimeout(4500);
-            assert.equal(
-              await page.locator('canvas').getAttribute('data-digest-mode'),
-              'secretion',
-            );
-            assert.equal(await page.locator('.digest-point').textContent(), point);
-            const fixed = await page.locator('canvas').getAttribute('data-camera');
-            await page.waitForTimeout(700);
-            assert.equal(await page.locator('canvas').getAttribute('data-camera'), fixed);
-            await page.locator('[data-digest=settings-close]').click();
-            wrong.add('reading-pace');
+            // Freeze the same browser turn that verifies the short sequence.
+            const point = await page.evaluate(() => {
+              if (document.querySelector('canvas').dataset.digestMode !== 'secretion') return null;
+              const text = document.querySelector('.digest-point').textContent;
+              document.querySelector('[data-digest=settings]').click();
+              return text;
+            });
+            if (point !== null) {
+              await page.waitForTimeout(4500);
+              assert.equal(
+                await page.locator('canvas').getAttribute('data-digest-mode'),
+                'secretion',
+              );
+              assert.equal(await page.locator('.digest-point').textContent(), point);
+              const fixed = await page.locator('canvas').getAttribute('data-camera');
+              await page.waitForTimeout(700);
+              assert.equal(await page.locator('canvas').getAttribute('data-camera'), fixed);
+              await page.locator('[data-digest=settings-close]').click();
+              wrong.add('reading-pace');
+            }
           }
           if (s.sequence) {
             assert.equal(await page.locator('[data-digest=skip],[data-digest=replay]').count(), 0);

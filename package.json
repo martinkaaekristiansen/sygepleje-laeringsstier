@@ -22,7 +22,11 @@
     "test:browser:digestion-oral": "node tests-browser/digestion-oral-mobile.cjs",
     "test:browser:digestion-anatomy": "node tests-browser/digestion-labels.cjs && node tests-browser/digestion-hcl.cjs && node tests-browser/digestion-enzyme-continuity.cjs && node tests-browser/digestion-microbiota.cjs",
     "test:browser:digestion-anatomy-performance": "node tests-browser/digestion-anatomy-performance.cjs",
-    "test:browser:digestion-anatomy-visual": "node tests-browser/digestion-anatomy-visual.cjs"
+    "test:browser:digestion-anatomy-visual": "node tests-browser/digestion-anatomy-visual.cjs",
+    "test:browser:oxygen": "node tests-browser/oxygen-physiology.cjs && node tests-browser/oxygen-visibility.cjs && node tests-browser/oxygen-layout.cjs && node tests-browser/oxygen-audio.cjs && node tests-browser/oxygen-state.cjs && node tests-browser/oxygen-journeys.cjs",
+    "test:browser:oxygen-performance": "node tests-browser/oxygen-performance.cjs",
+    "test:browser:oxygen-visual": "node tests-browser/oxygen-visual.cjs && node scripts/build-oxygen-gallery.js",
+    "test:browser:oxygen-build": "node tests-browser/oxygen-build.cjs"
   },
   "engines": {
     "node": ">=22"
