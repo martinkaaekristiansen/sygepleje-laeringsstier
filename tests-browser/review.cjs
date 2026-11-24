@@ -26,12 +26,22 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
       path.steps[1].title,
     );
     await page.locator('[data-action="home"]').click();
+    await page.locator('.continue-section summary').waitFor();
+    assert.equal(await page.locator('.continue-card').isVisible(), false);
+    await page.locator('.continue-section summary').focus();
+    await page.keyboard.press('Enter');
     await page.locator('.continue-card').waitFor();
+    await page.keyboard.press('Enter');
+    assert.equal(await page.locator('.continue-card').isVisible(), false);
+    await page.keyboard.press('Enter');
     assert.match(await page.locator('.continue-step').textContent(), /trin 2/);
     await page.locator('[data-resume]').click();
     await page.locator('#lesson-heading').waitFor();
     assert.equal(await page.locator('#lesson-heading').textContent(), path.steps[1].title);
     await page.locator('[data-action="home"]').click();
+    await page.locator('.review-section summary').waitFor();
+    assert.equal(await page.locator('.review-list').isVisible(), false);
+    await page.locator('.review-section summary').click();
     await page.locator('.review-list a').click();
     await page.locator('#lesson-heading').waitFor();
     assert.equal(await page.locator('#lesson-heading').textContent(), path.steps[0].title);
@@ -45,11 +55,18 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     await page.locator('.available-semesters [data-semester="5"]').click();
     assert.equal(await page.locator('.path-card').count(), 1);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-    await page.locator('.content-status summary').click();
-    assert.match(
-      await page.locator('.content-status').textContent(),
-      /afventer manuel faglig godkendelse/,
+    assert.equal(
+      await page
+        .locator(
+          '.content-status, .beta, .tip, .bottom-banner, .assessment-summary, [data-action="backup"], #restore-file',
+        )
+        .count(),
+      0,
     );
+    assert.equal(await page.getByRole('link', { name: 'Udforsk', exact: true }).count(), 0);
+    await page.reload();
+    await page.locator('.continue-section summary').waitFor();
+    assert.equal(await page.locator('.continue-section[open], .review-section[open]').count(), 0);
     await page.screenshot({ path: '/tmp/review-mobile.png', fullPage: true });
     await page.goto(base + '#/sti/find-vej-kredsloeb/circulation-context/hard');
     await page.locator('[data-level]').waitFor();
@@ -74,7 +91,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     assert.equal(await fallback.locator('[data-level]').inputValue(), 'easy');
     assert.deepEqual(errors, []);
     console.log(
-      'PASS: continue versus repetition, corrected answers, difficulty deep links, empty semesters, clinical status, 320px layout and no-WebGL alternative',
+      'PASS: continue versus repetition, corrected answers, difficulty deep links, empty semesters, 320px layout and no-WebGL alternative',
     );
   } finally {
     await browser.close();

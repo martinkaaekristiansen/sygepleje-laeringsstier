@@ -71,6 +71,7 @@ const seed = (page, state) =>
       upgraded.progress[id].notes[upgraded.paths[0].steps[0].id],
       'Bevar gammel refleksion',
     );
+    await page.locator('.continue-section summary').click();
     assert.ok(await page.locator('.continue-card .notice').isVisible());
     await page.locator('[data-semester="5"]').click();
     await page.locator('[data-subject="Farmakologi"]').click();
@@ -91,17 +92,6 @@ const seed = (page, state) =>
     assert.equal(page.url(), url);
     assert.equal(await page.evaluate(() => document.activeElement.id), 'main-content');
     await page.screenshot({ path: '/tmp/blood-quality-order-320.png' });
-    const exported = page.waitForEvent('download');
-    await page.locator('[data-action=backup]').click();
-    const file = await exported;
-    await file.saveAs('/tmp/quality-roundtrip.json');
-    const data = JSON.parse(fs.readFileSync('/tmp/quality-roundtrip.json'));
-    assert.equal(data.format, 'laeringsstier-backup');
-    assert.ok(data.state.progress[id]);
-    await page.locator('#restore-file').setInputFiles('/tmp/quality-roundtrip.json');
-    await page.waitForEvent('load');
-    await page.locator('.route-card').first().waitFor();
-    assert.deepEqual((await read(page)).progress[id], data.state.progress[id]);
     // Accepted legacy empty stats normalize in the game, without a recovery crash.
     const empty = await read(page);
     empty.progress['blodcellens-rejse'] = { done: [], notes: {}, answers: {}, bloodJourney: {} };

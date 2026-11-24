@@ -99,7 +99,7 @@ UCN-farverne følger den leverede oversigt: brand blå mørk `#004250`, brand bl
 
 ## Kvalitetsrettelser i 0.10.0
 
-- **Hent mine data** og **Gendan mine data** findes nederst på siden. Gem filen et sikkert sted; den indeholder også dine refleksioner. Gendannelse erstatter den aktuelle profil efter bekræftelse.
+- Ved fejl i den lokale lagring kan gendannelsessiden tilbyde at hente de oprindelige data eller indlæse en sikkerhedskopi.
 - Forsiden viser fortsat gennemgåede stier, hvis svar eller opdateret indhold bør genbesøges. Første quizsvar holdes adskilt fra svar rettet efter feedback. Beståelse i kredsløbsøvelser beregnes separat.
 - Repetition tager hensyn til nye korrekte svar; historiske fejl slettes ikke.
 - Kammergeometri beregnes i en module worker i webappen. Den selvstændige offline HTML-prøve bruger synkron beregning, da dens data-URL-moduler ikke kan deles med en worker.

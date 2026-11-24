@@ -18,7 +18,6 @@ import { openStorage } from './storage.js';
 import { emptyState, validateState } from './model.js';
 const $ = (selector) => document.querySelector(selector);
 const clone = (value) => structuredClone(value);
-const MAX_FILE = 50 * 1024 * 1024;
 let store,
   state,
   revision = 0,
@@ -91,7 +90,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 function header() {
-  return `<a class="skip-link" href="#main-content">Spring til indhold</a><header><a href="#/" class="brand"><span class="logo" aria-hidden="true">⌁</span>Læringsstier<span class="beta">PROTOTYPE</span></a><nav aria-label="Hovednavigation"><a href="#/" class="${view === 'home' ? 'active' : ''}" ${view === 'home' ? 'aria-current="page"' : ''}>Udforsk</a></nav></header>`;
+  return `<a class="skip-link" href="#main-content">Spring til indhold</a><header><a href="#/" class="brand"><span class="logo" aria-hidden="true">⌁</span>Læringsstier</a></header>`;
 }
 function learningView(path, stepIndex) {
   if (path.id === OXYGEN_ID) return '<div id="oxygen-root"></div>';
@@ -140,7 +139,7 @@ function render(focus) {
         : '<h1 tabindex="-1">Læringsstien blev ikke fundet</h1><p>Linket peger på indhold, der ikke findes på denne enhed.</p><a class="primary" href="#/">Find en læringssti</a>';
   $('#app').innerHTML =
     header() +
-    `<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice ? `<p class="notice" role="status">${esc(notice)}</p>` : ''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.15.0</span><details class="content-status"><summary>Faglig status</summary><p>Indholdet afventer manuel faglig godkendelse. Medicinfacit, kliniske cases og anatomimodellen skal gennemgås af relevante fagpersoner. Materialet er til undervisning og erstatter ikke kliniske instrukser.</p></details><button class="text-button" data-action="backup">Hent mine data</button><label class="file-button">Gendan mine data<input id="restore-file" type="file" accept="application/json"></label></footer>`;
+    `<div id="storage-status" class="storage-status" role="alert" hidden></div><main id="main-content" tabindex="-1">${notice ? `<p class="notice" role="status">${esc(notice)}</p>` : ''}${content}</main><footer><span class="brand small">⌁ Læringsstier</span><span>Ingen konto · Gemmes på din enhed</span><span>Version 0.15.0</span></footer>`;
   if (view === 'learn' && current === BLOOD_PATH_ID) {
     const path = state.paths.find((p) => p.id === current);
     disposeGame = mountBloodGame($('#blood-root'), {
@@ -279,11 +278,6 @@ async function click(event) {
 }
 async function handle(d, a) {
   notice = '';
-  if (a === 'backup') {
-    await flushPending();
-    download(backupFile(state), 'laeringsstier-sikkerhedskopi.json');
-    return;
-  }
   if (a === 'retry-save') {
     await persist({ retry: true });
     return;
@@ -412,7 +406,7 @@ $('#app').addEventListener('input', (e) => {
 
 async function importBackup(file) {
   if (!file) return;
-  if (file.size > MAX_FILE) throw Error('Filen er for stor.');
+  if (file.size > 50 * 1024 * 1024) throw Error('Filen er for stor.');
   const replacement = restoreFile(JSON.parse(await file.text()));
   if (!store) throw Error('Browserens lokale lagring skal være tilgængelig først.');
   if (
@@ -424,17 +418,6 @@ async function importBackup(file) {
     location.reload();
   }
 }
-$('#app').addEventListener('change', async (event) => {
-  if (event.target.id !== 'restore-file') return;
-  try {
-    await flushPending();
-    await importBackup(event.target.files[0]);
-  } catch (error) {
-    alert(error.message);
-  } finally {
-    event.target.value = '';
-  }
-});
 async function recovery(error) {
   let raw = error.raw,
     backup = error.backup;
