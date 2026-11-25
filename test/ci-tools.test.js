@@ -256,7 +256,7 @@ test('workflows preserve least privileges, main-only deployment, gates, immutabl
   assert(pages.jobs.deploy.if.includes('refs/heads/main'));
   const validation = YAML.parse(readFileSync('.github/workflows/validate.yml', 'utf8'));
   assert.deepEqual(validation.jobs.gate.needs, ['plan', 'core', 'regression']);
-  assert.equal(validation.jobs.regression.strategy['max-parallel'], 8);
+  assert.equal(validation.jobs.regression.strategy['max-parallel'], 16);
   assert.equal(validation.jobs.regression.strategy['fail-fast'], false);
   for (const job of Object.values(validation.jobs)) assert(!job.permissions?.pages);
 });

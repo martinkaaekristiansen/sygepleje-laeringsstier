@@ -4,8 +4,8 @@
 
 - Baseline: **233/233** eksisterende Node-tests bestod før ændringerne.
 - Efter ændringerne: **247/247** Node-tests bestod (Node 24.22.1). De 14 ekstra tests dækker buildkontrakten og CI-værktøjer; ingen eksisterende test er fjernet.
-- Syntaks: 201 egne JS/CJS/MJS-filer kontrolleret med den aktuelle V8-parser. Node 22 kontrolleres også i Actions. VM-modulers eksperimentelle advarsel er synlig; syntaxfejl giver fejlstatus.
-- Build: bestået, hash `0a171e7a4a71`. Gentagne builds giver samme bytes/hash.
+- Syntaks: 201 egne JS/CJS/MJS-filer kontrolleret med den aktuelle V8-parser. Node 22.23.5 kontrolleres også i Actions; her består alle 247 tests, og Node-testtiden er 17,129 sek. (fælles kontrol). VM-modulers eksperimentelle advarsel er synlig; syntaxfejl giver fejlstatus.
+- Build: bestået, hash `3baa9ce1120d`. Gentagne builds giver samme bytes/hash.
 - Fælles browserpakke: acceptance, quality-fixes, oxygen-build og seks spilopstarter/genoptag på desktop/mobil bestod mod det rigtige hash-build og Pages-undermappen.
 - `git diff --check`: bestået ved implementeringscheckpoint; gentages før aflevering.
 
@@ -27,7 +27,7 @@
 | Fordøjelse | Tre komplette næringsstofrejser på begge enheder, sluttests/trofæer/repetition, liv/retry, sekretion, absorption/rest, labels, HCl, enzymlivscyklus, mikrobiota, sammenhængende verden, lyd, pause og genoptag |
 | Ilt | Alle tre niveauer på desktop/mobil, fysiologi, synlighed, identitet, lyd, state, layout, afsluttende test, hjerteworker og produktionsbuild |
 
-Status og endelige tider indsættes efter kørslen. En igangværende kørsel tælles ikke som bestået.
+Første prøve blev afløst efter de tre dokumenterede fejl nedenfor. Den rettede samlede kørsel er [45598155788](https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45598155788), commit `ec2598443e5774ef471d18088b9ef65ba6d77cf2`. Endelig status indsættes efter afslutningen; en igangværende kørsel tælles ikke som bestået.
 
 ## Bevarede særpakker
 

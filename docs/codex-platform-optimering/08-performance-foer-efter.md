@@ -23,13 +23,13 @@ Node 24.22.1, samme lokale 2-core CPU-kvote, ingen samtidig WebGL, tre kørsler 
 
 | Parameter | Før | Efter |
 |---|---:|---:|
-| Build, median | 2,8861 s | 1,0681 s |
-| Build, interval | 2,8545–3,3856 s | 0,9682–1,1467 s |
-| Buildets faktiske bytes | 1.658.272 | 1.652.579 |
+| Build, median | 2,6681 s | 0,9464 s |
+| Build, interval | 2,6533–2,8002 s | 0,7046–1,0825 s |
+| Buildets faktiske bytes | 1.658.272 | 1.652.578 |
 | Filer i dist, inkl. .nojekyll | 106 | 103 |
-| Hash | 0f3ca54c9959 | 0a171e7a4a71 |
+| Hash | 0f3ca54c9959 | 3baa9ce1120d |
 
-Buildmedianen faldt **63,0 %**. En enkelt V8-parserproces erstatter 96 separate Node-opstarter. Vendorchecksums, alle syntakskontroller og cachebeskyttede relative URL'er bevares. Bytebesparelsen er kun **5.693 bytes (0,34 %)**: tre test-/historikmoduler udelades fra kopieringen, og otte ubrugte importbindinger fjernes. Ingen modeller/animationer/klinisk indhold er komprimeret væk.
+Buildmedianen faldt **64,5 %**. En enkelt V8-parserproces erstatter 96 separate Node-opstarter. Vendorchecksums, alle syntakskontroller og cachebeskyttede relative URL'er bevares. Bytebesparelsen er kun **5.694 bytes (0,34 %)**: tre test-/historikmoduler udelades fra kopieringen, og otte ubrugte importbindinger fjernes. Den nødvendige landskabsrettelse i CSS ændrer én yderligere byte. Ingen modeller/animationer/klinisk indhold er komprimeret væk.
 
 ## Udgivelsesforløb
 

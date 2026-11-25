@@ -6,7 +6,7 @@
 
 1. **Plan:** sparse checkout, hele Git-ændringsintervallet, før/efter-afhængighedsgrafer og dokumentationskontrol.
 2. **Fælles kontrol:** syntaks i al egen JavaScript, alle Node-tests, ét produktionsbuild og platform-/Pages-/spil-smoke på desktop og mobil.
-3. **Relevant regression:** selvstændige matrixjobs med hver sin runner/container, browser, IndexedDB, tilfældige port og artifactmappe. Maksimalt otte jobs samtidigt; kun én browsertestproces pr. runner.
+3. **Relevant regression:** selvstændige matrixjobs med hver sin runner/container, browser, IndexedDB, tilfældige port og artifactmappe. Maksimalt 16 jobs samtidigt; kun én browsertestproces pr. runner.
 4. **Gate:** enhver fejlet, annulleret eller manglende påkrævet kontrol giver fejl. Dokumentation alene må have bevidst oversprungne runtimejobs.
 5. **Pages, kun main:** download det allerede testede artifact, configure/upload Pages og deploy. Ingen genopbygning af en anden udgave efter test.
 
@@ -45,3 +45,5 @@ Store billeder/logs uploades ved fejl eller udtrykkeligt bestilt visuel/performa
 Container: `mcr.microsoft.com/playwright:v1.56.1-noble@sha256:f1e7e01021efd65dd1a2c56064be399f3e4de00fd021ac561325f2bfbb2b837a`. Image-opstart tog 19–30 sek. i de målte job. npm-cache har nøgle med OS, Node 22, Playwright 1.56.1 og lockfilehash. Browserfiler/systembiblioteker er en del af det versionslåste image. Den alternative native browsercache i benchmark har tilsvarende versionsnøgler. Den verificerede Ubuntu-spejlrettelse er bevaret i [install-browser.sh](../../scripts/ci/install-browser.sh).
 
 En mislykket første containerprøve skyldtes Git-ejerskab og regnes ikke som en bestået måling. Rettelsen betror kun det eksplicitte checkout pr. Git-kommando, aldrig `safe.directory=*`.
+
+Første grønne fulde kørsel med loft på otte runners tog 17 min. 47 sek. og viste op til 699 sekunders kø for små jobs. Et efterfølgende forsøg hæver loftet til 16 isolerede runners; antallet af tests/jobs og antal browsere pr. runner er uændret. Endelige målinger og valg fremgår af performancerapporten.

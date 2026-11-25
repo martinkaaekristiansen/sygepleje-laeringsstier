@@ -479,46 +479,46 @@
     "gitObjectStorage": "count: 1216\nsize: 203.84 MiB\nin-pack: 430\npacks: 3\nsize-pack: 467.77 KiB\nprune-packable: 42\n\nsize-"
   },
   "afterCodeCheckpoint": {
-    "ref": "HEAD",
-    "commit": "4886378687c1d2d6e919cb93733e16ff0f877991",
-    "files": 731,
-    "bytes": 219941691,
-    "ownLines": 36783,
+    "ref": "ec2598443e5774ef471d18088b9ef65ba6d77cf2",
+    "commit": "ec2598443e5774ef471d18088b9ef65ba6d77cf2",
+    "files": 745,
+    "bytes": 220160096,
+    "ownLines": 36989,
     "groups": {
       "workflow": {
         "files": 4,
-        "bytes": 20810,
-        "ownLines": 605
+        "bytes": 20477,
+        "ownLines": 595
       },
       "configuration": {
         "files": 8,
-        "bytes": 20150,
+        "bytes": 20541,
         "ownLines": 4
       },
       "documentation": {
-        "files": 510,
-        "bytes": 217571877,
+        "files": 522,
+        "bytes": 217781312,
         "ownLines": 0
       },
       "production": {
         "files": 105,
-        "bytes": 1657991,
+        "bytes": 1657990,
         "ownLines": 23320
       },
       "scripts": {
-        "files": 18,
-        "bytes": 53002,
-        "ownLines": 1171
+        "files": 19,
+        "bytes": 57609,
+        "ownLines": 1285
       },
       "unit": {
-        "files": 43,
-        "bytes": 281569,
-        "ownLines": 4401
+        "files": 44,
+        "bytes": 285271,
+        "ownLines": 4486
       },
       "browser": {
         "files": 43,
-        "bytes": 336292,
-        "ownLines": 7282
+        "bytes": 336896,
+        "ownLines": 7299
       }
     },
     "duplicates": [
@@ -906,7 +906,7 @@
         ]
       }
     ],
-    "gitObjectStorage": "count: 1216\nsize: 203.84 MiB\nin-pack: 430\npacks: 3\nsize-pack: 467.77 KiB\nprune-packable: 42\ngarbage: 1\nsize-garbage: 4.00 KiB"
+    "gitObjectStorage": "count: 1257\nsize: 204.14 MiB\nin-pack: 430\npacks: 3\nsize-pack: 467.77 KiB\nprune-packable: 42\ngarbage: 1\nsize-garbage: 4.00 KiB"
   },
   "environmentBenchmark": {
     "run": 45590994379,
@@ -1535,19 +1535,19 @@
     "beforeCommit": "b69df9b0cee9d2a284824c8c5d6a07159fa30f0b",
     "before": [
       {
-        "seconds": 3.3856,
+        "seconds": 2.8002,
         "files": 106,
         "bytes": 1658272,
         "output": "GitHub Pages artifact ready in dist/ (assets/0f3ca54c9959)"
       },
       {
-        "seconds": 2.8861,
+        "seconds": 2.6681,
         "files": 106,
         "bytes": 1658272,
         "output": "GitHub Pages artifact ready in dist/ (assets/0f3ca54c9959)"
       },
       {
-        "seconds": 2.8545,
+        "seconds": 2.6533,
         "files": 106,
         "bytes": 1658272,
         "output": "GitHub Pages artifact ready in dist/ (assets/0f3ca54c9959)"
@@ -1555,22 +1555,22 @@
     ],
     "after": [
       {
-        "seconds": 1.1467,
+        "seconds": 1.0825,
         "files": 103,
-        "bytes": 1652579,
-        "output": "Syntax checked with v24.22.1: 96 JavaScript files\nGitHub Pages artifact ready in dist/ (assets/0a171e7a4a71; 102 source files; 1652419 bytes; test-only omissions: 3)"
+        "bytes": 1652578,
+        "output": "Syntax checked with v24.22.1: 96 JavaScript files\nGitHub Pages artifact ready in dist/ (assets/3baa9ce1120d; 102 source files; 1652418 bytes; test-only omissions: 3)"
       },
       {
-        "seconds": 1.0681,
+        "seconds": 0.9464,
         "files": 103,
-        "bytes": 1652579,
-        "output": "Syntax checked with v24.22.1: 96 JavaScript files\nGitHub Pages artifact ready in dist/ (assets/0a171e7a4a71; 102 source files; 1652419 bytes; test-only omissions: 3)"
+        "bytes": 1652578,
+        "output": "Syntax checked with v24.22.1: 96 JavaScript files\nGitHub Pages artifact ready in dist/ (assets/3baa9ce1120d; 102 source files; 1652418 bytes; test-only omissions: 3)"
       },
       {
-        "seconds": 0.9682,
+        "seconds": 0.7046,
         "files": 103,
-        "bytes": 1652579,
-        "output": "Syntax checked with v24.22.1: 96 JavaScript files\nGitHub Pages artifact ready in dist/ (assets/0a171e7a4a71; 102 source files; 1652419 bytes; test-only omissions: 3)"
+        "bytes": 1652578,
+        "output": "Syntax checked with v24.22.1: 96 JavaScript files\nGitHub Pages artifact ready in dist/ (assets/3baa9ce1120d; 102 source files; 1652418 bytes; test-only omissions: 3)"
       }
     ]
   },
@@ -1615,5 +1615,121 @@
       "preservesContentAndTouchTargets": true
     }
   },
-  "localFunctionDeclarationCandidates": []
+  "localFunctionDeclarationCandidates": [],
+  "baselineBrowserTimingsApprox": [
+    {
+      "file": "digestion-phase-a",
+      "secondsApprox": 90.122,
+      "boundary": "2026-11-24T09:36:03.1216242Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "digestion-oral-mobile",
+      "secondsApprox": 114.233,
+      "boundary": "2026-11-24T09:37:57.3549732Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "digestion-labels",
+      "secondsApprox": 64.028,
+      "boundary": "2026-11-24T09:39:01.3831164Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "digestion-hcl",
+      "secondsApprox": 118.207,
+      "boundary": "2026-11-24T09:40:59.5900124Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "digestion-enzyme-continuity",
+      "secondsApprox": 200.364,
+      "boundary": "2026-11-24T09:44:19.9540925Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "digestion-microbiota",
+      "secondsApprox": 66.313,
+      "boundary": "2026-11-24T09:45:26.2674262Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "digestion",
+      "secondsApprox": 1150.86,
+      "boundary": "2026-11-24T10:04:37.1271525Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "digestion-audio",
+      "secondsApprox": 413.412,
+      "boundary": "2026-11-24T10:11:30.5390893Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "digestion-v2",
+      "secondsApprox": 618.255,
+      "boundary": "2026-11-24T10:21:48.7945373Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "review",
+      "secondsApprox": 2.261,
+      "boundary": "2026-11-24T10:21:51.0555667Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "acceptance",
+      "secondsApprox": 7.765,
+      "boundary": "2026-11-24T10:21:58.8205010Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "blood-game",
+      "secondsApprox": 164.314,
+      "boundary": "2026-11-24T10:24:43.1345531Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "journey-audio",
+      "secondsApprox": 14.556,
+      "boundary": "2026-11-24T10:24:57.6902234Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "journey-anatomy",
+      "secondsApprox": 260.216,
+      "boundary": "2026-11-24T10:29:17.9065603Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "journey-guide",
+      "secondsApprox": 7.687,
+      "boundary": "2026-11-24T10:29:25.5931508Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "journey-3d",
+      "secondsApprox": 26.944,
+      "boundary": "2026-11-24T10:29:52.5376324Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "circulation",
+      "secondsApprox": 18.308,
+      "boundary": "2026-11-24T10:30:10.8453683Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "quality-fixes",
+      "secondsApprox": 5.179,
+      "boundary": "2026-11-24T10:30:16.0246220Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    },
+    {
+      "file": "game-viewport",
+      "secondsApprox": 30.224,
+      "boundary": "2026-11-24T10:30:46.2485499Z",
+      "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
+    }
+  ]
 }

@@ -4,7 +4,7 @@ Arbejdet foregår på `optimering-oprydning-ci-cd` med udgangspunkt i `b69df9b`.
 
 Udgivelsesprocessen er opdelt i fælles kvalitetskontrol, konservativt valgte regressioner og en main-afgrænset Pages-deploy. Den tidligere browserpakke stod for 56 af cirka 58 minutter. Testene afvikles nu på isolerede runners, og iltspillet er med i den samlede regression. Små dokumentationsændringer kan undgå build/deploy helt.
 
-Sparse checkout reducerede CI-arbejdsfiler fra cirka 220 MB til 2,3 MB uden at slette historik. Byggetiden faldt i samme lokale måleopstilling fra median 2,89 til 1,07 sekunder. Produktets bytes faldt beskedent, 0,34 %. Spillets FPS og grafik er ikke ændret.
+Sparse checkout reducerede CI-arbejdsfiler fra cirka 220 MB til 2,3 MB uden at slette historik. Byggetiden faldt i samme lokale måleopstilling fra median 2,67 til 0,95 sekunder. Produktets bytes faldt beskedent, 0,34 %. Spillets FPS og grafik er ikke ændret.
 
 Otte ubrugte importnavne er fjernet efter dokumentation. Ingen kildefiler, tests, fagtekster, modeller, brugerdata eller historisk dokumentation er slettet. Arkivering af store historiske medieserier afventer konkret godkendelse; se [planen](06-arkiveringsplan.md).
 
