@@ -2,6 +2,7 @@ import http from 'node:http';
 import path from 'node:path';
 import { readFile, realpath } from 'node:fs/promises';
 const TYPES = {
+  '.webp': 'image/webp',
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',

@@ -204,6 +204,7 @@ export function closure(graph, starts) {
   return result;
 }
 export const GAME_ROOTS = {
+  dose: ['public/dose-game.js', 'public/dose-catalog.js'],
   digestion: ['public/digestion-game.js'],
   blood: ['public/blood-game.js'],
   oxygen: ['public/oxygen-game.js'],

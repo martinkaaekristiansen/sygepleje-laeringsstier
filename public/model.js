@@ -1,4 +1,5 @@
 import { digestionPath } from './digestion-data.js';
+import { dosePath } from './dose-catalog.js';
 import { oxygenPath } from './oxygen-data.js';
 import { validOxygenProgress } from './oxygen-engine.js';
 import { validDigestion } from './digestion-engine.js';
@@ -109,6 +110,7 @@ export const builtins = [
   circulationPath,
   digestionPath,
   oxygenPath,
+  dosePath,
 ].map((p) => normalizePath({ ...p, builtinId: p.id, builtinVersion: p.contentVersion || 1 }));
 export function emptyState() {
   return {
