@@ -1,0 +1,201 @@
+name: Valider platform uden udgivelse
+on:
+  workflow_call:
+    inputs:
+      force-full:
+        type: boolean
+        default: false
+      extras:
+        type: string
+        default: ''
+    outputs:
+      deploy:
+        value: ${{ jobs.plan.outputs.deploy }}
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      deploy: ${{ steps.plan.outputs.deploy }}
+      validate: ${{ steps.plan.outputs.validate }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+      task_count: ${{ steps.plan.outputs.task_count }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            .github
+            scripts
+            public
+            test
+            tests-browser
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-node22-playwright1.56.1-${{ hashFiles('package-lock.json') }}
+      - name: Installer låste udviklingsafhængigheder
+        run: npm ci --ignore-scripts
+      - name: Vælg tests fra hele ændringsintervallet
+        id: plan
+        env:
+          CI_FORCE_FULL: ${{ inputs.force-full }}
+          CI_EXTRAS: ${{ inputs.extras }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          node scripts/ci/change-plan.js | tee artifacts/change-plan.json
+          node scripts/ci/check-docs.js
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: change-plan
+          path: artifacts/change-plan.json
+          if-no-files-found: error
+          retention-days: 14
+  core:
+    needs: plan
+    if: needs.plan.outputs.validate == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble@sha256:f1e7e01021efd65dd1a2c56064be399f3e4de00fd021ac561325f2bfbb2b837a
+      options: --ipc=host
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            .github
+            scripts
+            public
+            test
+            tests-browser
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-node22-playwright1.56.1-${{ hashFiles('package-lock.json') }}
+      - name: Installer låste udviklingsafhængigheder
+        run: npm ci --ignore-scripts
+      - name: Syntaks, alle Node-tests og reproducerbart build
+        run: |
+          set -euo pipefail
+          node scripts/ci/check-syntax.js
+          npm test
+          npm run build
+      - name: Platform, migration, backup, quiz og alle spil på desktop og mobil
+        run: node scripts/ci/run-browser.js core
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: site-dist
+          path: dist/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 3
+      - name: Bevar små måleresultater
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: core-timings
+          path: |
+            artifacts/build-manifest.json
+            artifacts/browser/**/timings.json
+          retention-days: 14
+      - name: Bevar fejldiagnostik
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: core-diagnostics
+          path: |
+            artifacts/browser/
+            /tmp/*.png
+          retention-days: 7
+  regression:
+    needs: [plan, core]
+    if: needs.plan.outputs.task_count != '0' && needs.plan.outputs.validate == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    name: regression (${{ matrix.id }})
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble@sha256:f1e7e01021efd65dd1a2c56064be399f3e4de00fd021ac561325f2bfbb2b837a
+      options: --ipc=host
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            .github
+            scripts
+            public
+            test
+            tests-browser
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-node22-playwright1.56.1-${{ hashFiles('package-lock.json') }}
+      - name: Installer låste udviklingsafhængigheder
+        run: npm ci --ignore-scripts
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: site-dist
+          path: dist
+      - name: Isoleret browsertest med normal animationshastighed
+        env:
+          BROWSER_TASK: ${{ toJSON(matrix) }}
+        run: node scripts/ci/run-browser.js task "$BROWSER_TASK"
+      - name: Bevar små måleresultater
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: timings-${{ matrix.id }}
+          path: artifacts/browser/**/timings.json
+          retention-days: 14
+      - name: Bevar diagnostik ved fejl eller bestilt dokumentation
+        if: failure() || matrix.extra != ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: diagnostics-${{ matrix.id }}
+          path: |
+            artifacts/browser/
+            /tmp/*.png
+          retention-days: 7
+  gate:
+    needs: [plan, core, regression]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Afvis fejl, annullerede eller manglende kontroller
+        env:
+          PLAN: ${{ needs.plan.result }}
+          VALIDATE: ${{ needs.plan.outputs.validate }}
+          CORE: ${{ needs.core.result }}
+          REGRESSION: ${{ needs.regression.result }}
+          COUNT: ${{ needs.plan.outputs.task_count }}
+        run: |
+          set -euo pipefail
+          test "$PLAN" = success
+          if test "$VALIDATE" = true; then
+            test "$CORE" = success
+            if test "$COUNT" != 0; then test "$REGRESSION" = success; fi
+          fi

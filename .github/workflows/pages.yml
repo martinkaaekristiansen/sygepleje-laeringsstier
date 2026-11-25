@@ -1,112 +1,42 @@
 name: Udgiv Læringsstier på GitHub Pages
-
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
   group: github-pages
   cancel-in-progress: true
-
+defaults:
+  run:
+    shell: bash
 jobs:
   build:
-    # Playwright 1.56.1 understøtter Ubuntu 24.04; undgå skift via ubuntu-latest.
+    uses: ./.github/workflows/validate.yml
+    with:
+      force-full: ${{ github.event_name == 'workflow_dispatch' }}
+  prepare:
+    needs: build
+    if: github.ref == 'refs/heads/main' && needs.build.outputs.deploy == 'true'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
       pages: read
     steps:
-      - name: Hent projektet
-        uses: actions/checkout@v4
-      - name: Klargør Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          node-version: '22'
-      # Appen er uden runtime-afhængigheder. Playwright installeres kun til test.
-      - name: Test
-        run: npm test
-      - name: Byg statisk app
-        run: npm run build
-      - name: Klargør browsertest
-        timeout-minutes: 15
-        run: |
-          set -euo pipefail
-          # Undgå fejlende HTTP-spejle på runneren; behold alle browserafhængigheder.
-          sudo python3 - <<'PYAPT'
-          from pathlib import Path
-          sources = [Path('/etc/apt/sources.list'),
-                     Path('/etc/apt/apt-mirrors.txt'),
-                     Path('/etc/apt/apt-mirrors-security.txt'),
-                     *Path('/etc/apt/sources.list.d').glob('ubuntu.sources')]
-          replacements = {
-              'http://azure.archive.ubuntu.com/ubuntu': 'https://archive.ubuntu.com/ubuntu',
-              'http://archive.ubuntu.com/ubuntu': 'https://archive.ubuntu.com/ubuntu',
-              'http://security.ubuntu.com/ubuntu': 'https://security.ubuntu.com/ubuntu',
-          }
-          for source in sources:
-              if source.is_file():
-                  original = source.read_text()
-                  updated = original
-                  for old, new in replacements.items():
-                      updated = updated.replace(old, new)
-                  if updated != original:
-                      source.write_text(updated)
-          PYAPT
-          npm ci --ignore-scripts 2>&1 | tee /tmp/pages-browser-setup.log
-          npx playwright install --with-deps chromium 2>&1 | tee -a /tmp/pages-browser-setup.log
-      - name: Test browser og Pages-undermappe
-        run: |
-          set -euo pipefail
-          mkdir -p /tmp/pages-test
-          ln -s "$GITHUB_WORKSPACE/dist" /tmp/pages-test/sygepleje-laeringsstier
-          python3 -m http.server 3001 --bind 127.0.0.1 --directory /tmp/pages-test > /tmp/pages-test.log 2>&1 &
-          SERVER_PID=$!
-          trap 'kill "$SERVER_PID"' EXIT
-          for attempt in 1 2 3 4 5; do
-            if curl --silent --fail http://127.0.0.1:3001/sygepleje-laeringsstier/ > /dev/null; then break; fi
-            sleep 1
-          done
-          curl --silent --fail http://127.0.0.1:3001/sygepleje-laeringsstier/ > /dev/null
-          npm run test:browser 2>&1 | tee /tmp/pages-browser-test.log
-      - name: Gem browserdiagnostik
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: browserdiagnostik
-          path: |
-            /tmp/pages-browser-*.log
-            /tmp/pages-test.log
-            /tmp/blood-*.png
-          retention-days: 7
-      - name: Vis browserfejl i joboversigten
-        if: failure()
-        run: |
-          python3 - <<'PY'
-          import os
-          from pathlib import Path
-          for name in ['setup', 'test']:
-              log = Path('/tmp/pages-browser-' + name + '.log')
-              if log.exists():
-                  lines = log.read_text().splitlines()[-100:]
-                  with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
-                      summary.write('### Browserkontrol: ' + name + '\n\n```text\n' + '\n'.join(lines) + '\n```\n')
-                  if name == 'test':
-                      message = '\n'.join(lines[-45:]).replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
-                      print('::error title=Browserkontrol::' + message)
-          PY
+          name: site-dist
+          path: dist
       - name: Klargør GitHub Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
       - name: Gem websted til udgivelse
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: dist
-
   deploy:
-    needs: build
+    needs: [build, prepare]
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     permissions:
       pages: write
@@ -116,5 +46,5 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Udgiv
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
         id: deployment
-        uses: actions/deploy-pages@v4

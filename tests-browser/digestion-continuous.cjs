@@ -26,9 +26,9 @@ fs.mkdirSync(output, { recursive: true });
   );
   await page.goto(base + '?world-inspection');
   await page.evaluate(async () => {
-    const { createDigestionWorld } = await import('./digestion-world.js');
-    const { buildDigestiveTract } = await import('./digestion-tract.js');
-    const { ROUTE } = await import('./digestion-data.js');
+    const { createDigestionWorld } = await import(new URL('digestion-world.js', document.querySelector('script[type=module]').src));
+    const { buildDigestiveTract } = await import(new URL('digestion-tract.js', document.querySelector('script[type=module]').src));
+    const { ROUTE } = await import(new URL('digestion-data.js', document.querySelector('script[type=module]').src));
     window.tract = buildDigestiveTract();
     window.ROUTE = ROUTE;
     window.world = createDigestionWorld(document.querySelector('canvas'));
@@ -150,8 +150,8 @@ fs.mkdirSync(output, { recursive: true });
       );
   for (const which of ['inlet', 'outlet']) {
     const angles = await page.evaluate(async (which) => {
-      const T = await import('./three.module.min.js'),
-        { createRouteCamera } = await import('./digestion-route-camera.js');
+      const T = await import(new URL('three.module.min.js', document.querySelector('script[type=module]').src)),
+        { createRouteCamera } = await import(new URL('digestion-route-camera.js', document.querySelector('script[type=module]').src));
       const rig = createRouteCamera(window.tract);
       rig.begin('stomach', 'travel');
       const pose = rig.pose('stomach'),

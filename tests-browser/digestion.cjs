@@ -1,3 +1,4 @@
+const { devices } = require('./ci-shards.cjs');
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const assert = require('node:assert/strict');
 const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringsstier/';
@@ -10,10 +11,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
   });
   const errors = [];
   try {
-    const requestedSize = process.env.DIGEST_SIZES;
-    for (const mobile of [false, true].filter(
-      (m) => !requestedSize || requestedSize === (m ? 'mobile' : 'desktop'),
-    )) {
+    for (const mobile of devices(process.env.DIGEST_SIZES)) {
       const page = await browser.newPage({
         viewport: mobile ? { width: 390, height: 844 } : { width: 1280, height: 800 },
         hasTouch: mobile,
@@ -421,7 +419,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     await fallback.close();
     assert.deepEqual(errors, []);
     console.log(
-      'PASS digestion: six complete journeys, 15 stops, three biochemical answers/two anatomical answers, staged molecules, absorption in the unchanged lumen camera, persistent molecule-specific learning, compact UI, button-only choices, exam feedback/review, residue, stable camera on mobile/desktop, retries, settings, trophies, exams and WebGL fallback',
+      'PASS digestion: all three nutrient journeys on each selected device, 15 stops, three biochemical answers/two anatomical answers, staged molecules, absorption in the unchanged lumen camera, persistent molecule-specific learning, compact UI, button-only choices, exam feedback/review, residue, stable camera on mobile/desktop, retries, settings, trophies, exams and WebGL fallback',
     );
   } finally {
     await browser.close();

@@ -147,7 +147,8 @@ test('ventricle reaches end-systolic emptying then fills; respiratory sound and 
 });
 test('the actual workflow shell fails when a command before tee fails', () => {
   const workflow = readFileSync('.github/workflows/pages.yml', 'utf8');
-  assert.ok((workflow.match(/set -euo pipefail/g) || []).length >= 2);
+  const validation = readFileSync('.github/workflows/validate.yml', 'utf8');
+  assert.ok((validation.match(/set -euo pipefail/g) || []).length >= 2);
   const run = spawnSync(
     'bash',
     ['-c', 'set -euo pipefail\nfalse 2>&1 | tee /dev/null\necho SHOULD_NOT_RUN'],
@@ -155,7 +156,9 @@ test('the actual workflow shell fails when a command before tee fails', () => {
   );
   assert.notEqual(run.status, 0);
   assert.ok(!run.stdout.includes('SHOULD_NOT_RUN'));
-  assert.match(workflow, /needs: build/);
+  assert.match(workflow, /needs: \[build, prepare\]/);
+  assert.match(workflow, /uses: \.\/\.github\/workflows\/validate.yml/);
+  assert.match(validation, /needs: \[plan, core, regression\]/);
 });
 test('every teaching question has option-specific feedback; answer length no longer identifies most semester-5 answers', () => {
   for (const path of builtins.slice(0, 2))

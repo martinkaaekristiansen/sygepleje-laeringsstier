@@ -9,3 +9,19 @@ dist/
 dist-publisher/
 
 artifacts/
+
+# Local browser output only; deliberate documentation in docs/ stays tracked.
+playwright-report/
+test-results/
+.cache/
+.playwright/
+ms-playwright/
+.vscode/
+.idea/
+Thumbs.db
+*.swp
+*.tmp
+/tmp/
+/screenshots-local/
+/videos-local/
+/fase-*-gennemgang.zip

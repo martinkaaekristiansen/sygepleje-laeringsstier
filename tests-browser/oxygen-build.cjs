@@ -1,36 +1,10 @@
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright'),
-  assert = require('node:assert/strict'),
-  http = require('node:http'),
-  fs = require('node:fs/promises'),
-  path = require('node:path');
+  assert = require('node:assert/strict');
 // Test the real hashed Pages artifact under a repository subdirectory.
 (async () => {
-  const root = path.resolve('dist'),
-    prefix = '/sygepleje-laeringsstier/';
-  const server = http.createServer(async (req, res) => {
-    try {
-      const url = new URL(req.url, 'http://localhost');
-      if (!url.pathname.startsWith(prefix)) throw Error();
-      const name = decodeURIComponent(url.pathname.slice(prefix.length)) || 'index.html',
-        file = path.resolve(root, name);
-      if (!file.startsWith(root + path.sep)) throw Error();
-      res.writeHead(200, {
-        'Content-Type':
-          {
-            '.html': 'text/html',
-            '.js': 'text/javascript',
-            '.css': 'text/css',
-            '.svg': 'image/svg+xml',
-          }[path.extname(file)] || 'application/octet-stream',
-      });
-      res.end(await fs.readFile(file));
-    } catch {
-      res.writeHead(404);
-      res.end('not found');
-    }
-  });
-  await new Promise((r) => server.listen(0, '127.0.0.1', r));
-  process.env.APP_URL = 'http://127.0.0.1:' + server.address().port + prefix;
+  const { startStaticServer } = await import('../scripts/static-server.js');
+  const server = await startStaticServer({ root: 'dist', prefix: '/sygepleje-laeringsstier/' });
+  process.env.APP_URL = server.url;
   const { seed, state, chooseCorrect, launch, base } = require('./oxygen-fixtures.cjs'),
     browser = await chromium.launch(launch);
   try {

@@ -1,3 +1,4 @@
+const { devices } = require('./ci-shards.cjs');
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringsstier/';
 (async () => {
@@ -9,7 +10,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     args: ['--no-sandbox', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
   });
   try {
-    for (const mobile of [false, true]) {
+    for (const mobile of devices()) {
       const p = await b.newPage({
         viewport: mobile ? { width: 390, height: 844 } : { width: 1280, height: 800 },
         hasTouch: mobile,

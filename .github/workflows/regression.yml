@@ -1,0 +1,25 @@
+name: Fuld regression og PR-kontrol
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [optimering-oprydning-ci-cd]
+  schedule:
+    - cron: '20 2 * * *'
+  workflow_dispatch:
+    inputs:
+      extras:
+        description: 'Valgfrit: performance, visual eller performance,visual'
+        type: string
+        default: ''
+permissions:
+  contents: read
+concurrency:
+  group: regression-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  validation:
+    uses: ./.github/workflows/validate.yml
+    with:
+      force-full: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+      extras: ${{ inputs.extras || '' }}

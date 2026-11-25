@@ -26,13 +26,19 @@
     "test:browser:oxygen": "node tests-browser/oxygen-physiology.cjs && node tests-browser/oxygen-visibility.cjs && node tests-browser/oxygen-layout.cjs && node tests-browser/oxygen-audio.cjs && node tests-browser/oxygen-state.cjs && node tests-browser/oxygen-journeys.cjs",
     "test:browser:oxygen-performance": "node tests-browser/oxygen-performance.cjs",
     "test:browser:oxygen-visual": "node tests-browser/oxygen-visual.cjs && node scripts/build-oxygen-gallery.js",
-    "test:browser:oxygen-build": "node tests-browser/oxygen-build.cjs"
+    "test:browser:oxygen-build": "node tests-browser/oxygen-build.cjs",
+    "test:syntax": "node scripts/ci/check-syntax.js",
+    "test:browser:smoke": "node scripts/ci/run-browser.js core",
+    "test:browser:full": "node scripts/ci/run-browser.js full"
   },
   "engines": {
     "node": ">=22"
   },
   "devDependencies": {
+    "acorn": "8.19.0",
     "playwright": "1.56.1",
-    "prettier": "3.6.2"
+    "postcss": "8.5.33",
+    "prettier": "3.6.2",
+    "yaml": "2.9.1"
   }
 }

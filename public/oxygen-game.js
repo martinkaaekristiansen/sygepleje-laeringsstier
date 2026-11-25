@@ -1,5 +1,4 @@
 import {
-  OXYGEN_ID,
   OXYGEN_TITLE,
   OXYGEN_LEVELS,
   LEARNING,

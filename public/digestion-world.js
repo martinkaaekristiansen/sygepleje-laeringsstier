@@ -19,7 +19,7 @@ import { buildFinale } from './digestion-finale.js';
 import { anatomicalLabel, createAnatomicalLabelLayer } from './digestion-anatomy-labels.js';
 import { buildSwallowAnatomy } from './digestion-swallow.js';
 import { buildVilli, MUCOSA_REGIONS } from './digestion-mucosa.js';
-import { buildCaecumGeometry, buildIleocaecalLips, ileocaecalGap } from './digestion-caecum.js';
+import { buildIleocaecalLips, ileocaecalGap } from './digestion-caecum.js';
 import { enzymeModel } from './digestion-enzyme-model.js';
 import { createEnzymeLifecycle } from './digestion-enzyme-lifecycle.js';
 import { enzymeIdentity } from './digestion-enzyme-identity.js';
@@ -28,15 +28,12 @@ import { chewingPose, chewBeat } from './digestion-audio.js';
 import { addSecretions, mucosaTexture } from './digestion-secretions.js';
 import { nutrientModel } from './digestion-molecules.js';
 import {
-  buildOrganSurface,
-  organCurve,
-  lumenRadius,
   ORAL_CENTER,
   stomachPoint,
 } from './digestion-anatomy.js';
-import { reactionState, relativeActivity } from './digestion-engine.js';
+import { relativeActivity } from './digestion-engine.js';
 import * as T from './three.module.min.js';
-import { CHARACTERS, ROUTE, PRODUCTS, BOSSES } from './digestion-data.js';
+import { ROUTE, BOSSES } from './digestion-data.js';
 // One renderer, camera and animation loop for every nutrient and scale.
 export function createDigestionWorld(canvas, onPhysiology = () => {}) {
   const renderer = new T.WebGLRenderer({

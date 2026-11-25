@@ -1,3 +1,4 @@
+const { devices } = require('./ci-shards.cjs');
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright'),
   assert = require('node:assert/strict'),
   fs = require('node:fs');
@@ -10,7 +11,7 @@ const { base, launch, state, chooseCorrect, saved } = require('./oxygen-fixtures
     results = [],
     errors = [];
   try {
-    for (const mobile of [false, true])
+    for (const mobile of devices())
       for (const level of ['easy', 'medium', 'hard']) {
         const context = await browser.newContext({
             viewport: mobile ? { width: 390, height: 844 } : { width: 1280, height: 800 },
