@@ -3,6 +3,7 @@
 En selvstændig, datadrevet efterforskningsplatform under **3. semester**. Første spilbare sag: **Sag 001 – Det sidste hjerteslag**. Der er ingen backend, AI ved afvikling, brugerregistrering eller eksterne dataopslag i spillet.
 
 - [Udviklingsrapport](rapport.md)
+- [Bekræftet publicering, commits og offentlig kontrol](publicering.md)
 - [Faglig kvalitetssikring og kilder](faglige-kilder.md) – indeholder løsningen
 - [Narrativt flowchart](narrativt-flow.md) – indeholder løsningen
 - [Datastruktur og nye sager](nye-sager.md)

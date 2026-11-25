@@ -76,4 +76,4 @@ Den nye browsersuite ligger som én kort gruppe i det eksisterende register og p
 
 ## Udgivelse
 
-Merge og udgivelse er udtrykkeligt godkendt i opgaven, når alle kvalitetskrav er opfyldt. Udviklingsbranchen bevares. Der anvendes ingen force-push. Før merge kontrolleres remote main igen, og den eksisterende CI/pipeline skal bestå. Det endelige main-commit, workflow og den offentlige smoke-test registreres i en afsluttende publiceringsnote.
+Merge og udgivelse er gennemført efter de beståede kvalitetskontroller. Udviklingsbranchen og et backup-punkt bevares. Der er ikke anvendt force-push. Se [den bekræftede publiceringsnote](publicering.md) for commits, workflowlinks, testresultater, offentlig kontrol og resterende begrænsninger.
