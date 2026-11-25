@@ -1,0 +1,58 @@
+name: Kontrollér offentlig Pages én gang
+on:
+  push:
+    branches: [qa-pages-platform-20261125-62efe8c]
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble@sha256:f1e7e01021efd65dd1a2c56064be399f3e4de00fd021ac561325f2bfbb2b837a
+      options: --ipc=host
+    env:
+      APP_URL: https://martinkaaekristiansen.github.io/sygepleje-laeringsstier/
+      EXPECTED_ASSET_HASH: 3baa9ce1120d
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 62efe8c38c552c08616a6951d80b91a002b40b2b
+          persist-credentials: false
+          sparse-checkout: |
+            tests-browser
+            test
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts
+      - name: Kræv den nye offentliggjorte assetversion
+        run: |
+          set -euo pipefail
+          node --input-type=commonjs <<'JS'
+          const fs = require('node:fs');
+          const path = 'tests-browser/smoke-games.cjs';
+          const source = fs.readFileSync(path, 'utf8');
+          const needle = 'assert.match(script,';
+          if (source.split(needle).length !== 2) throw Error('Unexpected smoke test source');
+          fs.writeFileSync(path, source.replace(needle,
+            "assert.equal(script, './assets/' + process.env.EXPECTED_ASSET_HASH + '/app.js');\n        " + needle));
+          JS
+      - name: Offentlig platform, quiz, migration og backup
+        run: |
+          set -euo pipefail
+          node tests-browser/acceptance.cjs
+          node tests-browser/quality-fixes.cjs
+      - name: Alle tre spil på desktop og emuleret mobil
+        run: node tests-browser/smoke-games.cjs
+      - name: Diagnostik ved fejl
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: live-pages-diagnostics
+          path: /tmp/*.png
+          retention-days: 7
