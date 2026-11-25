@@ -1,0 +1,329 @@
+name: Mål CI-miljøer uden udgivelse
+on:
+  push:
+    branches: [optimering-oprydning-ci-cd]
+    paths:
+      - .github/workflows/ci-environment-benchmark.yml
+      - scripts/ci/benchmark-environment.cjs
+      - scripts/ci/install-browser.sh
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: environment-benchmark-${{ github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
+jobs:
+  baseline:
+    name: baseline
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CI_ENV_PROFILE: baseline
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Registrér checkout
+        run: node scripts/ci/benchmark-environment.cjs checkout
+      - name: npm-installation
+        run: npm ci --ignore-scripts
+      - name: Browserinstallation
+        run: bash scripts/ci/install-browser.sh
+      - name: Node-tests
+        run: npm test
+      - name: Produktionsbuild
+        run: npm run build
+      - name: WebGL og Pages-undermappe
+        run: npm run test:browser:oxygen-build
+      - name: Registrér testmiljø
+        if: always()
+        env:
+          NPM_CACHE_HIT: disabled
+          BROWSER_CACHE_HIT: disabled
+        run: node scripts/ci/benchmark-environment.cjs ready
+      - name: Gem måledata
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: environment-baseline
+          path: artifacts/ci-environment/
+          retention-days: 7
+          if-no-files-found: error
+  cache-cold:
+    name: cache-cold
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CI_ENV_PROFILE: cache-cold
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Registrér checkout
+        run: node scripts/ci/benchmark-environment.cjs checkout
+      - name: Cache npm
+        id: npm-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.npm
+          key: envbench-${{ runner.os }}-node22-pw1.56.1-npm-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+      - name: Cache browser
+        id: browser-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: envbench-${{ runner.os }}-node22-pw1.56.1-browser-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+      - name: npm-installation
+        run: npm ci --ignore-scripts
+      - name: Browserinstallation
+        run: bash scripts/ci/install-browser.sh
+      - name: Node-tests
+        run: npm test
+      - name: Produktionsbuild
+        run: npm run build
+      - name: WebGL og Pages-undermappe
+        run: npm run test:browser:oxygen-build
+      - name: Registrér testmiljø
+        if: always()
+        env:
+          NPM_CACHE_HIT: ${{ steps.npm-cache.outputs.cache-hit || 'false' }}
+          BROWSER_CACHE_HIT: ${{ steps.browser-cache.outputs.cache-hit || 'false' }}
+        run: node scripts/ci/benchmark-environment.cjs ready
+      - name: Gem måledata
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: environment-cache-cold
+          path: artifacts/ci-environment/
+          retention-days: 7
+          if-no-files-found: error
+  cache-warm:
+    name: cache-warm
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    needs: cache-cold
+    env:
+      CI_ENV_PROFILE: cache-warm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Registrér checkout
+        run: node scripts/ci/benchmark-environment.cjs checkout
+      - name: Cache npm
+        id: npm-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.npm
+          key: envbench-${{ runner.os }}-node22-pw1.56.1-npm-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+      - name: Cache browser
+        id: browser-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: envbench-${{ runner.os }}-node22-pw1.56.1-browser-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+      - name: npm-installation
+        run: npm ci --ignore-scripts
+      - name: Browserinstallation
+        run: bash scripts/ci/install-browser.sh
+      - name: Node-tests
+        run: npm test
+      - name: Produktionsbuild
+        run: npm run build
+      - name: WebGL og Pages-undermappe
+        run: npm run test:browser:oxygen-build
+      - name: Registrér testmiljø
+        if: always()
+        env:
+          NPM_CACHE_HIT: ${{ steps.npm-cache.outputs.cache-hit || 'false' }}
+          BROWSER_CACHE_HIT: ${{ steps.browser-cache.outputs.cache-hit || 'false' }}
+        run: node scripts/ci/benchmark-environment.cjs ready
+      - name: Gem måledata
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: environment-cache-warm
+          path: artifacts/ci-environment/
+          retention-days: 7
+          if-no-files-found: error
+  sparse-cached:
+    name: sparse-cached
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    needs: cache-warm
+    env:
+      CI_ENV_PROFILE: sparse-cached
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          sparse-checkout: |
+            .github
+            scripts
+            public
+            test
+            tests-browser
+      - name: Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Registrér checkout
+        run: node scripts/ci/benchmark-environment.cjs checkout
+      - name: Cache npm
+        id: npm-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.npm
+          key: envbench-${{ runner.os }}-node22-pw1.56.1-npm-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+      - name: Cache browser
+        id: browser-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: envbench-${{ runner.os }}-node22-pw1.56.1-browser-${{ hashFiles('package-lock.json') }}-${{ github.run_id }}
+      - name: npm-installation
+        run: npm ci --ignore-scripts
+      - name: Browserinstallation
+        run: bash scripts/ci/install-browser.sh
+      - name: Node-tests
+        run: npm test
+      - name: Produktionsbuild
+        run: npm run build
+      - name: WebGL og Pages-undermappe
+        run: npm run test:browser:oxygen-build
+      - name: Registrér testmiljø
+        if: always()
+        env:
+          NPM_CACHE_HIT: ${{ steps.npm-cache.outputs.cache-hit || 'false' }}
+          BROWSER_CACHE_HIT: ${{ steps.browser-cache.outputs.cache-hit || 'false' }}
+        run: node scripts/ci/benchmark-environment.cjs ready
+      - name: Gem måledata
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: environment-sparse-cached
+          path: artifacts/ci-environment/
+          retention-days: 7
+          if-no-files-found: error
+  container-full:
+    name: container-full
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble@sha256:f1e7e01021efd65dd1a2c56064be399f3e4de00fd021ac561325f2bfbb2b837a
+      options: --ipc=host
+    env:
+      CI_ENV_PROFILE: container-full
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Registrér checkout
+        run: node scripts/ci/benchmark-environment.cjs checkout
+      - name: npm-installation
+        run: npm ci --ignore-scripts
+      - name: Node-tests
+        run: npm test
+      - name: Produktionsbuild
+        run: npm run build
+      - name: WebGL og Pages-undermappe
+        run: npm run test:browser:oxygen-build
+      - name: Registrér testmiljø
+        if: always()
+        env:
+          NPM_CACHE_HIT: disabled
+          BROWSER_CACHE_HIT: preinstalled
+        run: node scripts/ci/benchmark-environment.cjs ready
+      - name: Gem måledata
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: environment-container-full
+          path: artifacts/ci-environment/
+          retention-days: 7
+          if-no-files-found: error
+  container-sparse:
+    name: container-sparse
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    needs: container-full
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble@sha256:f1e7e01021efd65dd1a2c56064be399f3e4de00fd021ac561325f2bfbb2b837a
+      options: --ipc=host
+    env:
+      CI_ENV_PROFILE: container-sparse
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          sparse-checkout: |
+            .github
+            scripts
+            public
+            test
+            tests-browser
+      - name: Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Registrér checkout
+        run: node scripts/ci/benchmark-environment.cjs checkout
+      - name: npm-installation
+        run: npm ci --ignore-scripts
+      - name: Node-tests
+        run: npm test
+      - name: Produktionsbuild
+        run: npm run build
+      - name: WebGL og Pages-undermappe
+        run: npm run test:browser:oxygen-build
+      - name: Registrér testmiljø
+        if: always()
+        env:
+          NPM_CACHE_HIT: disabled
+          BROWSER_CACHE_HIT: preinstalled
+        run: node scripts/ci/benchmark-environment.cjs ready
+      - name: Gem måledata
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: environment-container-sparse
+          path: artifacts/ci-environment/
+          retention-days: 7
+          if-no-files-found: error
