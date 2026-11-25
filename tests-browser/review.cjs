@@ -14,7 +14,7 @@ const base = process.env.APP_URL || 'http://127.0.0.1:3001/sygepleje-laeringssti
     await page.goto(base);
     await page.locator('.continue-section').waitFor();
     await page.locator('[data-semester="3"]').click();
-    await page.locator('.path-card [data-open]').click();
+    await page.locator(`.path-card [data-open="${path.id}"]`).click();
     await page.locator('#lesson-heading').waitFor();
     const q = path.steps[0].questions[0];
     await page.locator(`[data-answer="0:${(q.correct + 1) % q.a.length}"]`).click();

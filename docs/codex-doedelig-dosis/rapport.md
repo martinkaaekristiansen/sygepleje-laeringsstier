@@ -28,7 +28,7 @@ Afslutningen indsamler først den studerendes egne ni fritekstforklaringer. Dere
 | Browsertest | `tests-browser/dose-investigation.cjs` |
 | CI-integration | `scripts/ci/module-graph.js`, `scripts/ci/test-registry.js` |
 | Statisk testserver | WebP MIME-type i `scripts/static-server.js` |
-| Eksisterende katalogtests | `tests-browser/acceptance.cjs` og `quality-fixes.cjs`: forvent syv stier og vælg de eksisterende quizstier udtrykkeligt |
+| Eksisterende katalogtests | `tests-browser/acceptance.cjs`, `quality-fixes.cjs` og `review.cjs`: forvent syv stier og vælg de eksisterende quizstier udtrykkeligt |
 
 Ingen npm-afhængigheder er tilføjet. Der er ingen ny 3D-motor, animationstimer, backend, database, API-nøgle eller AI under afvikling. Caseindhold og CSS indlæses først ved spillets åbning. Andre sider indlæser ingen af spillets billeder.
 
