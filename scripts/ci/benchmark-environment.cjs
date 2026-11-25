@@ -2,6 +2,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
+// Trust only this checked-out workspace, never a wildcard or a global setting.
+// Container shells and checkout actions can have different HOME/NSS ownership.
+const git = args => execFileSync('git', ['-c', `safe.directory=${process.cwd()}`, ...args], { encoding: 'utf8' });
 const profile = process.env.CI_ENV_PROFILE || 'local';
 if (!/^[a-z-]+$/.test(profile)) throw Error('Unknown benchmark profile');
 const folder = path.resolve('artifacts/ci-environment');
@@ -9,7 +12,7 @@ fs.mkdirSync(folder, { recursive: true });
 const file = path.join(folder, profile + '.json');
 const old = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file)) : {};
 const stage = process.argv[2] || 'checkout';
-const tracked = execFileSync('git', ['ls-files', '-z'], { encoding: 'utf8' })
+const tracked = git(['ls-files', '-z'])
   .split('\0')
   .filter(Boolean);
 const present = tracked.filter((p) => fs.existsSync(p));
@@ -22,12 +25,12 @@ const snapshot = {
   browserCacheHit: process.env.BROWSER_CACHE_HIT || null,
   npmCacheHit: process.env.NPM_CACHE_HIT || null,
   browserDirectory: process.env.PLAYWRIGHT_BROWSERS_PATH || 'default',
-  gitObjects: execFileSync('git', ['count-objects', '-v'], { encoding: 'utf8' }),
+  gitObjects: git(['count-objects', '-v']),
 };
 const result = {
   ...old,
   profile,
-  commit: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
+  commit: git(['rev-parse', 'HEAD']).trim(),
   runner: {
     os: process.platform,
     arch: process.arch,
