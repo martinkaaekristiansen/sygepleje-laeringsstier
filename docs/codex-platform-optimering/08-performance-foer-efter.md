@@ -55,7 +55,7 @@ Fælles kontrol på det målte 16-runner-forsøg: **135 sek.**, plus **14 sek.**
 - En AST-verificeret tekstrettelse bruger plan, fælles kontrol og gate; den lange matrix undgås.
 - En almindelig ændring i spil-logik bruger samtlige grupper for alle transitivt berørte spil.
 - Fælles kernemoduler, build, workflow og usikkerhed bruger fuld regression.
-- Dokumentation alene bruger dokumentationskontrol og gate, uden build/deploy. Den særskilte måling dokumenteres efter rapportcommit.
+- Dokumentation alene bruger dokumentationskontrol og gate, uden build/deploy. En konkret rapportændring blev derefter kontrolleret i [kørsel 45606756944](https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45606756944) på **21 sekunder** med 16 sekunders samlet aktiv runner-tid. Planen havde `deploy=false` og `validate=false`; fælles runtimekontrol og hele browsermatrixen blev bevidst sprunget over. Dokumentations- og gate-jobs bestod. Ingen build eller udgivelse blev startet.
 
 **2–5 minutter for små udgivelser og 5–10 minutter for almindelige udgivelser er endnu ikke verificeret som komplette Pages-forløb.** Store realtidsrejser har fortsat en kritisk sti på cirka otte-ni minutter plus den fælles kontrol. En næste mulig forbedring er yderligere opdeling af fordøjelsens næringsstofcases med en særskilt kontrol af kombinerede trofæer og resultater; den er ikke indført uden tilsvarende sikker testdækning.
 

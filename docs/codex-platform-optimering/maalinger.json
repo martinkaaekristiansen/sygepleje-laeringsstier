@@ -4784,7 +4784,95 @@
   },
   "finalTreeSummary": {
     "files": 746,
-    "bytes": 220333791
+    "bytes": 220338754
   },
-  "mainPublicationAuthorized": false
+  "mainPublicationAuthorized": false,
+  "documentationOnlyProbe": {
+    "label": "documentation-only",
+    "runId": 45606756944,
+    "head": "c79e534b63ec259eee01b3aed6ea99850b3b0eb7",
+    "status": "completed",
+    "conclusion": "success",
+    "createdAt": "2026-11-25T11:41:23Z",
+    "completedAt": "2026-11-25T11:41:44Z",
+    "wallSeconds": 21,
+    "runnerSeconds": 16,
+    "plan": {
+      "base": "f0d347acb2990e4c300d0928ee01cb8e80bb387a",
+      "head": "c79e534b63ec259eee01b3aed6ea99850b3b0eb7",
+      "version": 1,
+      "files": [
+        "docs/codex-platform-optimering/01-baseline.md",
+        "docs/codex-platform-optimering/02-kodeaudit.md",
+        "docs/codex-platform-optimering/03-ubrugt-kode.md",
+        "docs/codex-platform-optimering/05-ci-cd-optimering.md",
+        "docs/codex-platform-optimering/06-arkiveringsplan.md",
+        "docs/codex-platform-optimering/07-testresultater.md",
+        "docs/codex-platform-optimering/08-performance-foer-efter.md",
+        "docs/codex-platform-optimering/09-aendringsoversigt.md",
+        "docs/codex-platform-optimering/10-afsluttende-rapport.md",
+        "docs/codex-platform-optimering/audit-data.json",
+        "docs/codex-platform-optimering/maalinger.json"
+      ],
+      "reasons": [
+        "non-runtime-documentation:docs/codex-platform-optimering/01-baseline.md",
+        "non-runtime-documentation:docs/codex-platform-optimering/02-kodeaudit.md",
+        "non-runtime-documentation:docs/codex-platform-optimering/03-ubrugt-kode.md",
+        "non-runtime-documentation:docs/codex-platform-optimering/05-ci-cd-optimering.md",
+        "non-runtime-documentation:docs/codex-platform-optimering/06-arkiveringsplan.md",
+        "non-runtime-documentation:docs/codex-platform-optimering/07-testresultater.md",
+        "non-runtime-documentation:docs/codex-platform-optimering/08-performance-foer-efter.md",
+        "non-runtime-documentation:docs/codex-platform-optimering/09-aendringsoversigt.md",
+        "non-runtime-documentation:docs/codex-platform-optimering/10-afsluttende-rapport.md",
+        "non-runtime-documentation:docs/codex-platform-optimering/audit-data.json",
+        "non-runtime-documentation:docs/codex-platform-optimering/maalinger.json"
+      ],
+      "deploy": false,
+      "validate": false,
+      "full": false,
+      "layout": false,
+      "domains": [],
+      "groups": [],
+      "documentation": [
+        "docs/codex-platform-optimering/01-baseline.md",
+        "docs/codex-platform-optimering/02-kodeaudit.md",
+        "docs/codex-platform-optimering/03-ubrugt-kode.md",
+        "docs/codex-platform-optimering/05-ci-cd-optimering.md",
+        "docs/codex-platform-optimering/06-arkiveringsplan.md",
+        "docs/codex-platform-optimering/07-testresultater.md",
+        "docs/codex-platform-optimering/08-performance-foer-efter.md",
+        "docs/codex-platform-optimering/09-aendringsoversigt.md",
+        "docs/codex-platform-optimering/10-afsluttende-rapport.md",
+        "docs/codex-platform-optimering/audit-data.json",
+        "docs/codex-platform-optimering/maalinger.json"
+      ],
+      "fastContent": false
+    },
+    "jobs": [
+      {
+        "id": 139179507623,
+        "name": "validation / plan",
+        "conclusion": "success",
+        "seconds": 12
+      },
+      {
+        "id": 139179637197,
+        "name": "validation / gate",
+        "conclusion": "success",
+        "seconds": 4
+      },
+      {
+        "id": 139179638577,
+        "name": "validation / core",
+        "conclusion": "skipped",
+        "seconds": 0
+      },
+      {
+        "id": 139179638983,
+        "name": "validation / regression (${{ matrix.id }})",
+        "conclusion": "skipped",
+        "seconds": 0
+      }
+    ]
+  }
 }

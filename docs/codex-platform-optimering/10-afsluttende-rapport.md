@@ -8,7 +8,7 @@ Den nye CI bruger en fælles kvalitetskontrol, konservativt valgte regressioner,
 
 | Parameter | Før | Efter | Vurdering |
 |---|---:|---:|---|
-| Versionerede arbejdsfiler | 711 / 219.871.119 bytes | 746 / 220.333.791 bytes i sluttræet | Flere CI-værktøjer, tests og rapporter; ingen historiske filer er slettet |
+| Versionerede arbejdsfiler | 711 / 219.871.119 bytes | 746 / 220.338.754 bytes i sluttræet | Flere CI-værktøjer, tests og rapporter; ingen historiske filer er slettet |
 | Egne produktionskodelinjer | 23.324 | 23.320 | Fire færre netto; otte ubrugte importbindinger fjernet |
 | CI-checkout, miljøforsøg | 7 sek. / 219.885.726 bytes | 1 sek. / 2.316.290 bytes | Sparse checkout, 98,95 % færre arbejdsbytes i forsøget |
 | Produktionsbuild, faktiske bytes | 1.658.272 | 1.652.578 | −0,34 %, uden tab af runtime-indhold |
@@ -17,6 +17,7 @@ Den nye CI bruger en fælles kvalitetskontrol, konservativt valgte regressioner,
 | Browser-/OS-klargøring | 29 sek. inkl. npm i gammel workflow | 20–30 sek. image-opstart i udvalgte CI-jobs | Versionslåst image; spejlworkaround bevares som alternativ |
 | Node-tests | 233 tests / 23 sek. i gammel CI | 247 tests / 26,693 sek. i sidste CI | Flere tests; runnerstøj gør en generel hastighedsgevinst udokumenteret |
 | Browserdækning | 19 filer sekventielt, 56:13 | 29 filer / 38 kørsler i isoleret matrix | Flere funktioner kontrolleres |
+| Kun dokumentation | Udløste alle jobs i den gamle struktur | 21 sek. målt; intet build/deploy | To grønne kontroljobs, runtimejobs bevidst sprunget over |
 | Mindre tekstrettelse | Udløste hele pakken | Fælles pakke målt til 135 sek. + 14 sek. analyse i 16-runner-forsøget | Komplet tekstudgivelse endnu ikke isoleret målt |
 | Almindelig kodeændring | Udløste hele pakken | Målrettet pakke efter indirekte afhængigheder | 5–10 min. er et mål; ikke bekræftet for alle spilændringer |
 | Fuld regression | Gammelt buildjob 57:28, uden deployjob | 11:39 i matrixforsøg; sidste kontrol 12:35 | Ingen tests fjernet for at gøre pakken hurtig |
@@ -43,6 +44,8 @@ Sluttræets størrelse tæller alle versionerede filer, inklusive de afsluttende
 Eksisterende offentlige Pages gav HTTP 200, og alle 104 assets matcher uændret main. Direkte live-Chromium kunne ikke fuldføres på grund af miljøets CA/proxy; den nye udgave skal kontrolleres live efter godkendt deployment. Fysisk iPhone/Safari og hardwareaccelereret GPU er ikke testet her.
 
 Cloudmiljøet blev utilgængeligt efter push af kode og rapportudkast. Afslutningen sker gennem GitHub med normale, kontrollerede fast-forward-commits. Den afsluttende lokale arbejdstræstatus kan derfor ikke bekræftes. Ingen force-push eller historikomskrivning er brugt.
+
+Dokumentationskørsel [45606756944](https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45606756944) bekræfter filtreringen: **21 sekunder**, grøn kontrol og ingen build/deploy. Den afsluttende opdatering ændrer kun rapporter og måltal.
 
 ## Fremover, efter godkendt merge
 

@@ -59,3 +59,7 @@ Det ekstra Chromium-besøg direkte mod den offentlige adresse kunne ikke gennemf
 Cloudmiljøet blev utilgængeligt, efter at kode og rapportudkast var pushet. Afsluttende rapporter og tidsdata færdiggøres gennem GitHub-forbindelsen med normale commits og fast-forward af arbejdsbranchen. Main opdateres ikke. En ren lokal arbejdsmappe kan derfor ikke bekræftes efter afbrydelsen; gamle lokale rapportredigeringer skal bevares og sammenholdes med GitHub, hvis miljøet genoprettes.
 
 De nye målinger kræver ingen ændring af spillets faglige indhold, datastrukturer, grafik eller animationshastighed.
+
+## Dokumentation uden build eller udgivelse
+
+En konkret rapportændring blev derefter kontrolleret i [kørsel 45606756944](https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45606756944) på **21 sekunder** med 16 sekunders samlet aktiv runner-tid. Planen havde `deploy=false` og `validate=false`; fælles runtimekontrol og hele browsermatrixen blev bevidst sprunget over. Dokumentations- og gate-jobs bestod. Ingen build eller udgivelse blev startet.
