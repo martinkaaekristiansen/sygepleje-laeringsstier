@@ -1,0 +1,173 @@
+[
+  {
+    "id": "facade",
+    "file": "../../public/dose-facade.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 120208,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Modern Danish hospital exterior in pale early morning light, Scandinavian architecture."
+  },
+  {
+    "id": "room",
+    "file": "../../public/dose-room.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 48718,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Quiet Danish hospital room, pale blue wall, bed made with white linen, bedside table and chair. No people visible."
+  },
+  {
+    "id": "bedside",
+    "file": "../../public/dose-bedside.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 54634,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Close up bedside table in a Danish hospital with a half-full glass of water, an unused folded blue emesis bag and a framed family photograph deliberately out of focus. Bed and pale blue wall soft in background."
+  },
+  {
+    "id": "patient",
+    "file": "../../public/dose-patient.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 48888,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Respectful view from the foot of a Danish hospital bed of a fictional 78 year old man with short gray hair, lying still beneath a white duvet up to his chest, face peaceful in soft shade. No wounds, no tubes, no graphic detail. No horror."
+  },
+  {
+    "id": "wife",
+    "file": "../../public/dose-wife.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 77154,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Portrait of fictional 75 year old Danish woman Inger, short silver bob hair, beige cardigan and navy scarf, seated in hospital relatives room, worried and thoughtful, looking towards an interviewer beside the camera. Natural imperfect skin."
+  },
+  {
+    "id": "daughter",
+    "file": "../../public/dose-daughter.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 46958,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Portrait of fictional 49 year old Danish woman Louise with shoulder-length auburn hair, olive jacket over cream blouse, sitting in a hospital relatives room, concerned and composed."
+  },
+  {
+    "id": "friend",
+    "file": "../../public/dose-friend.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 80016,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Portrait of fictional 77 year old Danish male friend Poul with gray hair and wire frame glasses, brown wool sweater, seated in hospital visitors room, reflective and warm."
+  },
+  {
+    "id": "day-nurse",
+    "file": "../../public/dose-day-nurse.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 41738,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Portrait of fictional 34 year old Danish nurse Sara with dark brown hair tied back, plain light blue clinical scrubs without badge or text, standing by hospital workstation, concerned attentive expression."
+  },
+  {
+    "id": "evening-nurse",
+    "file": "../../public/dose-evening-nurse.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 41120,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Portrait of fictional 48 year old Danish nurse Mette with short light brown hair, plain navy blue clinical scrubs without badge or text, sitting in hospital staff office, reflective expression."
+  },
+  {
+    "id": "doctor",
+    "file": "../../public/dose-doctor.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 47844,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Portrait of fictional 46 year old Danish physician Jonas with short dark hair and light beard, plain clinical white coat without badge, seated in hospital meeting room, serious and thoughtful."
+  },
+  {
+    "id": "medicine-room",
+    "file": "../../public/dose-medicine-room.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 49644,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Modern Danish hospital medication preparation room with clean counter and closed cupboards. No readable packaging, no labels, no logos, no people."
+  },
+  {
+    "id": "cabinet",
+    "file": "../../public/dose-cabinet.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 41280,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Close view of open hospital medicine cabinet with orderly shelves of neutral unmarked boxes, blurred labels unreadable, no drug names."
+  },
+  {
+    "id": "lab",
+    "file": "../../public/dose-lab.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 54022,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Modern Danish clinical laboratory bench with capped blood sample tubes, instruments and blurred background, no readable labels, no graphic blood."
+  },
+  {
+    "id": "tray",
+    "file": "../../public/dose-tray.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 42996,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Close up neutral hospital medication tray with two small plain tablet cups and a few round tablets, no text or identifiable pill imprint, realistic lighting. Illustrative only, no dosing information."
+  },
+  {
+    "id": "workstation",
+    "file": "../../public/dose-workstation.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 54248,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Danish hospital nurse workstation with keyboard, neutral blurred electronic journal on screen with no readable text or numbers, warm desk lamp and clinical blue background."
+  },
+  {
+    "id": "family",
+    "file": "../../public/dose-family.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 85582,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Fictional Danish 78 year old man Erik with short gray hair sitting outdoors with his wife aged 75, short silver bob, beige cardigan and navy scarf, smiling naturally in a garden, warm family album photograph, no other people."
+  },
+  {
+    "id": "monitor",
+    "file": "../../public/dose-monitor.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 48968,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Unoccupied Danish hospital bed beside powered off bedside monitor, white bedding and blue wall. No ECG curve, no text or numbers."
+  },
+  {
+    "id": "before",
+    "file": "../../public/dose-before.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 32030,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Fictional Danish 78 year old man Erik with short gray hair, alert and sitting upright in hospital bed under white duvet, wearing plain pale hospital shirt, pale blue wall, no medical devices or readable text."
+  },
+  {
+    "id": "cover",
+    "file": "../../public/dose-cover.webp",
+    "generated": true,
+    "width": 1279,
+    "height": 720,
+    "bytes": 40984,
+    "prompt": "Original photorealistic landscape editorial photograph for a fictional Danish clinical detective teaching game. Slate blue shadows, warm natural light, no logos, no readable text, no horror or gore. Quiet modern Danish hospital corridor at 07:12 early dawn; open door, empty patient room, slate blue and warm light, no readable text, no gore."
+  }
+]

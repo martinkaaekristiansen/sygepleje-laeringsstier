@@ -1,4 +1,5 @@
 import { DIGESTION_ID } from './digestion-data.js';
+import { DOSE_ID } from './dose-catalog.js';
 import { OXYGEN_ID } from './oxygen-data.js';
 import { mountOxygen } from './oxygen-game.js';
 import { mountDigestion } from './digestion-game.js';
@@ -93,6 +94,7 @@ function header() {
   return `<a class="skip-link" href="#main-content">Spring til indhold</a><header><a href="#/" class="brand"><span class="logo" aria-hidden="true">⌁</span>Læringsstier</a></header>`;
 }
 function learningView(path, stepIndex) {
+  if (path.id === DOSE_ID) return '<div id="dose-root"></div>';
   if (path.id === OXYGEN_ID) return '<div id="oxygen-root"></div>';
   if (path.id === DIGESTION_ID) return '<div id="digestion-root"></div>';
   if (path.id === CIRCULATION_ID) return '<div id="circulation-root"></div>';
@@ -187,6 +189,25 @@ function render(focus) {
     });
   }
   displayStorage();
+  if (view === 'learn' && current === DOSE_ID) {
+    const root = $('#dose-root');
+    import('./dose-game.js').then(({ mountDose }) => {
+      if (!root.isConnected) return;
+      disposeGame = mountDose(root, { onReset: () => {
+        const path = state.paths.find(p => p.id === DOSE_ID);
+        recordFor(path).done = [];
+        persist();
+      }, onComplete: () => {
+        const path = state.paths.find(p => p.id === DOSE_ID);
+        const record = recordFor(path);
+        record.done = path.steps.map(s => s.id);
+        record.updatedAt = Date.now();
+        persist();
+      } });
+    }).catch(error => {
+      if (root.isConnected) root.textContent = 'Spillet kunne ikke indlæses. Genindlæs siden. ' + error.message;
+    });
+  }
   $('.step-navigation')?.addEventListener('toggle', (e) => {
     expanded = e.target.open;
   });
@@ -259,7 +280,7 @@ async function click(event) {
     }
     return;
   }
-  if (event.target.closest('.blood-game,.circulation-learning,.digestion-game')) return;
+  if (event.target.closest('.blood-game,.circulation-learning,.digestion-game,.dose-game')) return;
   const button = event.target.closest('button,[data-action]');
   if (!button || button.disabled) return;
   const d = button.dataset,
