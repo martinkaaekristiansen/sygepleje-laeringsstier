@@ -88,6 +88,9 @@ export async function runTask(task) {
       } finally {
         result.seconds = (Date.now() - started) / 1000;
         results.push(result);
+        console.log(
+          'CI_TIMING ' + JSON.stringify({ task: task.id, ...result }),
+        );
       }
     }
   } finally {
