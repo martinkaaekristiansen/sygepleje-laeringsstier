@@ -43,3 +43,5 @@ Omkring 97 % af den observerede udgivelsestid lå i den sekventielle browserpakk
 Lokalt bestod alle 233 eksisterende Node-tests før ændringerne (33,265 sek., Node 24.22.1, CPU-kvote 2 kerner). Baseline-buildets faktiske `dist` var 1.658.272 bytes i 106 filer; hash `0f3ca54c9959`.
 
 [Reproducerbar evidens og checksums](audit-data.json) · [Før/efter-målinger](08-performance-foer-efter.md).
+
+Varige job-/trintider og efterfølgende sammenligninger findes i [maalinger.json](maalinger.json). De gamle 19 browserfilers omtrentlige grænsetider er udledt fra loggenes afsluttende PASS-tidsstempler; den nye runner måler hver fil direkte.

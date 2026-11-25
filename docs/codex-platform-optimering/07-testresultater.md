@@ -4,10 +4,10 @@
 
 - Baseline: **233/233** eksisterende Node-tests bestod før ændringerne.
 - Efter ændringerne: **247/247** Node-tests bestod (Node 24.22.1). De 14 ekstra tests dækker buildkontrakten og CI-værktøjer; ingen eksisterende test er fjernet.
-- Syntaks: 201 egne JS/CJS/MJS-filer kontrolleret med den aktuelle V8-parser. Node 22.23.5 kontrolleres også i Actions; her består alle 247 tests, og Node-testtiden er 17,129 sek. (fælles kontrol). VM-modulers eksperimentelle advarsel er synlig; syntaxfejl giver fejlstatus.
+- Syntaks: 201 egne JS/CJS/MJS-filer kontrolleret med den aktuelle V8-parser. Node 22.23.5 kontrolleres også i Actions; her består alle 247 tests, og Node-testtiden er 26,693 sek. i sidste fælles kontrol (17,129 sek. i en tidligere prøve). VM-modulers eksperimentelle advarsel er synlig; syntaxfejl giver fejlstatus.
 - Build: bestået, hash `3baa9ce1120d`. Gentagne builds giver samme bytes/hash.
 - Fælles browserpakke: acceptance, quality-fixes, oxygen-build og seks spilopstarter/genoptag på desktop/mobil bestod mod det rigtige hash-build og Pages-undermappen.
-- `git diff --check`: bestået ved implementeringscheckpoint; gentages før aflevering.
+- `git diff --check`: bestået på de lokale implementeringscommits. Efter cloudmiljøets afbrydelse kunne kommandoen og den lokale arbejdstræstatus ikke kontrolleres igen. De efterfølgende ændringer er gennemgået som GitHub-patches; CI kontrollerer syntaks og dokumentationslinks.
 
 ## Nye regressionstests
 
@@ -17,7 +17,7 @@
 
 ## Fuld funktionel regression på GitHub
 
-[Arbejdsbranchens kørsel](https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45594443676) afprøver:
+[Den afsluttende fulde kørsel](https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45603271295) afprøver:
 
 | Område | Dækning |
 |---|---|
@@ -27,7 +27,7 @@
 | Fordøjelse | Tre komplette næringsstofrejser på begge enheder, sluttests/trofæer/repetition, liv/retry, sekretion, absorption/rest, labels, HCl, enzymlivscyklus, mikrobiota, sammenhængende verden, lyd, pause og genoptag |
 | Ilt | Alle tre niveauer på desktop/mobil, fysiologi, synlighed, identitet, lyd, state, layout, afsluttende test, hjerteworker og produktionsbuild |
 
-Første prøve blev afløst efter de tre dokumenterede fejl nedenfor. Den rettede samlede kørsel er [45598155788](https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45598155788), commit `ec2598443e5774ef471d18088b9ef65ba6d77cf2`. Endelig status indsættes efter afslutningen; en igangværende kørsel tælles ikke som bestået.
+Første prøve blev afløst efter de tre dokumenterede fejl nedenfor; den samlede kørsel blev annulleret. Derefter bestod alle 24 jobs med otte runners i [45598155788](https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45598155788), og alle 24 bestod med 16 runners i [45601230641](https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45601230641). Den afsluttende kontrol af commit `f0d347acb2990e4c300d0928ee01cb8e80bb387a` har status **BESTÅET**: alle 24 jobs og 38/38 browserkørsler bestod. Den omfatter 29 forskellige funktionelle browserfiler fordelt på 38 konkrete kørsler og alle 247 Node-tests.
 
 ## Bevarede særpakker
 
@@ -46,3 +46,16 @@ Første fulde CI-prøve var rød på tre kontroller, som den tidligere Pages-pak
 Layouttesten beholder alle 27 spørgsmål på ni viewports og de strenge krav til synlige svar, afstande og touchmål. Diagnostikken indeholder nu den konkrete viewport og geometri ved fejl.
 
 [Layout før, 568 × 320](layout/oxygen-before-568x320.png) · [Layout efter, 568 × 320](layout/oxygen-after-568x320.png). De to små billeder dokumenterer den nødvendige fejlrettelse; øvrige nye store testoptagelser versionsstyres ikke.
+
+
+## Eksisterende offentlige Pages-adresse
+
+Et read-only HTTPS-tjek gav HTTP 200 på forsiden og **104/104 offentliggjorte assets**. Hver fil matcher SHA-256 fra den uændrede main-version `b69df9b`; den offentliggjorte assetmappe er `assets/0f3ca54c9959/`. Dette er en kontrol af den eksisterende udgave, ikke en udgivelse af arbejdsbranchen.
+
+Det ekstra Chromium-besøg direkte mod den offentlige adresse kunne ikke gennemføres i dette miljø: først en lokal CA-fejl og derefter proxytimeout. TLS-kontrollen blev ikke slået fra. Den nye udgave er funktionelt browser-testet mod sit rigtige build på Pages-undermappen lokalt og i GitHub Actions. En livebrowserkontrol af den nye udgave skal stadig gennemføres efter godkendt deployment.
+
+## Afbrudt lokalt arbejdsmiljø
+
+Cloudmiljøet blev utilgængeligt, efter at kode og rapportudkast var pushet. Afsluttende rapporter og tidsdata færdiggøres gennem GitHub-forbindelsen med normale commits og fast-forward af arbejdsbranchen. Main opdateres ikke. En ren lokal arbejdsmappe kan derfor ikke bekræftes efter afbrydelsen; gamle lokale rapportredigeringer skal bevares og sammenholdes med GitHub, hvis miljøet genoprettes.
+
+De nye målinger kræver ingen ændring af spillets faglige indhold, datastrukturer, grafik eller animationshastighed.

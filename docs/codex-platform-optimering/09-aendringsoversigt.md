@@ -36,3 +36,7 @@ Udgangspunkt `b69df9b0cee9d2a284824c8c5d6a07159fa30f0b`, arbejdsbranch `optimeri
 Før merge kan arbejdsbranchen gennemgås via compare/PR. Efter en eventuel senere merge kan hele ændringen tilbageføres med et normalt revert-commit. Ingen force-push eller historikomskrivning er nødvendig. Den eksisterende Pages-workflow kan hentes fra baseline-commit; appens lagringsformat og data-ID'er er uændrede, så der kræves ingen datamigration ved tilbageførsel.
 
 Dokumentationsarkivering er kun et forslag og er derfor ikke noget, der først skal genskabes ved revert. Alle originale filer er bevaret.
+
+## Afsluttende måleevidens
+
+CI-runneren logger nu også en kompakt `CI_TIMING`-linje efter hver fil, så eksakte tider ikke kun ligger i tidsbegrænsede artifacts. `maalinger.json` indeholder varige, udvalgte API-job-/trintider og de 38 konkrete browserkørsler. Logændringen giver ingen ekstra rettigheder og ændrer ingen testassertions. Den sidste dokumentationskontrol ændrer kun rapporter og måletal.

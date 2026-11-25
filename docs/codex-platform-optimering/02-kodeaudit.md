@@ -36,3 +36,7 @@ Alle produktionsfiler bortset fra de to importoprydninger og én nødvendig CSS-
 Appen og udviklingsserveren har fortsat ingen npm-runtimeafhængigheder. Three.js-version og alle tre leverandørchecksums er uændrede. Playwright 1.56.1 og Prettier 3.6.2 bevares. Nye låste udviklingsafhængigheder er Acorn 8.19.0, PostCSS 8.5.33 og YAML 2.9.1 til AST-, CSS- og workflowkontrol. `npm ci --ignore-scripts` benyttes i CI. Builds kræver nu disse udviklingsværktøjer; `npm ci` før build er dokumenteret.
 
 GitHub Actions er låst til verificerede commit-SHA'er. Containerens indhold er låst med digest; Node opdateres stadig til seneste patch i version 22. Git-tillid afgrænses til det valgte checkout pr. kommando. Ingen global wildcard-tillid eller svækkelse af TLS er indført.
+
+## Kontrol via GitHub-træerne
+
+En sammenligning af samtlige blobstier mellem baseline og kodecommit `f0d347acb2990e4c300d0928ee01cb8e80bb387a` viser nul slettede oprindelige filer. Kun `public/digestion-world.js`, `public/oxygen-game.js` og `public/oxygen.css` er ændret i produktionen; alle øvrige produktionsfiler har samme Git-blobhash. Ingen eksisterende historiske dokumentationsfiler er ændret. Kodecheckpointet indeholder 745 filer og 220.166.663 bytes; de afsluttende rapport-/måleopdateringer kommer derudover. Flerforbruget skyldes CI, tests og dokumentation, ikke større spilmodeller.

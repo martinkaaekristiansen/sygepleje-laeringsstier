@@ -23,6 +23,6 @@ Acorn gennemgår den faktiske JavaScript-AST. Importbindingerne nedenfor har ing
 - `public/digestion-camera.js`: bruges af geometri-/performancetests og historiske referencekørsler.
 - `public/digestion-epithelium.js`: bruges af `test/digestion-phase-c.test.js` og dokumenterer tidligere epitelvisualisering.
 
-Disse tre filer må ikke slettes som “ubrugte”. Mulig udeladelse fra det statiske produktionsartifact afprøves særskilt med dependency- og runtimekontrol.
+Disse tre filer må ikke slettes som “ubrugte”. De udelades nu kun fra det statiske produktionsartifact efter eksplicit dependency-kontrol. En ny runtime-reference geninkluderer dem automatisk; uafklaret indlæsning medfører fuld kopiering. Buildkontrakttests og den samlede browserregression har afprøvet dette.
 
 Ubrugte eksportkandidater og CSS kræver konservativ vurdering af dynamiske kald, tests og sjældne tilstande. Ingen CSS-regler fjernes alene ud fra runtime coverage. Ingen historiske filer slettes.

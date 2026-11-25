@@ -1,0 +1,4790 @@
+{
+  "version": 1,
+  "date": "2026-11-25",
+  "repository": "martinkaaekristiansen/sygepleje-laeringsstier",
+  "branch": "optimering-oprydning-ci-cd",
+  "sourceCommit": "f0d347acb2990e4c300d0928ee01cb8e80bb387a",
+  "mainUnchanged": "b69df9b0cee9d2a284824c8c5d6a07159fa30f0b",
+  "newDeploymentPerformed": false,
+  "nodeTests": 247,
+  "nodeSecondsFinal": 26.692983699,
+  "syntaxFiles": 201,
+  "browserEntrypoints": 29,
+  "browserInvocations": 38,
+  "rendering": "SwiftShader, unchanged test resolutions and normal animation clock",
+  "buildHash": "3baa9ce1120d",
+  "buildEvidence": "audit-data.json:buildComparison",
+  "profiles": {
+    "baseline": {
+      "label": "baseline-main",
+      "runId": 45366303009,
+      "head": "b69df9b0cee9d2a284824c8c5d6a07159fa30f0b",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-11-24T09:33:20Z",
+      "completedAt": "2026-11-24T10:31:07Z",
+      "wallSeconds": 3467,
+      "runnerSeconds": 3458,
+      "billedMilliseconds": 0,
+      "matrixLimit": 1,
+      "observedPeakJobs": 1,
+      "longestQueueSeconds": 5,
+      "publication": true,
+      "jobs": [
+        {
+          "id": 138348790008,
+          "name": "build",
+          "conclusion": "success",
+          "createdAt": "2026-11-24T09:33:20Z",
+          "startedAt": "2026-11-24T09:33:23Z",
+          "completedAt": "2026-11-24T10:30:51Z",
+          "queueSeconds": 3,
+          "seconds": 3448,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Hent projektet",
+              "conclusion": "success",
+              "seconds": 9
+            },
+            {
+              "name": "Klargør Node.js",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Test",
+              "conclusion": "success",
+              "seconds": 23
+            },
+            {
+              "name": "Byg statisk app",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Klargør browsertest",
+              "conclusion": "success",
+              "seconds": 29
+            },
+            {
+              "name": "Test browser og Pages-undermappe",
+              "conclusion": "success",
+              "seconds": 3373
+            },
+            {
+              "name": "Gem browserdiagnostik",
+              "conclusion": "skipped",
+              "seconds": 0
+            },
+            {
+              "name": "Vis browserfejl i joboversigten",
+              "conclusion": "skipped",
+              "seconds": 0
+            },
+            {
+              "name": "Klargør GitHub Pages",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Gem websted til udgivelse",
+              "conclusion": "success",
+              "seconds": 2
+            }
+          ]
+        },
+        {
+          "id": 138380522524,
+          "name": "deploy",
+          "conclusion": "success",
+          "createdAt": "2026-11-24T10:30:51Z",
+          "startedAt": "2026-11-24T10:30:56Z",
+          "completedAt": "2026-11-24T10:31:06Z",
+          "queueSeconds": 5,
+          "seconds": 10,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Udgiv",
+              "conclusion": "success",
+              "seconds": 6
+            }
+          ]
+        }
+      ]
+    },
+    "eight": {
+      "label": "full-eight",
+      "runId": 45598155788,
+      "head": "ec2598443e5774ef471d18088b9ef65ba6d77cf2",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-11-25T10:46:21Z",
+      "completedAt": "2026-11-25T11:04:08Z",
+      "wallSeconds": 1067,
+      "runnerSeconds": 6440,
+      "billedMilliseconds": 0,
+      "matrixLimit": 8,
+      "observedPeakJobs": 8,
+      "longestQueueSeconds": 699,
+      "publication": false,
+      "jobs": [
+        {
+          "id": 139149722142,
+          "name": "validation / plan",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:46:32Z",
+          "startedAt": "2026-11-25T10:46:34Z",
+          "completedAt": "2026-11-25T10:46:54Z",
+          "queueSeconds": 2,
+          "seconds": 20,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Vælg tests fra hele ændringsintervallet",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "conclusion": "success",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139149919420,
+          "name": "validation / core",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:46:54Z",
+          "startedAt": "2026-11-25T10:46:56Z",
+          "completedAt": "2026-11-25T10:49:05Z",
+          "queueSeconds": 2,
+          "seconds": 129,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 27
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Syntaks, alle Node-tests og reproducerbart build",
+              "conclusion": "success",
+              "seconds": 18
+            },
+            {
+              "name": "Platform, migration, backup, quiz og alle spil på desktop og mobil",
+              "conclusion": "success",
+              "seconds": 74
+            },
+            {
+              "name": "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar fejldiagnostik",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151114945,
+          "name": "validation / regression (digestion-journeys-desktop)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:05Z",
+          "startedAt": "2026-11-25T10:49:07Z",
+          "completedAt": "2026-11-25T10:58:01Z",
+          "queueSeconds": 2,
+          "seconds": 534,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 19
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 495
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151114950,
+          "name": "validation / regression (oxygen-journeys-desktop-medium)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:05Z",
+          "startedAt": "2026-11-25T10:49:07Z",
+          "completedAt": "2026-11-25T10:55:59Z",
+          "queueSeconds": 2,
+          "seconds": 412,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 376
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151114981,
+          "name": "validation / regression (digestion-layout)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:05Z",
+          "startedAt": "2026-11-25T10:56:22Z",
+          "completedAt": "2026-11-25T11:00:44Z",
+          "queueSeconds": 437,
+          "seconds": 262,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 30
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 216
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151114997,
+          "name": "validation / regression (oxygen-journeys-mobile-medium)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:05Z",
+          "startedAt": "2026-11-25T10:49:08Z",
+          "completedAt": "2026-11-25T10:55:45Z",
+          "queueSeconds": 3,
+          "seconds": 397,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 24
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 351
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115023,
+          "name": "validation / regression (blood-anatomy)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:05Z",
+          "startedAt": "2026-11-25T10:57:52Z",
+          "completedAt": "2026-11-25T11:01:30Z",
+          "queueSeconds": 527,
+          "seconds": 218,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 22
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 174
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115024,
+          "name": "validation / regression (digestion-resume-shared)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:05Z",
+          "startedAt": "2026-11-25T10:56:00Z",
+          "completedAt": "2026-11-25T10:57:49Z",
+          "queueSeconds": 415,
+          "seconds": 109,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 26
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 73
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115035,
+          "name": "validation / regression (digestion-resume-mobile)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:55:47Z",
+          "completedAt": "2026-11-25T10:59:29Z",
+          "queueSeconds": 401,
+          "seconds": 222,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 19
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 180
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115048,
+          "name": "validation / regression (blood-controls)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:58:03Z",
+          "completedAt": "2026-11-25T11:00:28Z",
+          "queueSeconds": 537,
+          "seconds": 145,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 27
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 104
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115078,
+          "name": "validation / regression (oxygen-journeys-mobile-hard)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:49:08Z",
+          "completedAt": "2026-11-25T10:55:32Z",
+          "queueSeconds": 2,
+          "seconds": 384,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 26
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 343
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115088,
+          "name": "validation / regression (digestion-audio-mobile)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:57:45Z",
+          "completedAt": "2026-11-25T11:01:22Z",
+          "queueSeconds": 519,
+          "seconds": 217,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 29
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 175
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115097,
+          "name": "validation / regression (digestion-audio-desktop)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:56:25Z",
+          "completedAt": "2026-11-25T11:00:28Z",
+          "queueSeconds": 439,
+          "seconds": 243,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 196
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115104,
+          "name": "validation / regression (digestion-physiology)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:56:14Z",
+          "completedAt": "2026-11-25T11:01:34Z",
+          "queueSeconds": 428,
+          "seconds": 320,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 28
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 276
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115124,
+          "name": "validation / regression (oxygen-journeys-mobile-easy)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:49:08Z",
+          "completedAt": "2026-11-25T10:56:23Z",
+          "queueSeconds": 2,
+          "seconds": 435,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 30
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 379
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115133,
+          "name": "validation / regression (oxygen-journeys-desktop-easy)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:49:07Z",
+          "completedAt": "2026-11-25T10:56:20Z",
+          "queueSeconds": 1,
+          "seconds": 433,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 19
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 398
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115135,
+          "name": "validation / regression (digestion-journeys-mobile)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:49:07Z",
+          "completedAt": "2026-11-25T10:57:43Z",
+          "queueSeconds": 1,
+          "seconds": 516,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 25
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 481
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115218,
+          "name": "validation / regression (digestion-resume-desktop)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:55:34Z",
+          "completedAt": "2026-11-25T11:00:49Z",
+          "queueSeconds": 388,
+          "seconds": 315,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 31
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 268
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115231,
+          "name": "validation / regression (oxygen-journeys-desktop-hard)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:49:07Z",
+          "completedAt": "2026-11-25T10:56:12Z",
+          "queueSeconds": 1,
+          "seconds": 425,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 26
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 389
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151115483,
+          "name": "validation / regression (blood-journey)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T10:59:32Z",
+          "completedAt": "2026-11-25T11:03:09Z",
+          "queueSeconds": 626,
+          "seconds": 217,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 28
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 171
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151117592,
+          "name": "validation / regression (digestion-world)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T11:00:29Z",
+          "completedAt": "2026-11-25T11:04:02Z",
+          "queueSeconds": 683,
+          "seconds": 213,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 26
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 176
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151117701,
+          "name": "validation / regression (oxygen-functional)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T11:00:31Z",
+          "completedAt": "2026-11-25T11:02:41Z",
+          "queueSeconds": 685,
+          "seconds": 130,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 86
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139151117733,
+          "name": "validation / regression (oxygen-layout)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T10:49:06Z",
+          "startedAt": "2026-11-25T11:00:45Z",
+          "completedAt": "2026-11-25T11:03:06Z",
+          "queueSeconds": 699,
+          "seconds": 141,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 18
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 105
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139159257382,
+          "name": "validation / gate",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:04:02Z",
+          "startedAt": "2026-11-25T11:04:04Z",
+          "completedAt": "2026-11-25T11:04:07Z",
+          "queueSeconds": 2,
+          "seconds": 3,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Afvis fejl, annullerede eller manglende kontroller",
+              "conclusion": "success",
+              "seconds": 0
+            }
+          ]
+        }
+      ]
+    },
+    "sixteen": {
+      "label": "full-sixteen",
+      "runId": 45601230641,
+      "head": "5b352f3f3db73f6d9da2f4aa962b8a3d8b540d9d",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-11-25T11:06:01Z",
+      "completedAt": "2026-11-25T11:17:40Z",
+      "wallSeconds": 699,
+      "runnerSeconds": 6456,
+      "billedMilliseconds": 0,
+      "matrixLimit": 16,
+      "observedPeakJobs": 16,
+      "longestQueueSeconds": 233,
+      "publication": false,
+      "jobs": [
+        {
+          "id": 139160360918,
+          "name": "validation / plan",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:06:01Z",
+          "startedAt": "2026-11-25T11:06:03Z",
+          "completedAt": "2026-11-25T11:06:17Z",
+          "queueSeconds": 2,
+          "seconds": 14,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Vælg tests fra hele ændringsintervallet",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "conclusion": "success",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139160510095,
+          "name": "validation / core",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:06:17Z",
+          "startedAt": "2026-11-25T11:06:19Z",
+          "completedAt": "2026-11-25T11:08:34Z",
+          "queueSeconds": 2,
+          "seconds": 135,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Syntaks, alle Node-tests og reproducerbart build",
+              "conclusion": "success",
+              "seconds": 18
+            },
+            {
+              "name": "Platform, migration, backup, quiz og alle spil på desktop og mobil",
+              "conclusion": "success",
+              "seconds": 78
+            },
+            {
+              "name": "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar fejldiagnostik",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771674,
+          "name": "validation / regression (digestion-physiology)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:38Z",
+          "completedAt": "2026-11-25T11:15:54Z",
+          "queueSeconds": 3,
+          "seconds": 436,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 24
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 397
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771721,
+          "name": "validation / regression (oxygen-journeys-desktop-easy)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:16:21Z",
+          "queueSeconds": 2,
+          "seconds": 464,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 40
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 415
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771733,
+          "name": "validation / regression (oxygen-journeys-mobile-hard)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:14:58Z",
+          "queueSeconds": 2,
+          "seconds": 381,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 25
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 341
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771745,
+          "name": "validation / regression (oxygen-journeys-desktop-hard)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:15:01Z",
+          "queueSeconds": 2,
+          "seconds": 384,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 30
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 343
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771747,
+          "name": "validation / regression (digestion-journeys-mobile)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:16:52Z",
+          "queueSeconds": 2,
+          "seconds": 495,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 6
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 456
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771748,
+          "name": "validation / regression (digestion-journeys-desktop)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:17:32Z",
+          "queueSeconds": 2,
+          "seconds": 535,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 494
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771749,
+          "name": "validation / regression (digestion-world)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:12:19Z",
+          "completedAt": "2026-11-25T11:14:56Z",
+          "queueSeconds": 224,
+          "seconds": 157,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 119
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771760,
+          "name": "validation / regression (blood-journey)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:12:17Z",
+          "completedAt": "2026-11-25T11:14:50Z",
+          "queueSeconds": 222,
+          "seconds": 153,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 23
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 103
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771761,
+          "name": "validation / regression (blood-anatomy)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:14:08Z",
+          "queueSeconds": 2,
+          "seconds": 331,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 25
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 296
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771765,
+          "name": "validation / regression (digestion-layout)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:12:18Z",
+          "queueSeconds": 2,
+          "seconds": 221,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 27
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 177
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771782,
+          "name": "validation / regression (digestion-resume-shared)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:10:17Z",
+          "queueSeconds": 2,
+          "seconds": 100,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 19
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 63
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771783,
+          "name": "validation / regression (oxygen-journeys-mobile-easy)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:15:33Z",
+          "queueSeconds": 2,
+          "seconds": 416,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 19
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 378
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771789,
+          "name": "validation / regression (oxygen-journeys-desktop-medium)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:38Z",
+          "completedAt": "2026-11-25T11:15:40Z",
+          "queueSeconds": 3,
+          "seconds": 422,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 375
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771792,
+          "name": "validation / regression (blood-controls)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:10:20Z",
+          "completedAt": "2026-11-25T11:12:18Z",
+          "queueSeconds": 105,
+          "seconds": 118,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 21
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 72
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771798,
+          "name": "validation / regression (digestion-resume-desktop)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:12:53Z",
+          "queueSeconds": 2,
+          "seconds": 256,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 28
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 217
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771804,
+          "name": "validation / regression (digestion-resume-mobile)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:12:26Z",
+          "queueSeconds": 2,
+          "seconds": 229,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 21
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 182
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771807,
+          "name": "validation / regression (oxygen-journeys-mobile-medium)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:38Z",
+          "completedAt": "2026-11-25T11:15:22Z",
+          "queueSeconds": 3,
+          "seconds": 404,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 30
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 360
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771808,
+          "name": "validation / regression (digestion-audio-mobile)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:36Z",
+          "completedAt": "2026-11-25T11:12:14Z",
+          "queueSeconds": 1,
+          "seconds": 218,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 31
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 176
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771850,
+          "name": "validation / regression (digestion-audio-desktop)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:08:37Z",
+          "completedAt": "2026-11-25T11:13:15Z",
+          "queueSeconds": 2,
+          "seconds": 278,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 26
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 237
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771878,
+          "name": "validation / regression (oxygen-functional)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:12:20Z",
+          "completedAt": "2026-11-25T11:14:19Z",
+          "queueSeconds": 225,
+          "seconds": 119,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 30
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 76
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139161771991,
+          "name": "validation / regression (oxygen-layout)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:08:35Z",
+          "startedAt": "2026-11-25T11:12:28Z",
+          "completedAt": "2026-11-25T11:15:33Z",
+          "queueSeconds": 233,
+          "seconds": 185,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 36
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 139
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139166716668,
+          "name": "validation / gate",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:17:32Z",
+          "startedAt": "2026-11-25T11:17:35Z",
+          "completedAt": "2026-11-25T11:17:40Z",
+          "queueSeconds": 3,
+          "seconds": 5,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Afvis fejl, annullerede eller manglende kontroller",
+              "conclusion": "success",
+              "seconds": 2
+            }
+          ]
+        }
+      ]
+    },
+    "final": {
+      "label": "final-verification-with-timing-logs",
+      "runId": 45603271295,
+      "head": "f0d347acb2990e4c300d0928ee01cb8e80bb387a",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-11-25T11:18:51Z",
+      "completedAt": "2026-11-25T11:31:26Z",
+      "wallSeconds": 755,
+      "runnerSeconds": 6378,
+      "billedMilliseconds": 0,
+      "matrixLimit": 16,
+      "jobs": [
+        {
+          "id": 139167440788,
+          "name": "validation / plan",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:18:52Z",
+          "startedAt": "2026-11-25T11:18:54Z",
+          "completedAt": "2026-11-25T11:19:08Z",
+          "queueSeconds": 2,
+          "seconds": 14,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Vælg tests fra hele ændringsintervallet",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "conclusion": "success",
+              "seconds": 2
+            }
+          ]
+        },
+        {
+          "id": 139167589465,
+          "name": "validation / core",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:19:08Z",
+          "startedAt": "2026-11-25T11:19:12Z",
+          "completedAt": "2026-11-25T11:22:14Z",
+          "queueSeconds": 4,
+          "seconds": 182,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 26
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Syntaks, alle Node-tests og reproducerbart build",
+              "conclusion": "success",
+              "seconds": 28
+            },
+            {
+              "name": "Platform, migration, backup, quiz og alle spil på desktop og mobil",
+              "conclusion": "success",
+              "seconds": 107
+            },
+            {
+              "name": "Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar fejldiagnostik",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258607,
+          "name": "validation / regression (oxygen-journeys-mobile-medium)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:16Z",
+          "completedAt": "2026-11-25T11:28:46Z",
+          "queueSeconds": 1,
+          "seconds": 390,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 28
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 350
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258645,
+          "name": "validation / regression (oxygen-journeys-desktop-medium)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:16Z",
+          "completedAt": "2026-11-25T11:29:02Z",
+          "queueSeconds": 1,
+          "seconds": 406,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 28
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 367
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258646,
+          "name": "validation / regression (oxygen-journeys-mobile-hard)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:28:42Z",
+          "queueSeconds": 2,
+          "seconds": 385,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 26
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 343
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258683,
+          "name": "validation / regression (digestion-journeys-mobile)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:30:34Z",
+          "queueSeconds": 2,
+          "seconds": 497,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 6
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 457
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258756,
+          "name": "validation / regression (digestion-resume-desktop)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:28:27Z",
+          "queueSeconds": 2,
+          "seconds": 370,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 26
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 328
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258760,
+          "name": "validation / regression (oxygen-journeys-mobile-easy)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:29:19Z",
+          "queueSeconds": 2,
+          "seconds": 422,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 377
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258763,
+          "name": "validation / regression (oxygen-journeys-desktop-easy)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:29:50Z",
+          "queueSeconds": 2,
+          "seconds": 453,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 30
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 414
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258790,
+          "name": "validation / regression (digestion-audio-desktop)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:16Z",
+          "completedAt": "2026-11-25T11:26:10Z",
+          "queueSeconds": 1,
+          "seconds": 234,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 195
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258801,
+          "name": "validation / regression (blood-anatomy)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:25:55Z",
+          "queueSeconds": 2,
+          "seconds": 218,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 21
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 172
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258809,
+          "name": "validation / regression (blood-journey)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:25:55Z",
+          "completedAt": "2026-11-25T11:28:38Z",
+          "queueSeconds": 220,
+          "seconds": 163,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 30
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 121
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258824,
+          "name": "validation / regression (oxygen-journeys-desktop-hard)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:16Z",
+          "completedAt": "2026-11-25T11:28:42Z",
+          "queueSeconds": 1,
+          "seconds": 386,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 19
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 349
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258829,
+          "name": "validation / regression (oxygen-functional)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:25:59Z",
+          "completedAt": "2026-11-25T11:28:29Z",
+          "queueSeconds": 224,
+          "seconds": 150,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 34
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 106
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258858,
+          "name": "validation / regression (digestion-journeys-desktop)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:31:20Z",
+          "queueSeconds": 2,
+          "seconds": 543,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 20
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 494
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258859,
+          "name": "validation / regression (digestion-audio-mobile)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:25:54Z",
+          "queueSeconds": 2,
+          "seconds": 217,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 27
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 173
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258883,
+          "name": "validation / regression (digestion-world)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:25:57Z",
+          "completedAt": "2026-11-25T11:28:39Z",
+          "queueSeconds": 222,
+          "seconds": 162,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 21
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 6
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 121
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258886,
+          "name": "validation / regression (oxygen-layout)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:26:12Z",
+          "completedAt": "2026-11-25T11:28:16Z",
+          "queueSeconds": 237,
+          "seconds": 124,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 29
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 84
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258892,
+          "name": "validation / regression (digestion-layout)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:26:14Z",
+          "queueSeconds": 2,
+          "seconds": 237,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 21
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 5
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 198
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258899,
+          "name": "validation / regression (blood-controls)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:24:11Z",
+          "completedAt": "2026-11-25T11:26:23Z",
+          "queueSeconds": 116,
+          "seconds": 132,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 31
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 84
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258904,
+          "name": "validation / regression (digestion-resume-shared)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:18Z",
+          "completedAt": "2026-11-25T11:24:09Z",
+          "queueSeconds": 3,
+          "seconds": 111,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 26
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 75
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169258965,
+          "name": "validation / regression (digestion-physiology)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:28:16Z",
+          "queueSeconds": 2,
+          "seconds": 359,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 34
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 3
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 300
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139169264824,
+          "name": "validation / regression (digestion-resume-mobile)",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:22:15Z",
+          "startedAt": "2026-11-25T11:22:17Z",
+          "completedAt": "2026-11-25T11:25:57Z",
+          "queueSeconds": 2,
+          "seconds": 220,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Initialize containers",
+              "conclusion": "success",
+              "seconds": 21
+            },
+            {
+              "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+              "conclusion": "success",
+              "seconds": 4
+            },
+            {
+              "name": "Run actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Installer låste udviklingsafhængigheder",
+              "conclusion": "success",
+              "seconds": 2
+            },
+            {
+              "name": "Run actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Isoleret browsertest med normal animationshastighed",
+              "conclusion": "success",
+              "seconds": 181
+            },
+            {
+              "name": "Bevar små måleresultater",
+              "conclusion": "success",
+              "seconds": 1
+            },
+            {
+              "name": "Bevar diagnostik ved fejl",
+              "conclusion": "skipped",
+              "seconds": 0
+            }
+          ]
+        },
+        {
+          "id": 139174184520,
+          "name": "validation / gate",
+          "conclusion": "success",
+          "createdAt": "2026-11-25T11:31:21Z",
+          "startedAt": "2026-11-25T11:31:22Z",
+          "completedAt": "2026-11-25T11:31:25Z",
+          "queueSeconds": 1,
+          "seconds": 3,
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "seconds": 0
+            },
+            {
+              "name": "Afvis fejl, annullerede eller manglende kontroller",
+              "conclusion": "success",
+              "seconds": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "perScript": [
+    {
+      "task": "blood-anatomy",
+      "file": "journey-anatomy",
+      "started": "2026-11-25T11:22:57.839Z",
+      "passed": true,
+      "seconds": 171.916
+    },
+    {
+      "task": "blood-controls",
+      "file": "review",
+      "started": "2026-11-25T11:24:54.284Z",
+      "passed": true,
+      "seconds": 2.011
+    },
+    {
+      "task": "blood-controls",
+      "file": "circulation",
+      "started": "2026-11-25T11:24:56.295Z",
+      "passed": true,
+      "seconds": 18.176
+    },
+    {
+      "task": "blood-controls",
+      "file": "journey-guide",
+      "started": "2026-11-25T11:25:14.471Z",
+      "passed": true,
+      "seconds": 5.733
+    },
+    {
+      "task": "blood-controls",
+      "file": "journey-3d",
+      "started": "2026-11-25T11:25:20.204Z",
+      "passed": true,
+      "seconds": 21.533
+    },
+    {
+      "task": "blood-controls",
+      "file": "journey-audio",
+      "started": "2026-11-25T11:25:41.737Z",
+      "passed": true,
+      "seconds": 12.753
+    },
+    {
+      "task": "blood-controls",
+      "file": "game-viewport",
+      "started": "2026-11-25T11:25:54.490Z",
+      "passed": true,
+      "seconds": 23.997
+    },
+    {
+      "task": "blood-journey",
+      "file": "blood-game",
+      "started": "2026-11-25T11:26:33.010Z",
+      "passed": true,
+      "seconds": 120.446
+    },
+    {
+      "task": "core",
+      "file": "acceptance",
+      "started": "2026-11-25T11:20:17.101Z",
+      "passed": true,
+      "seconds": 8.154
+    },
+    {
+      "task": "core",
+      "file": "quality-fixes",
+      "started": "2026-11-25T11:20:25.255Z",
+      "passed": true,
+      "seconds": 5.23
+    },
+    {
+      "task": "core",
+      "file": "oxygen-build",
+      "started": "2026-11-25T11:20:30.485Z",
+      "passed": true,
+      "seconds": 16.767
+    },
+    {
+      "task": "core",
+      "file": "smoke-games",
+      "started": "2026-11-25T11:20:47.252Z",
+      "passed": true,
+      "seconds": 76.202
+    },
+    {
+      "task": "digestion-audio-desktop",
+      "file": "digestion-audio",
+      "started": "2026-11-25T11:22:52.435Z",
+      "passed": true,
+      "seconds": 194.804
+    },
+    {
+      "task": "digestion-audio-mobile",
+      "file": "digestion-audio",
+      "started": "2026-11-25T11:22:55.385Z",
+      "passed": true,
+      "seconds": 172.98
+    },
+    {
+      "task": "digestion-journeys-desktop",
+      "file": "digestion",
+      "started": "2026-11-25T11:23:00.449Z",
+      "passed": true,
+      "seconds": 494.475
+    },
+    {
+      "task": "digestion-journeys-mobile",
+      "file": "digestion",
+      "started": "2026-11-25T11:22:55.577Z",
+      "passed": true,
+      "seconds": 456.476
+    },
+    {
+      "task": "digestion-layout",
+      "file": "digestion-phase-a",
+      "started": "2026-11-25T11:22:53.881Z",
+      "passed": true,
+      "seconds": 65.425
+    },
+    {
+      "task": "digestion-layout",
+      "file": "digestion-oral-mobile",
+      "started": "2026-11-25T11:23:59.306Z",
+      "passed": true,
+      "seconds": 89.357
+    },
+    {
+      "task": "digestion-layout",
+      "file": "digestion-labels",
+      "started": "2026-11-25T11:25:28.664Z",
+      "passed": true,
+      "seconds": 43.15
+    },
+    {
+      "task": "digestion-physiology",
+      "file": "digestion-hcl",
+      "started": "2026-11-25T11:23:10.561Z",
+      "passed": true,
+      "seconds": 93.864
+    },
+    {
+      "task": "digestion-physiology",
+      "file": "digestion-enzyme-continuity",
+      "started": "2026-11-25T11:24:44.425Z",
+      "passed": true,
+      "seconds": 163.883
+    },
+    {
+      "task": "digestion-physiology",
+      "file": "digestion-microbiota",
+      "started": "2026-11-25T11:27:28.309Z",
+      "passed": true,
+      "seconds": 42.569
+    },
+    {
+      "task": "digestion-resume-desktop",
+      "file": "digestion-v2",
+      "started": "2026-11-25T11:22:53.817Z",
+      "passed": true,
+      "seconds": 328.012
+    },
+    {
+      "task": "digestion-resume-mobile",
+      "file": "digestion-v2",
+      "started": "2026-11-25T11:22:53.530Z",
+      "passed": true,
+      "seconds": 180.852
+    },
+    {
+      "task": "digestion-resume-shared",
+      "file": "digestion-v2",
+      "started": "2026-11-25T11:22:51.705Z",
+      "passed": true,
+      "seconds": 74.371
+    },
+    {
+      "task": "digestion-world",
+      "file": "digestion-continuous",
+      "started": "2026-11-25T11:26:35.907Z",
+      "passed": true,
+      "seconds": 42.386
+    },
+    {
+      "task": "digestion-world",
+      "file": "digestion-continuous-state",
+      "started": "2026-11-25T11:27:18.293Z",
+      "passed": true,
+      "seconds": 77.716
+    },
+    {
+      "task": "oxygen-functional",
+      "file": "oxygen-physiology",
+      "started": "2026-11-25T11:26:40.543Z",
+      "passed": true,
+      "seconds": 19.886
+    },
+    {
+      "task": "oxygen-functional",
+      "file": "oxygen-visibility",
+      "started": "2026-11-25T11:27:00.430Z",
+      "passed": true,
+      "seconds": 35.031
+    },
+    {
+      "task": "oxygen-functional",
+      "file": "oxygen-audio",
+      "started": "2026-11-25T11:27:35.461Z",
+      "passed": true,
+      "seconds": 30.442
+    },
+    {
+      "task": "oxygen-functional",
+      "file": "oxygen-state",
+      "started": "2026-11-25T11:28:05.903Z",
+      "passed": true,
+      "seconds": 20.118
+    },
+    {
+      "task": "oxygen-journeys-desktop-easy",
+      "file": "oxygen-journeys",
+      "started": "2026-11-25T11:22:52.561Z",
+      "passed": true,
+      "seconds": 414.268
+    },
+    {
+      "task": "oxygen-journeys-desktop-hard",
+      "file": "oxygen-journeys",
+      "started": "2026-11-25T11:22:50.565Z",
+      "passed": true,
+      "seconds": 348.881
+    },
+    {
+      "task": "oxygen-journeys-desktop-medium",
+      "file": "oxygen-journeys",
+      "started": "2026-11-25T11:22:51.384Z",
+      "passed": true,
+      "seconds": 366.999
+    },
+    {
+      "task": "oxygen-journeys-mobile-easy",
+      "file": "oxygen-journeys",
+      "started": "2026-11-25T11:22:56.210Z",
+      "passed": true,
+      "seconds": 376.958
+    },
+    {
+      "task": "oxygen-journeys-mobile-hard",
+      "file": "oxygen-journeys",
+      "started": "2026-11-25T11:22:53.605Z",
+      "passed": true,
+      "seconds": 343.15
+    },
+    {
+      "task": "oxygen-journeys-mobile-medium",
+      "file": "oxygen-journeys",
+      "started": "2026-11-25T11:22:52.534Z",
+      "passed": true,
+      "seconds": 349.727
+    },
+    {
+      "task": "oxygen-layout",
+      "file": "oxygen-layout",
+      "started": "2026-11-25T11:26:48.134Z",
+      "passed": true,
+      "seconds": 84.498
+    }
+  ],
+  "historicalPreservation": {
+    "originalFiles": 711,
+    "deleted": 0,
+    "historicalFiles": 509,
+    "changedHistoricalFiles": 0,
+    "changedPublicFiles": [
+      "public/digestion-world.js",
+      "public/oxygen-game.js",
+      "public/oxygen.css"
+    ]
+  },
+  "livePublishedMain": {
+    "commit": "b69df9b0cee9d2a284824c8c5d6a07159fa30f0b",
+    "rootHTTPSStatus": 200,
+    "assetPrefix": "assets/0f3ca54c9959/",
+    "assetCount": 104,
+    "allAssetHashesMatch": true,
+    "tlsVerification": true,
+    "liveBrowserCheck": "Not completed: local CA/proxy issues. Functional browser verification used the compiled Pages subpath locally and in Actions."
+  },
+  "localEnvironment": {
+    "status": "unavailable",
+    "lastSourcePushedBeforeDisconnect": "5b352f3f3db73f6d9da2f4aa962b8a3d8b540d9d",
+    "localFinalWorktreeClean": "unverified",
+    "finalization": "GitHub Git data API, normal fast-forward commits"
+  },
+  "finalTreeSummary": {
+    "files": 746,
+    "bytes": 220333791
+  },
+  "mainPublicationAuthorized": false
+}

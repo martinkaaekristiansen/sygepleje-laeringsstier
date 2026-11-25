@@ -32,3 +32,5 @@ De ni byte-dubletgrupper er **ikke** automatisk kategori 3: mange er før/efter-
 ## Historik og tilbageførsel
 
 At slette 200 MB fra et nyt commit fjerner ikke de gamle Git-blobs. Derfor lover planen ikke en tilsvarende reduktion af historiske fulde kloner. Historikomskrivning og force-push er udelukket. Sparse checkout med blob-filtrering reducerede i det faktiske CI-forsøg arbejdsfiler fra 219.885.726 til 2.316.290 bytes og pakkede Git-objekter fra 199.558 til 773 KiB. Denne besparelse er allerede opnåelig uden arkivflytning.
+
+Baseline-træet indeholder ingen versionsstyrede ZIP-filer. De lokale gennemgangsarkiver fra tidligere arbejde er derfor ikke slettet som en del af oprydningen. Git-træ-sammenligningen bekræfter desuden, at både `docs/` og det oprindelige uploadmateriale er bevaret.

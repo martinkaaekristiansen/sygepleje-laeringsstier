@@ -1731,5 +1731,20 @@
       "boundary": "2026-11-24T10:30:46.2485499Z",
       "method": "Consecutive final PASS timestamps, including startup/cleanup/transition overhead; first includes server startup. Not exact child process instrumentation."
     }
-  ]
+  ],
+  "finalGitTreeVerification": {
+    "removed": [],
+    "publicChanges": [
+      "public/digestion-world.js",
+      "public/oxygen-game.js",
+      "public/oxygen.css"
+    ],
+    "oldDocsChanges": [],
+    "baselineBlobCount": 711,
+    "afterBlobCount": 745,
+    "afterBlobBytes": 220166663,
+    "historicalFilesChecked": 509,
+    "changedHistoricalFiles": 0,
+    "sourceCommit": "f0d347acb2990e4c300d0928ee01cb8e80bb387a"
+  }
 }

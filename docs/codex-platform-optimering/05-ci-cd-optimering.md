@@ -46,4 +46,6 @@ Container: `mcr.microsoft.com/playwright:v1.56.1-noble@sha256:f1e7e01021efd65dd1
 
 En mislykket første containerprøve skyldtes Git-ejerskab og regnes ikke som en bestået måling. Rettelsen betror kun det eksplicitte checkout pr. Git-kommando, aldrig `safe.directory=*`.
 
-Første grønne fulde kørsel med loft på otte runners tog 17 min. 47 sek. og viste op til 699 sekunders kø for små jobs. Et efterfølgende forsøg hæver loftet til 16 isolerede runners; antallet af tests/jobs og antal browsere pr. runner er uændret. Endelige målinger og valg fremgår af performancerapporten.
+Den grønne fulde kørsel med otte runners tog 17 min. 47 sek. og viste op til 699 sekunders kø. Samme 24 jobs med loft på 16 runners bestod på 11 min. 39 sek.; runnerforbruget var næsten identisk, 6.440 mod 6.456 sekunder. Loftet på 16 bevares. Der kører stadig én browserproces pr. runner, og hver jobkørsel har en selvstændig runneridentitet. Det er dokumenteret kortere ventetid, ikke lavere testkrav.
+
+Runneren skriver både `timings.json` og én `CI_TIMING`-loglinje for hver browserfil. De små, præcise tidsdata kan derfor bevares i rapporten uden at kopiere store screenshots eller komplette logs. [Alle målinger](maalinger.json).
