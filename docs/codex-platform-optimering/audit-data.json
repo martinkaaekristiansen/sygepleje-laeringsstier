@@ -1,0 +1,1619 @@
+{
+  "baseline": {
+    "ref": "b69df9b0cee9d2a284824c8c5d6a07159fa30f0b",
+    "commit": "b69df9b0cee9d2a284824c8c5d6a07159fa30f0b",
+    "files": 711,
+    "bytes": 219871119,
+    "ownLines": 35061,
+    "groups": {
+      "workflow": {
+        "files": 1,
+        "bytes": 4420,
+        "ownLines": 120
+      },
+      "configuration": {
+        "files": 8,
+        "bytes": 17224,
+        "ownLines": 6
+      },
+      "documentation": {
+        "files": 509,
+        "bytes": 217569436,
+        "ownLines": 0
+      },
+      "production": {
+        "files": 105,
+        "bytes": 1658112,
+        "ownLines": 23324
+      },
+      "scripts": {
+        "files": 5,
+        "bytes": 19208,
+        "ownLines": 243
+      },
+      "unit": {
+        "files": 42,
+        "bytes": 270340,
+        "ownLines": 4149
+      },
+      "browser": {
+        "files": 41,
+        "bytes": 332379,
+        "ownLines": 7219
+      }
+    },
+    "duplicates": [
+      {
+        "sha256": "d6fe15e9831ce3770c64501b76ef1882e4f0f328017d4beb3feb8d989c518bd4",
+        "files": [
+          {
+            "file": "Codex_fordoejelsesspil_rettelser_og_screenshots/screenshots/screenshot_02.png",
+            "bytes": 47572
+          },
+          {
+            "file": "Codex_fordoejelsesspil_rettelser_og_screenshots/screenshots/screenshot_04.png",
+            "bytes": 47572
+          }
+        ],
+        "redundantBytes": 47572
+      },
+      {
+        "sha256": "d2486e44185f97198962582da4611b18e1b5c69ca724fed9b3b32063ac574d8f",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/anatomi-enzymer-hcl-mikrobiota/continuous-state-checks.json",
+            "bytes": 722
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/state-checks.json",
+            "bytes": 722
+          }
+        ],
+        "redundantBytes": 722
+      },
+      {
+        "sha256": "9a5788797113c2afabfff33770a16cd527dc362bbc482d594304b1e691084a20",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/fase-b1/after-jejunum-desktop.png",
+            "bytes": 980330
+          },
+          {
+            "file": "docs/codex-fordoejelse/fase-c-screenshots/before-final-jejunum-desktop.png",
+            "bytes": 980330
+          }
+        ],
+        "redundantBytes": 980330
+      },
+      {
+        "sha256": "d949a49a28dffa317d48daee5ed080c4bddcdfe6f2a00e5eeaa3dfe9a2a152cf",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/fase-b1/after-jejunum-mobile.png",
+            "bytes": 365460
+          },
+          {
+            "file": "docs/codex-fordoejelse/fase-c-screenshots/before-final-jejunum-mobile.png",
+            "bytes": 365460
+          }
+        ],
+        "redundantBytes": 365460
+      },
+      {
+        "sha256": "1f7481bcd2b87be47705a2399e178f4279537711414dab2471226915ad1fab2b",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/occlusion/coarse-desktop-jejunum-forward.png",
+            "bytes": 1172026
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/occlusion/fine-desktop-jejunum-forward.png",
+            "bytes": 1172026
+          }
+        ],
+        "redundantBytes": 1172026
+      },
+      {
+        "sha256": "c2a19ed973e281611723ffd22527c26ca6b2dfa184c0d714f99a99e28d3a675f",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/after-duodenum-mobile.png",
+            "bytes": 428887
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/after-duodenum-mobile.png",
+            "bytes": 428887
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/before-duodenum-mobile.png",
+            "bytes": 428887
+          }
+        ],
+        "redundantBytes": 857774
+      },
+      {
+        "sha256": "52c2334630380fa9d9e538413aeb7b09e8871e1eebd7c78535f8655d979bd2c5",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/after-jejunum-desktop.png",
+            "bytes": 1202175
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/after-jejunum-desktop.png",
+            "bytes": 1202175
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/before-jejunum-desktop.png",
+            "bytes": 1202175
+          }
+        ],
+        "redundantBytes": 2404350
+      },
+      {
+        "sha256": "ab90c24a947c335d19cae8060e316ff8c3fada5b39bc733ee880038493db9e06",
+        "files": [
+          {
+            "file": "docs/codex-iltens-rejse/performance/lv-efter.png",
+            "bytes": 444500
+          },
+          {
+            "file": "docs/codex-iltens-rejse/performance/lv-foer.png",
+            "bytes": 444500
+          }
+        ],
+        "redundantBytes": 444500
+      },
+      {
+        "sha256": "f8df7105683e0d735bde77feb6b5c6ecca9ac5e2d5f6cfea0a0bf1acc781cf87",
+        "files": [
+          {
+            "file": "docs/codex-iltens-rejse/performance/tissue-oxygen-efter.png",
+            "bytes": 195442
+          },
+          {
+            "file": "docs/codex-iltens-rejse/performance/tissue-oxygen-foer.png",
+            "bytes": 195442
+          }
+        ],
+        "redundantBytes": 195442
+      }
+    ],
+    "largest": [
+      {
+        "file": "docs/codex-fordoejelse/anatomi-enzymer-hcl-mikrobiota/video/kamera-oesophagus-mave-duodenum.mp4",
+        "bytes": 2164317,
+        "sha256": "7897a1346c20f453d96786e713c3ddc07bd889a6f77758a723d7dd6fe26039a4",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-iltens-rejse/visuelt/04-bakterie-modsat.webm",
+        "bytes": 1820313,
+        "sha256": "e55bf91e944d0d6ab57988533977c4a2dfc77b8e277abc1c3fe61d491c082a6a",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-iltens-rejse/visuelt/09-vaev-ilt-atp.webm",
+        "bytes": 1747951,
+        "sha256": "1324b768f32f38b16b4390090b06092572d2d3f95a26059a800749f6966ec831",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-iltens-rejse/visuelt/11-co2-transport.webm",
+        "bytes": 1656856,
+        "sha256": "09ceed0e0fe43d4b8a8b415bec59ef16623b03c13ff6f0113021b04d1201db5b",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-iltens-rejse/visuelt/04-bakterie-modsat.mp4",
+        "bytes": 1523355,
+        "sha256": "ece827310bf9b496cdc9696db71ddf0d92919f958b7e1dab28e62c7fadfd5a4e",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/fase-b-screenshots/04-jejunum-desktop.png",
+        "bytes": 1361979,
+        "sha256": "9d40fc1e7e86bc5babaa557ade18e27b9945bd14047af39139c1c00038d97a90",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/fase-b-screenshots/03-duodenum-desktop.png",
+        "bytes": 1347321,
+        "sha256": "c96ddf47873967d84fbf5799eed4f80971b4a0befc26192043061ec70021f795",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-trine-1.5.png",
+        "bytes": 1226926,
+        "sha256": "e6a570cb18e11ff693964d618e7e9dfd5ca95f5b9b18a1d666c8a9e9e14a57fe",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-trine-4.5.png",
+        "bytes": 1225710,
+        "sha256": "b7060b5c06fd8949cd1ea6851832952ec26f2d569f3647959db918f160ca1204",
+        "category": "documentation"
+      },
+      {
+        "file": "Codex_fordoejelsesspil_rettelser_og_screenshots/ORIGINAL_rettelser_til_3d_spil.docx",
+        "bytes": 1220874,
+        "sha256": "0a455326151692f25e7451280305163b3b6aceddc0588198ddec2262fbc43bac",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-trine-8.8.png",
+        "bytes": 1220077,
+        "sha256": "94e3de6c9caf85bdb97d07ed6474d569a85c47874bf9702026a39aeebb44925a",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-stanley-1.5.png",
+        "bytes": 1213593,
+        "sha256": "22277b9246e316b45d21150be51cba01bf4d239dbb988b47a7e74ab4f1ae1f09",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-stanley-4.5.png",
+        "bytes": 1213109,
+        "sha256": "dc47175e1ee7b08efe409e991ae0743fd34691bc738845b9a69570a0a1648f31",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-poul-4.5.png",
+        "bytes": 1211973,
+        "sha256": "4057aaf6871c8153b8ad04c65bccd3f1bd70669d8fbb63498cf473405b6b4f2f",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-poul-1.5.png",
+        "bytes": 1211540,
+        "sha256": "015e83be89307630faba7af8e5f9bd4d5ddc56f46d8cfc944a3f023a2617bc80",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/station-jejunum-frem.png",
+        "bytes": 1211115,
+        "sha256": "b647691b53bb403acd65f46a68590a0768fe6492f7e3813f1606a6162df1da68",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-poul-8.8.png",
+        "bytes": 1209998,
+        "sha256": "851914578e334978e573551df86ee58c8c779711248ab907b6d5b6cd9415553a",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-stanley-8.8.png",
+        "bytes": 1209991,
+        "sha256": "19274978ba0e65dbfad757165e85c10fbcefcd469850b4ccb180f35ec606c2dc",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/after-jejunum-desktop.png",
+        "bytes": 1202175,
+        "sha256": "52c2334630380fa9d9e538413aeb7b09e8871e1eebd7c78535f8655d979bd2c5",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/after-jejunum-desktop.png",
+        "bytes": 1202175,
+        "sha256": "52c2334630380fa9d9e538413aeb7b09e8871e1eebd7c78535f8655d979bd2c5",
+        "category": "documentation"
+      }
+    ],
+    "unreachablePublic": [
+      "public/digestion-absorption.js",
+      "public/digestion-camera.js",
+      "public/digestion-epithelium.js",
+      "public/three-LICENSE.txt"
+    ],
+    "unusedImports": [
+      {
+        "file": "public/digestion-world.js",
+        "line": 22,
+        "name": "buildCaecumGeometry",
+        "source": "./digestion-caecum.js"
+      },
+      {
+        "file": "public/digestion-world.js",
+        "line": 30,
+        "name": "buildOrganSurface",
+        "source": "./digestion-anatomy.js"
+      },
+      {
+        "file": "public/digestion-world.js",
+        "line": 30,
+        "name": "organCurve",
+        "source": "./digestion-anatomy.js"
+      },
+      {
+        "file": "public/digestion-world.js",
+        "line": 30,
+        "name": "lumenRadius",
+        "source": "./digestion-anatomy.js"
+      },
+      {
+        "file": "public/digestion-world.js",
+        "line": 37,
+        "name": "reactionState",
+        "source": "./digestion-engine.js"
+      },
+      {
+        "file": "public/digestion-world.js",
+        "line": 39,
+        "name": "CHARACTERS",
+        "source": "./digestion-data.js"
+      },
+      {
+        "file": "public/digestion-world.js",
+        "line": 39,
+        "name": "PRODUCTS",
+        "source": "./digestion-data.js"
+      },
+      {
+        "file": "public/oxygen-game.js",
+        "line": 1,
+        "name": "OXYGEN_ID",
+        "source": "./oxygen-data.js"
+      }
+    ],
+    "cssDuplicates": [],
+    "productionClosure": [
+      "public/app.js",
+      "public/backup.js",
+      "public/blood-fullscreen.css",
+      "public/blood-game.css",
+      "public/blood-game.js",
+      "public/blood-routes.js",
+      "public/blood-viewport.js",
+      "public/builtin-baselines.js",
+      "public/catalog.js",
+      "public/circulation-config.js",
+      "public/circulation-context.js",
+      "public/circulation-data.js",
+      "public/circulation-engine.js",
+      "public/circulation-learning.js",
+      "public/circulation-order.js",
+      "public/content-version.js",
+      "public/data.js",
+      "public/digestion-acid.js",
+      "public/digestion-anatomy-labels.js",
+      "public/digestion-anatomy.js",
+      "public/digestion-assessment.js",
+      "public/digestion-audio.js",
+      "public/digestion-basic-questions.js",
+      "public/digestion-caecum.js",
+      "public/digestion-camera-frames.js",
+      "public/digestion-chewing.js",
+      "public/digestion-data.js",
+      "public/digestion-engine.js",
+      "public/digestion-enzyme-identity.js",
+      "public/digestion-enzyme-lifecycle.js",
+      "public/digestion-enzyme-model.js",
+      "public/digestion-exam-controller.js",
+      "public/digestion-exam.js",
+      "public/digestion-face.js",
+      "public/digestion-finale.js",
+      "public/digestion-flow.js",
+      "public/digestion-game.js",
+      "public/digestion-gastric.js",
+      "public/digestion-learning.js",
+      "public/digestion-microbiota.js",
+      "public/digestion-molecules.js",
+      "public/digestion-motility.js",
+      "public/digestion-mucosa.js",
+      "public/digestion-navigation.js",
+      "public/digestion-performance.js",
+      "public/digestion-physiology-label.js",
+      "public/digestion-ports.js",
+      "public/digestion-presentation.js",
+      "public/digestion-pylorus.js",
+      "public/digestion-question-pools.js",
+      "public/digestion-route-camera.js",
+      "public/digestion-save.js",
+      "public/digestion-secretions.js",
+      "public/digestion-sequence.js",
+      "public/digestion-swallow.js",
+      "public/digestion-tract.js",
+      "public/digestion-uptake.js",
+      "public/digestion-visibility.js",
+      "public/digestion-world.js",
+      "public/digestion.css",
+      "public/home.js",
+      "public/index.html",
+      "public/journey-3d-anatomy.js",
+      "public/journey-3d-geometry.js",
+      "public/journey-3d-world.js",
+      "public/journey-3d.css",
+      "public/journey-audio.js",
+      "public/journey-chambers.js",
+      "public/journey-engine.js",
+      "public/journey-geometry-loader.js",
+      "public/journey-geometry-worker.js",
+      "public/journey-guide.js",
+      "public/journey-myocardium.js",
+      "public/journey-physiology.js",
+      "public/journey-ui.js",
+      "public/journey-valves.js",
+      "public/learner.js",
+      "public/learning-assessment.js",
+      "public/model.js",
+      "public/oxygen-anatomy.js",
+      "public/oxygen-audio.js",
+      "public/oxygen-data.js",
+      "public/oxygen-engine.js",
+      "public/oxygen-flow.js",
+      "public/oxygen-game.js",
+      "public/oxygen-molecules.js",
+      "public/oxygen-mucociliary.js",
+      "public/oxygen-network.js",
+      "public/oxygen-world.js",
+      "public/oxygen.css",
+      "public/pharmacology.js",
+      "public/progress.js",
+      "public/quiz.js",
+      "public/semester5.js",
+      "public/storage.js",
+      "public/style.css",
+      "public/subjects.js",
+      "public/theme.css",
+      "public/three.core.min.js",
+      "public/three.module.min.js",
+      "public/ui.js"
+    ],
+    "missing": [],
+    "unknownRuntime": [
+      {
+        "file": "public/data.js",
+        "unknown": [
+          {
+            "kind": "url",
+            "line": 2
+          },
+          {
+            "kind": "url",
+            "line": 3
+          }
+        ]
+      }
+    ],
+    "gitObjectStorage": "count: 1216\nsize: 203.84 MiB\nin-pack: 430\npacks: 3\nsize-pack: 467.77 KiB\nprune-packable: 42\n\nsize-"
+  },
+  "afterCodeCheckpoint": {
+    "ref": "HEAD",
+    "commit": "4886378687c1d2d6e919cb93733e16ff0f877991",
+    "files": 731,
+    "bytes": 219941691,
+    "ownLines": 36783,
+    "groups": {
+      "workflow": {
+        "files": 4,
+        "bytes": 20810,
+        "ownLines": 605
+      },
+      "configuration": {
+        "files": 8,
+        "bytes": 20150,
+        "ownLines": 4
+      },
+      "documentation": {
+        "files": 510,
+        "bytes": 217571877,
+        "ownLines": 0
+      },
+      "production": {
+        "files": 105,
+        "bytes": 1657991,
+        "ownLines": 23320
+      },
+      "scripts": {
+        "files": 18,
+        "bytes": 53002,
+        "ownLines": 1171
+      },
+      "unit": {
+        "files": 43,
+        "bytes": 281569,
+        "ownLines": 4401
+      },
+      "browser": {
+        "files": 43,
+        "bytes": 336292,
+        "ownLines": 7282
+      }
+    },
+    "duplicates": [
+      {
+        "sha256": "d6fe15e9831ce3770c64501b76ef1882e4f0f328017d4beb3feb8d989c518bd4",
+        "files": [
+          {
+            "file": "Codex_fordoejelsesspil_rettelser_og_screenshots/screenshots/screenshot_02.png",
+            "bytes": 47572
+          },
+          {
+            "file": "Codex_fordoejelsesspil_rettelser_og_screenshots/screenshots/screenshot_04.png",
+            "bytes": 47572
+          }
+        ],
+        "redundantBytes": 47572
+      },
+      {
+        "sha256": "d2486e44185f97198962582da4611b18e1b5c69ca724fed9b3b32063ac574d8f",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/anatomi-enzymer-hcl-mikrobiota/continuous-state-checks.json",
+            "bytes": 722
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/state-checks.json",
+            "bytes": 722
+          }
+        ],
+        "redundantBytes": 722
+      },
+      {
+        "sha256": "9a5788797113c2afabfff33770a16cd527dc362bbc482d594304b1e691084a20",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/fase-b1/after-jejunum-desktop.png",
+            "bytes": 980330
+          },
+          {
+            "file": "docs/codex-fordoejelse/fase-c-screenshots/before-final-jejunum-desktop.png",
+            "bytes": 980330
+          }
+        ],
+        "redundantBytes": 980330
+      },
+      {
+        "sha256": "d949a49a28dffa317d48daee5ed080c4bddcdfe6f2a00e5eeaa3dfe9a2a152cf",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/fase-b1/after-jejunum-mobile.png",
+            "bytes": 365460
+          },
+          {
+            "file": "docs/codex-fordoejelse/fase-c-screenshots/before-final-jejunum-mobile.png",
+            "bytes": 365460
+          }
+        ],
+        "redundantBytes": 365460
+      },
+      {
+        "sha256": "1f7481bcd2b87be47705a2399e178f4279537711414dab2471226915ad1fab2b",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/occlusion/coarse-desktop-jejunum-forward.png",
+            "bytes": 1172026
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/occlusion/fine-desktop-jejunum-forward.png",
+            "bytes": 1172026
+          }
+        ],
+        "redundantBytes": 1172026
+      },
+      {
+        "sha256": "c2a19ed973e281611723ffd22527c26ca6b2dfa184c0d714f99a99e28d3a675f",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/after-duodenum-mobile.png",
+            "bytes": 428887
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/after-duodenum-mobile.png",
+            "bytes": 428887
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/before-duodenum-mobile.png",
+            "bytes": 428887
+          }
+        ],
+        "redundantBytes": 857774
+      },
+      {
+        "sha256": "52c2334630380fa9d9e538413aeb7b09e8871e1eebd7c78535f8655d979bd2c5",
+        "files": [
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/after-jejunum-desktop.png",
+            "bytes": 1202175
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/after-jejunum-desktop.png",
+            "bytes": 1202175
+          },
+          {
+            "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/before-jejunum-desktop.png",
+            "bytes": 1202175
+          }
+        ],
+        "redundantBytes": 2404350
+      },
+      {
+        "sha256": "ab90c24a947c335d19cae8060e316ff8c3fada5b39bc733ee880038493db9e06",
+        "files": [
+          {
+            "file": "docs/codex-iltens-rejse/performance/lv-efter.png",
+            "bytes": 444500
+          },
+          {
+            "file": "docs/codex-iltens-rejse/performance/lv-foer.png",
+            "bytes": 444500
+          }
+        ],
+        "redundantBytes": 444500
+      },
+      {
+        "sha256": "f8df7105683e0d735bde77feb6b5c6ecca9ac5e2d5f6cfea0a0bf1acc781cf87",
+        "files": [
+          {
+            "file": "docs/codex-iltens-rejse/performance/tissue-oxygen-efter.png",
+            "bytes": 195442
+          },
+          {
+            "file": "docs/codex-iltens-rejse/performance/tissue-oxygen-foer.png",
+            "bytes": 195442
+          }
+        ],
+        "redundantBytes": 195442
+      }
+    ],
+    "largest": [
+      {
+        "file": "docs/codex-fordoejelse/anatomi-enzymer-hcl-mikrobiota/video/kamera-oesophagus-mave-duodenum.mp4",
+        "bytes": 2164317,
+        "sha256": "7897a1346c20f453d96786e713c3ddc07bd889a6f77758a723d7dd6fe26039a4",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-iltens-rejse/visuelt/04-bakterie-modsat.webm",
+        "bytes": 1820313,
+        "sha256": "e55bf91e944d0d6ab57988533977c4a2dfc77b8e277abc1c3fe61d491c082a6a",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-iltens-rejse/visuelt/09-vaev-ilt-atp.webm",
+        "bytes": 1747951,
+        "sha256": "1324b768f32f38b16b4390090b06092572d2d3f95a26059a800749f6966ec831",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-iltens-rejse/visuelt/11-co2-transport.webm",
+        "bytes": 1656856,
+        "sha256": "09ceed0e0fe43d4b8a8b415bec59ef16623b03c13ff6f0113021b04d1201db5b",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-iltens-rejse/visuelt/04-bakterie-modsat.mp4",
+        "bytes": 1523355,
+        "sha256": "ece827310bf9b496cdc9696db71ddf0d92919f958b7e1dab28e62c7fadfd5a4e",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/fase-b-screenshots/04-jejunum-desktop.png",
+        "bytes": 1361979,
+        "sha256": "9d40fc1e7e86bc5babaa557ade18e27b9945bd14047af39139c1c00038d97a90",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/fase-b-screenshots/03-duodenum-desktop.png",
+        "bytes": 1347321,
+        "sha256": "c96ddf47873967d84fbf5799eed4f80971b4a0befc26192043061ec70021f795",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-trine-1.5.png",
+        "bytes": 1226926,
+        "sha256": "e6a570cb18e11ff693964d618e7e9dfd5ca95f5b9b18a1d666c8a9e9e14a57fe",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-trine-4.5.png",
+        "bytes": 1225710,
+        "sha256": "b7060b5c06fd8949cd1ea6851832952ec26f2d569f3647959db918f160ca1204",
+        "category": "documentation"
+      },
+      {
+        "file": "Codex_fordoejelsesspil_rettelser_og_screenshots/ORIGINAL_rettelser_til_3d_spil.docx",
+        "bytes": 1220874,
+        "sha256": "0a455326151692f25e7451280305163b3b6aceddc0588198ddec2262fbc43bac",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-trine-8.8.png",
+        "bytes": 1220077,
+        "sha256": "94e3de6c9caf85bdb97d07ed6474d569a85c47874bf9702026a39aeebb44925a",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-stanley-1.5.png",
+        "bytes": 1213593,
+        "sha256": "22277b9246e316b45d21150be51cba01bf4d239dbb988b47a7e74ab4f1ae1f09",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-stanley-4.5.png",
+        "bytes": 1213109,
+        "sha256": "dc47175e1ee7b08efe409e991ae0743fd34691bc738845b9a69570a0a1648f31",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-poul-4.5.png",
+        "bytes": 1211973,
+        "sha256": "4057aaf6871c8153b8ad04c65bccd3f1bd70669d8fbb63498cf473405b6b4f2f",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-poul-1.5.png",
+        "bytes": 1211540,
+        "sha256": "015e83be89307630faba7af8e5f9bd4d5ddc56f46d8cfc944a3f023a2617bc80",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/station-jejunum-frem.png",
+        "bytes": 1211115,
+        "sha256": "b647691b53bb403acd65f46a68590a0768fe6492f7e3813f1606a6162df1da68",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-poul-8.8.png",
+        "bytes": 1209998,
+        "sha256": "851914578e334978e573551df86ee58c8c779711248ab907b6d5b6cd9415553a",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/optagelse-stanley-8.8.png",
+        "bytes": 1209991,
+        "sha256": "19274978ba0e65dbfad757165e85c10fbcefcd469850b4ccb180f35ec606c2dc",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/after-jejunum-desktop.png",
+        "bytes": 1202175,
+        "sha256": "52c2334630380fa9d9e538413aeb7b09e8871e1eebd7c78535f8655d979bd2c5",
+        "category": "documentation"
+      },
+      {
+        "file": "docs/codex-fordoejelse/sammenhaengende-verden/performance/occlusion/after-jejunum-desktop.png",
+        "bytes": 1202175,
+        "sha256": "52c2334630380fa9d9e538413aeb7b09e8871e1eebd7c78535f8655d979bd2c5",
+        "category": "documentation"
+      }
+    ],
+    "unreachablePublic": [
+      "public/digestion-absorption.js",
+      "public/digestion-camera.js",
+      "public/digestion-epithelium.js",
+      "public/three-LICENSE.txt"
+    ],
+    "unusedImports": [],
+    "cssDuplicates": [],
+    "productionClosure": [
+      "public/app.js",
+      "public/backup.js",
+      "public/blood-fullscreen.css",
+      "public/blood-game.css",
+      "public/blood-game.js",
+      "public/blood-routes.js",
+      "public/blood-viewport.js",
+      "public/builtin-baselines.js",
+      "public/catalog.js",
+      "public/circulation-config.js",
+      "public/circulation-context.js",
+      "public/circulation-data.js",
+      "public/circulation-engine.js",
+      "public/circulation-learning.js",
+      "public/circulation-order.js",
+      "public/content-version.js",
+      "public/data.js",
+      "public/digestion-acid.js",
+      "public/digestion-anatomy-labels.js",
+      "public/digestion-anatomy.js",
+      "public/digestion-assessment.js",
+      "public/digestion-audio.js",
+      "public/digestion-basic-questions.js",
+      "public/digestion-caecum.js",
+      "public/digestion-camera-frames.js",
+      "public/digestion-chewing.js",
+      "public/digestion-data.js",
+      "public/digestion-engine.js",
+      "public/digestion-enzyme-identity.js",
+      "public/digestion-enzyme-lifecycle.js",
+      "public/digestion-enzyme-model.js",
+      "public/digestion-exam-controller.js",
+      "public/digestion-exam.js",
+      "public/digestion-face.js",
+      "public/digestion-finale.js",
+      "public/digestion-flow.js",
+      "public/digestion-game.js",
+      "public/digestion-gastric.js",
+      "public/digestion-learning.js",
+      "public/digestion-microbiota.js",
+      "public/digestion-molecules.js",
+      "public/digestion-motility.js",
+      "public/digestion-mucosa.js",
+      "public/digestion-navigation.js",
+      "public/digestion-performance.js",
+      "public/digestion-physiology-label.js",
+      "public/digestion-ports.js",
+      "public/digestion-presentation.js",
+      "public/digestion-pylorus.js",
+      "public/digestion-question-pools.js",
+      "public/digestion-route-camera.js",
+      "public/digestion-save.js",
+      "public/digestion-secretions.js",
+      "public/digestion-sequence.js",
+      "public/digestion-swallow.js",
+      "public/digestion-tract.js",
+      "public/digestion-uptake.js",
+      "public/digestion-visibility.js",
+      "public/digestion-world.js",
+      "public/digestion.css",
+      "public/home.js",
+      "public/index.html",
+      "public/journey-3d-anatomy.js",
+      "public/journey-3d-geometry.js",
+      "public/journey-3d-world.js",
+      "public/journey-3d.css",
+      "public/journey-audio.js",
+      "public/journey-chambers.js",
+      "public/journey-engine.js",
+      "public/journey-geometry-loader.js",
+      "public/journey-geometry-worker.js",
+      "public/journey-guide.js",
+      "public/journey-myocardium.js",
+      "public/journey-physiology.js",
+      "public/journey-ui.js",
+      "public/journey-valves.js",
+      "public/learner.js",
+      "public/learning-assessment.js",
+      "public/model.js",
+      "public/oxygen-anatomy.js",
+      "public/oxygen-audio.js",
+      "public/oxygen-data.js",
+      "public/oxygen-engine.js",
+      "public/oxygen-flow.js",
+      "public/oxygen-game.js",
+      "public/oxygen-molecules.js",
+      "public/oxygen-mucociliary.js",
+      "public/oxygen-network.js",
+      "public/oxygen-world.js",
+      "public/oxygen.css",
+      "public/pharmacology.js",
+      "public/progress.js",
+      "public/quiz.js",
+      "public/semester5.js",
+      "public/storage.js",
+      "public/style.css",
+      "public/subjects.js",
+      "public/theme.css",
+      "public/three.core.min.js",
+      "public/three.module.min.js",
+      "public/ui.js"
+    ],
+    "missing": [],
+    "unknownRuntime": [
+      {
+        "file": "public/data.js",
+        "unknown": [
+          {
+            "kind": "url",
+            "line": 2
+          },
+          {
+            "kind": "url",
+            "line": 3
+          }
+        ]
+      }
+    ],
+    "gitObjectStorage": "count: 1216\nsize: 203.84 MiB\nin-pack: 430\npacks: 3\nsize-pack: 467.77 KiB\nprune-packable: 42\ngarbage: 1\nsize-garbage: 4.00 KiB"
+  },
+  "environmentBenchmark": {
+    "run": 45590994379,
+    "jobs": [
+      {
+        "name": "container-full",
+        "seconds": 80,
+        "steps": [
+          {
+            "name": "Set up job",
+            "seconds": 1
+          },
+          {
+            "name": "Initialize containers",
+            "seconds": 30
+          },
+          {
+            "name": "Checkout",
+            "seconds": 6
+          },
+          {
+            "name": "Node",
+            "seconds": 3
+          },
+          {
+            "name": "Registrér checkout",
+            "seconds": 0
+          },
+          {
+            "name": "npm-installation",
+            "seconds": 2
+          },
+          {
+            "name": "Node-tests",
+            "seconds": 18
+          },
+          {
+            "name": "Produktionsbuild",
+            "seconds": 2
+          },
+          {
+            "name": "WebGL og Pages-undermappe",
+            "seconds": 11
+          },
+          {
+            "name": "Registrér testmiljø",
+            "seconds": 0
+          },
+          {
+            "name": "Gem måledata",
+            "seconds": 2
+          },
+          {
+            "name": "Post Node",
+            "seconds": 0
+          },
+          {
+            "name": "Post Checkout",
+            "seconds": 0
+          },
+          {
+            "name": "Stop containers",
+            "seconds": 0
+          },
+          {
+            "name": "Complete job",
+            "seconds": 0
+          }
+        ]
+      },
+      {
+        "name": "cache-cold",
+        "seconds": 102,
+        "steps": [
+          {
+            "name": "Set up job",
+            "seconds": 2
+          },
+          {
+            "name": "Checkout",
+            "seconds": 14
+          },
+          {
+            "name": "Node",
+            "seconds": 3
+          },
+          {
+            "name": "Registrér checkout",
+            "seconds": 0
+          },
+          {
+            "name": "Cache npm",
+            "seconds": 1
+          },
+          {
+            "name": "Cache browser",
+            "seconds": 0
+          },
+          {
+            "name": "npm-installation",
+            "seconds": 2
+          },
+          {
+            "name": "Browserinstallation",
+            "seconds": 32
+          },
+          {
+            "name": "Node-tests",
+            "seconds": 18
+          },
+          {
+            "name": "Produktionsbuild",
+            "seconds": 2
+          },
+          {
+            "name": "WebGL og Pages-undermappe",
+            "seconds": 14
+          },
+          {
+            "name": "Registrér testmiljø",
+            "seconds": 0
+          },
+          {
+            "name": "Gem måledata",
+            "seconds": 2
+          },
+          {
+            "name": "Post Cache browser",
+            "seconds": 5
+          },
+          {
+            "name": "Post Cache npm",
+            "seconds": 2
+          },
+          {
+            "name": "Post Node",
+            "seconds": 0
+          },
+          {
+            "name": "Post Checkout",
+            "seconds": 0
+          },
+          {
+            "name": "Complete job",
+            "seconds": 0
+          }
+        ]
+      },
+      {
+        "name": "baseline",
+        "seconds": 85,
+        "steps": [
+          {
+            "name": "Set up job",
+            "seconds": 3
+          },
+          {
+            "name": "Checkout",
+            "seconds": 7
+          },
+          {
+            "name": "Node",
+            "seconds": 6
+          },
+          {
+            "name": "Registrér checkout",
+            "seconds": 0
+          },
+          {
+            "name": "npm-installation",
+            "seconds": 2
+          },
+          {
+            "name": "Browserinstallation",
+            "seconds": 35
+          },
+          {
+            "name": "Node-tests",
+            "seconds": 15
+          },
+          {
+            "name": "Produktionsbuild",
+            "seconds": 2
+          },
+          {
+            "name": "WebGL og Pages-undermappe",
+            "seconds": 12
+          },
+          {
+            "name": "Registrér testmiljø",
+            "seconds": 0
+          },
+          {
+            "name": "Gem måledata",
+            "seconds": 1
+          },
+          {
+            "name": "Post Node",
+            "seconds": 1
+          },
+          {
+            "name": "Post Checkout",
+            "seconds": 0
+          },
+          {
+            "name": "Complete job",
+            "seconds": 0
+          }
+        ]
+      },
+      {
+        "name": "container-sparse",
+        "seconds": 72,
+        "steps": [
+          {
+            "name": "Set up job",
+            "seconds": 0
+          },
+          {
+            "name": "Initialize containers",
+            "seconds": 30
+          },
+          {
+            "name": "Checkout",
+            "seconds": 1
+          },
+          {
+            "name": "Node",
+            "seconds": 1
+          },
+          {
+            "name": "Registrér checkout",
+            "seconds": 0
+          },
+          {
+            "name": "npm-installation",
+            "seconds": 1
+          },
+          {
+            "name": "Node-tests",
+            "seconds": 18
+          },
+          {
+            "name": "Produktionsbuild",
+            "seconds": 3
+          },
+          {
+            "name": "WebGL og Pages-undermappe",
+            "seconds": 12
+          },
+          {
+            "name": "Registrér testmiljø",
+            "seconds": 0
+          },
+          {
+            "name": "Gem måledata",
+            "seconds": 1
+          },
+          {
+            "name": "Post Node",
+            "seconds": 0
+          },
+          {
+            "name": "Post Checkout",
+            "seconds": 1
+          },
+          {
+            "name": "Stop containers",
+            "seconds": 0
+          },
+          {
+            "name": "Complete job",
+            "seconds": 0
+          }
+        ]
+      },
+      {
+        "name": "cache-warm",
+        "seconds": 103,
+        "steps": [
+          {
+            "name": "Set up job",
+            "seconds": 3
+          },
+          {
+            "name": "Checkout",
+            "seconds": 12
+          },
+          {
+            "name": "Node",
+            "seconds": 4
+          },
+          {
+            "name": "Registrér checkout",
+            "seconds": 1
+          },
+          {
+            "name": "Cache npm",
+            "seconds": 3
+          },
+          {
+            "name": "Cache browser",
+            "seconds": 5
+          },
+          {
+            "name": "npm-installation",
+            "seconds": 3
+          },
+          {
+            "name": "Browserinstallation",
+            "seconds": 37
+          },
+          {
+            "name": "Node-tests",
+            "seconds": 14
+          },
+          {
+            "name": "Produktionsbuild",
+            "seconds": 2
+          },
+          {
+            "name": "WebGL og Pages-undermappe",
+            "seconds": 12
+          },
+          {
+            "name": "Registrér testmiljø",
+            "seconds": 0
+          },
+          {
+            "name": "Gem måledata",
+            "seconds": 2
+          },
+          {
+            "name": "Post Cache browser",
+            "seconds": 0
+          },
+          {
+            "name": "Post Cache npm",
+            "seconds": 0
+          },
+          {
+            "name": "Post Node",
+            "seconds": 0
+          },
+          {
+            "name": "Post Checkout",
+            "seconds": 0
+          },
+          {
+            "name": "Complete job",
+            "seconds": 0
+          }
+        ]
+      },
+      {
+        "name": "sparse-cached",
+        "seconds": 74,
+        "steps": [
+          {
+            "name": "Set up job",
+            "seconds": 2
+          },
+          {
+            "name": "Checkout",
+            "seconds": 2
+          },
+          {
+            "name": "Node",
+            "seconds": 0
+          },
+          {
+            "name": "Registrér checkout",
+            "seconds": 0
+          },
+          {
+            "name": "Cache npm",
+            "seconds": 2
+          },
+          {
+            "name": "Cache browser",
+            "seconds": 5
+          },
+          {
+            "name": "npm-installation",
+            "seconds": 2
+          },
+          {
+            "name": "Browserinstallation",
+            "seconds": 23
+          },
+          {
+            "name": "Node-tests",
+            "seconds": 19
+          },
+          {
+            "name": "Produktionsbuild",
+            "seconds": 3
+          },
+          {
+            "name": "WebGL og Pages-undermappe",
+            "seconds": 11
+          },
+          {
+            "name": "Registrér testmiljø",
+            "seconds": 0
+          },
+          {
+            "name": "Gem måledata",
+            "seconds": 1
+          },
+          {
+            "name": "Post Cache browser",
+            "seconds": 1
+          },
+          {
+            "name": "Post Cache npm",
+            "seconds": 0
+          },
+          {
+            "name": "Post Node",
+            "seconds": 0
+          },
+          {
+            "name": "Post Checkout",
+            "seconds": 0
+          },
+          {
+            "name": "Complete job",
+            "seconds": 0
+          }
+        ]
+      }
+    ],
+    "profiles": [
+      {
+        "name": "baseline",
+        "lines": [
+          {
+            "profile": "baseline",
+            "stage": "checkout",
+            "at": "2026-11-25T10:02:00.695Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 714,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 219885726,
+            "browserCacheHit": null,
+            "npmCacheHit": null,
+            "browserDirectory": "default",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 739\npacks: 1\nsize-pack: 199558\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          },
+          {
+            "profile": "baseline",
+            "stage": "ready",
+            "at": "2026-11-25T10:03:06.941Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 714,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 219885726,
+            "browserCacheHit": "disabled",
+            "npmCacheHit": "disabled",
+            "browserDirectory": "default",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 739\npacks: 1\nsize-pack: 199558\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          }
+        ]
+      },
+      {
+        "name": "cache-cold",
+        "lines": [
+          {
+            "profile": "cache-cold",
+            "stage": "checkout",
+            "at": "2026-11-25T10:02:04.531Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 714,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 219885726,
+            "browserCacheHit": null,
+            "npmCacheHit": null,
+            "browserDirectory": "default",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 739\npacks: 1\nsize-pack: 199558\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          },
+          {
+            "profile": "cache-cold",
+            "stage": "ready",
+            "at": "2026-11-25T10:03:13.669Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 714,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 219885726,
+            "browserCacheHit": "false",
+            "npmCacheHit": "false",
+            "browserDirectory": "default",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 739\npacks: 1\nsize-pack: 199558\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          }
+        ]
+      },
+      {
+        "name": "cache-warm",
+        "lines": [
+          {
+            "profile": "cache-warm",
+            "stage": "checkout",
+            "at": "2026-11-25T10:03:49.356Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 714,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 219885726,
+            "browserCacheHit": null,
+            "npmCacheHit": null,
+            "browserDirectory": "default",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 739\npacks: 1\nsize-pack: 199558\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          },
+          {
+            "profile": "cache-warm",
+            "stage": "ready",
+            "at": "2026-11-25T10:05:05.762Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 714,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 219885726,
+            "browserCacheHit": "true",
+            "npmCacheHit": "true",
+            "browserDirectory": "default",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 739\npacks: 1\nsize-pack: 199558\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          }
+        ]
+      },
+      {
+        "name": "sparse-cached",
+        "lines": [
+          {
+            "profile": "sparse-cached",
+            "stage": "checkout",
+            "at": "2026-11-25T10:05:18.858Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 205,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 2316290,
+            "browserCacheHit": null,
+            "npmCacheHit": null,
+            "browserDirectory": "default",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 578\npacks: 2\nsize-pack: 773\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          },
+          {
+            "profile": "sparse-cached",
+            "stage": "ready",
+            "at": "2026-11-25T10:06:23.629Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 205,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 2316290,
+            "browserCacheHit": "true",
+            "npmCacheHit": "true",
+            "browserDirectory": "default",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 578\npacks: 2\nsize-pack: 773\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          }
+        ]
+      },
+      {
+        "name": "container-full",
+        "lines": [
+          {
+            "profile": "container-full",
+            "stage": "checkout",
+            "at": "2026-11-25T10:02:25.384Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 714,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 219885726,
+            "browserCacheHit": null,
+            "npmCacheHit": null,
+            "browserDirectory": "/ms-playwright",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 739\npacks: 1\nsize-pack: 199558\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          },
+          {
+            "profile": "container-full",
+            "stage": "ready",
+            "at": "2026-11-25T10:02:58.657Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 714,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 219885726,
+            "browserCacheHit": "preinstalled",
+            "npmCacheHit": "disabled",
+            "browserDirectory": "/ms-playwright",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 739\npacks: 1\nsize-pack: 199558\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          }
+        ]
+      },
+      {
+        "name": "container-sparse",
+        "lines": [
+          {
+            "profile": "container-sparse",
+            "stage": "checkout",
+            "at": "2026-11-25T10:03:39.605Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 205,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 2316290,
+            "browserCacheHit": null,
+            "npmCacheHit": null,
+            "browserDirectory": "/ms-playwright",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 578\npacks: 2\nsize-pack: 773\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          },
+          {
+            "profile": "container-sparse",
+            "stage": "ready",
+            "at": "2026-11-25T10:04:13.534Z",
+            "node": "v22.23.5",
+            "filesOnDisk": 205,
+            "trackedFiles": 714,
+            "trackedBytesOnDisk": 2316290,
+            "browserCacheHit": "preinstalled",
+            "npmCacheHit": "disabled",
+            "browserDirectory": "/ms-playwright",
+            "gitObjects": "count: 0\nsize: 0\nin-pack: 578\npacks: 2\nsize-pack: 773\nprune-packable: 0\ngarbage: 0\nsize-garbage: 0\n"
+          }
+        ]
+      }
+    ]
+  },
+  "buildComparison": {
+    "node": "v24.22.1",
+    "conditions": "Same local 2-core CPU quota, no concurrent browser rendering, same filesystem; three runs; wall-clock includes syntax checks and copying, not npm install",
+    "beforeCommit": "b69df9b0cee9d2a284824c8c5d6a07159fa30f0b",
+    "before": [
+      {
+        "seconds": 3.3856,
+        "files": 106,
+        "bytes": 1658272,
+        "output": "GitHub Pages artifact ready in dist/ (assets/0f3ca54c9959)"
+      },
+      {
+        "seconds": 2.8861,
+        "files": 106,
+        "bytes": 1658272,
+        "output": "GitHub Pages artifact ready in dist/ (assets/0f3ca54c9959)"
+      },
+      {
+        "seconds": 2.8545,
+        "files": 106,
+        "bytes": 1658272,
+        "output": "GitHub Pages artifact ready in dist/ (assets/0f3ca54c9959)"
+      }
+    ],
+    "after": [
+      {
+        "seconds": 1.1467,
+        "files": 103,
+        "bytes": 1652579,
+        "output": "Syntax checked with v24.22.1: 96 JavaScript files\nGitHub Pages artifact ready in dist/ (assets/0a171e7a4a71; 102 source files; 1652419 bytes; test-only omissions: 3)"
+      },
+      {
+        "seconds": 1.0681,
+        "files": 103,
+        "bytes": 1652579,
+        "output": "Syntax checked with v24.22.1: 96 JavaScript files\nGitHub Pages artifact ready in dist/ (assets/0a171e7a4a71; 102 source files; 1652419 bytes; test-only omissions: 3)"
+      },
+      {
+        "seconds": 0.9682,
+        "files": 103,
+        "bytes": 1652579,
+        "output": "Syntax checked with v24.22.1: 96 JavaScript files\nGitHub Pages artifact ready in dist/ (assets/0a171e7a4a71; 102 source files; 1652419 bytes; test-only omissions: 3)"
+      }
+    ]
+  },
+  "productionPreservation": {
+    "base": "b69df9b0cee9d2a284824c8c5d6a07159fa30f0b",
+    "checks": [
+      {
+        "file": "public/digestion-world.js",
+        "nonImportASTUnchanged": true
+      },
+      {
+        "file": "public/oxygen-game.js",
+        "nonImportASTUnchanged": true
+      }
+    ],
+    "otherPublicFilesByteIdentical": false,
+    "otherPublicFilesByteIdenticalExcept": [
+      "public/oxygen.css"
+    ],
+    "cssFix": {
+      "file": "public/oxygen.css",
+      "change": "landscape max-height clearance 18px -> 8px",
+      "viewport": [
+        568,
+        320
+      ],
+      "before": {
+        "infoBottom": 200.09375,
+        "panelTop": 218,
+        "panelBottom": 312,
+        "panelHeight": 94,
+        "buttonBottom": 313
+      },
+      "after": {
+        "infoBottom": 200.09375,
+        "panelTop": 209,
+        "panelBottom": 312,
+        "panelHeight": 103,
+        "buttonBottom": 304
+      },
+      "reason": "Existing font-dependent one-pixel button clipping found by newly enabled oxygen-layout test",
+      "preservesContentAndTouchTargets": true
+    }
+  },
+  "localFunctionDeclarationCandidates": []
+}

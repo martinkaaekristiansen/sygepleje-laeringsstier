@@ -96,6 +96,20 @@ export function createPlan({
     reasons.push('uncertain-diff');
     deploy = true;
   }
+  const unknownRuntime = [before, after].some((graph) =>
+    [...closure(graph, ['public/index.html'])].some(
+      (file) =>
+        !file.includes('/three.') &&
+        graph.nodes[file]?.unknown?.some((r) =>
+          ['dynamic-import', 'require', 'worker', 'fetch'].includes(r.kind),
+        ),
+    ),
+  );
+  if (files.length && unknownRuntime) {
+    full = true;
+    deploy = true;
+    reasons.push('unresolved-runtime-loading');
+  }
   for (const file of files) {
     const runtime = runtimeBefore.has(file) || runtimeAfter.has(file);
     if (CORE.test(file)) {
@@ -162,6 +176,7 @@ export function createPlan({
     forceFull ||
     uncertain ||
     deploy ||
+    files.some((f) => TEST_ONLY_PUBLIC_MODULES[f]) ||
     files.some((f) => /^(?:test|tests-browser|scripts)\//.test(f));
   return {
     version: 1,

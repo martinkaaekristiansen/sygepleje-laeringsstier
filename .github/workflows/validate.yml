@@ -5,9 +5,6 @@ on:
       force-full:
         type: boolean
         default: false
-      extras:
-        type: string
-        default: ''
     outputs:
       deploy:
         value: ${{ jobs.plan.outputs.deploy }}
@@ -50,7 +47,6 @@ jobs:
         id: plan
         env:
           CI_FORCE_FULL: ${{ inputs.force-full }}
-          CI_EXTRAS: ${{ inputs.extras }}
         run: |
           set -euo pipefail
           mkdir -p artifacts
@@ -171,8 +167,8 @@ jobs:
           name: timings-${{ matrix.id }}
           path: artifacts/browser/**/timings.json
           retention-days: 14
-      - name: Bevar diagnostik ved fejl eller bestilt dokumentation
-        if: failure() || matrix.extra != ''
+      - name: Bevar diagnostik ved fejl
+        if: failure()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: diagnostics-${{ matrix.id }}

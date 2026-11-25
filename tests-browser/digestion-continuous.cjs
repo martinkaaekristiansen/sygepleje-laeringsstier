@@ -18,6 +18,8 @@ fs.mkdirSync(output, { recursive: true });
   page.on('console', (m) => {
     if (m.type() === 'error') errors.push(m.text());
   });
+  await page.goto(base);
+  const moduleURL = await page.locator('script[type=module]').evaluate((e) => e.src);
   await page.route('**/?world-inspection', (r) =>
     r.fulfill({
       contentType: 'text/html',
@@ -25,15 +27,15 @@ fs.mkdirSync(output, { recursive: true });
     }),
   );
   await page.goto(base + '?world-inspection');
-  await page.evaluate(async () => {
-    const { createDigestionWorld } = await import(new URL('digestion-world.js', document.querySelector('script[type=module]').src));
-    const { buildDigestiveTract } = await import(new URL('digestion-tract.js', document.querySelector('script[type=module]').src));
-    const { ROUTE } = await import(new URL('digestion-data.js', document.querySelector('script[type=module]').src));
+  await page.evaluate(async (moduleURL) => {
+    const { createDigestionWorld } = await import(new URL('digestion-world.js', moduleURL));
+    const { buildDigestiveTract } = await import(new URL('digestion-tract.js', moduleURL));
+    const { ROUTE } = await import(new URL('digestion-data.js', moduleURL));
     window.tract = buildDigestiveTract();
     window.ROUTE = ROUTE;
     window.world = createDigestionWorld(document.querySelector('canvas'));
     window.world.settings({ motion: true });
-  });
+  }, moduleURL);
   async function capture(
     name,
     caption,
@@ -149,24 +151,27 @@ fs.mkdirSync(output, { recursive: true });
         { id, yaw: back ? Math.PI : 0 },
       );
   for (const which of ['inlet', 'outlet']) {
-    const angles = await page.evaluate(async (which) => {
-      const T = await import(new URL('three.module.min.js', document.querySelector('script[type=module]').src)),
-        { createRouteCamera } = await import(new URL('digestion-route-camera.js', document.querySelector('script[type=module]').src));
-      const rig = createRouteCamera(window.tract);
-      rig.begin('stomach', 'travel');
-      const pose = rig.pose('stomach'),
-        base = new T.PerspectiveCamera(74, 1, 0.03, 180);
-      base.position.copy(pose.position);
-      base.up.copy(pose.up);
-      base.lookAt(pose.look);
-      const target = base.clone();
-      target.lookAt(window.tract.byId.stomach[which].center);
-      const e = new T.Euler().setFromQuaternion(
-        base.quaternion.clone().invert().multiply(target.quaternion),
-        'YXZ',
-      );
-      return { yaw: e.y, pitch: T.MathUtils.clamp(e.x, -1.25, 1.25) };
-    }, which);
+    const angles = await page.evaluate(
+      async ({ which, moduleURL }) => {
+        const T = await import(new URL('three.module.min.js', moduleURL)),
+          { createRouteCamera } = await import(new URL('digestion-route-camera.js', moduleURL));
+        const rig = createRouteCamera(window.tract);
+        rig.begin('stomach', 'travel');
+        const pose = rig.pose('stomach'),
+          base = new T.PerspectiveCamera(74, 1, 0.03, 180);
+        base.position.copy(pose.position);
+        base.up.copy(pose.up);
+        base.lookAt(pose.look);
+        const target = base.clone();
+        target.lookAt(window.tract.byId.stomach[which].center);
+        const e = new T.Euler().setFromQuaternion(
+          base.quaternion.clone().invert().multiply(target.quaternion),
+          'YXZ',
+        );
+        return { yaw: e.y, pitch: T.MathUtils.clamp(e.x, -1.25, 1.25) };
+      },
+      { which, moduleURL },
+    );
     await capture(
       `ventrikel-${which === 'inlet' ? 'cardia' : 'pylorus'}.png`,
       `${which === 'inlet' ? 'Cardia og indgangen fra oesophagus' : 'Pylorus og fortsættelsen mod duodenum'}. Samme kamerasted i mavesækken; kun blikket drejes. Væggen er solid.`,

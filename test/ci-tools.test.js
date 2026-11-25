@@ -27,7 +27,7 @@ import { GROUPS, LEGACY, allBrowserFiles, selectGroups } from '../scripts/ci/tes
 import { tasksFor } from '../scripts/ci/browser-tasks.js';
 import { runChild } from '../scripts/ci/run-browser.js';
 import { startStaticServer } from '../scripts/static-server.js';
-const { devices } = createRequire(import.meta.url)('../tests-browser/ci-shards.cjs');
+const { devices, levels } = createRequire(import.meta.url)('../tests-browser/ci-shards.cjs');
 function fixture(t) {
   const root = mkdtempSync(path.join(os.tmpdir(), 'ci-tools-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
@@ -106,6 +106,11 @@ test('selectors retain union of CSS, transitive logic, core and unknown changes'
   ])
     assert.equal(make([file]).full, true, file);
   assert.equal(make(['tests-browser/digestion.cjs']).deploy, false);
+  assert.equal(make(['public/digestion-camera.js']).validate, true);
+  assert.equal(make(['public/digestion-camera.js']).deploy, false);
+  graph.nodes['public/shared.js'].unknown = [{ kind: 'dynamic-import' }];
+  assert.equal(make(['docs/report.md']).full, true);
+  assert.equal(make(['docs/report.md']).deploy, true);
 });
 test('whole push range retains multiple commits, renamed/deleted dependencies and merges', (t) => {
   const f = fixture(t);
@@ -186,6 +191,14 @@ test('full matrix covers both devices and shared V2 assertions without clock acc
     assert(tasks.some((t) => t.group === group && t.device === 'desktop'));
   }
   assert(tasks.some((t) => t.group === 'digestion-resume' && t.section === 'shared'));
+  for (const device of ['desktop', 'mobile'])
+    for (const level of ['easy', 'medium', 'hard'])
+      assert(
+        tasks.some(
+          (t) => t.group === 'oxygen-journeys' && t.device === device && t.level === level,
+        ),
+      );
+  assert.deepEqual(levels(), ['easy', 'medium', 'hard']);
   assert.throws(() => tasksFor(['unknown']));
   assert.throws(() => devices('bad'));
   assert.deepEqual(devices(), [false, true]);

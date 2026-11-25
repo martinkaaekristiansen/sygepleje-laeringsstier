@@ -39,7 +39,7 @@ fs.mkdirSync(output, { recursive: true });
       p.on('dialog', (d) => d.accept());
       return p;
     }
-    let page = await makePage(),
+    let page = await makePage(process.env.CI_V2_SECTION === 'shared'),
       writes = null;
     if (process.env.CI_V2_SECTION && !['checkpoints', 'shared'].includes(process.env.CI_V2_SECTION))
       throw Error('Invalid V2 section');

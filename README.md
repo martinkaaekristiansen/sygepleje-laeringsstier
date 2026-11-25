@@ -61,10 +61,12 @@ Build kontrollerer JavaScript-syntaks og opretter `dist/`. Filadresser indeholde
 
 `tests-browser/acceptance.cjs` tester fjernet underviseradgang og publicering, fjernet læringssti på nye og eksisterende enheder, alle 56 spørgsmål, svarændringer, forklaringer, genstart, refleksioner, progression, migration, dybe links og mobilvisning.
 
-Med Playwright og Chromium installeret kan testen køres mod den lokale server:
+Med Playwright og Chromium installeret kan de fælles og fulde funktionelle kontroller køres mod produktionsbuildet. Testkommandoerne starter selv isolerede servere under Pages-undermappen:
 
 ```sh
-PLAYWRIGHT_MODULE=/sti/til/playwright CHROMIUM_PATH=/sti/til/chromium APP_URL=http://localhost:3000 npm run test:browser
+npm run build
+npm run test:browser:smoke
+npm run test:browser
 ```
 
 `tests-browser/blood-game.cjs` tester de tre spilruter, to passager, liv, genstart, vedvarende gennemførelser, mus/tastatur/touch og mobilvisning. Spilmotorens anatomiske ruter testes separat i `test/journey.test.js`.
@@ -77,7 +79,7 @@ GitHub Actions kører også browsertesten mod en undermappe svarende til GitHub 
 2. Åbn repositoryets **Settings → Pages**. På GitHub Free skal repositoryet være offentligt.
 3. Under **Build and deployment**: sæt **Source** til **GitHub Actions**.
 4. Åbn **Actions → Udgiv Læringsstier på GitHub Pages**. Workflowen starter ved ændringer på `main`. Du kan også vælge **Run workflow**, vælge `main` og starte den manuelt.
-5. Vent på grønne flueben ved både **build** og **deploy**.
+5. Vent på grønne flueben ved **build**, **prepare** og **deploy**. Testvalg, fælles kontroller og relevant regression skal være bestået. Dokumentation alene udløser ingen ny deploy.
 6. Åbn hjemmesiden og kontrollér ændringen. En lokal test eller en gemt workflow er ikke i sig selv en bekræftet offentlig udgivelse.
 
 Adresse efter vellykket udgivelse:
@@ -108,3 +110,9 @@ UCN-farverne følger den leverede oversigt: brand blå mørk `#004250`, brand bl
 - GitHub Actions stopper ved enhver fejl i browser-testpipelines og gemmer diagnostik ved fejl.
 
 [Faglig gennemgang og åbne godkendelsespunkter](docs/content-review.md) · [Ændringer og afprøvning](docs/quality-0100.md).
+
+## CI, regression og historisk dokumentation
+
+Små kendte tekstrettelser får alle Node-tests, build og fælles platform-/spilkontrol. Spilændringer får relevante regressioner ud fra indirekte afhængigheder; lagring, fælles kernemoduler, build, workflow og ukendte ændringer får fuld funktionel regression. Alle tre spil indgår. PR-kontroller og natlige/manuelle regressioner har ingen udgivelsesrettigheder. Kun Pages-workflowen på `main` kan udgive.
+
+Se [den samlede optimeringsrapport](docs/codex-platform-optimering/10-afsluttende-rapport.md), [testvalg og caching](docs/codex-platform-optimering/05-ci-cd-optimering.md) og [arkiveringsplanen](docs/codex-platform-optimering/06-arkiveringsplan.md). Historiske screenshots og videoer er bevaret. Store testartifacts ligger i `artifacts/` lokalt eller som tidsbegrænsede Actions-artifacts; bevidst faglig dokumentation under `docs/` er fortsat versionsstyret.

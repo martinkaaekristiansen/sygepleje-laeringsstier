@@ -70,7 +70,8 @@ const { base, launch, seed, state, saved } = require('./oxygen-fixtures.cjs');
         if (height <= 500 && width >= 500)
           assert(
             r.buttons.every((b) => b.y >= r.panel.y && b.bottom <= r.panel.bottom),
-            'whole landscape answer buttons visible',
+            'whole landscape answer buttons visible: ' +
+              JSON.stringify({ width, height, stage, r }),
           );
         assert(r.panel.bottom <= height);
         assert(r.bodyWidth <= width);

@@ -8,7 +8,7 @@
     "start": "node server.js",
     "test": "node --test test/*.test.js",
     "build": "node scripts/build.js",
-    "test:browser": "node tests-browser/digestion-phase-a.cjs && node tests-browser/digestion-oral-mobile.cjs && node tests-browser/digestion-labels.cjs && node tests-browser/digestion-hcl.cjs && node tests-browser/digestion-enzyme-continuity.cjs && node tests-browser/digestion-microbiota.cjs && node tests-browser/digestion.cjs && node tests-browser/digestion-audio.cjs && node tests-browser/digestion-v2.cjs && node tests-browser/review.cjs && node tests-browser/acceptance.cjs && node tests-browser/blood-game.cjs && node tests-browser/journey-audio.cjs && node tests-browser/journey-anatomy.cjs && node tests-browser/journey-guide.cjs && node tests-browser/journey-3d.cjs && node tests-browser/circulation.cjs && node tests-browser/quality-fixes.cjs && node tests-browser/game-viewport.cjs",
+    "test:browser": "npm run test:browser:full",
     "build:preview": "node scripts/build-preview.js",
     "build:preview:3d": "node scripts/build-3d-preview.js",
     "test:browser:digestion-b": "node tests-browser/digestion-phase-b.cjs",
@@ -29,7 +29,7 @@
     "test:browser:oxygen-build": "node tests-browser/oxygen-build.cjs",
     "test:syntax": "node scripts/ci/check-syntax.js",
     "test:browser:smoke": "node scripts/ci/run-browser.js core",
-    "test:browser:full": "node scripts/ci/run-browser.js full"
+    "test:browser:full": "node scripts/ci/run-browser.js core && node scripts/ci/run-browser.js full"
   },
   "engines": {
     "node": ">=22"

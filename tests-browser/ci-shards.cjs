@@ -6,4 +6,10 @@ function devices(legacy = undefined) {
   if (!['desktop', 'mobile'].includes(device)) throw Error('Invalid device selector: ' + device);
   return [device === 'mobile'];
 }
-module.exports = { devices };
+function levels() {
+  const level = process.env.CI_LEVEL;
+  if (!level) return ['easy', 'medium', 'hard'];
+  if (!['easy', 'medium', 'hard'].includes(level)) throw Error('Invalid level selector: ' + level);
+  return [level];
+}
+module.exports = { devices, levels };

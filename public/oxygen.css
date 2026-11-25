@@ -502,7 +502,7 @@
     left: 105px;
     right: 10px;
     bottom: 8px;
-    max-height: min(36%, max(0px, calc(100% - var(--oxygen-info-end, 160px) - 18px)));
+    max-height: min(36%, max(0px, calc(100% - var(--oxygen-info-end, 160px) - 8px)));
     padding: 7px 9px;
   }
   .oxygen-game .digest-panel h2 {

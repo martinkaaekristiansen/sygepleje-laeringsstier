@@ -7,11 +7,6 @@ on:
   schedule:
     - cron: '20 2 * * *'
   workflow_dispatch:
-    inputs:
-      extras:
-        description: 'Valgfrit: performance, visual eller performance,visual'
-        type: string
-        default: ''
 permissions:
   contents: read
 concurrency:
@@ -22,4 +17,3 @@ jobs:
     uses: ./.github/workflows/validate.yml
     with:
       force-full: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
-      extras: ${{ inputs.extras || '' }}

@@ -55,6 +55,7 @@ export async function runTask(task) {
     ...process.env,
     APP_URL: server.url,
     CI_DEVICE: task.device || '',
+    CI_LEVEL: task.level || '',
     CI_V2_SECTION: task.section || '',
     OXYGEN_TEST_SPEED: '1',
   };

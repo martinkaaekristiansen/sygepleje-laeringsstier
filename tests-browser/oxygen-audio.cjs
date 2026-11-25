@@ -16,6 +16,11 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright'),
     const active = await p.locator('canvas').getAttribute('data-oxygen-audio');
     assert(JSON.parse(active).unlocked);
     await p.locator('[data-oxygen=settings]').click();
+    // Diagnostics are throttled; let the final requested pause frame commit
+    // before comparing two snapshots of the paused camera.
+    await p.evaluate(
+      () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+    );
     const a = await state(p);
     await p.waitForTimeout(500);
     assert.deepEqual((await state(p)).camera.position, a.camera.position);
