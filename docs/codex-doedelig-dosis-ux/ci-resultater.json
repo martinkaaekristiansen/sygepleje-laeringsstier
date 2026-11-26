@@ -1,0 +1,417 @@
+{
+  "pr": {
+    "id": 45876080085,
+    "url": "https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45876080085",
+    "head": "b59a4f0f027372e17159026183d0330ab2c147d7",
+    "status": "completed",
+    "conclusion": "success",
+    "created": "2026-11-26T18:27:33Z",
+    "updated": "2026-11-26T18:40:37Z",
+    "jobs": [
+      {
+        "id": 140103375941,
+        "name": "validation / plan",
+        "conclusion": "success",
+        "started": "2026-11-26T18:27:36Z",
+        "completed": "2026-11-26T18:28:02Z"
+      },
+      {
+        "id": 140103589041,
+        "name": "validation / core",
+        "conclusion": "success",
+        "started": "2026-11-26T18:28:04Z",
+        "completed": "2026-11-26T18:31:03Z"
+      },
+      {
+        "id": 140104974015,
+        "name": "validation / regression (digestion-resume-desktop)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:05Z",
+        "completed": "2026-11-26T18:35:44Z"
+      },
+      {
+        "id": 140104974024,
+        "name": "validation / regression (oxygen-journeys-desktop-medium)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:05Z",
+        "completed": "2026-11-26T18:38:38Z"
+      },
+      {
+        "id": 140104974058,
+        "name": "validation / regression (digestion-journeys-mobile)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:06Z",
+        "completed": "2026-11-26T18:39:53Z"
+      },
+      {
+        "id": 140104974071,
+        "name": "validation / regression (blood-anatomy)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:05Z",
+        "completed": "2026-11-26T18:35:44Z"
+      },
+      {
+        "id": 140104974073,
+        "name": "validation / regression (digestion-journeys-desktop)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:05Z",
+        "completed": "2026-11-26T18:40:29Z"
+      },
+      {
+        "id": 140104974075,
+        "name": "validation / regression (digestion-layout)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:06Z",
+        "completed": "2026-11-26T18:35:09Z"
+      },
+      {
+        "id": 140104974114,
+        "name": "validation / regression (oxygen-journeys-mobile-easy)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:07Z",
+        "completed": "2026-11-26T18:38:16Z"
+      },
+      {
+        "id": 140104974121,
+        "name": "validation / regression (digestion-audio-mobile)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:05Z",
+        "completed": "2026-11-26T18:34:56Z"
+      },
+      {
+        "id": 140104974123,
+        "name": "validation / regression (oxygen-functional)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:35:10Z",
+        "completed": "2026-11-26T18:37:26Z"
+      },
+      {
+        "id": 140104974137,
+        "name": "validation / regression (blood-journey)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:34:57Z",
+        "completed": "2026-11-26T18:38:28Z"
+      },
+      {
+        "id": 140104974144,
+        "name": "validation / regression (dose-investigation)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:32:57Z",
+        "completed": "2026-11-26T18:34:37Z"
+      },
+      {
+        "id": 140104974148,
+        "name": "validation / regression (oxygen-journeys-desktop-easy)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:06Z",
+        "completed": "2026-11-26T18:38:40Z"
+      },
+      {
+        "id": 140104974151,
+        "name": "validation / regression (oxygen-journeys-desktop-hard)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:05Z",
+        "completed": "2026-11-26T18:37:55Z"
+      },
+      {
+        "id": 140104974155,
+        "name": "validation / regression (digestion-resume-mobile)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:06Z",
+        "completed": "2026-11-26T18:34:55Z"
+      },
+      {
+        "id": 140104974157,
+        "name": "validation / regression (digestion-world)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:34:58Z",
+        "completed": "2026-11-26T18:37:44Z"
+      },
+      {
+        "id": 140104974160,
+        "name": "validation / regression (oxygen-journeys-mobile-medium)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:05Z",
+        "completed": "2026-11-26T18:37:32Z"
+      },
+      {
+        "id": 140104974178,
+        "name": "validation / regression (digestion-resume-shared)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:06Z",
+        "completed": "2026-11-26T18:32:55Z"
+      },
+      {
+        "id": 140104974201,
+        "name": "validation / regression (blood-controls)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:34:38Z",
+        "completed": "2026-11-26T18:36:53Z"
+      },
+      {
+        "id": 140104974204,
+        "name": "validation / regression (digestion-audio-desktop)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:05Z",
+        "completed": "2026-11-26T18:35:24Z"
+      },
+      {
+        "id": 140104974205,
+        "name": "validation / regression (digestion-physiology)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:06Z",
+        "completed": "2026-11-26T18:37:20Z"
+      },
+      {
+        "id": 140104974253,
+        "name": "validation / regression (oxygen-journeys-mobile-hard)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:31:05Z",
+        "completed": "2026-11-26T18:37:20Z"
+      },
+      {
+        "id": 140104974400,
+        "name": "validation / regression (oxygen-layout)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:35:27Z",
+        "completed": "2026-11-26T18:37:59Z"
+      },
+      {
+        "id": 140109212729,
+        "name": "validation / gate",
+        "conclusion": "success",
+        "started": "2026-11-26T18:40:32Z",
+        "completed": "2026-11-26T18:40:37Z"
+      }
+    ]
+  },
+  "pages": {
+    "id": 45877894721,
+    "url": "https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45877894721",
+    "head": "e607953b9b3d3073c8a9dadc5a48340b21055870",
+    "status": "completed",
+    "conclusion": "success",
+    "created": "2026-11-26T18:41:11Z",
+    "updated": "2026-11-26T18:53:02Z",
+    "jobs": [
+      {
+        "id": 140109522477,
+        "name": "build / plan",
+        "conclusion": "success",
+        "started": "2026-11-26T18:41:13Z",
+        "completed": "2026-11-26T18:41:35Z"
+      },
+      {
+        "id": 140109691550,
+        "name": "build / core",
+        "conclusion": "success",
+        "started": "2026-11-26T18:41:37Z",
+        "completed": "2026-11-26T18:43:49Z"
+      },
+      {
+        "id": 140110656426,
+        "name": "build / regression (digestion-journeys-mobile)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:52:27Z"
+      },
+      {
+        "id": 140110656430,
+        "name": "build / regression (digestion-journeys-desktop)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:52:28Z"
+      },
+      {
+        "id": 140110656453,
+        "name": "build / regression (digestion-resume-shared)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:52Z",
+        "completed": "2026-11-26T18:45:41Z"
+      },
+      {
+        "id": 140110656464,
+        "name": "build / regression (oxygen-journeys-desktop-hard)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:50:51Z"
+      },
+      {
+        "id": 140110656481,
+        "name": "build / regression (digestion-audio-mobile)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:47:28Z"
+      },
+      {
+        "id": 140110656482,
+        "name": "build / regression (digestion-resume-desktop)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:49:15Z"
+      },
+      {
+        "id": 140110656491,
+        "name": "build / regression (digestion-audio-desktop)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:48:21Z"
+      },
+      {
+        "id": 140110656511,
+        "name": "build / regression (oxygen-journeys-desktop-medium)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:52Z",
+        "completed": "2026-11-26T18:50:56Z"
+      },
+      {
+        "id": 140110656512,
+        "name": "build / regression (oxygen-journeys-mobile-medium)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:50:31Z"
+      },
+      {
+        "id": 140110656551,
+        "name": "build / regression (digestion-resume-mobile)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:52Z",
+        "completed": "2026-11-26T18:47:36Z"
+      },
+      {
+        "id": 140110656555,
+        "name": "build / regression (oxygen-journeys-mobile-easy)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:52Z",
+        "completed": "2026-11-26T18:51:09Z"
+      },
+      {
+        "id": 140110656561,
+        "name": "build / regression (oxygen-journeys-mobile-hard)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:49:52Z"
+      },
+      {
+        "id": 140110656563,
+        "name": "build / regression (digestion-layout)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:47:51Z"
+      },
+      {
+        "id": 140110656571,
+        "name": "build / regression (oxygen-journeys-desktop-easy)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:52Z",
+        "completed": "2026-11-26T18:51:29Z"
+      },
+      {
+        "id": 140110656573,
+        "name": "build / regression (dose-investigation)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:45:43Z",
+        "completed": "2026-11-26T18:47:12Z"
+      },
+      {
+        "id": 140110656588,
+        "name": "build / regression (digestion-physiology)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:50:49Z"
+      },
+      {
+        "id": 140110657002,
+        "name": "build / regression (blood-anatomy)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:43:51Z",
+        "completed": "2026-11-26T18:47:16Z"
+      },
+      {
+        "id": 140110657006,
+        "name": "build / regression (oxygen-layout)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:47:52Z",
+        "completed": "2026-11-26T18:50:15Z"
+      },
+      {
+        "id": 140110657077,
+        "name": "build / regression (blood-journey)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:47:19Z",
+        "completed": "2026-11-26T18:49:50Z"
+      },
+      {
+        "id": 140110657112,
+        "name": "build / regression (digestion-world)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:47:29Z",
+        "completed": "2026-11-26T18:50:37Z"
+      },
+      {
+        "id": 140110657115,
+        "name": "build / regression (blood-controls)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:47:14Z",
+        "completed": "2026-11-26T18:49:14Z"
+      },
+      {
+        "id": 140110657148,
+        "name": "build / regression (oxygen-functional)",
+        "conclusion": "success",
+        "started": "2026-11-26T18:47:38Z",
+        "completed": "2026-11-26T18:49:51Z"
+      },
+      {
+        "id": 140114386197,
+        "name": "build / gate",
+        "conclusion": "success",
+        "started": "2026-11-26T18:52:30Z",
+        "completed": "2026-11-26T18:52:32Z"
+      },
+      {
+        "id": 140114417723,
+        "name": "prepare",
+        "conclusion": "success",
+        "started": "2026-11-26T18:52:35Z",
+        "completed": "2026-11-26T18:52:43Z"
+      },
+      {
+        "id": 140114492841,
+        "name": "deploy",
+        "conclusion": "success",
+        "started": "2026-11-26T18:52:47Z",
+        "completed": "2026-11-26T18:53:01Z"
+      }
+    ]
+  },
+  "nodeTests": 282,
+  "asset": "a7be319f5e1a",
+  "live": {
+    "id": 45879551053,
+    "url": "https://github.com/martinkaaekristiansen/sygepleje-laeringsstier/actions/runs/45879551053",
+    "head": "f5146a663c8bfb8260fab1b5a4bd5be0cb8efdf5",
+    "checkedOutCommit": "e607953b9b3d3073c8a9dadc5a48340b21055870",
+    "status": "completed",
+    "conclusion": "success",
+    "created": "2026-11-26T18:54:10Z",
+    "updated": "2026-11-26T18:56:51Z",
+    "jobs": [
+      {
+        "id": 140115114272,
+        "name": "live",
+        "conclusion": "success",
+        "started": "2026-11-26T18:54:13Z",
+        "completed": "2026-11-26T18:56:50Z"
+      }
+    ],
+    "checks": [
+      "acceptance",
+      "quality-fixes",
+      "smoke-games",
+      "dose-investigation",
+      "dose-ux"
+    ],
+    "certificateVerification": "normal TLS; no certificate overrides"
+  }
+}

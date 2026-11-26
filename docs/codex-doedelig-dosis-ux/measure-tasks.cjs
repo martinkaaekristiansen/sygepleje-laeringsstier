@@ -30,7 +30,12 @@ const root = path.resolve(__dirname, '../..'),
   try {
     for (const mode of ['before', 'after']) {
       const server = await startStaticServer({
-        root: path.join(mode === 'before' ? '/workspace/work/doedelig-dosis' : root, 'dist'),
+        root: path.join(
+          mode === 'before'
+            ? process.env.DOSE_BASELINE || path.resolve(root, '../doedelig-dosis')
+            : root,
+          'dist',
+        ),
         prefix: '/sygepleje-laeringsstier/',
       });
       try {

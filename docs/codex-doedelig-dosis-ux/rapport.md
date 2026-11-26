@@ -8,7 +8,7 @@ Den tidligere værktøjslinje viste otte ligeværdige valg, næste scene lå eft
 
 - Fire permanente hovedfaner med ikon og dansk tekst: **Efterforskning, Notesbog, Sporetavle, Sagsarkiv**. Mobil har fast bundnavigation med safe-area. Hypoteser, opslag, hjælp, afslutning, eksport og udskrift ligger i menuen. Nulstilling ligger under Administrér sagen og kræver bekræftelse.
 - Næste handling åbner med ét tryk fra hele scenen. Første fire tilgængelige muligheder vises i original rækkefølge, resten under Se øvrige efterforskningsmuligheder. Ingen rangering efter afgørende spor eller korrekte svar.
-- Scenen prioriterer titel, sted/tid, kompakt fuldt billede og kildetekst. Alle originale fotos kan forstørres. Ingen oplysninger er beskåret ud af billedfilerne. Førstehjælp er kort og kan afvises.
+- Scenen prioriterer titel, sted/tid, kompakt fuldt billede og kildetekst. Alle originale fotos kan forstørres. Ingen oplysninger er beskåret ud af billedfilerne. Førstegangshjælp er kort og kan afvises.
 - Ensartet éttryksgemning, deduplikering, enkeltprøver og tekstmarkering bevarer kilden. Hurtig scenenote kræver ikke værktøjsskift. Gemning udskifter ikke dokumentets DOM og flytter ikke læsepositionen.
 - Notesbogen viser læsekort. Redigering, kommentar og kategori åbnes på kortet. Kategori er valgfri; nye noter får den generelle kategori, indtil brugeren vælger andet. Søgning opdateres direkte og bevarer fokus og tekstmarkør. Eksport/kopi/udskrift er sekundære handlinger.
 - Sporetavlen kan forbinde to valgte noter uden obligatorisk forklaring. Forklaringen kan tilføjes/redigeres senere. Træk, tastaturflytning, formularalternativ, kilde, redigering og sletning bevares. Nye kort får ledige pladser; tidligere gemte koordinater ændres ikke. Intern rulning og størrelsesvalg supplerer en fuld liste på mobil. Ingen faglige forbindelser oprettes automatisk.
@@ -99,7 +99,7 @@ UI-udvidelsen koster 23574 ukomprimerede bytes (ca. 0.83 % af hele buildet). For
 
 ## Visuel dokumentation
 
-[Åbn galleriets HTML-fil](galleri.html). Hent mappen med `galleri.html`, `before/` og `after/`, og åbn HTML-filen lokalt; desktop/mobil kan vælges øverst. 15 sammenlignelige tilstande ved to viewports giver **60 kuraterede før/efter-billeder**. Derudover er screenshots fra de komplette ruter og layoutkontrollen bevaret. Galleri og rapport indeholder caseoplysninger og kopieres ikke til det offentlige Pages-build.
+[Se billederne direkte på GitHub](billedoversigt.md) eller [åbn galleriets HTML-fil](galleri.html). Hent mappen med `galleri.html`, `before/` og `after/`, og åbn HTML-filen lokalt; desktop/mobil kan vælges øverst. 15 sammenlignelige tilstande ved to viewports giver **60 kuraterede før/efter-billeder**. Derudover er screenshots fra de komplette ruter og layoutkontrollen bevaret. Galleri og rapport indeholder caseoplysninger og kopieres ikke til det offentlige Pages-build.
 
 Sagsmapper, indledning, interview, journal, blodprøver, administration, næste handling, notesbog, tavle, arkiv, hypotese, hjælp, afslutning, rekonstruktion og UTH har alle før/efter-billeder. Forklaringer står ved hvert billedpar.
 
@@ -109,4 +109,4 @@ Ingen kendte blokerende fejl i de gennemførte tests. Browsermålingerne er Chro
 
 ## Udgivelse
 
-Se [udgivelseskontrol](publicering.md). Backupbranch `backup-main-foer-doedelig-dosis-ux` peger på det ovenstående udgangspunkt. Main ændres først efter beståede kontroller. Ingen force-push eller sletning af udviklings-/backupbranches.
+Se [udgivelseskontrol](publicering.md). Backupbranch `backup-main-foer-doedelig-dosis-ux` peger på det ovenstående udgangspunkt. Main er opdateret gennem PR #14 efter alle beståede kontroller. Pages og den offentlige version er efterfølgende verificeret. Ingen force-push eller sletning af udviklings-/backupbranches.
