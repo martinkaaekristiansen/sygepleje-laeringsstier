@@ -1,0 +1,92 @@
+[
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "task": "Primær navigation ved start",
+    "visiblePrimary": 8,
+    "documentHeight": 1535
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "task": "Næste handling fra dokumentstart",
+    "requiredClicks": 0,
+    "scrollPixels": 698
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "task": "Notesbog med tre noter",
+    "visibleEditors": 9,
+    "requiredFields": 0,
+    "documentHeight": 2239
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "task": "Forbindelse mellem to noter",
+    "requiredFields": 3
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "task": "Start af afslutning",
+    "visibleFreeFields": 9,
+    "documentHeight": 2334
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "task": "Primær navigation ved start",
+    "visiblePrimary": 8,
+    "documentHeight": 2138
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "task": "Næste handling fra dokumentstart",
+    "requiredClicks": 0,
+    "scrollPixels": 1273
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "task": "Notesbog med tre noter",
+    "visibleEditors": 9,
+    "requiredFields": 0,
+    "documentHeight": 3340
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "task": "Forbindelse mellem to noter",
+    "requiredFields": 3
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "task": "Start af afslutning",
+    "visibleFreeFields": 9,
+    "documentHeight": 2730
+  }
+]

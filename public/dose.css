@@ -645,3 +645,288 @@
     display: none;
   }
 }
+/* Shared investigation UX. Clinical documents keep their original contents. */
+.dose-game {
+  overflow: clip;
+}
+.dose-game [hidden] {
+  display: none !important;
+}
+.dose-game .dose-tools {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 8px 20px;
+}
+.dose-tools button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+}
+.dose-actionbar {
+  position: fixed;
+  bottom: 16px;
+  right: max(20px, calc((100vw - 1280px) / 2));
+  z-index: 18;
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  background: #10212df5;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px #0007;
+  max-width: calc(100vw - 24px);
+}
+.dose-content {
+  padding-bottom: 110px;
+}
+.dose-game :is(input, select, textarea, summary, button) {
+  scroll-margin-block: 100px 180px;
+}
+.dose-game summary {
+  min-height: 44px;
+  display: list-item;
+  align-content: center;
+}
+.dose-game .dose-photo img {
+  object-fit: contain;
+  height: min(220px, 25vw);
+  aspect-ratio: auto;
+  background: #0b1822;
+}
+.dose-image-open {
+  position: absolute;
+  bottom: 35px;
+  right: 8px;
+  font-size: 0.78rem !important;
+  background: #10212dee !important;
+}
+.dose-full-image img {
+  height: auto !important;
+  max-height: 75dvh;
+}
+.dose-dialog {
+  background: #122430;
+  color: #e7edf1;
+  border: 1px solid #647e8f;
+  border-radius: 12px;
+  width: min(800px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 24px);
+  padding: 20px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.dose-dialog::backdrop {
+  background: #031018bb;
+}
+.dose-dialog-top {
+  display: flex;
+  justify-content: end;
+  position: sticky;
+  top: -20px;
+  background: #122430;
+  z-index: 2;
+  padding: 6px 0;
+}
+.dose-menu {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.dose-game .dose-destructive {
+  border-color: #cd968c;
+  color: #ffcec6;
+  background: #3c252b;
+}
+.dose-note-content {
+  white-space: pre-wrap;
+  max-height: 180px;
+  overflow: auto;
+}
+.dose-notes .dose-note {
+  padding: 14px 18px;
+}
+.dose-note-editor {
+  padding: 0 12px !important;
+}
+.dose-filters {
+  grid-template-columns: 1fr 1fr;
+  margin: 10px 0;
+}
+.dose-board-scroll {
+  overflow: auto;
+  max-height: 58dvh;
+  border: 1px solid #5a6c78;
+  border-radius: 8px;
+  margin: 16px 0;
+  overscroll-behavior: contain;
+}
+.dose-board {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  max-width: none;
+}
+.dose-game .dose-pin {
+  width: 18%;
+  max-height: 9%;
+  min-height: 44px;
+  font-size: 0.8rem;
+  padding: 8px;
+}
+.dose-game .dose-pin[aria-pressed='true'] {
+  color: #10232b;
+  background: #f9e7a2;
+  border: 3px solid #b16f12;
+  box-shadow: 0 0 0 3px #fff8;
+}
+.dose-board-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.dose-board-list article {
+  padding: 12px;
+  background: #1a2f3c;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.dose-board-list p {
+  max-height: 140px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+.dose-archive-list .dose-choices button {
+  width: 100%;
+  height: 100%;
+}
+.dose-game .dose-cover {
+  min-height: 320px;
+}
+.dose-game .dose-cover-copy {
+  max-width: 650px;
+}
+.dose-preview {
+  padding: 8px 12px;
+  border-left: 3px solid var(--accent);
+}
+@media (max-width: 800px) {
+  .dose-game .dose-photo img {
+    height: 130px;
+  }
+  .dose-game .dose-photo {
+    max-width: 100%;
+  }
+  .dose-game .dose-tools {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    padding: 5px 4px calc(5px + env(safe-area-inset-bottom));
+    gap: 3px;
+    box-shadow: 0 -3px 18px #0006;
+  }
+  .dose-tools button {
+    flex-direction: column;
+    gap: 0;
+    font-size: 0.72rem;
+    padding: 5px 1px;
+    min-height: 52px;
+  }
+  .dose-tools button > span:first-child {
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+  .dose-actionbar {
+    bottom: calc(72px + env(safe-area-inset-bottom));
+    right: 12px;
+    padding: 4px;
+  }
+  .dose-actionbar button {
+    font-size: 0.82rem;
+    padding: 8px 12px;
+  }
+  .dose-content {
+    padding-bottom: calc(170px + env(safe-area-inset-bottom));
+  }
+  .dose-bottom {
+    padding-bottom: calc(75px + env(safe-area-inset-bottom));
+  }
+  .dose-game .dose-cover {
+    min-height: 0;
+    padding: 20px;
+  }
+  .dose-cover h1 {
+    font-size: 2.7rem;
+  }
+  .dose-board-list {
+    grid-template-columns: 1fr;
+  }
+  .dose-game .dose-pin {
+    width: 18%;
+    font-size: 0.8rem;
+    max-height: 9%;
+  }
+}
+@media (max-height: 450px) and (max-width: 900px) {
+  .dose-dialog {
+    max-height: calc(100dvh - 12px);
+    padding: 12px;
+  }
+  .dose-tools button {
+    flex-direction: row;
+    min-height: 44px;
+    gap: 4px;
+  }
+  .dose-actionbar {
+    bottom: calc(60px + env(safe-area-inset-bottom));
+  }
+}
+@media print {
+  .dose-actionbar,
+  .dose-dialog,
+  .dose-board-scroll {
+    display: none !important;
+  }
+  .dose-game .dose-tools {
+    display: none !important;
+  }
+  .dose-game section[hidden] {
+    display: block !important;
+  }
+}
+/* Feedback uses the existing status line, without shifting a document on save. */
+.dose-game #dose-message {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  padding: 0;
+  margin: 0;
+}
+.dose-save {
+  min-height: 26px;
+}
+.dose-game .dose-pin:hover {
+  background: #ece5cb;
+  color: #142a33;
+}
+.dose-game .dose-pin[aria-pressed='true']:hover {
+  background: #f9e7a2;
+  color: #10232b;
+}
+.dose-welcome {
+  padding: 12px 16px;
+  background: #162a37;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  margin: 16px 0;
+}

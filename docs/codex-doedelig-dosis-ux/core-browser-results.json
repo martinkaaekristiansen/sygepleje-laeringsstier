@@ -1,0 +1,32 @@
+{
+  "task": {
+    "id": "core",
+    "group": "core"
+  },
+  "results": [
+    {
+      "file": "acceptance",
+      "started": "2026-11-26T18:12:55.299Z",
+      "passed": true,
+      "seconds": 8.741
+    },
+    {
+      "file": "quality-fixes",
+      "started": "2026-11-26T18:13:04.040Z",
+      "passed": true,
+      "seconds": 5.854
+    },
+    {
+      "file": "oxygen-build",
+      "started": "2026-11-26T18:13:09.894Z",
+      "passed": true,
+      "seconds": 21.239
+    },
+    {
+      "file": "smoke-games",
+      "started": "2026-11-26T18:13:31.133Z",
+      "passed": true,
+      "seconds": 94.211
+    }
+  ]
+}

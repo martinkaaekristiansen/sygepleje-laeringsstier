@@ -1,0 +1,635 @@
+{
+  "opening": {
+    "schema": 1,
+    "version": 1,
+    "caseId": "sag-001",
+    "revision": 0,
+    "status": "active",
+    "scene": "briefing",
+    "visited": [
+      "briefing"
+    ],
+    "found": [
+      "opening"
+    ],
+    "notes": [],
+    "links": [],
+    "hypotheses": [],
+    "hints": [],
+    "drafts": {},
+    "report": null,
+    "evaluation": null,
+    "uth": {},
+    "updatedAt": 0
+  },
+  "wife": {
+    "schema": 1,
+    "version": 1,
+    "caseId": "sag-001",
+    "revision": 0,
+    "status": "active",
+    "scene": "wife",
+    "visited": [
+      "briefing",
+      "wife"
+    ],
+    "found": [
+      "opening",
+      "yellow-vision",
+      "wife-context"
+    ],
+    "notes": [],
+    "links": [],
+    "hypotheses": [],
+    "hints": [],
+    "drafts": {},
+    "report": null,
+    "evaluation": null,
+    "uth": {},
+    "updatedAt": 0
+  },
+  "rich": {
+    "schema": 1,
+    "version": 1,
+    "caseId": "sag-001",
+    "revision": 0,
+    "status": "active",
+    "scene": "vitals",
+    "visited": [
+      "briefing",
+      "wife",
+      "room",
+      "admission",
+      "daughter",
+      "friend",
+      "nursing",
+      "vitals",
+      "fluid",
+      "labs",
+      "medicines",
+      "wife-followup",
+      "day-nurse",
+      "evening-nurse",
+      "doctor",
+      "ecg",
+      "infection",
+      "bleeding",
+      "heart-failure",
+      "administration",
+      "dispensing",
+      "nurse-followup",
+      "lookup-digoxin",
+      "lookup-furosemid",
+      "lookup-ramipril",
+      "lookup-apixaban",
+      "lookup-atorvastatin",
+      "lookup-metformin",
+      "targeted",
+      "evening-followup"
+    ],
+    "found": [
+      "opening",
+      "yellow-vision",
+      "wife-context",
+      "room-findings",
+      "bedside-items",
+      "history",
+      "admission-treatment",
+      "vomiting",
+      "friend-fatigue",
+      "old-vitamins",
+      "nursing-symptoms",
+      "missed-escalation",
+      "vital-trend",
+      "fluid-loss",
+      "creatinine",
+      "potassium",
+      "magnesium",
+      "other-labs",
+      "medication-list",
+      "prior-reduction",
+      "morning-dose",
+      "handover",
+      "renal-review",
+      "test-request",
+      "rhythm",
+      "infection-check",
+      "bleeding-check",
+      "heart-check",
+      "given-doses",
+      "strength-error",
+      "repeat-dose",
+      "barriers",
+      "drug-digoxin",
+      "drug-furosemid",
+      "drug-ramipril",
+      "drug-apixaban",
+      "drug-atorvastatin",
+      "drug-metformin",
+      "wife-return",
+      "concentration",
+      "unread-result"
+    ],
+    "notes": [
+      {
+        "id": "n-1",
+        "content": "Kreatinin\n10. marts: 102 µmol/L. 12. marts: 218 µmol/L. Vejledende interval for voksne mænd: 60–105 µmol/L.",
+        "source": "labs",
+        "clue": "creatinine",
+        "category": "Blodprøver",
+        "comment": "",
+        "x": 10,
+        "y": 10,
+        "pinned": true
+      },
+      {
+        "id": "n-2",
+        "content": "Kalium\n10. marts: 3,6 mmol/L. 12. marts: 2,9 mmol/L. Vejledende interval: 3,5–4,4 mmol/L.",
+        "source": "labs",
+        "clue": "potassium",
+        "category": "Blodprøver",
+        "comment": "",
+        "x": 39,
+        "y": 10,
+        "pinned": true
+      },
+      {
+        "id": "n-3",
+        "content": "Registrerede administrationer\n10/3 kl. 08.00: Digoxin 250 µg, 1 tablet. 11/3 kl. 08.00: Digoxin 250 µg, 1 tablet. 12/3 kl. 08.00: Digoxin 250 µg, 1 tablet, signeret Sara. 12/3 kl. 12.00: Digoxin 250 µg, 1 tablet, signeret af anden dagvagt. Ordinationslisten angiver 62,5 µg én gang dagligt.",
+        "source": "administration",
+        "clue": "given-doses",
+        "category": "Medicin",
+        "comment": "",
+        "x": 68,
+        "y": 10,
+        "pinned": true
+      }
+    ],
+    "links": [
+      {
+        "from": "n-1",
+        "to": "n-3",
+        "label": "Min hypotese: undersøg om ændret organfunktion har betydning for medicinen."
+      }
+    ],
+    "hypotheses": [
+      {
+        "checkpoint": 1,
+        "choice": "unknown",
+        "content": "Jeg mangler endnu oplysninger.",
+        "confidence": 20,
+        "evidence": [
+          "creatinine"
+        ],
+        "at": 30
+      }
+    ],
+    "hints": [
+      {
+        "level": 1,
+        "text": "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?"
+      }
+    ],
+    "drafts": {
+      "free-0": "Min selvstændige foreløbige forklaring"
+    },
+    "report": null,
+    "evaluation": null,
+    "uth": {
+      "0": "Fiktiv undervisningsrapport",
+      "2": "Dødsfald i den fiktive sag"
+    },
+    "updatedAt": 0,
+    "noteSequence": 3
+  },
+  "finishing": {
+    "schema": 1,
+    "version": 1,
+    "caseId": "sag-001",
+    "revision": 0,
+    "status": "active",
+    "scene": "vitals",
+    "visited": [
+      "briefing",
+      "wife",
+      "room",
+      "admission",
+      "daughter",
+      "friend",
+      "nursing",
+      "vitals",
+      "fluid",
+      "labs",
+      "medicines",
+      "wife-followup",
+      "day-nurse",
+      "evening-nurse",
+      "doctor",
+      "ecg",
+      "infection",
+      "bleeding",
+      "heart-failure",
+      "administration",
+      "dispensing",
+      "nurse-followup",
+      "lookup-digoxin",
+      "lookup-furosemid",
+      "lookup-ramipril",
+      "lookup-apixaban",
+      "lookup-atorvastatin",
+      "lookup-metformin",
+      "targeted",
+      "evening-followup"
+    ],
+    "found": [
+      "opening",
+      "yellow-vision",
+      "wife-context",
+      "room-findings",
+      "bedside-items",
+      "history",
+      "admission-treatment",
+      "vomiting",
+      "friend-fatigue",
+      "old-vitamins",
+      "nursing-symptoms",
+      "missed-escalation",
+      "vital-trend",
+      "fluid-loss",
+      "creatinine",
+      "potassium",
+      "magnesium",
+      "other-labs",
+      "medication-list",
+      "prior-reduction",
+      "morning-dose",
+      "handover",
+      "renal-review",
+      "test-request",
+      "rhythm",
+      "infection-check",
+      "bleeding-check",
+      "heart-check",
+      "given-doses",
+      "strength-error",
+      "repeat-dose",
+      "barriers",
+      "drug-digoxin",
+      "drug-furosemid",
+      "drug-ramipril",
+      "drug-apixaban",
+      "drug-atorvastatin",
+      "drug-metformin",
+      "wife-return",
+      "concentration",
+      "unread-result"
+    ],
+    "notes": [
+      {
+        "id": "n-1",
+        "content": "Kreatinin\n10. marts: 102 µmol/L. 12. marts: 218 µmol/L. Vejledende interval for voksne mænd: 60–105 µmol/L.",
+        "source": "labs",
+        "clue": "creatinine",
+        "category": "Blodprøver",
+        "comment": "",
+        "x": 10,
+        "y": 10,
+        "pinned": true
+      },
+      {
+        "id": "n-2",
+        "content": "Kalium\n10. marts: 3,6 mmol/L. 12. marts: 2,9 mmol/L. Vejledende interval: 3,5–4,4 mmol/L.",
+        "source": "labs",
+        "clue": "potassium",
+        "category": "Blodprøver",
+        "comment": "",
+        "x": 39,
+        "y": 10,
+        "pinned": true
+      },
+      {
+        "id": "n-3",
+        "content": "Registrerede administrationer\n10/3 kl. 08.00: Digoxin 250 µg, 1 tablet. 11/3 kl. 08.00: Digoxin 250 µg, 1 tablet. 12/3 kl. 08.00: Digoxin 250 µg, 1 tablet, signeret Sara. 12/3 kl. 12.00: Digoxin 250 µg, 1 tablet, signeret af anden dagvagt. Ordinationslisten angiver 62,5 µg én gang dagligt.",
+        "source": "administration",
+        "clue": "given-doses",
+        "category": "Medicin",
+        "comment": "",
+        "x": 68,
+        "y": 10,
+        "pinned": true
+      }
+    ],
+    "links": [
+      {
+        "from": "n-1",
+        "to": "n-3",
+        "label": "Min hypotese: undersøg om ændret organfunktion har betydning for medicinen."
+      }
+    ],
+    "hypotheses": [
+      {
+        "checkpoint": 1,
+        "choice": "unknown",
+        "content": "Jeg mangler endnu oplysninger.",
+        "confidence": 20,
+        "evidence": [
+          "creatinine"
+        ],
+        "at": 30
+      }
+    ],
+    "hints": [
+      {
+        "level": 1,
+        "text": "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?"
+      }
+    ],
+    "drafts": {
+      "free-0": "Min selvstændige foreløbige forklaring",
+      "answer-ordered": "62,5"
+    },
+    "report": {
+      "free": {
+        "0": "Min selvstændige foreløbige forklaring"
+      },
+      "evidence": [
+        "creatinine"
+      ],
+      "answers": {}
+    },
+    "evaluation": null,
+    "uth": {
+      "0": "Fiktiv undervisningsrapport",
+      "2": "Dødsfald i den fiktive sag"
+    },
+    "updatedAt": 0,
+    "noteSequence": 3
+  },
+  "complete": {
+    "schema": 1,
+    "version": 1,
+    "caseId": "sag-001",
+    "revision": 0,
+    "status": "complete",
+    "scene": "vitals",
+    "visited": [
+      "briefing",
+      "wife",
+      "room",
+      "admission",
+      "daughter",
+      "friend",
+      "nursing",
+      "vitals",
+      "fluid",
+      "labs",
+      "medicines",
+      "wife-followup",
+      "day-nurse",
+      "evening-nurse",
+      "doctor",
+      "ecg",
+      "infection",
+      "bleeding",
+      "heart-failure",
+      "administration",
+      "dispensing",
+      "nurse-followup",
+      "lookup-digoxin",
+      "lookup-furosemid",
+      "lookup-ramipril",
+      "lookup-apixaban",
+      "lookup-atorvastatin",
+      "lookup-metformin",
+      "targeted",
+      "evening-followup"
+    ],
+    "found": [
+      "opening",
+      "yellow-vision",
+      "wife-context",
+      "room-findings",
+      "bedside-items",
+      "history",
+      "admission-treatment",
+      "vomiting",
+      "friend-fatigue",
+      "old-vitamins",
+      "nursing-symptoms",
+      "missed-escalation",
+      "vital-trend",
+      "fluid-loss",
+      "creatinine",
+      "potassium",
+      "magnesium",
+      "other-labs",
+      "medication-list",
+      "prior-reduction",
+      "morning-dose",
+      "handover",
+      "renal-review",
+      "test-request",
+      "rhythm",
+      "infection-check",
+      "bleeding-check",
+      "heart-check",
+      "given-doses",
+      "strength-error",
+      "repeat-dose",
+      "barriers",
+      "drug-digoxin",
+      "drug-furosemid",
+      "drug-ramipril",
+      "drug-apixaban",
+      "drug-atorvastatin",
+      "drug-metformin",
+      "wife-return",
+      "concentration",
+      "unread-result"
+    ],
+    "notes": [
+      {
+        "id": "n-1",
+        "content": "Kreatinin\n10. marts: 102 µmol/L. 12. marts: 218 µmol/L. Vejledende interval for voksne mænd: 60–105 µmol/L.",
+        "source": "labs",
+        "clue": "creatinine",
+        "category": "Blodprøver",
+        "comment": "",
+        "x": 10,
+        "y": 10,
+        "pinned": true
+      },
+      {
+        "id": "n-2",
+        "content": "Kalium\n10. marts: 3,6 mmol/L. 12. marts: 2,9 mmol/L. Vejledende interval: 3,5–4,4 mmol/L.",
+        "source": "labs",
+        "clue": "potassium",
+        "category": "Blodprøver",
+        "comment": "",
+        "x": 39,
+        "y": 10,
+        "pinned": true
+      },
+      {
+        "id": "n-3",
+        "content": "Registrerede administrationer\n10/3 kl. 08.00: Digoxin 250 µg, 1 tablet. 11/3 kl. 08.00: Digoxin 250 µg, 1 tablet. 12/3 kl. 08.00: Digoxin 250 µg, 1 tablet, signeret Sara. 12/3 kl. 12.00: Digoxin 250 µg, 1 tablet, signeret af anden dagvagt. Ordinationslisten angiver 62,5 µg én gang dagligt.",
+        "source": "administration",
+        "clue": "given-doses",
+        "category": "Medicin",
+        "comment": "",
+        "x": 68,
+        "y": 10,
+        "pinned": true
+      }
+    ],
+    "links": [
+      {
+        "from": "n-1",
+        "to": "n-3",
+        "label": "Min hypotese: undersøg om ændret organfunktion har betydning for medicinen."
+      }
+    ],
+    "hypotheses": [
+      {
+        "checkpoint": 1,
+        "choice": "unknown",
+        "content": "Jeg mangler endnu oplysninger.",
+        "confidence": 20,
+        "evidence": [
+          "creatinine"
+        ],
+        "at": 30
+      }
+    ],
+    "hints": [
+      {
+        "level": 1,
+        "text": "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?"
+      }
+    ],
+    "drafts": {
+      "free-0": "Min selvstændige foreløbige forklaring"
+    },
+    "report": {
+      "free": {
+        "0": "Min forklaring 1",
+        "1": "Min forklaring 2",
+        "2": "Min forklaring 3",
+        "3": "Min forklaring 4",
+        "4": "Min forklaring 5",
+        "5": "Min forklaring 6",
+        "6": "Min forklaring 7",
+        "7": "Min forklaring 8",
+        "8": "Min forklaring 9"
+      },
+      "evidence": [
+        "creatinine",
+        "given-doses"
+      ],
+      "answers": {
+        "cause": "toxicity",
+        "drug": "digoxin",
+        "error": "both",
+        "ordered": 62.5,
+        "administered": 500,
+        "ratio": 8,
+        "mechanism": {
+          "pump": "calcium",
+          "vagus": "conduction",
+          "kidney": "accumulation"
+        },
+        "renal": "less",
+        "electrolytes": "sensitivity",
+        "warnings": [
+          "circulation",
+          "symptoms",
+          "renal"
+        ],
+        "prevention": [
+          "order",
+          "prepare",
+          "give",
+          "follow"
+        ]
+      }
+    },
+    "evaluation": {
+      "total": 100,
+      "max": 100,
+      "results": [
+        {
+          "id": "cause",
+          "correct": true,
+          "points": 20,
+          "max": 20
+        },
+        {
+          "id": "drug",
+          "correct": true,
+          "points": 10,
+          "max": 10
+        },
+        {
+          "id": "error",
+          "correct": true,
+          "points": 5,
+          "max": 5
+        },
+        {
+          "id": "ordered",
+          "correct": true,
+          "points": 5,
+          "max": 5
+        },
+        {
+          "id": "administered",
+          "correct": true,
+          "points": 5,
+          "max": 5
+        },
+        {
+          "id": "ratio",
+          "correct": true,
+          "points": 5,
+          "max": 5
+        },
+        {
+          "id": "mechanism",
+          "correct": true,
+          "points": 10,
+          "max": 10
+        },
+        {
+          "id": "renal",
+          "correct": true,
+          "points": 5,
+          "max": 5
+        },
+        {
+          "id": "electrolytes",
+          "correct": true,
+          "points": 5,
+          "max": 5
+        },
+        {
+          "id": "warnings",
+          "correct": true,
+          "points": 15,
+          "max": 15
+        },
+        {
+          "id": "prevention",
+          "correct": true,
+          "points": 15,
+          "max": 15
+        }
+      ]
+    },
+    "uth": {
+      "0": "Fiktiv undervisningsrapport",
+      "2": "Dødsfald i den fiktive sag"
+    },
+    "updatedAt": 0,
+    "noteSequence": 3
+  }
+}

@@ -1,7 +1,11 @@
 // Every existing browser entrypoint has an explicit role. Fixtures are listed
 // separately; adding a new test without classifying it fails the registry test.
 export const GROUPS = {
-  'dose-investigation': { domains: ['dose'], tags: ['journey', 'layout', 'storage'], files: ['dose-investigation'] },
+  'dose-investigation': {
+    domains: ['dose'],
+    tags: ['journey', 'layout', 'storage'],
+    files: ['dose-investigation', 'dose-ux'],
+  },
   core: {
     domains: ['platform'],
     tags: ['smoke'],

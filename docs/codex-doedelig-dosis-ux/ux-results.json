@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "legacySaves": 5,
+  "viewports": [
+    {
+      "width": 320,
+      "height": 568,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    },
+    {
+      "width": 375,
+      "height": 667,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "height": 800,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "primaryTabs": 4,
+      "nextClicks": 1,
+      "overflow": false
+    }
+  ],
+  "fixture": "infusion",
+  "focusAndScrollLosses": 0
+}

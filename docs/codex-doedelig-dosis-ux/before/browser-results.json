@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "journeys": [
+    {
+      "run": 1,
+      "mobile": false,
+      "seconds": 13.309,
+      "storageBytes": 5148,
+      "requests": 93
+    },
+    {
+      "run": 2,
+      "mobile": true,
+      "seconds": 9.601,
+      "storageBytes": 4687,
+      "requests": 93
+    },
+    {
+      "run": 3,
+      "mobile": false,
+      "seconds": 9.832,
+      "storageBytes": 4938,
+      "requests": 93
+    },
+    {
+      "run": 4,
+      "mobile": true,
+      "seconds": 9.988,
+      "storageBytes": 4915,
+      "requests": 93
+    }
+  ],
+  "viewports": 8
+}
