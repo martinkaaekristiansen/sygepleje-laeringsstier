@@ -1,0 +1,156 @@
+{
+  "date": "2026-11-26T18:24:42.689Z",
+  "conditions": {
+    "node": "v24.22.1",
+    "browser": "Playwright 1.56.1 Chromium",
+    "viewport": "1280 × 800",
+    "cache": "new browser context per sample",
+    "network": "local static server, identical Pages subpath, no throttling",
+    "samples": 3,
+    "limitations": "Local timing is not a physical iPhone or public-network benchmark; small differences are noise."
+  },
+  "build": {
+    "before": {
+      "samplesMs": [
+        1279.236206,
+        784.2406339999998,
+        727.431431
+      ],
+      "medianMs": 784.2406339999998,
+      "bytes": 2825625,
+      "files": 127,
+      "asset": "assets/db987f5385ae"
+    },
+    "after": {
+      "samplesMs": [
+        830.5361130000001,
+        1087.6511449999998,
+        910.3468709999997
+      ],
+      "medianMs": 910.3468709999997,
+      "bytes": 2849199,
+      "files": 128,
+      "asset": "assets/a7be319f5e1a"
+    }
+  },
+  "home": {
+    "before": [
+      {
+        "domContentLoadedMs": 285.59999999403954,
+        "loadMs": 285.69999999552965,
+        "resourceBytes": 1475096,
+        "requests": 87,
+        "newGameImages": 0,
+        "heapBytesRounded": 10000000,
+        "heapBytes": 4126692
+      },
+      {
+        "domContentLoadedMs": 142.39999999850988,
+        "loadMs": 142.5,
+        "resourceBytes": 1475096,
+        "requests": 87,
+        "newGameImages": 0,
+        "heapBytesRounded": 10000000,
+        "heapBytes": 4158988
+      },
+      {
+        "domContentLoadedMs": 192.80000000447035,
+        "loadMs": 192.80000000447035,
+        "resourceBytes": 1475096,
+        "requests": 87,
+        "newGameImages": 0,
+        "heapBytesRounded": 10000000,
+        "heapBytes": 4154484
+      }
+    ],
+    "after": [
+      {
+        "domContentLoadedMs": 136.29999999701977,
+        "loadMs": 136.39999999850988,
+        "resourceBytes": 1475096,
+        "requests": 87,
+        "newGameImages": 0,
+        "heapBytesRounded": 10000000,
+        "heapBytes": 4121184
+      },
+      {
+        "domContentLoadedMs": 179,
+        "loadMs": 179.20000000298023,
+        "resourceBytes": 1475096,
+        "requests": 87,
+        "newGameImages": 0,
+        "heapBytesRounded": 10000000,
+        "heapBytes": 4318996
+      },
+      {
+        "domContentLoadedMs": 151.79999999701977,
+        "loadMs": 152.39999999850988,
+        "resourceBytes": 1475096,
+        "requests": 87,
+        "newGameImages": 0,
+        "heapBytesRounded": 10000000,
+        "heapBytes": 4169996
+      }
+    ]
+  },
+  "game": {
+    "before": [
+      {
+        "interactiveMs": 180,
+        "readyMs": 198,
+        "resourceBytes": 1712276,
+        "images": 3,
+        "heapBytesRounded": 10000000,
+        "domNodes": 81,
+        "heapBytes": 5322672
+      },
+      {
+        "interactiveMs": 196,
+        "readyMs": 216,
+        "resourceBytes": 1712276,
+        "images": 3,
+        "heapBytesRounded": 10000000,
+        "domNodes": 81,
+        "heapBytes": 5385912
+      },
+      {
+        "interactiveMs": 149,
+        "readyMs": 180,
+        "resourceBytes": 1712276,
+        "images": 3,
+        "heapBytesRounded": 10000000,
+        "domNodes": 81,
+        "heapBytes": 5377980
+      }
+    ],
+    "after": [
+      {
+        "interactiveMs": 151,
+        "readyMs": 169,
+        "resourceBytes": 1735850,
+        "images": 3,
+        "heapBytesRounded": 10000000,
+        "domNodes": 93,
+        "heapBytes": 5435592
+      },
+      {
+        "interactiveMs": 157,
+        "readyMs": 173,
+        "resourceBytes": 1735850,
+        "images": 3,
+        "heapBytesRounded": 10000000,
+        "domNodes": 93,
+        "heapBytes": 5637628
+      },
+      {
+        "interactiveMs": 141,
+        "readyMs": 169,
+        "resourceBytes": 1735850,
+        "images": 3,
+        "heapBytesRounded": 10000000,
+        "domNodes": 93,
+        "heapBytes": 5499544
+      }
+    ]
+  }
+}

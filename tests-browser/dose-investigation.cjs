@@ -81,8 +81,30 @@ async function action(page, name, value) {
     Promise.all(document.getAnimations().map((a) => a.finished.catch(() => {}))),
   );
   const selector = `[data-dose="${name}"]${value === undefined ? '' : `[data-value="${value}"]`}`;
-  if (page.doseTouch) await page.locator(selector).first().tap();
-  else await page.locator(selector).first().click();
+  if (
+    name === 'visit' &&
+    !(await page.locator(selector).count()) &&
+    (await page.locator(`[data-dose=preview][data-value="${value}"]`).count())
+  )
+    await action(page, 'preview', value);
+  const target = page.locator(selector).filter({ visible: true }).first();
+  if (!(await target.count())) {
+    if (await page.locator('dialog[open]').count())
+      await page.locator('[data-dose=close-panel]').click();
+    const existing = page.locator(selector).first();
+    if (await existing.count())
+      await existing.evaluate((el) => {
+        for (let p = el.parentElement; p; p = p.parentElement)
+          if (p.tagName === 'DETAILS') p.open = true;
+      });
+    if (!(await existing.isVisible())) await page.locator('[data-dose=menu]').click();
+  } else if (
+    (await page.locator('dialog[open]').count()) &&
+    !(await target.evaluate((el) => !!el.closest('dialog')))
+  )
+    await page.locator('[data-dose=close-panel]').click();
+  if (page.doseTouch) await page.locator(selector).filter({ visible: true }).first().tap();
+  else await page.locator(selector).filter({ visible: true }).first().click();
   if (name === 'start') {
     try {
       await page.locator('.dose-documents,.dose-score').first().waitFor({ timeout: 10000 });
@@ -107,16 +129,16 @@ async function action(page, name, value) {
 async function visit(page, id) {
   if (id.startsWith('lookup-')) await action(page, 'reference');
   let target = page.locator(`[data-dose=visit][data-value="${id}"]`).first();
-  for (let p = 0; !(await target.count()) && p < 12; p++) {
-    const next = page.locator('[data-dose=page]').filter({ hasText: 'Flere muligheder' });
-    if (!(await next.count()) || (await next.isDisabled())) break;
-    await next.click();
-    target = page.locator(`[data-dose=visit][data-value="${id}"]`).first();
-  }
   if (!(await target.count())) {
     await action(page, 'archive');
+    await action(page, 'preview', id);
     target = page.locator(`[data-dose=visit][data-value="${id}"]`).first();
   }
+  if (await target.count())
+    await target.evaluate((el) => {
+      for (let p = el.parentElement; p; p = p.parentElement)
+        if (p.tagName === 'DETAILS') p.open = true;
+    });
   assert(
     await target.count(),
     'Scene unavailable in UI: ' + id + '; ' + (await page.locator('.dose-content').innerText()),
@@ -141,23 +163,30 @@ async function complete(page, data) {
       .count(),
     0,
   );
-  for (let i = 0; i < data.freeQuestions.length; i++)
-    await page.locator(`[data-draft=free-${i}]`).fill('Min selvstændige begrundelse ' + i);
-  await page.locator('form[data-form=free-report] button:not([type=button])').click();
-  for (const q of data.assessment) {
-    if (q.type === 'number')
-      await page.locator(`[name="${q.id}"]`).fill(String(q.correct).replace('.', ','));
-    else if (q.type === 'order')
-      for (let i = 0; i < q.correct.length; i++)
-        await page.locator(`[name="${q.id}-${i}"]`).selectOption(q.correct[i]);
-    else if (q.type === 'match')
-      for (const [k, v] of Object.entries(q.correct))
-        await page.locator(`[name="${q.id}-${k}"]`).selectOption(v);
-    else if (q.type === 'multi')
-      for (const id of q.correct) await page.locator(`[name="${q.id}"][value="${id}"]`).check();
-    else await page.locator(`[name="${q.id}"][value="${q.correct}"]`).check();
+  for (let guard = 0; guard < 30 && !(await page.locator('.dose-score').count()); guard++) {
+    const free = page.locator('form[data-form=free-report]');
+    if (await free.count()) {
+      for (const field of await free.locator('textarea').all())
+        await field.fill('Min selvstændige begrundelse');
+      await free.locator('button:not([type=button])').click();
+    } else {
+      for (const q of data.assessment) {
+        if (!(await page.locator(`[name="${q.id}"],[name^="${q.id}-"]`).count())) continue;
+        if (q.type === 'number')
+          await page.locator(`[name="${q.id}"]`).fill(String(q.correct).replace('.', ','));
+        else if (q.type === 'order')
+          for (let i = 0; i < q.correct.length; i++)
+            await page.locator(`[name="${q.id}-${i}"]`).selectOption(q.correct[i]);
+        else if (q.type === 'match')
+          for (const [k, v] of Object.entries(q.correct))
+            await page.locator(`[name="${q.id}-${k}"]`).selectOption(v);
+        else if (q.type === 'multi')
+          for (const id of q.correct) await page.locator(`[name="${q.id}"][value="${id}"]`).check();
+        else await page.locator(`[name="${q.id}"][value="${q.correct}"]`).check();
+      }
+      await page.locator('form[data-form=assessment] button:not([type=button])').click();
+    }
   }
-  await page.locator('form[data-form=assessment] button:not([type=button])').click();
   await page.locator('.dose-score').waitFor();
   const s = await state(page);
   assert.equal(s.evaluation.total, 100);
@@ -280,11 +309,13 @@ async function complete(page, data) {
             .fill('<img src=x onerror="window.injected=1"> Min egen note');
           await page.locator('form[data-form=note] button:not([type=button])').click();
           assert.equal(await page.evaluate(() => window.injected), undefined);
+          await page.locator('.dose-note-editor summary').first().click();
           const note = page.locator('[data-note][data-part=comment]').first();
           await note.fill('Min kommentar gemmes straks');
           await action(page, 'pin', (await state(page)).notes[0].id);
           await action(page, 'pin', (await state(page)).notes[1].id);
           await action(page, 'board');
+          await page.getByText('Forbind via formular (alle noter)', { exact: true }).click();
           const notes = (await state(page)).notes;
           await page.locator('[name=from]').selectOption(notes[0].id);
           await page.locator('[name=to]').selectOption(notes[1].id);
@@ -346,6 +377,7 @@ async function complete(page, data) {
       for (const id of data.critical) assert(collected.found.includes(id), id);
       await action(page, 'hints');
       for (const n of [1, 2, 3]) await action(page, 'hint', String(n));
+      await action(page, 'close-panel');
       assert.equal((await state(page)).hints.length, 3);
       if (run === 0) {
         await action(page, 'reference');
@@ -423,6 +455,7 @@ async function complete(page, data) {
     await page.locator('.dose-warning').waitFor();
     assert.equal(await page.evaluate((k) => localStorage.getItem(k), key), '{bad');
     await action(page, 'catalog');
+    await page.getByText('Administrér sagen', { exact: true }).click();
     await action(page, 'reset', 'sag-001');
     assert.equal(await page.evaluate((k) => localStorage.getItem(k), key), null);
     await action(page, 'start', 'sag-001');

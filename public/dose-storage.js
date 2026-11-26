@@ -4,13 +4,14 @@ export function openCaseStore(data, storage) {
   const key = saveKey(data.id);
   let blocked = false,
     warning = '',
+    notice = '',
     original = null,
     state;
   try {
     original = storage.getItem(key);
     state = original ? restoreState(data, JSON.parse(original)) : freshState(data);
     if (original && JSON.parse(original).version !== data.version)
-      warning =
+      notice =
         'Sagen er opdateret. Dine noter er bevaret; gennemgå fundene og afslut rapporten igen.';
   } catch {
     blocked = true;
@@ -23,7 +24,7 @@ export function openCaseStore(data, storage) {
   return {
     state,
     get warning() {
-      return warning;
+      return warning || notice;
     },
     original,
     save() {

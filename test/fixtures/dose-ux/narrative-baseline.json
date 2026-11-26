@@ -1,0 +1,4757 @@
+{
+  "commit": "6818b56e82d690d4efc209c010985f49ab8092e1",
+  "caseSHA256": "c1447d25fcbb5cc38bcb2b7e1ddcb6a722a84dc8ea2afc18d9e5c83caaa436c7",
+  "engineSHA256": "ac28d69ce70826c22ee08f809ff85b28146405458b629d53f82b4b3338472c7e",
+  "images": {
+    "public/dose-cover.webp": "30fe5707f5640db011009da842302a80fea33fed37a76f80b3c21d64c03268d2",
+    "public/dose-facade.webp": "0c07f75d88c3c86465cbd8720676ecbd1e79b7cc5a35c88b26f3627a50d6888f",
+    "public/dose-room.webp": "b553917d3f2654a1052619b63a168928bc73aaf7a6c4b3c922f445a24f7e6acb",
+    "public/dose-patient.webp": "5789cb91d4a3da5e01dbb3b90b33a98a80d6d1421c09e612b90096b9b2e7b9fe",
+    "public/dose-bedside.webp": "375ef3c404a8bd1a17026aa4a545bdc7302eb9fe5e95812a76f67a9a3dd417b1",
+    "public/dose-wife.webp": "8b7198fe196d6dd6bba379ae9189015fb766981ecbb312e0839f4c0d6a527c9e",
+    "public/dose-daughter.webp": "1de52f7711601d93aa3199ffd7535c12fe55a006d5c038411645e0067747c083",
+    "public/dose-friend.webp": "1fca2226c79759c9ae3b251adb1b466556a7d6fd0eecf2ed14af19f796486447",
+    "public/dose-day-nurse.webp": "5b62cab99cbf18ea1cd21fdd8b14bac011965b1d8ee93b61ed1c0d506c21828c",
+    "public/dose-evening-nurse.webp": "c0789887673be2a044c71a83b53220935ab001863a8575e998252430a9b3828b",
+    "public/dose-doctor.webp": "7303c9d526077958c00717ef086198d5dbeba81685fac84df38867c5bab66435",
+    "public/dose-medicine-room.webp": "c16133fbf2ea8f9409deadfbb5c517b5dbead68b8fdf1fe2c4f9b82887c29df1",
+    "public/dose-cabinet.webp": "5ef19e86ee282fbdcabdc3bf4a75c7350159803bad2763dd9b79807cc5ec67cc",
+    "public/dose-tray.webp": "71a84284ed718d0b5dc67b9635af6f30ce767116c49518138fc3f1589a6a0819",
+    "public/dose-lab.webp": "1ae3eacb54c2dcf2e79e37d6d3c66489ff53ba0a0216e22298827718e4226ccc",
+    "public/dose-workstation.webp": "3dbf1ab43252e33c946a2fee63033a484b1f247eff9e93ffa328297f195ac40d",
+    "public/dose-monitor.webp": "fd109344ad25732f0ad17ba210cf761d21478b94bc2944ae3f0150a81d742044",
+    "public/dose-family.webp": "a9b0f4a413e0ebdfca69cd0f933306851b39c8cc7e44953cfd9fae450e37b007",
+    "public/dose-before.webp": "0f0b999debe082586a8934b524a39112b88cfabb6c4b0398d82c70ca61d02c7a"
+  },
+  "data": {
+    "id": "sag-001",
+    "version": 1,
+    "title": "Sag 001 – Det sidste hjerteslag",
+    "semester": 3,
+    "start": "briefing",
+    "intro": "Klokken er 07.12. Du møder på medicinsk afdeling. Genoplivningen på stue 14 er afsluttet, og Erik Jensen er erklæret død. Du skal undersøge forløbet som led i afdelingens læring.",
+    "learningGoals": [
+      "Sammenholde ordination, dispensering og administration",
+      "Forklare betydningen af nyrefunktion og elektrolytter",
+      "Genkende klinisk forværring og handle på den",
+      "Analysere systemets sikkerhedsbarrierer"
+    ],
+    "phases": [
+      "Gerningsstedet",
+      "De første mistanker",
+      "Sporene samles",
+      "Målrettet efterforskning",
+      "Det afgørende bevis"
+    ],
+    "images": {
+      "cover": {
+        "src": "dose-cover.webp",
+        "alt": "Fiktiv fotoillustration: hospitalsgangen ved daggry"
+      },
+      "facade": {
+        "src": "dose-facade.webp",
+        "alt": "Fiktiv fotoillustration: hospitalets facade"
+      },
+      "room": {
+        "src": "dose-room.webp",
+        "alt": "Fiktiv fotoillustration: stue 14"
+      },
+      "patient": {
+        "src": "dose-patient.webp",
+        "alt": "Fiktiv fotoillustration: Erik i sengen, respektfuldt illustreret"
+      },
+      "bedside": {
+        "src": "dose-bedside.webp",
+        "alt": "Fiktiv fotoillustration: natbord med vandglas og familiefoto"
+      },
+      "wife": {
+        "src": "dose-wife.webp",
+        "alt": "Fiktiv fotoillustration: Inger i pårørenderummet"
+      },
+      "daughter": {
+        "src": "dose-daughter.webp",
+        "alt": "Fiktiv fotoillustration: Louise i pårørenderummet"
+      },
+      "friend": {
+        "src": "dose-friend.webp",
+        "alt": "Fiktiv fotoillustration: Poul i besøgsrummet"
+      },
+      "day-nurse": {
+        "src": "dose-day-nurse.webp",
+        "alt": "Fiktiv fotoillustration: dagvagt Sara"
+      },
+      "evening-nurse": {
+        "src": "dose-evening-nurse.webp",
+        "alt": "Fiktiv fotoillustration: aftenvagt Mette"
+      },
+      "doctor": {
+        "src": "dose-doctor.webp",
+        "alt": "Fiktiv fotoillustration: læge Jonas"
+      },
+      "medicine-room": {
+        "src": "dose-medicine-room.webp",
+        "alt": "Fiktiv fotoillustration: medicinrummet"
+      },
+      "cabinet": {
+        "src": "dose-cabinet.webp",
+        "alt": "Fiktiv fotoillustration: medicinskab"
+      },
+      "tray": {
+        "src": "dose-tray.webp",
+        "alt": "Fiktiv fotoillustration: medicinbakke uden kliniske etiketter"
+      },
+      "lab": {
+        "src": "dose-lab.webp",
+        "alt": "Fiktiv fotoillustration: klinisk laboratorium"
+      },
+      "workstation": {
+        "src": "dose-workstation.webp",
+        "alt": "Fiktiv fotoillustration: journalstation"
+      },
+      "monitor": {
+        "src": "dose-monitor.webp",
+        "alt": "Fiktiv fotoillustration: seng med slukket monitor"
+      },
+      "family": {
+        "src": "dose-family.webp",
+        "alt": "Fiktiv fotoillustration: Erik og Inger i haven"
+      },
+      "before": {
+        "src": "dose-before.webp",
+        "alt": "Fiktiv fotoillustration: Erik før forværringen"
+      }
+    },
+    "characters": [
+      {
+        "id": "erik",
+        "name": "Erik Jensen",
+        "role": "78 år. Tidligere buschauffør, gift med Inger. Glad for havearbejde og sine børnebørn.",
+        "image": "family"
+      },
+      {
+        "id": "inger",
+        "name": "Inger Jensen",
+        "role": "Hustru gennem 51 år. Kender Eriks vaner, men ikke afdelingens medicinrutiner.",
+        "image": "wife"
+      },
+      {
+        "id": "louise",
+        "name": "Louise Jensen",
+        "role": "Datter, 49 år. Besøgte sin far aftenen før dødsfaldet.",
+        "image": "daughter"
+      },
+      {
+        "id": "poul",
+        "name": "Poul Madsen",
+        "role": "Nær ven og tidligere kollega. Talte med Erik i telefon.",
+        "image": "friend"
+      },
+      {
+        "id": "sara",
+        "name": "Sara Holm",
+        "role": "Sygeplejerske i dagvagten. Vil gerne forstå, hvad der skete.",
+        "image": "day-nurse"
+      },
+      {
+        "id": "mette",
+        "name": "Mette Lund",
+        "role": "Erfaren aftenvagt. Usikker på, om overleveringen var tilstrækkelig.",
+        "image": "evening-nurse"
+      },
+      {
+        "id": "jonas",
+        "name": "Jonas Berg",
+        "role": "Behandlingsansvarlig læge. Deltager i den tværfaglige gennemgang.",
+        "image": "doctor"
+      }
+    ],
+    "scenes": [
+      {
+        "id": "briefing",
+        "title": "Stue 14 · klokken 07.12",
+        "phase": 1,
+        "illustration": "cover",
+        "location": "Medicinsk afdeling",
+        "time": "13. marts 2026 · 07.12",
+        "intro": "Et halvt glas vand. En opkastningspose. Et familiefoto. Ingen af tingene fortæller i sig selv, hvad der skete. Du har tre steder at begynde.",
+        "blocks": [
+          {
+            "id": "opening",
+            "title": "Din opgave",
+            "text": "Erik Jensen, 78 år, er død efter et genoplivningsforsøg. Der er ingen synlige tegn på fysisk skade. Hustruen bemærkede en ændring i hans tilstand aftenen før. Undersøg hændelsesforløbet og mulige svigtende sikkerhedsbarrierer."
+          }
+        ]
+      },
+      {
+        "id": "wife",
+        "title": "Tal med Inger",
+        "phase": 2,
+        "illustration": "wife",
+        "location": "Pårørenderummet",
+        "time": "13. marts · 07.25",
+        "intro": "Inger drejer vielsesringen mellem fingrene. Du giver hende tid og spørger, hvad hun lagde mærke til.",
+        "blocks": [
+          {
+            "id": "yellow-vision",
+            "title": "»Fjernsynet var blevet gult«",
+            "text": "Du: Hvad var anderledes i går?\nInger: Han sagde, at fjernsynet havde fået sådan et gulligt skær. Jeg troede først, det var lyset. Han var også kvalm. Erik plejede ellers aldrig at klage.",
+            "speaker": "Inger"
+          },
+          {
+            "id": "wife-context",
+            "title": "En tidligere ændring",
+            "text": "Du: Var han bekymret over noget?\nInger: Medicinen var blevet ændret tidligere, men jeg kan ikke huske navnene. Måske kan jeg genkende dem, hvis jeg ser listen.",
+            "speaker": "Inger"
+          },
+          {
+            "id": "wife-return",
+            "title": "Da du nævner listen",
+            "text": "Inger ser på dine papirer: Ja, det er den liste, jeg mente. Jeg vil gerne tale med dig igen om hans hjertemedicin.",
+            "when": {
+              "seen": "medicines"
+            },
+            "speaker": "Inger"
+          }
+        ],
+        "when": {
+          "seen": "briefing"
+        },
+        "reason": "Inger var hos Erik aftenen før og har sagt ja til at tale med dig."
+      },
+      {
+        "id": "room",
+        "title": "Undersøg patienten og stuen",
+        "phase": 2,
+        "illustration": "patient",
+        "location": "Stue 14",
+        "time": "13. marts · 07.20",
+        "intro": "Undersøgelsen sker respektfuldt efter dødsfaldet. Du ændrer ikke behandling og bruger kun de dokumenterede observationer.",
+        "blocks": [
+          {
+            "id": "room-findings",
+            "title": "Observationer",
+            "text": "Bleghed, ingen synlige ydre læsioner. Opkastningsposen er brugt. Ingen synlig blodig opkast eller melæna i plejenotatet. Fundene fastslår ikke dødsårsagen."
+          },
+          {
+            "id": "bedside-items",
+            "title": "Natbordet",
+            "text": "Et halvt glas vand og et foto af Erik med børnebørnene. Der står et privat vitaminpræparat i en lukket taske. Fundet kan undersøges, men siger ikke i sig selv noget om hændelsen."
+          }
+        ],
+        "when": {
+          "seen": "briefing"
+        },
+        "reason": "Stuen og de sidste observationer kan give udgangspunkt for journalgennemgangen."
+      },
+      {
+        "id": "admission",
+        "title": "Læs indlæggelsesjournalen",
+        "phase": 2,
+        "illustration": "workstation",
+        "location": "Fiktivt journalsystem · KLINIK",
+        "time": "10. marts · 09.10",
+        "intro": "Du åbner den oprindelige indlæggelse og holder den adskilt fra senere vurderinger.",
+        "blocks": [
+          {
+            "id": "history",
+            "title": "Baggrund",
+            "text": "Erik har atrieflimren, kronisk hjertesvigt, hypertension og type 2-diabetes. Indlagt 10. marts med tiltagende dyspnø, perifere ødemer og vægtstigning. Vægt ved indlæggelsen 82,0 kg."
+          },
+          {
+            "id": "admission-treatment",
+            "title": "Behandlingsplan",
+            "text": "Intravenøs diuretisk behandling intensiveres. Daglig vægt, væskeregnskab og kontrol af nyrefunktion og elektrolytter planlægges. Erik har i forvejen fået vanddrivende medicin i længere tid."
+          }
+        ],
+        "when": {
+          "seen": "briefing"
+        },
+        "reason": "Indlæggelsen giver en tidsmæssig baseline for hans sygdomme og behandling."
+      },
+      {
+        "id": "daughter",
+        "title": "Spørg Louise om besøget",
+        "phase": 2,
+        "illustration": "daughter",
+        "location": "Pårørenderummet",
+        "time": "Besøg 12. marts · 18.30",
+        "intro": "Louise er ankommet. Du spørger til, hvad hun konkret så, uden at foreslå en forklaring.",
+        "blocks": [
+          {
+            "id": "vomiting",
+            "title": "»Han kunne ikke spise«",
+            "text": "Du: Hvordan var din far under besøget?\nLouise: Bakken stod næsten urørt. Han kastede op og sagde, at hjertet hoppede. Vi troede, han var udmattet. Jeg sagde det til en af sygeplejerskerne.",
+            "speaker": "Louise"
+          }
+        ],
+        "when": {
+          "seen": "wife"
+        },
+        "reason": "Inger fortæller, at Louise også besøgte Erik og kan supplere hendes observationer."
+      },
+      {
+        "id": "friend",
+        "title": "Ring til Poul",
+        "phase": 2,
+        "illustration": "friend",
+        "location": "Telefoninterview",
+        "time": "Samtale 12. marts · 14.00",
+        "intro": "Poul har hørt om dødsfaldet og vil gerne fortælle om deres sidste samtale.",
+        "blocks": [
+          {
+            "id": "friend-fatigue",
+            "title": "En ændret samtale",
+            "text": "Poul: Han var træt og afsluttede samtalen hurtigt. Han ville hjem til haven. Han nævnte ikke brystsmerter. Jeg ved ikke, om det betyder noget.",
+            "speaker": "Poul"
+          },
+          {
+            "id": "old-vitamins",
+            "title": "Vitaminerne",
+            "text": "Poul: Jeg gav ham almindelige vitaminer til jul. Inger siger, at den lukkede dåse har ligget i tasken siden. Jeg har aldrig givet ham anden medicin.",
+            "speaker": "Poul"
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "daughter"
+            },
+            {
+              "seen": "room"
+            }
+          ]
+        },
+        "reason": "Familien foreslår Poul som en supplerende kilde til Eriks hverdag."
+      },
+      {
+        "id": "nursing",
+        "title": "Åbn sygeplejejournalen",
+        "phase": 3,
+        "illustration": "workstation",
+        "location": "KLINIK · plejenotater",
+        "time": "12. marts · 08.00–22.15",
+        "intro": "Notaterne vises i deres oprindelige rækkefølge. De er skrevet før dødsfaldet.",
+        "blocks": [
+          {
+            "id": "nursing-symptoms",
+            "title": "08.30 og 16.15",
+            "text": "08.30: Lille morgenmåltid, træt.\n16.15: Kvalme og svimmelhed. Puls 48/min. Patienten bliver liggende. Notat: »Observeres; muligvis relateret til væsketab«. Ingen dokumenteret lægelig vurdering på dette tidspunkt."
+          },
+          {
+            "id": "missed-escalation",
+            "title": "22.15 · overlevering",
+            "text": "Puls 39/min, BT 88/54 mmHg og tiltagende utilpashed. Mette noterer telefonisk kontakt til forvagt kl. 22.20; der bestilles EKG og blodprøve. Det fremgår ikke, hvem der skal følge op. Der er ikke dokumenteret en samlet akut revurdering."
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "room"
+            },
+            {
+              "seen": "admission"
+            },
+            {
+              "seen": "daughter"
+            }
+          ]
+        },
+        "reason": "Stuefund, forløbet eller familiens observationer kan sammenholdes med personalets dokumentation."
+      },
+      {
+        "id": "vitals",
+        "title": "Sammenlign vitalparametre",
+        "phase": 3,
+        "illustration": "monitor",
+        "location": "KLINIK · observationsark",
+        "time": "12. marts · 08.00 / 16.00 / 22.00",
+        "intro": "Et enkelt tal er et øjebliksbillede. Undersøg udviklingen over dagen.",
+        "blocks": [
+          {
+            "id": "vital-trend",
+            "title": "Puls, blodtryk og respiration",
+            "text": "Puls 72 → 48 → 39/min. Blodtryk 118/72 → 104/65 → 88/54 mmHg. Respirationsfrekvens 18 → 19 → 23/min. Saturation 96 → 96 → 95 % uden ilt. Temperatur 36,8 → 36,7 → 36,6 °C. Vågen og orienteret om morgenen; kvalm og svimmel kl. 16, tiltagende utilpas kl. 22.",
+            "table": {
+              "headers": [
+                "Tid",
+                "Puls /min",
+                "BT mmHg",
+                "RF /min",
+                "SpO₂ %",
+                "°C"
+              ],
+              "rows": [
+                [
+                  "08.00",
+                  "72",
+                  "118/72",
+                  "18",
+                  "96",
+                  "36,8"
+                ],
+                [
+                  "16.00",
+                  "48",
+                  "104/65",
+                  "19",
+                  "96",
+                  "36,7"
+                ],
+                [
+                  "22.00",
+                  "39",
+                  "88/54",
+                  "23",
+                  "95",
+                  "36,6"
+                ]
+              ]
+            },
+            "chart": {
+              "label": "Puls over tid, slag/min",
+              "values": [
+                72,
+                48,
+                39
+              ],
+              "labels": [
+                "08",
+                "16",
+                "22"
+              ]
+            }
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "nursing"
+            },
+            {
+              "seen": "admission"
+            }
+          ]
+        },
+        "reason": "Journalen giver grund til at sammenligne observationerne. Der beregnes ikke en uverificeret TOKS-score."
+      },
+      {
+        "id": "fluid",
+        "title": "Undersøg væskeregnskab og vægt",
+        "phase": 3,
+        "illustration": "before",
+        "location": "KLINIK · væske og vægt",
+        "time": "10.–12. marts",
+        "intro": "Intensiveret diurese skal vurderes i forhold til den aktuelle kliniske tilstand.",
+        "blocks": [
+          {
+            "id": "fluid-loss",
+            "title": "Vægt og registreret balance",
+            "text": "Vægt 82,0 kg den 10. marts → 79,2 kg den 11. → 77,0 kg den 12. Væskeindtag ca. 900–1100 ml/døgn; registreret diurese 2600–3200 ml/døgn. Hertil opkast og usikre tab. Vægttab 5,0 kg. Tallene beskriver observeret balance og er ikke en beregning af præcis intravaskulær volumen."
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "admission"
+            },
+            {
+              "seen": "nursing"
+            }
+          ]
+        },
+        "reason": "Den diuretiske behandling og symptomerne gør væskestatus relevant."
+      },
+      {
+        "id": "labs",
+        "title": "Åbn de almindelige blodprøver",
+        "phase": 3,
+        "illustration": "lab",
+        "location": "KLINIK · klinisk biokemi",
+        "time": "10. og 12. marts · 06.00",
+        "intro": "Referenceintervallerne er vejledende voksenintervaller i den fiktive afdeling; lokale laboratorier kan afvige.",
+        "blocks": [
+          {
+            "id": "creatinine",
+            "title": "Kreatinin",
+            "text": "10. marts: 102 µmol/L. 12. marts: 218 µmol/L. Vejledende interval for voksne mænd: 60–105 µmol/L.",
+            "neutral": "Kreatinin er et nedbrydningsprodukt, som blandt andet anvendes ved vurdering af nyrernes filtration."
+          },
+          {
+            "id": "potassium",
+            "title": "Kalium",
+            "text": "10. marts: 3,6 mmol/L. 12. marts: 2,9 mmol/L. Vejledende interval: 3,5–4,4 mmol/L.",
+            "neutral": "Kalium er en elektrolyt, som er vigtig for cellers elektriske aktivitet."
+          },
+          {
+            "id": "magnesium",
+            "title": "Magnesium",
+            "text": "10. marts: 0,70 mmol/L. 12. marts: 0,59 mmol/L. Vejledende interval: 0,70–1,10 mmol/L.",
+            "neutral": "Magnesium er en elektrolyt, som indgår i mange enzymreaktioner og i muskel- og nervefunktion."
+          },
+          {
+            "id": "other-labs",
+            "title": "Øvrige blodprøver",
+            "text": "12. marts: Natrium 137 mmol/L (137–145). CRP 12 mg/L (<8). Leukocytter 8,2 ×10⁹/L (3,5–10,0). Hæmoglobin 8,1 mmol/L, ved indlæggelsen 8,2 (mænd 8,3–10,5). Karbamid 16,2 mmol/L (3,5–8,1). Glukose 7,1 mmol/L; patienten har diabetes.",
+            "table": {
+              "headers": [
+                "Analyse",
+                "12/3",
+                "Vejledende interval"
+              ],
+              "saveRows": true,
+              "rows": [
+                [
+                  "Natrium",
+                  "137 mmol/L",
+                  "137–145 mmol/L"
+                ],
+                [
+                  "CRP",
+                  "12 mg/L",
+                  "<8 mg/L"
+                ],
+                [
+                  "Leukocytter",
+                  "8,2 ×10⁹/L",
+                  "3,5–10,0 ×10⁹/L"
+                ],
+                [
+                  "Hæmoglobin",
+                  "8,1 mmol/L",
+                  "8,3–10,5 mmol/L (mænd)"
+                ],
+                [
+                  "Karbamid",
+                  "16,2 mmol/L",
+                  "3,5–8,1 mmol/L"
+                ],
+                [
+                  "Glukose",
+                  "7,1 mmol/L",
+                  "Ikke fastende · vurderes efter klinik og diabetes"
+                ]
+              ]
+            },
+            "neutral": "CRP måler et akutfaseprotein; leukocytter er hvide blodceller; hæmoglobin transporterer ilt; karbamid dannes ved proteinomsætning. Natrium indgår i væske- og saltbalance; glukose måler blodsukker. Resultater vurderes sammen med klinikken."
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "fluid"
+            },
+            {
+              "seen": "vitals"
+            },
+            {
+              "seen": "admission"
+            }
+          ]
+        },
+        "reason": "Nyrefunktion og elektrolytter indgår i den planlagte kontrol og kan nu sammenlignes over tid."
+      },
+      {
+        "id": "medicines",
+        "title": "Hent medicinlisten",
+        "phase": 3,
+        "illustration": "medicine-room",
+        "location": "KLINIK · aktuel medicin",
+        "time": "Ordinationsudtræk 12. marts · 08.00",
+        "intro": "Dette er en ordinationsliste. Den dokumenterer ikke, hvad der faktisk blev givet. Alle seks lægemidler har et lokalt fagligt opslag.",
+        "blocks": [
+          {
+            "id": "medication-list",
+            "title": "Ordinationer",
+            "text": "Digoxin 62,5 µg peroralt kl. 08 én gang dagligt. Furosemid 40 mg intravenøst kl. 08 og 14. Ramipril 2,5 mg peroralt dagligt, pauseret 12. marts kl. 08. Apixaban oprindeligt 5 mg peroralt to gange dagligt, reduceret til 2,5 mg to gange dagligt 12. marts efter lægelig revurdering af nyrefunktion. Atorvastatin 20 mg peroralt til natten. Metformin 500 mg peroralt to gange dagligt, pauseret 12. marts kl. 08.",
+            "table": {
+              "headers": [
+                "Lægemiddel",
+                "Ordination / status"
+              ],
+              "rows": [
+                [
+                  "Digoxin",
+                  "62,5 µg × 1 PO kl. 08"
+                ],
+                [
+                  "Furosemid",
+                  "40 mg × 2 IV kl. 08 / 14"
+                ],
+                [
+                  "Ramipril",
+                  "2,5 mg × 1 PO · pauseret"
+                ],
+                [
+                  "Apixaban",
+                  "2,5 mg × 2 PO fra 12/3"
+                ],
+                [
+                  "Atorvastatin",
+                  "20 mg × 1 PO til natten"
+                ],
+                [
+                  "Metformin",
+                  "500 mg × 2 PO · pauseret"
+                ]
+              ]
+            }
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "wife"
+            },
+            {
+              "seen": "labs"
+            },
+            {
+              "seen": "nursing"
+            },
+            {
+              "seen": "admission"
+            }
+          ]
+        },
+        "reason": "Sygdomme, observerede symptomer eller laboratoriefund gør en medicingennemgang relevant."
+      },
+      {
+        "id": "wife-followup",
+        "title": "Vis Inger medicinlisten",
+        "phase": 4,
+        "illustration": "wife",
+        "location": "Pårørenderummet",
+        "time": "13. marts · opfølgende samtale",
+        "intro": "Du viser hende de kendte præparatnavne. Det hjælper hende med at huske en konkret samtale.",
+        "blocks": [
+          {
+            "id": "prior-reduction",
+            "title": "»Den lille tablet blev sat ned«",
+            "text": "Inger: Digoxin, ja. Egen læge satte dosis ned til den lille tablet for nogle måneder siden, fordi nyrerne ikke havde det så godt. Han har taget den lille dosis hver morgen. Jeg vidste ikke, at man skulle holde øje med synet.",
+            "speaker": "Inger"
+          }
+        ],
+        "when": {
+          "all": [
+            {
+              "seen": "wife"
+            },
+            {
+              "seen": "medicines"
+            }
+          ]
+        },
+        "reason": "Inger kan genkende præparatet, når du viser listen. Hun kendte ikke navnet i den første samtale."
+      },
+      {
+        "id": "day-nurse",
+        "title": "Tal med dagvagt Sara",
+        "phase": 4,
+        "illustration": "day-nurse",
+        "location": "Personalekontoret",
+        "time": "Om 12. marts · dagvagt",
+        "intro": "Sara vil gennemgå sit arbejde trin for trin og skelner mellem det, hun husker, og det, der er registreret.",
+        "blocks": [
+          {
+            "id": "morning-dose",
+            "title": "Morgenens medicin",
+            "text": "Sara: Han var træt. Jeg gav medicinen fra den færdige bakke klokken otte. Vi havde travlt, og jeg sammenholdt ikke hver tabletstyrke med ordinationen. Administrationsjournalen viser, hvad jeg kvitterede for.",
+            "speaker": "Sara"
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "nursing"
+            },
+            {
+              "seen": "vitals"
+            }
+          ]
+        },
+        "reason": "De tidsfæstede observationer kan sammenholdes med dagvagtens handlinger."
+      },
+      {
+        "id": "evening-nurse",
+        "title": "Tal med aftenvagt Mette",
+        "phase": 4,
+        "illustration": "evening-nurse",
+        "location": "Personalekontoret",
+        "time": "Om 12. marts · aftenvagt",
+        "intro": "Mette ser tilbage på overleveringen og den manglende bedring.",
+        "blocks": [
+          {
+            "id": "handover",
+            "title": "En opgave uden tydelig ejer",
+            "text": "Mette: Jeg ringede, da han fik det værre. Der blev bestilt prøver og EKG. Jeg troede, at svaret ville blive vurderet af lægen; lægen troede måske, at vi ville ringe med det. Det er min erindring. Notaterne må vise, hvad der faktisk blev aftalt.",
+            "speaker": "Mette"
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "day-nurse"
+            },
+            {
+              "seen": "vitals"
+            }
+          ]
+        },
+        "reason": "Aftenvagten var til stede ved den sene forværring."
+      },
+      {
+        "id": "doctor",
+        "title": "Drøft forløbet med Jonas",
+        "phase": 4,
+        "illustration": "doctor",
+        "location": "Møderummet",
+        "time": "13. marts · efterfølgende gennemgang",
+        "intro": "Lægen åbner sine tidsstemplede notater frem for at konkludere ud fra hukommelsen.",
+        "blocks": [
+          {
+            "id": "renal-review",
+            "title": "Lægenotat 12. marts · 08.00",
+            "text": "Nyrefunktionen er forværret, beregnet kreatininclearance omkring 27 ml/min ved aktuel vægt. Ramipril og metformin pauseres; apixaban reduceres efter individuel vurdering. Plan for væske og elektrolytter skal revurderes. Digoxin står fortsat som 62,5 µg dagligt. Ingen dokumenteret opfølgning på elektrolytsubstitution før den sene forværring."
+          },
+          {
+            "id": "test-request",
+            "title": "Bestilling 12. marts · 22.25",
+            "text": "Ved langsom puls, kvalme og medicinlisten bestilles EKG og en målrettet lægemiddelkoncentration. Prøven tages kl. 22.30; sidste registrerede administration var kl. 12.00. Svaret bliver elektronisk tilgængeligt 13. marts kl. 00.10, men er ikke kvitteret."
+          }
+        ],
+        "when": {
+          "all": [
+            {
+              "seen": "medicines"
+            },
+            {
+              "any": [
+                {
+                  "seen": "labs"
+                },
+                {
+                  "seen": "evening-nurse"
+                },
+                {
+                  "seen": "vitals"
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "Du har et konkret grundlag for at spørge til revurdering, bestillinger og opfølgning."
+      },
+      {
+        "id": "ecg",
+        "title": "Gennemgå EKG og monitorlog",
+        "phase": 4,
+        "illustration": "monitor",
+        "location": "KLINIK · lægelig rytmebeskrivelse",
+        "time": "12. marts · 22.35 / 13. marts · 06.54",
+        "intro": "Der vises en faglig tekstbeskrivelse; ingen AI-genereret EKG-kurve anvendes diagnostisk.",
+        "blocks": [
+          {
+            "id": "rhythm",
+            "title": "Dokumenteret rytmeudvikling",
+            "text": "22.35: Atrieflimren med langsom ventrikelfrekvens omkring 38/min og ventrikulære ekstrasystoler. 06.50: Episoder med ventrikulær takykardi. 06.54: Ventrikelflimren og hjertestop. Genoplivning iværksat; afsluttet 07.08 uden varig cirkulation. Rytmebeskrivelsen dokumenterer hændelsen, ikke alene dens årsag."
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "vitals"
+            },
+            {
+              "seen": "doctor"
+            }
+          ]
+        },
+        "reason": "Bradykardien gør det relevant at hente den dokumenterede hjerterytme."
+      },
+      {
+        "id": "infection",
+        "title": "Undersøg infektion som forklaring",
+        "phase": 4,
+        "illustration": "lab",
+        "location": "KLINIK · differentialdiagnostik",
+        "time": "12. marts · samlet udtræk",
+        "intro": "En let forhøjet CRP kræver kontekst. Spørg, hvilke fund der taler for og imod infektion.",
+        "blocks": [
+          {
+            "id": "infection-check",
+            "title": "Temperatur og infektionsmarkører",
+            "text": "Ingen feber, leukocytter 8,2 ×10⁹/L og kun let CRP-stigning til 12 mg/L. Ingen dokumenteret fokal infektion. Disse fund svækker infektion som hovedforklaring, men udelukker den ikke alene."
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "labs"
+            },
+            {
+              "hypothesis": "infection"
+            }
+          ]
+        },
+        "reason": "Journalens mistanke eller din hypotese kan undersøges mod de tilgængelige infektionsdata."
+      },
+      {
+        "id": "bleeding",
+        "title": "Undersøg mulig blødning",
+        "phase": 4,
+        "illustration": "room",
+        "location": "KLINIK · differentialdiagnostik",
+        "time": "12. marts · dokumentation",
+        "intro": "Antikoagulationsbehandling gør blødning til en plausibel alternativ forklaring.",
+        "blocks": [
+          {
+            "id": "bleeding-check",
+            "title": "Hæmoglobin og observationer",
+            "text": "Hæmoglobin 8,2 → 8,1 mmol/L uden større fald; ingen dokumenteret melæna, hæmatemese eller ydre blødning. Ingen billeddiagnostisk påvisning af indre blødning. Materialet støtter ikke en stor blødning som hovedforklaring; en blodprøve alene kan ikke udelukke en akut blødning."
+          }
+        ],
+        "when": {
+          "all": [
+            {
+              "seen": "medicines"
+            },
+            {
+              "any": [
+                {
+                  "seen": "labs"
+                },
+                {
+                  "hypothesis": "bleeding"
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "Antikoagulans på listen kan sammenholdes med hæmoglobin og observationer."
+      },
+      {
+        "id": "heart-failure",
+        "title": "Vurder forværring af hjertesvigt",
+        "phase": 4,
+        "illustration": "before",
+        "location": "KLINIK · lægenotat",
+        "time": "12. marts · 08.10",
+        "intro": "Den kendte grundsygdom er en mulig forklaring, der også skal undersøges.",
+        "blocks": [
+          {
+            "id": "heart-check",
+            "title": "Klinik efter diurese",
+            "text": "Mindre perifere ødemer og mindre dyspnø end ved indlæggelsen. Ingen dokumenteret ny lungeødemudvikling. Hjertesvigt gør Erik sårbar, men forklarer ikke i sig selv hele kombinationen af mavegener, synsændring, bradykardi og doseringsoplysninger."
+          }
+        ],
+        "when": {
+          "any": [
+            {
+              "seen": "fluid"
+            },
+            {
+              "hypothesis": "heart"
+            }
+          ]
+        },
+        "reason": "Den oprindelige indlæggelsesårsag kan sammenholdes med behandlingseffekt og nye symptomer."
+      },
+      {
+        "id": "administration",
+        "title": "Sammenhold administration og ordination",
+        "phase": 5,
+        "illustration": "tray",
+        "location": "KLINIK · medicinadministrationsjournal",
+        "time": "10.–12. marts · signeret udtræk",
+        "intro": "Du åbner en anden dokumenttype end ordinationslisten. Sammenlign styrke, antal og klokkeslæt.",
+        "blocks": [
+          {
+            "id": "given-doses",
+            "title": "Registrerede administrationer",
+            "text": "10/3 kl. 08.00: Digoxin 250 µg, 1 tablet. 11/3 kl. 08.00: Digoxin 250 µg, 1 tablet. 12/3 kl. 08.00: Digoxin 250 µg, 1 tablet, signeret Sara. 12/3 kl. 12.00: Digoxin 250 µg, 1 tablet, signeret af anden dagvagt. Ordinationslisten angiver 62,5 µg én gang dagligt.",
+            "table": {
+              "headers": [
+                "Dato / tid",
+                "Styrke",
+                "Antal",
+                "Givet"
+              ],
+              "rows": [
+                [
+                  "10/3 08.00",
+                  "250 µg",
+                  "1",
+                  "250 µg"
+                ],
+                [
+                  "11/3 08.00",
+                  "250 µg",
+                  "1",
+                  "250 µg"
+                ],
+                [
+                  "12/3 08.00",
+                  "250 µg",
+                  "1",
+                  "250 µg"
+                ],
+                [
+                  "12/3 12.00",
+                  "250 µg",
+                  "1",
+                  "250 µg"
+                ]
+              ]
+            }
+          }
+        ],
+        "when": {
+          "all": [
+            {
+              "seen": "medicines"
+            },
+            {
+              "any": [
+                {
+                  "seen": "lookup-digoxin"
+                },
+                {
+                  "seen": "day-nurse"
+                },
+                {
+                  "all": [
+                    {
+                      "seen": "labs"
+                    },
+                    {
+                      "seen": "vitals"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "Du har både en ordination og kliniske oplysninger eller en konkret erindring, som gør en kontrol af den faktiske administration relevant."
+      },
+      {
+        "id": "dispensing",
+        "title": "Undersøg dispenseringen",
+        "phase": 5,
+        "illustration": "cabinet",
+        "location": "Medicinrum · fiktiv dispenseringslog",
+        "time": "10.–12. marts",
+        "intro": "Du undersøger den dokumenterede håndtering og skelner den fra efterfølgende antagelser.",
+        "blocks": [
+          {
+            "id": "strength-error",
+            "title": "Styrkeskift og kontrol",
+            "text": "Dispenseringsloggen angiver 1 tablet fra beholderen mærket 250 µg, selv om ordinationen er 62,5 µg. Et lagernotat fra 10/3 beskriver restordre på den lave styrke og placering af den højere styrke på samme hylde. Ingen dokumenteret kontrol mod ordineret mikrogramdosis."
+          },
+          {
+            "id": "repeat-dose",
+            "title": "To kvitteringer",
+            "text": "Auditloggen viser to reelle administrationer den 12/3, ikke kun en dublet i visningen. Kl. 12 var morgenkvitteringen ikke synlig i det åbne skærmbillede. Den anden medarbejder antog, at morgenmedicinen manglede. Der forelå ingen ny ekstra ordination."
+          }
+        ],
+        "when": {
+          "seen": "administration"
+        },
+        "reason": "Uoverensstemmelsen gør det relevant at undersøge præparatstyrke og kvitteringsspor."
+      },
+      {
+        "id": "nurse-followup",
+        "title": "Spørg Sara om styrkerne",
+        "phase": 5,
+        "illustration": "day-nurse",
+        "location": "Personalekontoret",
+        "time": "Opfølgende interview",
+        "intro": "Du viser Sara de to tidsstempler og dispenseringsloggen. Hun får mulighed for at korrigere sin erindring.",
+        "blocks": [
+          {
+            "id": "barriers",
+            "title": "»Vi talte i tabletter«",
+            "text": "Sara: Jeg kan nu se, at vi talte om én tablet, ikke mikrogram. Der var en anden styrke på hylden. Jeg blev afbrudt, men det beviser ikke i sig selv, at afbrydelsen skabte fejlen. Vi manglede en fælles kontrol af styrke og en sikker kvittering på tværs af vagter.",
+            "speaker": "Sara"
+          }
+        ],
+        "when": {
+          "all": [
+            {
+              "seen": "day-nurse"
+            },
+            {
+              "seen": "dispensing"
+            }
+          ]
+        },
+        "reason": "De konkrete dokumenter gør det muligt at stille et nyt, præcist spørgsmål."
+      },
+      {
+        "id": "targeted",
+        "title": "Hent den målrettede analyse",
+        "phase": 5,
+        "illustration": "lab",
+        "location": "KLINIK · svararkiv",
+        "time": "Prøve 12/3 22.30 · svar 13/3 00.10",
+        "intro": "Du beder om det allerede udtagne svar før dødsfaldet. Der tages ikke en ny prøve af den afdøde.",
+        "blocks": [
+          {
+            "id": "concentration",
+            "title": "P-digoxin 4,1 nmol/L",
+            "text": "Prøven er taget 10 timer og 30 minutter efter sidste registrerede dosis kl. 12.00. Vejledende målniveau ved vedligeholdelse er ofte omkring 0,6–1,2 nmol/L; mål afhænger af indikation og patient. Laboratoriet fremhæver, at koncentration skal vurderes sammen med klinik og prøvetidspunkt. Svaret er ikke kvitteret før hjertestoppet."
+          }
+        ],
+        "when": {
+          "all": [
+            {
+              "seen": "lookup-digoxin"
+            },
+            {
+              "any": [
+                {
+                  "seen": "administration"
+                },
+                {
+                  "seen": "doctor"
+                },
+                {
+                  "all": [
+                    {
+                      "seen": "labs"
+                    },
+                    {
+                      "seen": "vitals"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "reason": "Du har undersøgt lægemidlets egenskaber og har nu en klinisk eller dokumenteret mistanke, som begrunder opslaget."
+      },
+      {
+        "id": "evening-followup",
+        "title": "Afklar opfølgningen med Mette",
+        "phase": 5,
+        "illustration": "evening-nurse",
+        "location": "Personalekontoret",
+        "time": "Opfølgende interview",
+        "intro": "Du viser hende bestillingen og tidspunktet for analysesvaret.",
+        "blocks": [
+          {
+            "id": "unread-result",
+            "title": "Et ubesvaret svar",
+            "text": "Mette: Jeg overleverede, at prøverne var taget. Der blev ikke aftalt en navngiven ansvarlig eller et tidspunkt for at ringe igen. Jeg ved nu, at svaret kom efter midnat. Vi kan se, at det ikke blev læst; vi kan ikke ud fra loggen alene vide, hvad nogen tænkte.",
+            "speaker": "Mette"
+          }
+        ],
+        "when": {
+          "all": [
+            {
+              "seen": "evening-nurse"
+            },
+            {
+              "seen": "targeted"
+            }
+          ]
+        },
+        "reason": "Et konkret, tidsstemplet analysesvar giver grund til at afklare opfølgningsansvaret."
+      },
+      {
+        "id": "lookup-digoxin",
+        "title": "Slå Digoxin op",
+        "phase": 4,
+        "illustration": "workstation",
+        "location": "Lokalt farmakologisk opslagsværk",
+        "time": "Fagligt redskab · ikke et facit",
+        "intro": "Dette opslag beskriver lægemidlet generelt. Du skal selv sammenholde det med patientens oplysninger.",
+        "blocks": [
+          {
+            "id": "drug-digoxin",
+            "title": "Digoxin",
+            "text": "Hjerteglykosid. Bruges blandt andet til frekvenskontrol ved atrieflimren. Hæmmer Na⁺/K⁺-ATPase; øget intracellulært calcium giver positiv inotropi. Vagal påvirkning og langsommere AV-overledning kan sænke ventrikelfrekvensen. Udskilles især uomdannet renalt; halveringstid normalt ca. 1–2 døgn og forlænges ved nedsat nyrefunktion. Snævert terapeutisk indeks. Risiko: kvalme, opkast, appetitløshed, synsforstyrrelser, bradykardi og ventrikulære arytmier. Hypokaliæmi og hypomagnesiæmi øger følsomheden. Amiodaron, verapamil og andre interaktioner kræver kontrol. Visse ledningsforstyrrelser og ventrikelflimren er kontraindikationer. Kontrollér indikation, nyrefunktion, elektrolytter, puls og præparatstyrke. Ved mistanke om alvorlig forgiftning: akut lægelig vurdering, EKG/monitorering og vurdering af digoxinspecifikke antistoffragmenter. Akut svær forgiftning kan give hyperkaliæmi. En koncentration alene afgør ikke diagnosen."
+          }
+        ],
+        "when": {
+          "seen": "medicines"
+        },
+        "reason": "Præparatet står på den fundne medicinliste.",
+        "sources": [
+          "digoxin"
+        ],
+        "kind": "reference"
+      },
+      {
+        "id": "lookup-furosemid",
+        "title": "Slå Furosemid op",
+        "phase": 4,
+        "illustration": "workstation",
+        "location": "Lokalt farmakologisk opslagsværk",
+        "time": "Fagligt redskab · ikke et facit",
+        "intro": "Dette opslag beskriver lægemidlet generelt. Du skal selv sammenholde det med patientens oplysninger.",
+        "blocks": [
+          {
+            "id": "drug-furosemid",
+            "title": "Furosemid",
+            "text": "Loop-diuretikum mod væskeophobning. Hæmmer salttransport i Henles slynge og øger udskillelsen af salt og vand. Udskilles blandt andet renalt; effekt og dosis kræver individuel vurdering ved ændret nyrefunktion. Kan medføre hypovolæmi, hypotension og tab af kalium og magnesium; risikoen afhænger også af længerevarende behandling og ernæring. Elektrolytforstyrrelser kan øge følsomhed for hjerteglykosider. NSAID kan modvirke effekten og belaste nyrefunktionen. Anuri og svær ukorrigeret elektrolyt-/væskemangel kræver lægelig vurdering. Følg vægt, væske, blodtryk, nyretal og elektrolytter. IV-administration skal følge præparatets instruktion."
+          }
+        ],
+        "when": {
+          "seen": "medicines"
+        },
+        "reason": "Præparatet står på den fundne medicinliste.",
+        "sources": [
+          "furosemid"
+        ],
+        "kind": "reference"
+      },
+      {
+        "id": "lookup-ramipril",
+        "title": "Slå Ramipril op",
+        "phase": 4,
+        "illustration": "workstation",
+        "location": "Lokalt farmakologisk opslagsværk",
+        "time": "Fagligt redskab · ikke et facit",
+        "intro": "Dette opslag beskriver lægemidlet generelt. Du skal selv sammenholde det med patientens oplysninger.",
+        "blocks": [
+          {
+            "id": "drug-ramipril",
+            "title": "Ramipril",
+            "text": "ACE-hæmmer mod blandt andet hypertension og hjertesvigt. Mindsker dannelse af angiotensin II. Aktiv metabolit udskilles i væsentlig grad renalt; dosis og fortsat behandling vurderes ved nyrepåvirkning. Kan give hypotension, hyperkaliæmi, nyrepåvirkning, hoste og sjældent angioødem. Kaliumtilskud og kaliumbesparende diuretika kræver kontrol; NSAID og diuretika kan øge nyrebelastningen. Tidligere ACE-hæmmerudløst angioødem og graviditet er væsentlige kontraindikationer. Følg blodtryk, kreatinin og kalium. Pause er en individuel lægelig beslutning, ikke en universel regel ved et bestemt kreatinintal."
+          }
+        ],
+        "when": {
+          "seen": "medicines"
+        },
+        "reason": "Præparatet står på den fundne medicinliste.",
+        "sources": [
+          "ramipril"
+        ],
+        "kind": "reference"
+      },
+      {
+        "id": "lookup-apixaban",
+        "title": "Slå Apixaban op",
+        "phase": 4,
+        "illustration": "workstation",
+        "location": "Lokalt farmakologisk opslagsværk",
+        "time": "Fagligt redskab · ikke et facit",
+        "intro": "Dette opslag beskriver lægemidlet generelt. Du skal selv sammenholde det med patientens oplysninger.",
+        "blocks": [
+          {
+            "id": "drug-apixaban",
+            "title": "Apixaban",
+            "text": "Direkte faktor Xa-hæmmer til blandt andet forebyggelse af emboli ved ikke-valvulær atrieflimren. Elimineres ad flere veje, herunder delvist renalt. Vigtig risiko er blødning, som kan vise sig ved melæna, hæmatemese, hæmaturi, anæmi eller kredsløbspåvirkning. Aktiv klinisk betydende blødning er kontraindikation. Stærke CYP3A4/P-gp-hæmmere og -induktorer samt andre antitrombotika kræver vurdering. Dosis afhænger af indikation, nyrefunktion, alder og vægt. Ved NVAF og kreatininclearance 15–29 ml/min anbefales den lave dosis 2,5 mg to gange dagligt. Følg blødningstegn, hæmoglobin og nyrefunktion; INR bruges ikke til rutinemæssig effektstyring."
+          }
+        ],
+        "when": {
+          "seen": "medicines"
+        },
+        "reason": "Præparatet står på den fundne medicinliste.",
+        "sources": [
+          "apixaban"
+        ],
+        "kind": "reference"
+      },
+      {
+        "id": "lookup-atorvastatin",
+        "title": "Slå Atorvastatin op",
+        "phase": 4,
+        "illustration": "workstation",
+        "location": "Lokalt farmakologisk opslagsværk",
+        "time": "Fagligt redskab · ikke et facit",
+        "intro": "Dette opslag beskriver lægemidlet generelt. Du skal selv sammenholde det med patientens oplysninger.",
+        "blocks": [
+          {
+            "id": "drug-atorvastatin",
+            "title": "Atorvastatin",
+            "text": "Statin til lipidreduktion og kardiovaskulær forebyggelse. Hæmmer HMG-CoA-reduktase og omsættes især i leveren via CYP3A4; renal elimination er begrænset. Kan give muskelsmerter og leverpåvirkning; sjældent rabdomyolyse. Stærke CYP3A4-hæmmere kan øge eksponeringen. Aktiv leversygdom og graviditet er væsentlige kontraindikationer. Ved udtalte muskelsymptomer eller mørk urin kræves lægelig vurdering. Vurder interaktioner og relevante levertal; CK ved klinisk mistanke om muskelskade."
+          }
+        ],
+        "when": {
+          "seen": "medicines"
+        },
+        "reason": "Præparatet står på den fundne medicinliste.",
+        "sources": [
+          "atorvastatin"
+        ],
+        "kind": "reference"
+      },
+      {
+        "id": "lookup-metformin",
+        "title": "Slå Metformin op",
+        "phase": 4,
+        "illustration": "workstation",
+        "location": "Lokalt farmakologisk opslagsværk",
+        "time": "Fagligt redskab · ikke et facit",
+        "intro": "Dette opslag beskriver lægemidlet generelt. Du skal selv sammenholde det med patientens oplysninger.",
+        "blocks": [
+          {
+            "id": "drug-metformin",
+            "title": "Metformin",
+            "text": "Biguanid mod type 2-diabetes. Reducerer især leverens glukoseproduktion og forbedrer insulinfølsomheden. Udskilles uomdannet gennem nyrerne. Hyppigt mavegener; ved akkumulering og alvorlig akut sygdom kan laktatacidose forekomme. Kontraindiceret ved eGFR under 30 ml/min/1,73 m² og ved akut metabolisk acidose. Pauseres ved betydende akut sygdom, dehydrering eller akut nyresvigt efter klinisk vurdering. Alkoholoverforbrug og jodholdig kontrast kræver særlig opmærksomhed. Giver normalt ikke hypoglykæmi alene. Følg nyrefunktion, fødeindtag og almen tilstand."
+          }
+        ],
+        "when": {
+          "seen": "medicines"
+        },
+        "reason": "Præparatet står på den fundne medicinliste.",
+        "sources": [
+          "metformin"
+        ],
+        "kind": "reference"
+      }
+    ],
+    "critical": [
+      "yellow-vision",
+      "vital-trend",
+      "creatinine",
+      "potassium",
+      "magnesium",
+      "medication-list",
+      "given-doses",
+      "strength-error",
+      "repeat-dose",
+      "concentration"
+    ],
+    "hypothesisOptions": [
+      {
+        "id": "unknown",
+        "label": "Der er endnu ikke tilstrækkelige oplysninger"
+      },
+      {
+        "id": "infection",
+        "label": "Infektion"
+      },
+      {
+        "id": "heart",
+        "label": "Forværring af hjertesvigt"
+      },
+      {
+        "id": "bleeding",
+        "label": "Blødning"
+      },
+      {
+        "id": "medication",
+        "label": "Lægemiddelrelateret påvirkning"
+      },
+      {
+        "id": "fluid",
+        "label": "Væske- eller elektrolytforstyrrelse"
+      },
+      {
+        "id": "own",
+        "label": "Min egen hypotese"
+      }
+    ],
+    "hypothesisThresholds": [
+      3,
+      7,
+      12
+    ],
+    "hints": [
+      {
+        "levels": [
+          "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+          "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+          "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+        ]
+      },
+      {
+        "when": {
+          "seen": "labs"
+        },
+        "levels": [
+          "Hvilke forklaringer passer med udviklingen i organfunktion?",
+          "Sammenlign nyrefunktion, elektrolytter og behandling, hvis du har hentet medicinlisten.",
+          "Et lægemiddels elimination og patientens følsomhed er forskellige forhold. Brug de lokale opslag, når listen er fundet."
+        ]
+      },
+      {
+        "when": {
+          "seen": "medicines"
+        },
+        "levels": [
+          "Er en ordination det samme som en dokumenteret administration?",
+          "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+          "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+        ]
+      },
+      {
+        "when": {
+          "seen": "administration"
+        },
+        "levels": [
+          "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+          "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+          "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+        ]
+      }
+    ],
+    "freeQuestions": [
+      "Hvad var patientens primære dødsårsag?",
+      "Hvilket risikosituationslægemiddel var involveret?",
+      "Hvilken konkret medicineringsfejl blev begået?",
+      "Hvilke farmakologiske mekanismer forklarer dødsfaldet?",
+      "Hvilke fysiologiske og sygdomsrelaterede faktorer bidrog?",
+      "Hvilke kliniske advarselstegn burde have medført handling?",
+      "Hvornår kunne hændelsesforløbet være blevet afbrudt?",
+      "Hvilke sikkerhedsbarrierer svigtede?",
+      "Hvordan kunne dødsfaldet være forebygget?"
+    ],
+    "assessment": [
+      {
+        "id": "cause",
+        "category": "Dødsårsag",
+        "prompt": "Hvilken samlet forklaring understøttes bedst?",
+        "points": 20,
+        "type": "choice",
+        "options": [
+          {
+            "id": "toxicity",
+            "label": "Digoxinforgiftning med fatal ventrikulær arytmi"
+          },
+          {
+            "id": "sepsis",
+            "label": "Septisk shock"
+          },
+          {
+            "id": "bleeding",
+            "label": "Stor blødning som følge af apixaban"
+          },
+          {
+            "id": "heart",
+            "label": "Hjertesvigt alene"
+          }
+        ],
+        "correct": "toxicity",
+        "explanation": "Den fiktive rekonstruktion samler overeksponering, nyrepåvirkning, elektrolytforstyrrelser, symptomer og rytmeudvikling. Et koncentrationstal alene beviser ikke dødsårsagen."
+      },
+      {
+        "id": "drug",
+        "category": "Risikosituationslægemiddel",
+        "prompt": "Hvilket risikosituationslægemiddel er centralt i sagen?",
+        "points": 10,
+        "type": "choice",
+        "options": [
+          {
+            "id": "digoxin",
+            "label": "Digoxin"
+          },
+          {
+            "id": "apixaban",
+            "label": "Apixaban"
+          },
+          {
+            "id": "metformin",
+            "label": "Metformin"
+          }
+        ],
+        "correct": "digoxin",
+        "explanation": "Alle tre kræver sikker håndtering, men doseringsloggen og det samlede kliniske billede peger her på digoxin."
+      },
+      {
+        "id": "error",
+        "category": "Medicineringsfejl",
+        "prompt": "Hvilken fejl dokumenterer loggen?",
+        "points": 5,
+        "type": "choice",
+        "options": [
+          {
+            "id": "both",
+            "label": "Forkert styrke og en ekstra administration uden ordination"
+          },
+          {
+            "id": "registration",
+            "label": "Kun en teknisk dublet, ingen ekstra indgift"
+          },
+          {
+            "id": "order",
+            "label": "En korrekt ordineret mætningsdosis"
+          }
+        ],
+        "correct": "both",
+        "explanation": "Auditloggen dokumenterer både 250 µg i stedet for 62,5 µg og to indgifter den sidste dag. Der foreligger ingen mætningsordination."
+      },
+      {
+        "id": "ordered",
+        "category": "Medicineringsfejl",
+        "prompt": "Hvor mange mikrogram var ordineret pr. døgn?",
+        "points": 5,
+        "type": "number",
+        "options": [],
+        "correct": 62.5,
+        "explanation": "62,5 µg én gang dagligt = 62,5 µg/døgn = 0,0625 mg/døgn.",
+        "unit": "µg/døgn"
+      },
+      {
+        "id": "administered",
+        "category": "Medicineringsfejl",
+        "prompt": "Hvor mange mikrogram blev givet i alt den 12. marts?",
+        "points": 5,
+        "type": "number",
+        "options": [],
+        "correct": 500,
+        "explanation": "250 µg kl. 08 + 250 µg kl. 12 = 500 µg. Det er 437,5 µg mere end ordineret.",
+        "unit": "µg/døgn"
+      },
+      {
+        "id": "ratio",
+        "category": "Medicineringsfejl",
+        "prompt": "Hvor mange gange den ordinerede døgnmængde blev givet den 12. marts?",
+        "points": 5,
+        "type": "number",
+        "options": [],
+        "correct": 8,
+        "explanation": "500 / 62,5 = 8 gange den ordinerede dosis. Én forkert tablet var allerede 4 gange den ordinerede dosis.",
+        "unit": "gange"
+      },
+      {
+        "id": "mechanism",
+        "category": "Farmakologi",
+        "prompt": "Forbind de farmakologiske forhold med virkningen.",
+        "points": 10,
+        "type": "match",
+        "options": [
+          {
+            "id": "calcium",
+            "label": "Øget intracellulært calcium / positiv inotropi"
+          },
+          {
+            "id": "conduction",
+            "label": "Langsommere AV-overledning"
+          },
+          {
+            "id": "accumulation",
+            "label": "Større risiko for akkumulering"
+          }
+        ],
+        "correct": {
+          "pump": "calcium",
+          "vagus": "conduction",
+          "kidney": "accumulation"
+        },
+        "explanation": "Digoxin hæmmer Na⁺/K⁺-ATPase; den ændrede ionbalance øger intracellulært calcium. Vagal effekt sænker AV-overledning. Nedsat renal elimination øger eksponeringen.",
+        "pairs": [
+          {
+            "id": "pump",
+            "label": "Hæmning af Na⁺/K⁺-ATPase"
+          },
+          {
+            "id": "vagus",
+            "label": "Vagal påvirkning af AV-knuden"
+          },
+          {
+            "id": "kidney",
+            "label": "Faldende renal elimination"
+          }
+        ]
+      },
+      {
+        "id": "renal",
+        "category": "Farmakologi",
+        "prompt": "Hvorfor er kreatininudviklingen relevant?",
+        "points": 5,
+        "type": "choice",
+        "options": [
+          {
+            "id": "less",
+            "label": "Nedsat nyrefunktion kan nedsætte eliminationen af digoxin"
+          },
+          {
+            "id": "more",
+            "label": "Nedsat nyrefunktion øger altid eliminationen"
+          },
+          {
+            "id": "none",
+            "label": "Digoxin elimineres kun via lungerne"
+          }
+        ],
+        "correct": "less",
+        "explanation": "Digoxin elimineres hovedsageligt renalt. Akut ændring kræver samlet klinisk revurdering; steady-state-antagelser er usikre her."
+      },
+      {
+        "id": "electrolytes",
+        "category": "Farmakologi",
+        "prompt": "Hvilket udsagn er mest præcist?",
+        "points": 5,
+        "type": "choice",
+        "options": [
+          {
+            "id": "sensitivity",
+            "label": "Lavt kalium og magnesium kan øge følsomheden for digoxin"
+          },
+          {
+            "id": "exclusion",
+            "label": "Lavt kalium udelukker digoxinforgiftning"
+          },
+          {
+            "id": "always",
+            "label": "Digoxinforgiftning giver altid hypokaliæmi"
+          }
+        ],
+        "correct": "sensitivity",
+        "explanation": "Casen beskriver overeksponering hos en allerede behandlet patient med diuretika, opkast og lave elektrolytter. Akut svær forgiftning kan i stedet give hyperkaliæmi."
+      },
+      {
+        "id": "warnings",
+        "category": "Kliniske advarselstegn",
+        "prompt": "Vælg de oplysninger, der tilsammen krævede akut klinisk revurdering.",
+        "points": 15,
+        "type": "multi",
+        "options": [
+          {
+            "id": "circulation",
+            "label": "Puls 39/min og BT 88/54 mmHg med symptomer"
+          },
+          {
+            "id": "symptoms",
+            "label": "Kvalme, opkast og synsændringer hos patient på digoxin"
+          },
+          {
+            "id": "renal",
+            "label": "Stigende kreatinin og lave elektrolytter"
+          },
+          {
+            "id": "photo",
+            "label": "Et familiefoto på natbordet"
+          }
+        ],
+        "correct": [
+          "circulation",
+          "symptoms",
+          "renal"
+        ],
+        "explanation": "Kredsløbspåvirkning og mulig forgiftning kræver hurtig lægekontakt, monitorering, revurdering af medicin og håndtering af væske-/elektrolytforstyrrelser. Man må ikke afvente en koncentration ved livstruende påvirkning."
+      },
+      {
+        "id": "prevention",
+        "category": "Forebyggelse",
+        "prompt": "Sæt barriererne i en meningsfuld rækkefølge i medicinprocessen.",
+        "points": 15,
+        "type": "order",
+        "options": [
+          {
+            "id": "follow",
+            "label": "Følg klinisk effekt, bivirkninger og aftalte prøvesvar"
+          },
+          {
+            "id": "give",
+            "label": "Kontrollér patient, aktuel ordination og tidligere kvitteringer før indgift"
+          },
+          {
+            "id": "prepare",
+            "label": "Kontrollér præparatstyrke og beregn mængden ved dispensering"
+          },
+          {
+            "id": "order",
+            "label": "Afstem medicinen og revurdér ordination ved ændret tilstand"
+          }
+        ],
+        "correct": [
+          "order",
+          "prepare",
+          "give",
+          "follow"
+        ],
+        "explanation": "Sikre barrierer skal virke i hele processen. Uafhængig kontrol efter lokal instruks, tydelig overlevering og navngivet ansvar for prøvesvar supplerer kontrollen. Det er et systemansvar, ikke kun én medarbejders fejl."
+      }
+    ],
+    "reconstruction": [
+      {
+        "time": "Før indlæggelsen",
+        "type": "Fysiologisk risiko",
+        "text": "Erik har kronisk hjertesygdom og længerevarende diuretikabehandling. Digoxindosis er tidligere reduceret. Der er begrænset reserve ved ændret nyrefunktion."
+      },
+      {
+        "time": "10.–11. marts",
+        "type": "Primær medicineringsfejl",
+        "text": "Ordinationen er 62,5 µg dagligt. Der dispenseres og gives 250 µg dagligt fra en anden styrke. Lagerplacering og manglende kontrol af mikrogramdosis lader fejlen passere."
+      },
+      {
+        "time": "10.–12. marts",
+        "type": "Medvirkende faktorer",
+        "text": "Diurese, begrænset indtag og opkast ledsages af vægttab og stigende kreatinin. Nedsat renal elimination øger risiko for akkumulering. Hypokaliæmi og hypomagnesiæmi øger følsomheden og arytmirisikoen."
+      },
+      {
+        "time": "12. marts · 08.00 og 12.00",
+        "type": "Dobbeltadministration",
+        "text": "Der gives to doser à 250 µg: i alt 500 µg, 8 gange den ordinerede døgnmængde. Morgenkvitteringen ses ikke i det andet skærmbillede. Auditloggen bekræfter indgifterne."
+      },
+      {
+        "time": "12. marts · 16.00–22.00",
+        "type": "Kliniske advarselstegn",
+        "text": "Kvalme, opkast, gulligt syn, svimmelhed og hjertebanken ledsages af faldende puls og blodtryk. Samlet revurdering, medicinkontrol og akut eskalation kunne have afbrudt forløbet."
+      },
+      {
+        "time": "12. marts · 22.30 / 13. marts · 00.10",
+        "type": "Svigtende opfølgning",
+        "text": "Prøven tages 10½ time efter sidste indgift og viser P-digoxin 4,1 nmol/L. Ingen kvitterer for svaret. Navngivet ansvar og en klar tilbagemeldingsfrist mangler."
+      },
+      {
+        "time": "13. marts · 06.54",
+        "type": "Endelig dødsårsag i den fiktive sag",
+        "text": "Efter langsom ventrikelfrekvens, ekstrasystoler og ventrikulær takykardi opstår ventrikelflimren. Den samlede fiktive årsagsrekonstruktion er digoxinforgiftning med fatal ventrikulær arytmi; ikke et generelt diagnostisk bevis ud fra et enkelt tal."
+      },
+      {
+        "time": "Muligheder for at afbryde forløbet",
+        "type": "Schweizerostmodellen",
+        "text": "Flere barrierer havde samtidige huller: medicinafstemning, styrkekontrol, sikker kvittering, monitorering, eskalation og opfølgning. Hver barriere kunne have standset forløbet. Læringen handler om sikre arbejdsgange og fælles ansvar. Ved alvorlig mistanke: akut lægelig vurdering, EKG/monitorering, medicinrevurdering, elektrolytkorrektion og specialistvurdering af digoxinspecifikke antistoffragmenter efter gældende instruks."
+      }
+    ],
+    "reflection": [
+      "Hvilken observation ændrede din hypotese mest?",
+      "Hvordan ville du strukturere en akut overlevering med tydeligt ansvar?",
+      "Hvilke barrierer kan din afdeling gøre mere robuste?"
+    ],
+    "uthFields": [
+      "Hændelsesbeskrivelse",
+      "Hændelsestype",
+      "Faktisk konsekvens for patienten",
+      "Mulig konsekvens ved gentagelse",
+      "Medvirkende faktorer",
+      "Forslag til forebyggelse",
+      "Forbedringer af sikkerhedsbarrierer"
+    ],
+    "sources": [
+      {
+        "id": "risk",
+        "title": "Styrelsen for Patientsikkerhed · De syv risikosituationslægemidler",
+        "url": "https://stps.dk/sundhedsfaglig/ansvar-og-retningslinjer/sundhedsfaglig-vejledning/risikoomraader/risikosituationslaegemidler"
+      },
+      {
+        "id": "digoxin",
+        "title": "Medicin.dk · Digoxin DAK: styrker, dosering og farmakologi",
+        "url": "https://pro.medicin.dk/medicin/praeparater/223"
+      },
+      {
+        "id": "toxicity",
+        "title": "Lægehåndbogen · Digitalisforgiftning",
+        "url": "https://www.sundhed.dk/sundhedsfaglig/laegehaandbogen/akut-og-foerstehjaelp/tilstande-og-sygdomme/forgiftninger/digitalisforgiftning/"
+      },
+      {
+        "id": "sampling",
+        "title": "Giftinformasjonen / Helsebiblioteket · Digoksin, vurdering og prøvetidspunkt",
+        "url": "https://www.helsebiblioteket.no/forgiftninger/legemidler/digoksin-behandlingsanbefaling-ved-forgiftning"
+      },
+      {
+        "id": "furosemid",
+        "title": "Medicin.dk · Furix",
+        "url": "https://pro.medicin.dk/medicin/praeparater/288"
+      },
+      {
+        "id": "ramipril",
+        "title": "Medicin.dk · Ramipril Krka",
+        "url": "https://pro.medicin.dk/Medicin/Praeparater/6214"
+      },
+      {
+        "id": "apixaban",
+        "title": "EMA · Eliquis, dansk produktinformation",
+        "url": "https://www.ema.europa.eu/da/documents/product-information/eliquis-epar-product-information_da.pdf"
+      },
+      {
+        "id": "atorvastatin",
+        "title": "Medicin.dk · Atorvastatin Oresund Pharma",
+        "url": "https://pro.medicin.dk/Medicin/Praeparater/11152"
+      },
+      {
+        "id": "metformin",
+        "title": "DSAM · Farmakologisk behandling ved type 2-diabetes",
+        "url": "https://www.dsam.dk/vejledninger/fb-type2/farmakologisk-behandling-af-hyperglykaemi"
+      },
+      {
+        "id": "uth",
+        "title": "Sundhedsvæsenets Kvalitetsinstitut · Rapportering af UTH",
+        "url": "https://www.sundk.dk/uth/rapporter-en-utilsigtet-haendelse/"
+      }
+    ],
+    "history": [
+      {
+        "version": 1,
+        "date": "2026-11-25",
+        "note": "Første komplette undervisningscase. Alle patientoplysninger og hændelser er fiktive."
+      }
+    ]
+  },
+  "traces": [
+    {
+      "route": [
+        "wife",
+        "daughter",
+        "nursing",
+        "vitals",
+        "medicines",
+        "lookup-digoxin",
+        "administration",
+        "dispensing",
+        "labs",
+        "targeted",
+        "ecg"
+      ],
+      "states": [
+        {
+          "scene": "briefing",
+          "visited": [
+            "briefing"
+          ],
+          "found": [
+            "opening"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "admission"
+          ],
+          "blocks": [
+            "opening"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "wife",
+          "visited": [
+            "briefing",
+            "wife"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "daughter",
+            "medicines"
+          ],
+          "blocks": [
+            "yellow-vision",
+            "wife-context"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "daughter",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "nursing",
+            "medicines"
+          ],
+          "blocks": [
+            "vomiting"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "nursing",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter",
+            "nursing"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting",
+            "nursing-symptoms",
+            "missed-escalation"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "vitals",
+            "fluid",
+            "medicines",
+            "day-nurse"
+          ],
+          "blocks": [
+            "nursing-symptoms",
+            "missed-escalation"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "vitals",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter",
+            "nursing",
+            "vitals"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "medicines",
+            "day-nurse",
+            "evening-nurse",
+            "ecg"
+          ],
+          "blocks": [
+            "vital-trend"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "medicines",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter",
+            "nursing",
+            "vitals",
+            "medicines"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "medication-list"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "wife-followup",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "medication-list"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "lookup-digoxin",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter",
+            "nursing",
+            "vitals",
+            "medicines",
+            "lookup-digoxin"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "medication-list",
+            "drug-digoxin"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "wife-followup",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "administration",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "drug-digoxin"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "administration",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter",
+            "nursing",
+            "vitals",
+            "medicines",
+            "lookup-digoxin",
+            "administration"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "wife-followup",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "dispensing",
+            "targeted",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "given-doses"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "dispensing",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter",
+            "nursing",
+            "vitals",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "wife-followup",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "targeted",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "strength-error",
+            "repeat-dose"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "labs",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter",
+            "nursing",
+            "vitals",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "labs"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "fluid",
+            "wife-followup",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "infection",
+            "bleeding",
+            "targeted",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "targeted",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter",
+            "nursing",
+            "vitals",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "labs",
+            "targeted"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "concentration"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "fluid",
+            "wife-followup",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "infection",
+            "bleeding",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "concentration"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "ecg",
+          "visited": [
+            "briefing",
+            "wife",
+            "daughter",
+            "nursing",
+            "vitals",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "labs",
+            "targeted",
+            "ecg"
+          ],
+          "found": [
+            "opening",
+            "yellow-vision",
+            "wife-context",
+            "vomiting",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "concentration",
+            "rhythm"
+          ],
+          "available": [
+            "room",
+            "admission",
+            "friend",
+            "fluid",
+            "wife-followup",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "infection",
+            "bleeding",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "rhythm"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        }
+      ]
+    },
+    {
+      "route": [
+        "admission",
+        "fluid",
+        "labs",
+        "medicines",
+        "lookup-digoxin",
+        "administration",
+        "dispensing",
+        "targeted",
+        "nursing",
+        "vitals",
+        "wife",
+        "ecg"
+      ],
+      "states": [
+        {
+          "scene": "briefing",
+          "visited": [
+            "briefing"
+          ],
+          "found": [
+            "opening"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "admission"
+          ],
+          "blocks": [
+            "opening"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "admission",
+          "visited": [
+            "briefing",
+            "admission"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "nursing",
+            "vitals",
+            "fluid",
+            "labs",
+            "medicines"
+          ],
+          "blocks": [
+            "history",
+            "admission-treatment"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "fluid",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "nursing",
+            "vitals",
+            "labs",
+            "medicines",
+            "heart-failure"
+          ],
+          "blocks": [
+            "fluid-loss"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "labs",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "nursing",
+            "vitals",
+            "medicines",
+            "infection",
+            "heart-failure"
+          ],
+          "blocks": [
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs"
+          ],
+          "hints": [
+            "Hvilke forklaringer passer med udviklingen i organfunktion?",
+            "Sammenlign nyrefunktion, elektrolytter og behandling, hvis du har hentet medicinlisten.",
+            "Et lægemiddels elimination og patientens følsomhed er forskellige forhold. Brug de lokale opslag, når listen er fundet."
+          ]
+        },
+        {
+          "scene": "medicines",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs",
+            "medicines"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "medication-list"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "nursing",
+            "vitals",
+            "doctor",
+            "infection",
+            "bleeding",
+            "heart-failure",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "medication-list"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "lookup-digoxin",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs",
+            "medicines",
+            "lookup-digoxin"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "medication-list",
+            "drug-digoxin"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "nursing",
+            "vitals",
+            "doctor",
+            "infection",
+            "bleeding",
+            "heart-failure",
+            "administration",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "drug-digoxin"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "administration",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs",
+            "medicines",
+            "lookup-digoxin",
+            "administration"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "nursing",
+            "vitals",
+            "doctor",
+            "infection",
+            "bleeding",
+            "heart-failure",
+            "dispensing",
+            "targeted",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "given-doses"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "dispensing",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "nursing",
+            "vitals",
+            "doctor",
+            "infection",
+            "bleeding",
+            "heart-failure",
+            "targeted",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "strength-error",
+            "repeat-dose"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "targeted",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "targeted"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "concentration"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "nursing",
+            "vitals",
+            "doctor",
+            "infection",
+            "bleeding",
+            "heart-failure",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "concentration"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "nursing",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "targeted",
+            "nursing"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "concentration",
+            "nursing-symptoms",
+            "missed-escalation"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "vitals",
+            "day-nurse",
+            "doctor",
+            "infection",
+            "bleeding",
+            "heart-failure",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "nursing-symptoms",
+            "missed-escalation"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "vitals",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "targeted",
+            "nursing",
+            "vitals"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "concentration",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "infection",
+            "bleeding",
+            "heart-failure",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "vital-trend"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "wife",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "targeted",
+            "nursing",
+            "vitals",
+            "wife"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "concentration",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "yellow-vision",
+            "wife-context",
+            "wife-return"
+          ],
+          "available": [
+            "room",
+            "daughter",
+            "wife-followup",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "infection",
+            "bleeding",
+            "heart-failure",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "yellow-vision",
+            "wife-context",
+            "wife-return"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "ecg",
+          "visited": [
+            "briefing",
+            "admission",
+            "fluid",
+            "labs",
+            "medicines",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "targeted",
+            "nursing",
+            "vitals",
+            "wife",
+            "ecg"
+          ],
+          "found": [
+            "opening",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "medication-list",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "concentration",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "rhythm"
+          ],
+          "available": [
+            "room",
+            "daughter",
+            "wife-followup",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "infection",
+            "bleeding",
+            "heart-failure",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "rhythm"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        }
+      ]
+    },
+    {
+      "route": [
+        "room",
+        "nursing",
+        "vitals",
+        "day-nurse",
+        "medicines",
+        "administration",
+        "dispensing",
+        "lookup-digoxin",
+        "targeted",
+        "labs",
+        "wife",
+        "ecg"
+      ],
+      "states": [
+        {
+          "scene": "briefing",
+          "visited": [
+            "briefing"
+          ],
+          "found": [
+            "opening"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "admission"
+          ],
+          "blocks": [
+            "opening"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "room",
+          "visited": [
+            "briefing",
+            "room"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "nursing"
+          ],
+          "blocks": [
+            "room-findings",
+            "bedside-items"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "nursing",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "vitals",
+            "fluid",
+            "medicines",
+            "day-nurse"
+          ],
+          "blocks": [
+            "nursing-symptoms",
+            "missed-escalation"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "vitals",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "medicines",
+            "day-nurse",
+            "evening-nurse",
+            "ecg"
+          ],
+          "blocks": [
+            "vital-trend"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "day-nurse",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals",
+            "day-nurse"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "morning-dose"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "medicines",
+            "evening-nurse",
+            "ecg"
+          ],
+          "blocks": [
+            "morning-dose"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "medicines",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals",
+            "day-nurse",
+            "medicines"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "morning-dose",
+            "medication-list"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "administration",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "medication-list"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "administration",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals",
+            "day-nurse",
+            "medicines",
+            "administration"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "morning-dose",
+            "medication-list",
+            "given-doses"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "dispensing",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "given-doses"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "dispensing",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals",
+            "day-nurse",
+            "medicines",
+            "administration",
+            "dispensing"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "morning-dose",
+            "medication-list",
+            "given-doses",
+            "strength-error",
+            "repeat-dose"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "nurse-followup",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "strength-error",
+            "repeat-dose"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "lookup-digoxin",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals",
+            "day-nurse",
+            "medicines",
+            "administration",
+            "dispensing",
+            "lookup-digoxin"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "morning-dose",
+            "medication-list",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "drug-digoxin"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "nurse-followup",
+            "targeted",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "drug-digoxin"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "targeted",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals",
+            "day-nurse",
+            "medicines",
+            "administration",
+            "dispensing",
+            "lookup-digoxin",
+            "targeted"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "morning-dose",
+            "medication-list",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "drug-digoxin",
+            "concentration"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "fluid",
+            "labs",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "nurse-followup",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "concentration"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "labs",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals",
+            "day-nurse",
+            "medicines",
+            "administration",
+            "dispensing",
+            "lookup-digoxin",
+            "targeted",
+            "labs"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "morning-dose",
+            "medication-list",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "drug-digoxin",
+            "concentration",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "fluid",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "infection",
+            "bleeding",
+            "nurse-followup",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "wife",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals",
+            "day-nurse",
+            "medicines",
+            "administration",
+            "dispensing",
+            "lookup-digoxin",
+            "targeted",
+            "labs",
+            "wife"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "morning-dose",
+            "medication-list",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "drug-digoxin",
+            "concentration",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "yellow-vision",
+            "wife-context",
+            "wife-return"
+          ],
+          "available": [
+            "admission",
+            "daughter",
+            "friend",
+            "fluid",
+            "wife-followup",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "infection",
+            "bleeding",
+            "nurse-followup",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "yellow-vision",
+            "wife-context",
+            "wife-return"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "ecg",
+          "visited": [
+            "briefing",
+            "room",
+            "nursing",
+            "vitals",
+            "day-nurse",
+            "medicines",
+            "administration",
+            "dispensing",
+            "lookup-digoxin",
+            "targeted",
+            "labs",
+            "wife",
+            "ecg"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "morning-dose",
+            "medication-list",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "drug-digoxin",
+            "concentration",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "rhythm"
+          ],
+          "available": [
+            "admission",
+            "daughter",
+            "friend",
+            "fluid",
+            "wife-followup",
+            "evening-nurse",
+            "doctor",
+            "infection",
+            "bleeding",
+            "nurse-followup",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "rhythm"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        }
+      ]
+    },
+    {
+      "route": [
+        "room",
+        "friend",
+        "admission",
+        "fluid",
+        "heart-failure",
+        "labs",
+        "infection",
+        "medicines",
+        "bleeding",
+        "wife",
+        "wife-followup",
+        "nursing",
+        "vitals",
+        "evening-nurse",
+        "doctor",
+        "lookup-digoxin",
+        "administration",
+        "dispensing",
+        "targeted",
+        "ecg"
+      ],
+      "states": [
+        {
+          "scene": "briefing",
+          "visited": [
+            "briefing"
+          ],
+          "found": [
+            "opening"
+          ],
+          "available": [
+            "wife",
+            "room",
+            "admission"
+          ],
+          "blocks": [
+            "opening"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "room",
+          "visited": [
+            "briefing",
+            "room"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "friend",
+            "nursing"
+          ],
+          "blocks": [
+            "room-findings",
+            "bedside-items"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "friend",
+          "visited": [
+            "briefing",
+            "room",
+            "friend"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins"
+          ],
+          "available": [
+            "wife",
+            "admission",
+            "nursing"
+          ],
+          "blocks": [
+            "friend-fatigue",
+            "old-vitamins"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "admission",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment"
+          ],
+          "available": [
+            "wife",
+            "nursing",
+            "vitals",
+            "fluid",
+            "labs",
+            "medicines"
+          ],
+          "blocks": [
+            "history",
+            "admission-treatment"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "fluid",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss"
+          ],
+          "available": [
+            "wife",
+            "nursing",
+            "vitals",
+            "labs",
+            "medicines",
+            "heart-failure"
+          ],
+          "blocks": [
+            "fluid-loss"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "heart-failure",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check"
+          ],
+          "available": [
+            "wife",
+            "nursing",
+            "vitals",
+            "labs",
+            "medicines"
+          ],
+          "blocks": [
+            "heart-check"
+          ],
+          "hints": [
+            "Hvad ved du fra observationer, og hvad er endnu antagelser?",
+            "Sammenhold pårørendes oplevelser med det dokumenterede forløb.",
+            "En ændring over tid kan være mere oplysende end et enkelt fund. Start med de tilgængelige samtaler og journaler."
+          ]
+        },
+        {
+          "scene": "labs",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs"
+          ],
+          "available": [
+            "wife",
+            "nursing",
+            "vitals",
+            "medicines",
+            "infection"
+          ],
+          "blocks": [
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs"
+          ],
+          "hints": [
+            "Hvilke forklaringer passer med udviklingen i organfunktion?",
+            "Sammenlign nyrefunktion, elektrolytter og behandling, hvis du har hentet medicinlisten.",
+            "Et lægemiddels elimination og patientens følsomhed er forskellige forhold. Brug de lokale opslag, når listen er fundet."
+          ]
+        },
+        {
+          "scene": "infection",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check"
+          ],
+          "available": [
+            "wife",
+            "nursing",
+            "vitals",
+            "medicines"
+          ],
+          "blocks": [
+            "infection-check"
+          ],
+          "hints": [
+            "Hvilke forklaringer passer med udviklingen i organfunktion?",
+            "Sammenlign nyrefunktion, elektrolytter og behandling, hvis du har hentet medicinlisten.",
+            "Et lægemiddels elimination og patientens følsomhed er forskellige forhold. Brug de lokale opslag, når listen er fundet."
+          ]
+        },
+        {
+          "scene": "medicines",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list"
+          ],
+          "available": [
+            "wife",
+            "nursing",
+            "vitals",
+            "doctor",
+            "bleeding",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "medication-list"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "bleeding",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check"
+          ],
+          "available": [
+            "wife",
+            "nursing",
+            "vitals",
+            "doctor",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "bleeding-check"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "wife",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return"
+          ],
+          "available": [
+            "daughter",
+            "nursing",
+            "vitals",
+            "wife-followup",
+            "doctor",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "yellow-vision",
+            "wife-context",
+            "wife-return"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "wife-followup",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction"
+          ],
+          "available": [
+            "daughter",
+            "nursing",
+            "vitals",
+            "doctor",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "prior-reduction"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "nursing",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup",
+            "nursing"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction",
+            "nursing-symptoms",
+            "missed-escalation"
+          ],
+          "available": [
+            "daughter",
+            "vitals",
+            "day-nurse",
+            "doctor",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "nursing-symptoms",
+            "missed-escalation"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "vitals",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup",
+            "nursing",
+            "vitals"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend"
+          ],
+          "available": [
+            "daughter",
+            "day-nurse",
+            "evening-nurse",
+            "doctor",
+            "ecg",
+            "administration",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "vital-trend"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "evening-nurse",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup",
+            "nursing",
+            "vitals",
+            "evening-nurse"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "handover"
+          ],
+          "available": [
+            "daughter",
+            "day-nurse",
+            "doctor",
+            "ecg",
+            "administration",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "handover"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "doctor",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup",
+            "nursing",
+            "vitals",
+            "evening-nurse",
+            "doctor"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "handover",
+            "renal-review",
+            "test-request"
+          ],
+          "available": [
+            "daughter",
+            "day-nurse",
+            "ecg",
+            "administration",
+            "lookup-digoxin",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "renal-review",
+            "test-request"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "lookup-digoxin",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup",
+            "nursing",
+            "vitals",
+            "evening-nurse",
+            "doctor",
+            "lookup-digoxin"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "handover",
+            "renal-review",
+            "test-request",
+            "drug-digoxin"
+          ],
+          "available": [
+            "daughter",
+            "day-nurse",
+            "ecg",
+            "administration",
+            "targeted",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "drug-digoxin"
+          ],
+          "hints": [
+            "Er en ordination det samme som en dokumenteret administration?",
+            "Undersøg alle relevante præparater og sammenhold listen med de fundne symptomer.",
+            "Sammenlign dosis i mikrogram, tabletstyrke, antal og tidspunkt. Kontroller den faktiske administrationsjournal, når den er tilgængelig."
+          ]
+        },
+        {
+          "scene": "administration",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup",
+            "nursing",
+            "vitals",
+            "evening-nurse",
+            "doctor",
+            "lookup-digoxin",
+            "administration"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "handover",
+            "renal-review",
+            "test-request",
+            "drug-digoxin",
+            "given-doses"
+          ],
+          "available": [
+            "daughter",
+            "day-nurse",
+            "ecg",
+            "dispensing",
+            "targeted",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "given-doses"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "dispensing",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup",
+            "nursing",
+            "vitals",
+            "evening-nurse",
+            "doctor",
+            "lookup-digoxin",
+            "administration",
+            "dispensing"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "handover",
+            "renal-review",
+            "test-request",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose"
+          ],
+          "available": [
+            "daughter",
+            "day-nurse",
+            "ecg",
+            "targeted",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "strength-error",
+            "repeat-dose"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "targeted",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup",
+            "nursing",
+            "vitals",
+            "evening-nurse",
+            "doctor",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "targeted"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "handover",
+            "renal-review",
+            "test-request",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "concentration"
+          ],
+          "available": [
+            "daughter",
+            "day-nurse",
+            "ecg",
+            "evening-followup",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "concentration"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        },
+        {
+          "scene": "ecg",
+          "visited": [
+            "briefing",
+            "room",
+            "friend",
+            "admission",
+            "fluid",
+            "heart-failure",
+            "labs",
+            "infection",
+            "medicines",
+            "bleeding",
+            "wife",
+            "wife-followup",
+            "nursing",
+            "vitals",
+            "evening-nurse",
+            "doctor",
+            "lookup-digoxin",
+            "administration",
+            "dispensing",
+            "targeted",
+            "ecg"
+          ],
+          "found": [
+            "opening",
+            "room-findings",
+            "bedside-items",
+            "friend-fatigue",
+            "old-vitamins",
+            "history",
+            "admission-treatment",
+            "fluid-loss",
+            "heart-check",
+            "creatinine",
+            "potassium",
+            "magnesium",
+            "other-labs",
+            "infection-check",
+            "medication-list",
+            "bleeding-check",
+            "yellow-vision",
+            "wife-context",
+            "wife-return",
+            "prior-reduction",
+            "nursing-symptoms",
+            "missed-escalation",
+            "vital-trend",
+            "handover",
+            "renal-review",
+            "test-request",
+            "drug-digoxin",
+            "given-doses",
+            "strength-error",
+            "repeat-dose",
+            "concentration",
+            "rhythm"
+          ],
+          "available": [
+            "daughter",
+            "day-nurse",
+            "evening-followup",
+            "lookup-furosemid",
+            "lookup-ramipril",
+            "lookup-apixaban",
+            "lookup-atorvastatin",
+            "lookup-metformin"
+          ],
+          "blocks": [
+            "rhythm"
+          ],
+          "hints": [
+            "Kan din forklaring forbinde medicinhåndtering og klinisk udvikling?",
+            "Sammenhold samlet døgnmængde med ordination og undersøgelsernes tidspunkter.",
+            "En målrettet koncentration skal fortolkes sammen med EKG, nyrefunktion og elektrolytter, ikke som et isoleret bevis."
+          ]
+        }
+      ]
+    }
+  ],
+  "correctAnswers": {
+    "cause": "toxicity",
+    "drug": "digoxin",
+    "error": "both",
+    "ordered": 62.5,
+    "administered": 500,
+    "ratio": 8,
+    "mechanism": {
+      "pump": "calcium",
+      "vagus": "conduction",
+      "kidney": "accumulation"
+    },
+    "renal": "less",
+    "electrolytes": "sensitivity",
+    "warnings": [
+      "circulation",
+      "symptoms",
+      "renal"
+    ],
+    "prevention": [
+      "order",
+      "prepare",
+      "give",
+      "follow"
+    ]
+  },
+  "evaluation": {
+    "total": 100,
+    "max": 100,
+    "results": [
+      {
+        "id": "cause",
+        "correct": true,
+        "points": 20,
+        "max": 20
+      },
+      {
+        "id": "drug",
+        "correct": true,
+        "points": 10,
+        "max": 10
+      },
+      {
+        "id": "error",
+        "correct": true,
+        "points": 5,
+        "max": 5
+      },
+      {
+        "id": "ordered",
+        "correct": true,
+        "points": 5,
+        "max": 5
+      },
+      {
+        "id": "administered",
+        "correct": true,
+        "points": 5,
+        "max": 5
+      },
+      {
+        "id": "ratio",
+        "correct": true,
+        "points": 5,
+        "max": 5
+      },
+      {
+        "id": "mechanism",
+        "correct": true,
+        "points": 10,
+        "max": 10
+      },
+      {
+        "id": "renal",
+        "correct": true,
+        "points": 5,
+        "max": 5
+      },
+      {
+        "id": "electrolytes",
+        "correct": true,
+        "points": 5,
+        "max": 5
+      },
+      {
+        "id": "warnings",
+        "correct": true,
+        "points": 15,
+        "max": 15
+      },
+      {
+        "id": "prevention",
+        "correct": true,
+        "points": 15,
+        "max": 15
+      }
+    ]
+  }
+}
